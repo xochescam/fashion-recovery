@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+@font-face {
+  font-family: "CooperHewitt";
+  src: url("../fonts/CooperHewitt-Light.otf");
+}
+
+@font-face {
+  font-family: "CooperHewittM";
+  src: url("../fonts/CooperHewitt-Medium.otf");
+}
+
+.fCooperHewitt{
+  font-family: CooperHewitt;
+}
+.fRoboto{
+  font-family: Roboto;
+}

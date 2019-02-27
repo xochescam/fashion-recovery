@@ -1,0 +1,103 @@
+html{
+  font-family: "CooperHewitt";
+}
+body{
+  font-family: "Roboto";
+}
+
+#header{
+  background-image: url('../img/header/BoardGreen.jpg');
+  /* background-color: #009c77; */
+}
+
+#header img{
+  width: 400px;
+}
+
+.btn-fr{
+  background-color: #009c77;
+  color:white  !important;
+}
+
+.btn-fr:hover{
+  background-color: #00b283;
+  color:white;
+}
+
+
+#main .carousel-inner img{
+  max-height: 70vh;
+  object-fit: cover;
+  filter: grayscale(70%);
+}
+
+.TituloFR{
+  font-family: CooperHewittM;
+  color: #009c77;
+}
+
+div a{
+  text-align: center !important;
+}
+
+.card:hover{
+  border: 3.5px solid #009c77;
+  box-shadow:0 1.5rem 3.5rem rgba(0,0,0,.175)!important;
+}
+
+#carousel{
+  position: relative;
+}
+
+#carousel .overlay{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0, 0.5);
+  color: white;
+}
+
+#carousel .overlay .container,
+#carousel .overlay .row{
+  height:100%;
+}
+
+
+#footer{
+  background: linear-gradient(90deg, #1c3643, #273b47 25%, #1e5372);
+  /* background: #1c3643; */
+  /* background: linear-gradient(90deg, #333, #333 25%, #eee); */
+}
+
+#footer a{
+  color: white;
+}
+
+
+
+/* // Extra small devices (portrait phones, less than 576px)  No media query for `xs` since this is the default in Bootstrap */
+/* // Small devices (landscape phones, 576px and up) */
+/* @media (max-width: 576px) {
+  #header img{
+    width: 200px;
+  }
+
+} */
+
+/* // Medium devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  #header img{
+    width: 250px;
+  }
+ }
+
+/*
+/* // Large devices (desktops, 992px and up)
+@media (max-width: 992px) {
+}
+
+/* // Extra large devices (large desktops, 1200px and up)
+@media (max-width: 1200px) {
+}

@@ -12,5 +12,20 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+Auth::routes();
+
+//header
+//prov
+Route::view('data', 'data');
+
+//footer
+Route::view('/support', 'footer.support');
+Route::view('/faq', 'footer.faq');
+Route::view('/terms', 'footer.terms');
+Route::view('/privacy', 'footer.privacy');
+Route::view('/return-policy', 'footer.return-policy');
+Route::view('/about', 'footer.about');
+
