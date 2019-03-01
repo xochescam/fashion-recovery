@@ -177,5 +177,6 @@ return [
         'time'                  => 'hora',
         'subject'               => 'asunto',
         'message'               => 'mensaje',
+        'birth_date'            => 'fecha de nacimiento',
     ],
 ];
