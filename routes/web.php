@@ -12,12 +12,12 @@
 */
 
 Route::get('/', function () {
+	//Auth::logout();
     return view('home');
 });
 
 Auth::routes();
 
-//header
 //prov
 Route::view('data', 'data');
 
@@ -29,3 +29,4 @@ Route::view('/privacy', 'footer.privacy');
 Route::view('/return-policy', 'footer.return-policy');
 Route::view('/about', 'footer.about');
 
+Route::get('dashboard', 'DashboardController@index');

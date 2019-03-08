@@ -10,13 +10,16 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    protected $primaryKey = 'UserID';
+    protected $table = 'fashionrecovery.GR_001';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'Name', 'Email', 'Password',
     ];
 
     /**
@@ -25,6 +28,46 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+       'remember_token',
     ];
+
+    protected $appends = [
+        'Password'
+    ];
+
+    /**
+     * Update the "remember me" token for the given user in storage.
+     *
+     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
+     * @param  string  $token
+     * @return void
+     */
+    public function getAuthIdentifierName()
+    {
+        return 'UserID';
+    }
+
+    /**
+     * Get the unique identifier for the user.
+     *
+     * @return mixed
+     */
+    public function getAuthIdentifier()
+    {
+        return $this->UserID;
+
+        //$name = $this->getAuthIdentifierName();
+
+        //return $this->attributes[$name];
+    }
+
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->attributes['Password'];
+    }
 }

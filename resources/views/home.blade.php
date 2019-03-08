@@ -2,8 +2,8 @@
 
 @section('content')
 
-    @include('home.week-offers')
-
-    @include('home.important')
+	@include('layout.partials.main')
+	@include('home.week-offers')
+	@include('home.important')
 
 @endsection

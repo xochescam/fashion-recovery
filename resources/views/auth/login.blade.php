@@ -7,19 +7,38 @@
         <div class="row">
           <div class="col col-sm-12 col-md-6 offset-md-3">
             <h2 class="text-center my-3 h6-md">Iniciar Sesión</h2>
-            <form>
+
+            <form method="POST" action="{{ url('login') }}" class="was-validated">
+              @csrf
+
               <div class="form-row">
+
                 <div class="form-group col-md-12">
-                  <label for="inputEmail4">Correo electónico</label>
-                  <input type="email" class="form-control" id="inputEmail4" placeholder="Ingresa tu correo">
+                  <label for="email">Correo electrónico</label>
+                  <input type="text" name="email" class="form-control is-invalid" id="email" placeholder="Ingresa tu correo">
+
+                  @if ($errors->has('email'))
+                    <div class="invalid-feedback">
+                      {{ $errors->first('email') }}
+                    </div>
+                  @endif
                 </div>
-                <div class="form-group col-md-12">
-                  <label for="inputPassword4">Contraseña</label>
-                  <input type="password" class="form-control" id="inputPassword4" placeholder="Ingresa tu contraseña">
+
+                 <div class="form-group col-md-12">
+                  <label for="password">Contraseña</label>
+                  <input type="password" name="password" class="form-control is-invalid" id="password" placeholder="Ingresa tu contraseña">
+
+                  @if ($errors->has('password'))
+                    <div class="invalid-feedback">
+                      {{ $errors->first('password') }}
+                    </div>
+                  @endif
                 </div>
+
               </div>
               <button type="submit" class="btn btn-fr btn-block">Iniciar Sesión</button>
             </form>
+
           </div>
         </div>
         <div class="row text-center my-5">
