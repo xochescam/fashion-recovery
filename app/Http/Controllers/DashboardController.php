@@ -16,12 +16,6 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //Auth::logout();
-
-    	if(Auth::User()) {
-            dd('success');
-    	}
-
-        dd('no-success');
+        return view('dashboard.index');
     }
 }
