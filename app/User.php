@@ -10,7 +10,6 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $primaryKey = 'UserID';
     protected $table = 'fashionrecovery.GR_001';
 
     /**
@@ -19,7 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'Name', 'Email', 'Password',
+        'Name', 'email', 'password',
     ];
 
     /**
@@ -28,7 +27,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-       'remember_token',
+        'password','remember_token',
     ];
 
     protected $appends = [
