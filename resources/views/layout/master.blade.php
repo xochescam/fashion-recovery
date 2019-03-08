@@ -13,15 +13,11 @@
     <style>
     @font-face {
         font-family: "CooperHewitt";
-        src: url("css/CooperHewitt-Light.otf");
+        src: url("fonts/CooperHewitt-Light.otf");
         }
 
         .fCooperHewitt{
         font-family: CooperHewitt;
-        }
-
-        body{
-            background-color: red;
         }
     </style>
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
