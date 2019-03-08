@@ -9,8 +9,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
     <link rel="stylesheet" href="{{ url('css/index.css?1.2') }}" />
-    <link rel="stylesheet" href="{{ url('css/fonts.css?1.3') }}" />
+    <!-- link rel="stylesheet" href="{{ url('css/fonts.css?1.3') }}" / -->
+    <style>
+    @font-face {
+        font-family: "CooperHewitt";
+        src: url("css/CooperHewitt-Light.otf");
+        }
 
+        .fCooperHewitt{
+        font-family: CooperHewitt;
+        }
+
+        body{
+            background-color: red;
+        }
+    </style>
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
 
     <title>FASHION RECOVERY</title>
