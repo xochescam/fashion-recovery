@@ -14,7 +14,6 @@
 							    <th scope="col">Nombre</th>
 							    <th scope="col">Departamento</th>
 							    <th scope="col">Activa</th>
-							    <th scope="col">Fecha de creación</th>
 						    </tr>
 						  </thead>
 						 <tbody>
@@ -24,7 +23,6 @@
 								    <th> {{ $brand->BrandName }} </th>
 								    <td> {{ $brand->DepartmentID }} </td>
 								    <td> {{ $brand->Active }} </td>
-								    <td> {{ $brand->CreationDate }} </td>
 							    </tr>
 						 	@endforeach
 
