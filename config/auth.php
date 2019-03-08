@@ -72,7 +72,7 @@ return [
 
         'users' => [
             'driver' => 'database',
-            'model' => App\User::class,
+            'table' => 'fashionrecovery.GR_001',
         ],
     ],
 
