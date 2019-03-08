@@ -11,6 +11,7 @@ use App\User;
 use DB;
 use Auth;
 use Redirect;
+use Session;
 
 class LoginController extends Controller
 {
@@ -70,7 +71,6 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-
         $this->validateLogin($request);
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
@@ -83,11 +83,12 @@ class LoginController extends Controller
         }
 
         if (Auth::attempt( ['email' => $request->email, 'password' => $request->password] ) ) {
-
             return Redirect::to('/dashboard');
 
         } else {
-            dd('false');
+
+            Session::flash('warning','Tus datos no son correctos');
+            return Redirect::to('/login');
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts

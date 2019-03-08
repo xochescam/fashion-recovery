@@ -16,12 +16,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return DB::table('fashionrecovery.GR_001')->get();
+        //Auth::logout();
 
     	if(Auth::User()) {
-    		return view('dashboard.home');
+            dd('success');
     	}
-    	dd('no-log');
 
+        dd('no-success');
     }
 }
