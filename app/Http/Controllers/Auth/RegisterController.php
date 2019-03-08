@@ -76,6 +76,12 @@ class RegisterController extends Controller
     {
         $this->validator($request);
 
+        if($this->existsEmail($request->email)) {
+
+            Session::flash('warning','Esta cuenta ya existe. Accede a tu cuenta');
+            return Redirect::to('/register');
+        }
+
         DB::beginTransaction();
 
         try {
@@ -94,7 +100,6 @@ class RegisterController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
             return Redirect::to('/register');
         }
     }
@@ -122,5 +127,13 @@ class RegisterController extends Controller
              'Confirmed'        => false,
              'Notifications'    => isset($data['notifications']) ? true : false
         ]);
+    }
+
+    protected function existsEmail($email) {
+        $user = DB::table('fashionrecovery.GR_001')
+                  ->where('email',$email)
+                  ->first();
+
+        return $user === 'null' ? false : true;
     }
 }
