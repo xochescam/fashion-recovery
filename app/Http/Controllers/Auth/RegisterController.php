@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 
 use DB;
 use Session;
-use Auth;
 
 class RegisterController extends Controller
 {
@@ -53,16 +52,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(Request $request)
+    protected function validator(array $data)
     {
-        return $request->validate([
+        return Validator::make($data, [
             'name'            => ['required', 'max:80'],
             'last_name'       => ['required', 'max:80'],
             'email'           => ['required', 'email', 'unique:GR_001', 'max:100'],
             'password'        => ['required'], //validations
-            'alias'           => ['required','max:30'],
+            'alias'           => ['max:30'],
             'gender'          => ['required'],
-            'birth_date'      => ['required', 'date']
+            'birth_date'      => ['required', 'date'],
             //'notifications' => ['required', 'string', 'max:255'],
         ]);
     }
@@ -75,7 +74,7 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $this->validator($request);
+        $this->validator($request->all());
 
         event(new Registered($user = $this->create($request->all())));
 
@@ -95,8 +94,8 @@ class RegisterController extends Controller
     {
         return DB::table('fashionrecovery.GR_001')->insert([
             [
-             'Email'            => $data['email'],
-             'Password'         => bcrypt($data['password']),
+             'Email'           => $data['email'],
+             'Password'         => Hash::make($data['password']),
              'Alias'            => $data['alias'],
              'Name'             => $data['name'],
              'Lastname'         => $data['last_name'],
@@ -104,8 +103,8 @@ class RegisterController extends Controller
              'Birthdate'        => $data['birth_date'],
              'ProfileID'        => 3,
              'StatusID'         => 2,
-             'CreatedFromID'    => 3,
-             'CreationDate'     => '1962-06-16 00:00:00',
+             'CreatedFrom'      => 3,
+             'CreationDate'     => '1962-06-16 00:00:00+00',
              'Confirmed'        => false
             ]
         ]);
