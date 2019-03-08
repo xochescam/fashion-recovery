@@ -29,44 +29,4 @@ class User extends Authenticatable
     protected $hidden = [
         'password','remember_token',
     ];
-
-    protected $appends = [
-        'Password'
-    ];
-
-    /**
-     * Update the "remember me" token for the given user in storage.
-     *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable  $user
-     * @param  string  $token
-     * @return void
-     */
-    public function getAuthIdentifierName()
-    {
-        return 'UserID';
-    }
-
-    /**
-     * Get the unique identifier for the user.
-     *
-     * @return mixed
-     */
-    public function getAuthIdentifier()
-    {
-        return $this->UserID;
-
-        //$name = $this->getAuthIdentifierName();
-
-        //return $this->attributes[$name];
-    }
-
-    /**
-     * Get the password for the user.
-     *
-     * @return string
-     */
-    public function getAuthPassword()
-    {
-        return $this->attributes['Password'];
-    }
 }
