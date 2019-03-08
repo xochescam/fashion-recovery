@@ -2,12 +2,12 @@
 
 @font-face {
   font-family: "CooperHewitt";
-  src: url("/fonts/CooperHewitt-Light.otf");
+  src: url("../fonts/CooperHewitt-Light.otf");
 }
 
 @font-face {
   font-family: "CooperHewittM";
-  src: url("/fonts/CooperHewitt-Medium.otf");
+  src: url("../fonts/CooperHewitt-Medium.otf");
 }
 
 .fCooperHewitt{
