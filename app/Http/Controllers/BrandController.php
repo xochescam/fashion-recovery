@@ -49,7 +49,10 @@ class BrandController extends Controller
 
         try {
 
-            $this->save($request->all());
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_017')
+                ->insert($data);
 
             Session::flash('success','Se ha registrado correctamente');
 
@@ -86,7 +89,11 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        //
+        $brand = DB::table('fashionrecovery.GR_017')
+                    ->where('BrandID',$id)
+                    ->first();
+
+        return view('admin.brand.edit',compact('brand'));
     }
 
     /**
@@ -98,7 +105,32 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_017')
+                ->where('BrandID',$id)
+                ->update($data);
+
+            Session::flash('success','Se ha modificado correctamente');
+
+            DB::commit();
+
+            return Redirect::to('/brands/'.$id.'/edit');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/brands/'.$id.'/edit');
+        }
     }
 
     /**
@@ -109,7 +141,27 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        //
+         DB::beginTransaction();
+
+        try {
+
+            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_017" WHERE "BrandID"='.$id);
+
+            Session::flash('success','Se ha eliminado correctamente el registro');
+
+            DB::commit();
+
+            return Redirect::to('/brands');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/brands/');
+        }
+
     }
 
 
@@ -129,22 +181,15 @@ class BrandController extends Controller
         ]);
     }
 
-    /**
-     * Validate the brand request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function save(array $data)
-    {
-        return DB::table('fashionrecovery.GR_017')->insert([
+
+    public function getData($data) {
+
+        return [
              'BrandName'    => $data['name'],
              'DepartmentID' => $data['departmentId'],
              'Active'       => isset($data['active']) ? true : false,
              'CreationDate' => date("Y-m-d H:i:s"),
              'CreatedBy'    => Auth::User()->id
-        ]);
+        ];
     }
 }
