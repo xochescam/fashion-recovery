@@ -14,7 +14,7 @@
         <div class="container">
           <div class="row align-items-center">
             <div class="col-md-6 offset-md-5 text-center text-md-right">
-              <h1 class="fDancingScript"><b>FASHION RECOVERY</b></h1>
+              <h1 class="fCooperHewitt"><b>FASHION RECOVERY</b></h1>
               <p class="d-none d-md-block">
                 "La prenda más verde es la que ya existe." Juntos vamos a crear conciencia y cuidemos el planeta.
                 Sé parte de este gran movimiento.<br />Te esperamos!
