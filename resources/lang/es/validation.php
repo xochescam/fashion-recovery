@@ -178,5 +178,6 @@ return [
         'subject'               => 'asunto',
         'message'               => 'mensaje',
         'birth_date'            => 'fecha de nacimiento',
+        'notifications'         => 'notificaciones',
     ],
 ];

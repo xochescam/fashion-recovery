@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use Session;
+use Redirect;
 
 class RegisterController extends Controller
 {
@@ -34,7 +35,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/register';
+    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -52,17 +53,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(Request $request)
     {
-        return Validator::make($data, [
+        $request->validate([
             'name'            => ['required', 'max:80'],
             'last_name'       => ['required', 'max:80'],
-            'email'           => ['required', 'email', 'unique:GR_001', 'max:100'],
-            'password'        => ['required'], //validations
-            'alias'           => ['max:30'],
+            'email'           => ['required', 'email', 'max:100'],
+            'password'        => ['required', 'min:6'],
+            'alias'           => ['required','max:30'],
             'gender'          => ['required'],
             'birth_date'      => ['required', 'date'],
-            //'notifications' => ['required', 'string', 'max:255'],
         ]);
     }
 
@@ -74,15 +74,30 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
-        $this->validator($request->all());
+        $this->validator($request);
 
-        event(new Registered($user = $this->create($request->all())));
+        DB::beginTransaction();
 
-        Session::flash('success','Se ha registrado correctamente');
+        try {
 
-        return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath());
-     }
+            event(new Registered($user = $this->create($request->all())));
+
+            Session::flash('success','Se ha registrado correctamente');
+
+            DB::commit();
+
+            return $this->registered($request, $user)
+                            ?: redirect($this->redirectPath());
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/register');
+        }
+    }
 
     /**
      * Create a new user instance after a valid registration.
@@ -93,9 +108,8 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return DB::table('fashionrecovery.GR_001')->insert([
-            [
-             'Email'           => $data['email'],
-             'Password'         => Hash::make($data['password']),
+             'email'           => $data['email'],
+             'password'         => Hash::make($data['password']),
              'Alias'            => $data['alias'],
              'Name'             => $data['name'],
              'Lastname'         => $data['last_name'],
@@ -103,10 +117,10 @@ class RegisterController extends Controller
              'Birthdate'        => $data['birth_date'],
              'ProfileID'        => 3,
              'StatusID'         => 2,
-             'CreatedFrom'      => 3,
-             'CreationDate'     => '1962-06-16 00:00:00+00',
-             'Confirmed'        => false
-            ]
+             'CreatedFromID'    => 3,
+             'CreationDate'     => date("Y-m-d H:i:s"),
+             'Confirmed'        => false,
+             'Notifications'    => isset($data['notifications']) ? true : false
         ]);
     }
 }

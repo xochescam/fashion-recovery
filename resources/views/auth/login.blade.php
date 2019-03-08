@@ -11,6 +11,7 @@
             <form method="POST" action="{{ url('login') }}" class="was-validated">
               @csrf
 
+              @include('alerts.success')
               @include('alerts.warning')
 
               <div class="form-row">

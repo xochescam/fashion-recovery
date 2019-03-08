@@ -12,6 +12,7 @@
               @csrf
 
               @include('alerts.success')
+              @include('alerts.warning')
 
               <div class="form-row">
                 <div class="form-group col-md-6">
@@ -76,7 +77,7 @@
                 <div class="form-group col-md-4">
                   <label for="gender">Género</label>
                   <select id="gender" class="form-control is-invalid" name="gender">
-                    <option selected>- Seleccionar -</option>
+                    <option value="" selected>- Seleccionar -</option>
                     <option value="Masculino">Masculino</option>
                     <option value="Femenino">Femenino</option>
                     <option value="Indefinido">Indefinido</option>
@@ -103,15 +104,14 @@
 
               <div class="form-group">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" id="gridCheck" name="notifications">
-                  <label class="form-check-label" for="gridCheck">
+                  <input class="form-check-input is-invalid" type="checkbox" id="notifications" name="notifications" value="true" checked="true">
+                  <label class="form-check-label" for="notifications">
                     Deseo recibir notificaciones
                   </label>
                 </div>
               </div>
               <button type="submit" class="btn btn-fr btn-block">Crear Cuenta</button>
             </form>
-
           </div>
         </div>
       </div>
