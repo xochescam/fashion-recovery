@@ -71,7 +71,7 @@ return [
         // ],
 
         'users' => [
-            'driver' => 'custom',
+            'driver' => 'database',
             'model' => App\User::class,
         ],
     ],
