@@ -8,7 +8,7 @@
       <a class="navbar-brand" href="#">Panel de administración</a>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link" href="">Opción 1</a>
+          <a class="nav-link" href="{{ url('brands') }}">Marcas</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="">Opción 2</a>

@@ -32,5 +32,8 @@ Route::view('/about', 'footer.about');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
+
 	Route::get('dashboard', 'DashboardController@index');
+
+	Route::resource('brands', 'BrandController');
 });
