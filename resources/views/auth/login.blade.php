@@ -46,7 +46,7 @@
         </div>
         <div class="row text-center my-5">
           <div class="col ">
-            <p><a href="{{ route('password.request') }}" class="text-center">¿Olvidaste tu contraseña?</a></p>
+            <p><a href="#" class="text-center">¿Olvidaste tu contraseña?</a></p>
           </div>
           <div class="col ">
             <p>¿Aún no tienes cuenta?<a href="{{ url('register') }}" class="text-center"> Registrate aquí</a></p>
