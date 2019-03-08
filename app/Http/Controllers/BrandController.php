@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use DB;
+use Auth;
+use Session;
+use Redirect;
 
 class BrandController extends Controller
 {
@@ -39,7 +42,29 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $this->save($request->all());
+
+            Session::flash('success','Se ha registrado correctamente');
+
+            DB::commit();
+
+            return Redirect::to('/brands/create');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('/brands/create');
+        }
+
     }
 
     /**
@@ -85,5 +110,41 @@ class BrandController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+    /**
+     * Validate the brand request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function validator($request)
+    {
+        return $request->validate([
+            'name'         => ['required'],
+            'departmentId' => ['required']
+        ]);
+    }
+
+    /**
+     * Validate the brand request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function save(array $data)
+    {
+        return DB::table('fashionrecovery.GR_017')->insert([
+             'BrandName'    => $data['name'],
+             'DepartmentID' => $data['departmentId'],
+             'Active'       => isset($data['active']) ? true : false,
+             'CreationDate' => date("Y-m-d H:i:s"),
+             'CreatedBy'    => Auth::User()->id
+        ]);
     }
 }
