@@ -17,7 +17,7 @@
 
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="{{ url('logout') }}">Cerrar sesión</a>
+          <a class="nav-link" href="{{ route('logout') }}">Cerrar sesión</a>
         </li>
       </ul>
     </div>
