@@ -130,10 +130,11 @@ class RegisterController extends Controller
     }
 
     protected function existsEmail($email) {
+
         $user = DB::table('fashionrecovery.GR_001')
                   ->where('email',$email)
                   ->first();
 
-        return $user === 'null' ? false : true;
+        return $user === null ? false : true;
     }
 }
