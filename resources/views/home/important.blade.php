@@ -1,6 +1,3 @@
-@extends('layout.master')
-
-@section('content')
 
   <section id="LosDestacados" >
     <div class="container-fluid">
@@ -14,7 +11,7 @@
 
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 ">
           <div class="card shadow p-3 mb-5 bg-white rounded">
-            <img class="card-img-top img-thumbnail" src="{{ url('img/important/woman.jpg') }}" alt="Guardarropa para Mujer">
+            <img class="card-img-top img-thumbnail" src="{{ url('img/important/women.jpg') }}" alt="Guardarropa para Mujer">
             <div class="card-body">
               <h5 class="card-title">Mujeres</h5>
               <p class="card-text">Encuentra los mejores estilos para toda clase de mujeres.</p>
@@ -55,19 +52,7 @@
             </div>
           </div>
         </div>
-
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-          <div class="card shadow p-3 mb-5 bg-white rounded">
-            <img class="card-img-top img-thumbnail" src="{{ url('img/important/maternity.jpg') }}" alt="Guardarropa para Bebés y Maternidad">
-            <div class="card-body">
-              <h5 class="card-title">Bebés y Maternidad</h5>
-              <p class="card-text">Adquiere el mejor Guardarropa para tu bebé y prpárate para su llegada a este mundo.</p>
-              <a href="#" class="btn btn-fr">Ver más</a>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </section>
 
-@endsection
