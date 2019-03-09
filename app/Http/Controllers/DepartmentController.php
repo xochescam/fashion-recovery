@@ -48,16 +48,21 @@ class DepartmentController extends Controller
 
         //try {
 
-            $data = $this->getData($request->toArray());
+            //$data = $this->getData($request->toArray());
 
             DB::table('fashionrecovery.GR_025')
-                ->insert($data);
+                ->insert([
+                    'DepName'      => $data['name'],
+        +           'Active'       => isset($data['active']) ? true : false,
+                    'CreationDate' => date("Y-m-d H:i:s"),
+                    'CreatedBy'    => Auth::User()->id
+                ]);
 
             Session::flash('success','Se ha guardado correctamente');
 
-            //DB::commit();
-
             return Redirect::to('/departments/create');
+
+            //DB::commit();
 
         //} catch (\Exception $ex) {
 
