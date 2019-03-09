@@ -52,10 +52,10 @@ class DepartmentController extends Controller
 
             DB::table('fashionrecovery.GR_025')
                 ->insert([
-                    'DepName'      => $data['name'],
-        +           'Active'       => isset($data['active']) ? true : false,
-                    'CreationDate' => date("Y-m-d H:i:s"),
-                    'CreatedBy'    => Auth::User()->id
+                    'DepName'      => 'test',
+        +           'Active'       => true,
+                    'CreationDate' => '2019-03-08 15:57:47',
+                    'CreatedBy'    => 27
                 ]);
 
             Session::flash('success','Se ha guardado correctamente');
