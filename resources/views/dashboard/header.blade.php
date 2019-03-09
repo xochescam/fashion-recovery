@@ -16,10 +16,13 @@
           </div>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link" href="">Opción 2</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Departamentos</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url('departments') }}">Lista</a>
+            <a class="dropdown-item" href="{{ url('/departments/create') }}">Crear</a>
+          </div>
         </li>
-      </ul>
 
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
