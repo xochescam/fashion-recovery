@@ -180,7 +180,7 @@ class DepartmentController extends Controller
     public function getData($data) {
 
         return [
-            'DepaName'     => $data['name'],
+            'DepName'     => $data['name'],
 +           'Active'       => isset($data['active']) ? true : false,
             'CreationDate' => date("Y-m-d H:i:s"),
             'CreatedBy'    => Auth::User()->id
