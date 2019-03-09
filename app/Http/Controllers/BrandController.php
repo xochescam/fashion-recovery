@@ -54,7 +54,7 @@ class BrandController extends Controller
             DB::table('fashionrecovery.GR_017')
                 ->insert($data);
 
-            Session::flash('success','Se ha registrado correctamente');
+            Session::flash('success','Se ha guardado correctamente');
 
             DB::commit();
 
@@ -161,7 +161,6 @@ class BrandController extends Controller
 
             return Redirect::to('/brands/');
         }
-
     }
 
 
