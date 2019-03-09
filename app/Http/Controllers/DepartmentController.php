@@ -93,8 +93,8 @@ class DepartmentController extends Controller
     public function edit($id)
     {
         $department = DB::table('fashionrecovery.GR_025')
-        ->where('DepartmentID',$id)
-        ->first();
+                        ->where('DepartmentID',$id)
+                        ->first();
 
         return view('admin.department.edit',compact('department'));
     }
@@ -185,6 +185,7 @@ class DepartmentController extends Controller
     public function getData($data) {
 
         return [
+            'DepartmentID' => 3,
             'DepName'      => $data['name'],
 +           'Active'       => isset($data['active']) ? true : false,
             'CreationDate' => date("Y-m-d H:i:s"),
