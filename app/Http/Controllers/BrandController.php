@@ -18,7 +18,10 @@ class BrandController extends Controller
      */
     public function index()
     {
+
         $brands = DB::table('fashionrecovery.GR_017')
+                    ->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
+                    ->select('GR_017.BrandID','GR_017.BrandName', 'GR_017.Active',  'GR_025.DepName')
                     ->get();
 
         return view('admin.brand.list',compact('brands'));
@@ -31,7 +34,10 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('admin.brand.create');
+        $departments = DB::table('fashionrecovery.GR_025')
+                        ->get();
+
+        return view('admin.brand.create',compact('departments'));
     }
 
     /**
@@ -93,7 +99,11 @@ class BrandController extends Controller
                     ->where('BrandID',$id)
                     ->first();
 
-        return view('admin.brand.edit',compact('brand'));
+        $departments = DB::table('fashionrecovery.GR_025')
+                    ->get();
+
+
+        return view('admin.brand.edit',compact('brand','departments'));
     }
 
     /**

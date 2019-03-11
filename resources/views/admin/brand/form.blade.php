@@ -15,14 +15,15 @@
       @endif
     </div>
 
-	        <div class="form-group">
-        <label for="departmentId">Departamento</label>
-        <select id="departmentId" class="form-control is-invalid" name="departmentId">
-            <option value="" selected>- Seleccionar -</option>
-            <option value="1">Opción 1</option>
-            <option value="2">Opción 2</option>
-            <option value="3">Opción 4</option>
-        </select>
+	    <div class="form-group">
+      <label for="departmentId">Departamento</label>
+      <select id="departmentId" class="form-control is-invalid" name="departmentId">
+        <option value="" selected>- Seleccionar -</option>
+
+            @foreach($departments as $item)
+              <option value="{{ $item->DepartmentID }}"  {{ (isset($brand->DepartmentID) && ($item->DepartmentID == $brand->DepartmentID) || old('departmentId'))  ? 'selected' : '' }} > {{ $item->DepName }} </option>
+            @endforeach
+      </select>
 
         @if ($errors->has('departmentId'))
             <div class="invalid-feedback">

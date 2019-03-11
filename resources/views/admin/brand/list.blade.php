@@ -25,7 +25,7 @@
 						 	@foreach($brands as $brand)
 						 		<tr>
 								    <th> {{ $brand->BrandName }} </th>
-								    <td> {{ $brand->DepartmentID }} </td>
+								    <td> {{ $brand->DepName }} </td>
 								    <td> {{ $brand->Active }} </td>
 								    <td>
 										<a class="btn btn-success btn-sm" href="{{ route('brands.edit',$brand->BrandID) }}" role="button">Modificar</a>
