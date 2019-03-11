@@ -44,33 +44,28 @@ class DepartmentController extends Controller
     {
         $this->validator($request);
 
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        //try {
+        try {
 
-            //$data = $this->getData($request->toArray());
+            $data = $this->getData($request->toArray());
 
             DB::table('fashionrecovery.GR_025')
-                ->insert([
-                    'DepName'      => 'test',
-        +           'Active'       => true,
-                    'CreationDate' => '2019-03-08 15:57:47',
-                    'CreatedBy'    => 27
-                ]);
+                ->insert($data);
 
             Session::flash('success','Se ha guardado correctamente');
 
             return Redirect::to('/departments/create');
 
-            //DB::commit();
+            DB::commit();
 
-        //} catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
-            //DB::rollback();
+            DB::rollback();
 
-            //Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            //return Redirect::to('/departments/create');
-        //}
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('/departments/create');
+        }
     }
 
     /**
@@ -185,11 +180,10 @@ class DepartmentController extends Controller
     public function getData($data) {
 
         return [
-            'DepartmentID' => 3,
-            'DepName'      => $data['name'],
-+           'Active'       => isset($data['active']) ? true : false,
-            'CreationDate' => date("Y-m-d H:i:s"),
-            'CreatedBy'    => Auth::User()->id
+                'DepName'    => $data['name'],
+                'Active'       => isset($data['active']) ? true : false,
+                'CreationDate' => date("Y-m-d H:i:s"),
+                'CreatedBy'    => Auth::User()->id
         ];
     }
 }
