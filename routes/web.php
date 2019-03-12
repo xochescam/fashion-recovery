@@ -93,4 +93,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Seasons
 	Route::get('seasons', 'SeasonController@index');
+	Route::get('seasons/create', 'SeasonController@create')->name('seasons.create');
+	Route::post('seasons', 'SeasonController@store')->name('seasons.store');
 });

@@ -30,7 +30,7 @@ class SeasonController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.seasons.create');
     }
 
     /**
@@ -41,7 +41,28 @@ class SeasonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_016')->insert($data);
+
+            DB::commit();
+
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('/seasons/create');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('/seasons/create');
+        }
     }
 
     /**
@@ -87,5 +108,37 @@ class SeasonController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Validate the brand request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function validator($request)
+    {
+        return $request->validate([
+            'name'        => ['required'],
+            'periodStart' => ['required'],
+            'periodEnd'   => ['required'],
+            'discount'    => ['required'],
+        ]);
+    }
+
+
+    public function getData($data) {
+
+        return [
+             'SeasonName'   => $data['name'],
+             'PeriodStart'  => $data['periodStart'],
+             'PeriodEnd'    => $data['periodEnd'],
+             'Discount'     => $data['discount'],
+             'Active'       => isset($data['active']) ? true : false,
+             'CreationDate' => date("Y-m-d H:i:s"),
+             'CreatedBy'    => Auth::User()->id
+        ];
     }
 }
