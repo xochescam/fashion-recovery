@@ -12,11 +12,6 @@ use Redirect;
 
 class BrandController extends Controller
 {
-    /**
-     * Where to redirect users after login.
-     *
-     * @var string
-     */
     protected $table = 'fashionrecovery.GR_017';
 
     /**
@@ -68,14 +63,14 @@ class BrandController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/brands/create');
+            return Redirect::to('brands/create');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/brands/create');
+            return Redirect::to('brands/create');
         }
 
     }
@@ -133,7 +128,7 @@ class BrandController extends Controller
 
             DB::commit();
 
-            return Redirect::to('/brands/'.$id.'/edit');
+            return Redirect::to('brands/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
@@ -141,7 +136,7 @@ class BrandController extends Controller
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
 
-            return Redirect::to('/brands/'.$id.'/edit');
+            return Redirect::to('brands/'.$id.'/edit');
         }
     }
 
@@ -165,14 +160,14 @@ class BrandController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha eliminado correctamente el registro');
-            return Redirect::to('/brands');
+            return Redirect::to('brands');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/brands/');
+            return Redirect::to('brands');
         }
     }
 
