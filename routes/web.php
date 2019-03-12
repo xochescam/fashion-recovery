@@ -44,12 +44,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('brands/{brandId}/delete', 'Admin\BrandController@destroy')->name('brands.destroy');
 
 	//Departments
-	Route::get('departments', 'DepartmentController@index');
-	Route::get('departments/create', 'DepartmentController@create')->name('departments.create');
-	Route::post('departments', 'DepartmentController@store')->name('departments.store');
-	Route::get('departments/{departmentId}/edit', 'DepartmentController@edit')->name('departments.edit');
-	Route::post('departments/{departmentId}', 'DepartmentController@update')->name('departments.update');
-	Route::get('departments/{departmentId}/delete', 'DepartmentController@destroy')->name('departments.destroy');
+	Route::get('departments', 'Admin\DepartmentController@index');
+	Route::get('departments/create', 'Admin\DepartmentController@create')->name('departments.create');
+	Route::post('departments', 'Admin\DepartmentController@store')->name('departments.store');
+	Route::get('departments/{departmentId}/edit', 'Admin\DepartmentController@edit')->name('departments.edit');
+	Route::post('departments/{departmentId}', 'Admin\DepartmentController@update')->name('departments.update');
+	Route::get('departments/{departmentId}/delete', 'Admin\DepartmentController@destroy')->name('departments.destroy');
 
 	//Categories
 	Route::get('categories', 'CategoryController@index');

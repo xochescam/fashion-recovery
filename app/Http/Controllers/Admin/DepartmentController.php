@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class DepartmentController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_025';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +21,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = DB::table('fashionrecovery.GR_025')
-                        ->get();
+        $departments = DB::table($this->table)->get();
 
         return view('admin.department.list',compact('departments'));
     }
@@ -50,20 +52,19 @@ class DepartmentController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            $res = DB::table('fashionrecovery.GR_025')
-                ->insert($data);
+            $res = DB::table($this->table)->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/departments/create');
+            return Redirect::to('departments/create');
 
         } catch (\Exception $ex) {
 
              DB::rollback();
 
              Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-             return Redirect::to('/departments/create');
+             return Redirect::to('departments/create');
         }
     }
 
@@ -86,7 +87,7 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        $department = DB::table('fashionrecovery.GR_025')
+        $department = DB::table($this->table)
                         ->where('DepartmentID',$id)
                         ->first();
 
@@ -110,23 +111,21 @@ class DepartmentController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_025')
+            DB::table($this->table)
                 ->where('DepartmentID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
-            return Redirect::to('/departments/'.$id.'/edit');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('departments/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/departments/'.$id.'/edit');
+            return Redirect::to('departments/'.$id.'/edit');
         }
     }
 
@@ -142,21 +141,22 @@ class DepartmentController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_025" WHERE "DepartmentID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "DepartmentID"='.$id);
 
             DB::commit();
 
-            return Redirect::to('/departments');
+            Session::flash('success','Se ha eliminado correctamente el registro');
+            return Redirect::to('departments');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/departments/');
+            return Redirect::to('departments');
         }
     }
 
@@ -171,7 +171,7 @@ class DepartmentController extends Controller
     public function validator($request)
     {
         return $request->validate([
-            'name'         => ['required']
+            'name' => ['required']
         ]);
     }
 
