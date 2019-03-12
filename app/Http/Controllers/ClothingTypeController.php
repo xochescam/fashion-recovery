@@ -149,7 +149,26 @@ class ClothingTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+
+            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_019" WHERE "ClothingTypeID"='.$id);
+
+            Session::flash('success','Se ha eliminado correctamente el registro');
+
+            DB::commit();
+
+            return Redirect::to('/clothing-type');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/clothing-type');
+        }
     }
 
     /**
