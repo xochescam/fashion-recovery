@@ -5,7 +5,7 @@
 
   <div class="form-group">
     <label for="holiday">Holiday</label>
-    <input type="text" class="form-control is-invalid" name="holiday" id="holiday" value=" {{ isset($calendarSale->holiday) ? $calendarSale->holiday : old('holiday') }}">
+    <input type="text" class="form-control is-invalid" name="holiday" id="holiday" value=" {{ isset($calendarSale->holiday) ? $calendarSale->Holiday : old('holiday') }}">
 
     @if ($errors->has('holiday'))
       <div class="invalid-feedback">
@@ -39,7 +39,7 @@
 
   <div class="form-group">
     <label for="discount">Descuento</label>
-    <input type="text" class="form-control is-invalid" name="discount" id="discount" value=" {{ isset($calendarSale->Discount) ? $calendarSale->Discount : old('discount') }}">
+    <input type="number" class="form-control is-invalid" name="discount" id="discount" value=" {{ isset($calendarSale->Discount) ? $calendarSale->Discount : old('discount') }}">
 
     @if ($errors->has('discount'))
       <div class="invalid-feedback">

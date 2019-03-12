@@ -84,7 +84,11 @@ class CalendarSaleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $calendarSale = DB::table('fashionrecovery.GR_015')
+                            ->where('CalendarSalesID',$id)
+                            ->first();
+
+        return view('admin.calendar-sale.edit',compact('calendarSale'));
     }
 
     /**
@@ -96,7 +100,32 @@ class CalendarSaleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_015')
+                ->where('CalendarSalesID',$id)
+                ->update($data);
+
+            Session::flash('success','Se ha modificado correctamente');
+
+            DB::commit();
+
+            return Redirect::to('/calendar-sales/'.$id.'/edit');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/calendar-sales/'.$id.'/edit');
+        }
     }
 
     /**

@@ -99,8 +99,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('seasons/{seasonId}', 'SeasonController@update')->name('seasons.update');
 	Route::get('seasons/{seasonId}/delete', 'SeasonController@destroy')->name('seasons.destroy');
 
-	//Clothing types
+	//Calendario de ofertas
 	Route::get('calendar-sales', 'CalendarSaleController@index');
 	Route::get('calendar-sales/create', 'CalendarSaleController@create')->name('calendar-sales.create');
 	Route::post('calendar-sales', 'CalendarSaleController@store')->name('calendar-sales.store');
+	Route::get('calendar-sales/{calendarSaleId}/edit', 'CalendarSaleController@edit')->name('calendar-sales.edit');
+	Route::post('calendar-sales/{calendarSaleId}', 'CalendarSaleController@update')->name('calendar-sales.update');
 });
