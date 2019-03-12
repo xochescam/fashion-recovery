@@ -97,4 +97,5 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('seasons', 'SeasonController@store')->name('seasons.store');
 	Route::get('seasons/{seasonId}/edit', 'SeasonController@edit')->name('seasons.edit');
 	Route::post('seasons/{seasonId}', 'SeasonController@update')->name('seasons.update');
+	Route::get('seasons/{seasonId}/delete', 'SeasonController@destroy')->name('seasons.destroy');
 });
