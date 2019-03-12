@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class ClothingTypeController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_019';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,9 +21,9 @@ class ClothingTypeController extends Controller
      */
     public function index()
     {
-        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
+        $clothingTypes = DB::table($this->table)->get();
 
-        // $sizes = DB::table('fashionrecovery.GR_019')
+        // $sizes = DB::table($this->table)
         //             ->join('fashionrecovery.GR_017', 'GR_019.BrandID', '=', 'GR_017.BrandID')
         //             ->join('fashionrecovery.GR_025', 'GR_019.DepartmentID', '=', 'GR_025.DepartmentID')
         //             ->select('GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active',  'GR_027.BrandName', 'GR_017.DepartmentName', 'GR_025.DepName')
@@ -58,20 +61,19 @@ class ClothingTypeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_019')
-                ->insert($data);
+            DB::table($this->table)->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/clothing-types/create');
+            return Redirect::to('clothing-types/create');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/clothing-types/create');
+            return Redirect::to('clothing-types/create');
         }
     }
 
@@ -94,7 +96,7 @@ class ClothingTypeController extends Controller
      */
     public function edit($id)
     {
-        $clothingType = DB::table('fashionrecovery.GR_019')
+        $clothingType = DB::table($this->table)
                             ->where('ClothingTypeID',$id)
                             ->first();
 
@@ -121,23 +123,21 @@ class ClothingTypeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_019')
+            DB::table($this->table)
                 ->where('ClothingTypeID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
-            return Redirect::to('/clothing-type/'.$id.'/edit');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('clothing-type/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/clothing-type/'.$id.'/edit');
+            return Redirect::to('clothing-type/'.$id.'/edit');
         }
     }
 
@@ -153,21 +153,22 @@ class ClothingTypeController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_019" WHERE "ClothingTypeID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "ClothingTypeID"='.$id);
 
             DB::commit();
 
-            return Redirect::to('/clothing-type');
+            Session::flash('success','Se ha eliminado correctamente el registro');
+            return Redirect::to('clothing-type');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/clothing-type');
+            return Redirect::to('clothing-type');
         }
     }
 
