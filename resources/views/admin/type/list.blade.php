@@ -23,11 +23,11 @@
 
 						 	@foreach($types as $type)
 						 		<tr>
-								    <th> {{ $type->DepName }} </th>
+								    <th> {{ $type->TypeName }} </th>
 								    <td> {{ $type->Active }} </td>
 								    <td>
-										<a class="btn btn-success btn-sm" href="{{ route('types.edit',$department->TypeID) }}" role="button">Modificar</a>
-										<a class="btn btn-danger btn-sm" href="{{ route('types.destroy',$department->TypeID) }}" role="button">Eliminar</a>
+										<a class="btn btn-success btn-sm" href="{{ route('types.edit',$type->TypeID) }}" role="button">Modificar</a>
+										<a class="btn btn-danger btn-sm" href="{{ route('types.destroy',$type->TypeID) }}" role="button">Eliminar</a>
 								    </td>
 							    </tr>
 						 	@endforeach

@@ -19,7 +19,7 @@ class TypeController extends Controller
     public function index()
     {
         $types = DB::table('fashionrecovery.GR_027')
-        ->get();
+                    ->get();
 
         return view('admin.type.list',compact('types'));
     }
@@ -31,7 +31,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        return view('admin.department.create');
+        return view('admin.type.create');
     }
 
     /**
@@ -53,11 +53,10 @@ class TypeController extends Controller
             DB::table('fashionrecovery.GR_027')
                 ->insert($data);
 
-            Session::flash('success','Se ha guardado correctamente');
-
-            return Redirect::to('/types/create');
-
             DB::commit();
+
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('/types/create');
 
         } catch (\Exception $ex) {
 

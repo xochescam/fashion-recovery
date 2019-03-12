@@ -22,12 +22,12 @@ Auth::routes();
 Route::view('data', 'data');
 
 //footer
-Route::view('/support', 'footer.support');
-Route::view('/faq', 'footer.faq');
-Route::view('/terms', 'footer.terms');
-Route::view('/privacy', 'footer.privacy');
-Route::view('/return-policy', 'footer.return-policy');
-Route::view('/about', 'footer.about');
+Route::view('support', 'footer.support');
+Route::view('faq', 'footer.faq');
+Route::view('terms', 'footer.terms');
+Route::view('privacy', 'footer.privacy');
+Route::view('return-policy', 'footer.return-policy');
+Route::view('about', 'footer.about');
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -39,9 +39,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('brands', 'BrandController@index');
 	Route::get('brands/create', 'BrandController@create')->name('brands.create');
 	Route::post('brands', 'BrandController@store')->name('brands.store');
-	Route::get('brands/{departmentId}/edit', 'BrandController@edit')->name('brands.edit');
-	Route::post('brands/{departmentId}', 'BrandController@update')->name('brands.update');
-	Route::get('brands/{departmentId}/delete', 'BrandController@destroy')->name('brands.destroy');
+	Route::get('brands/{brandId}/edit', 'BrandController@edit')->name('brands.edit');
+	Route::post('brands/{brandId}', 'BrandController@update')->name('brands.update');
+	Route::get('brands/{brandId}/delete', 'BrandController@destroy')->name('brands.destroy');
 
 	//Departments
 	Route::get('departments', 'DepartmentController@index');
@@ -51,11 +51,19 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('departments/{departmentId}', 'DepartmentController@update')->name('departments.update');
 	Route::get('departments/{departmentId}/delete', 'DepartmentController@destroy')->name('departments.destroy');
 
-	//Categorias
+	//Categories
 	Route::get('categories', 'CategoryController@index');
 	Route::get('categories/create', 'CategoryController@create')->name('categories.create');
 	Route::post('categories', 'CategoryController@store')->name('categories.store');
-	Route::get('categories/{departmentId}/edit', 'CategoryController@edit')->name('categories.edit');
-	Route::post('categories/{departmentId}', 'CategoryController@update')->name('categories.update');
-	Route::get('categories/{departmentId}/delete', 'CategoryController@destroy')->name('categories.destroy');
+	Route::get('categories/{categoryId}/edit', 'CategoryController@edit')->name('categories.edit');
+	Route::post('categories/{categoryId}', 'CategoryController@update')->name('categories.update');
+	Route::get('categories/{categoryId}/delete', 'CategoryController@destroy')->name('categories.destroy');
+
+	//Types
+	Route::get('types', 'TypeController@index');
+	Route::get('types/create', 'TypeController@create')->name('types.create');
+	Route::post('types', 'TypeController@store')->name('types.store');
+	Route::get('types/{typeId}/edit', 'TypeController@edit')->name('types.edit');
+	Route::post('types/{typeId}', 'TypeController@update')->name('types.update');
+	Route::get('types/{typeId}/delete', 'TypeController@destroy')->name('types.destroy');
 });
