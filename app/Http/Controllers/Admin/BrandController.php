@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -12,6 +13,13 @@ use Redirect;
 class BrandController extends Controller
 {
     /**
+     * Where to redirect users after login.
+     *
+     * @var string
+     */
+    protected $table = 'fashionrecovery.GR_017';
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -19,7 +27,7 @@ class BrandController extends Controller
     public function index()
     {
 
-        $brands = DB::table('fashionrecovery.GR_017')
+        $brands = DB::table($this->table)
                     ->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->select('GR_017.BrandID','GR_017.BrandName', 'GR_017.Active',  'GR_025.DepName')
                     ->get();
@@ -34,8 +42,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        $departments = DB::table('fashionrecovery.GR_025')
-                        ->get();
+        $departments = DB::table('fashionrecovery.GR_025')->get();
 
         return view('admin.brand.create',compact('departments'));
     }
@@ -48,7 +55,6 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validator($request);
 
         DB::beginTransaction();
@@ -57,8 +63,7 @@ class BrandController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_017')
-                ->insert($data);
+            DB::table($this->table)->insert($data);
 
             DB::commit();
 
@@ -94,13 +99,11 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        $brand = DB::table('fashionrecovery.GR_017')
+        $brand = DB::table($this->table)
                     ->where('BrandID',$id)
                     ->first();
 
-        $departments = DB::table('fashionrecovery.GR_025')
-                    ->get();
-
+        $departments = DB::table('fashionrecovery.GR_025')->get();
 
         return view('admin.brand.edit',compact('brand','departments'));
     }
@@ -122,7 +125,7 @@ class BrandController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_017')
+            DB::table($this->table)
                 ->where('BrandID',$id)
                 ->update($data);
 
@@ -154,12 +157,14 @@ class BrandController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_017" WHERE "BrandID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
+            $deleted = DB::delete('DELETE FROM '.$stringTable.' WHERE "BrandID"='.$id);
 
             DB::commit();
 
+            Session::flash('success','Se ha eliminado correctamente el registro');
             return Redirect::to('/brands');
 
         } catch (\Exception $ex) {
@@ -167,7 +172,6 @@ class BrandController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
             return Redirect::to('/brands/');
         }
     }

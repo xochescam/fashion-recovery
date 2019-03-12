@@ -36,12 +36,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('dashboard', 'DashboardController@index');
 
 	//Brands
-	Route::get('brands', 'BrandController@index');
-	Route::get('brands/create', 'BrandController@create')->name('brands.create');
-	Route::post('brands', 'BrandController@store')->name('brands.store');
-	Route::get('brands/{brandId}/edit', 'BrandController@edit')->name('brands.edit');
-	Route::post('brands/{brandId}', 'BrandController@update')->name('brands.update');
-	Route::get('brands/{brandId}/delete', 'BrandController@destroy')->name('brands.destroy');
+	Route::get('brands', 'Admin\BrandController@index');
+	Route::get('brands/create', 'Admin\BrandController@create')->name('brands.create');
+	Route::post('brands', 'Admin\BrandController@store')->name('brands.store');
+	Route::get('brands/{brandId}/edit', 'Admin\BrandController@edit')->name('brands.edit');
+	Route::post('brands/{brandId}', 'Admin\BrandController@update')->name('brands.update');
+	Route::get('brands/{brandId}/delete', 'Admin\BrandController@destroy')->name('brands.destroy');
 
 	//Departments
 	Route::get('departments', 'DepartmentController@index');
