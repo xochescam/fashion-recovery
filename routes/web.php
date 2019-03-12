@@ -101,4 +101,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Clothing types
 	Route::get('calendar-sales', 'CalendarSaleController@index');
+	Route::get('calendar-sales/create', 'CalendarSaleController@create')->name('calendar-sales.create');
+	Route::post('calendar-sales', 'CalendarSaleController@store')->name('calendar-sales.store');
 });

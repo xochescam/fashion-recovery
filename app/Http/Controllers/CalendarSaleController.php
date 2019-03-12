@@ -20,7 +20,7 @@ class CalendarSaleController extends Controller
     {
         $calendarSales = DB::table('fashionrecovery.GR_015')->get();
 
-        return view('admin.calendar-sales.list',compact('calendarSales'));
+        return view('admin.calendar-sale.list',compact('calendarSales'));
     }
 
     /**
@@ -30,7 +30,7 @@ class CalendarSaleController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.calendar-sale.create');
     }
 
     /**
@@ -41,7 +41,28 @@ class CalendarSaleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_015')->insert($data);
+
+            DB::commit();
+
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('/calendar-sales/create');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('/calendar-sales/create');
+        }
     }
 
     /**
@@ -87,5 +108,37 @@ class CalendarSaleController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Validate the brand request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function validator($request)
+    {
+        return $request->validate([
+            'holiday'     => ['required'],
+            'periodStart' => ['required'],
+            'periodEnd'   => ['required'],
+            'discount'    => ['required'],
+        ]);
+    }
+
+
+    public function getData($data) {
+
+        return [
+             'Holiday'      => $data['holiday'],
+             'PeriodStart'  => $data['periodStart'],
+             'PeriodEnd'    => $data['periodEnd'],
+             'Discount'     => $data['discount'],
+             'Active'       => isset($data['active']) ? true : false,
+             'CreationDate' => date("Y-m-d H:i:s"),
+             'CreatedBy'    => Auth::User()->id
+        ];
     }
 }
