@@ -18,7 +18,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = DB::table('fashionrecovery.GR_025')
+        $types = DB::table('fashionrecovery.GR_027')
         ->get();
 
         return view('admin.type.list',compact('types'));
@@ -50,7 +50,7 @@ class TypeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_025')
+            DB::table('fashionrecovery.GR_027')
                 ->insert($data);
 
             Session::flash('success','Se ha guardado correctamente');
@@ -87,7 +87,7 @@ class TypeController extends Controller
      */
     public function edit($id)
     {
-        $type = DB::table('fashionrecovery.GR_025')
+        $type = DB::table('fashionrecovery.GR_027')
                         ->where('TypeID',$id)
                         ->first();
 
@@ -111,7 +111,7 @@ class TypeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_025')
+            DB::table('fashionrecovery.GR_027')
                 ->where('TypeID',$id)
                 ->update($data);
 
@@ -143,7 +143,7 @@ class TypeController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_025" WHERE "TypeID"='.$id);
+            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_027" WHERE "TypeID"='.$id);
 
             Session::flash('success','Se ha eliminado correctamente el registro');
 
