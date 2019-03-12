@@ -31,7 +31,7 @@ class ColorController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.color.create');
     }
 
     /**
@@ -42,7 +42,29 @@ class ColorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            $res = DB::table('fashionrecovery.GR_018')
+                    ->insert($data);
+
+            DB::commit();
+
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('/colors/create');
+
+        } catch (\Exception $ex) {
+
+             DB::rollback();
+
+             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+             return Redirect::to('/colors/create');
+        }
     }
 
     /**
@@ -88,5 +110,31 @@ class ColorController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Validate the brand request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function validator($request)
+    {
+        return $request->validate([
+            'name'         => ['required']
+        ]);
+    }
+
+
+    public function getData($data) {
+
+        return [
+             'ColorName'    => $data['name'],
+             'Active'       => isset($data['active']) ? true : false,
+             'CreationDate' => date("Y-m-d H:i:s"),
+             'CreatedBy'    => Auth::User()->id
+        ];
     }
 }

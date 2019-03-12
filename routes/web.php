@@ -69,4 +69,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Colors
 	Route::get('colors', 'ColorController@index');
+	Route::get('colors/create', 'ColorController@create')->name('colors.create');
+	Route::post('colors', 'ColorController@store')->name('colors.store');
 });
