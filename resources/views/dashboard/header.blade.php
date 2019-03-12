@@ -72,6 +72,14 @@
             <a class="dropdown-item" href="{{ url('seasons/create') }}">Crear</a>
           </div>
         </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Calendario</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url('calendar-sales') }}">Lista</a>
+            <a class="dropdown-item" href="{{ url('calendar-sales/create') }}">Crear</a>
+          </div>
+        </li>
       </ul>
 
       <ul class="navbar-nav ml-auto">
