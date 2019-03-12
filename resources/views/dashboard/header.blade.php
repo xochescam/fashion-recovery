@@ -56,6 +56,14 @@
             <a class="dropdown-item" href="{{ url('sizes/create') }}">Crear</a>
           </div>
         </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tipo de ropa</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="{{ url('clothing-types') }}">Lista</a>
+            <a class="dropdown-item" href="{{ url('clothing-types/create') }}">Crear</a>
+          </div>
+        </li>
       </ul>
 
       <ul class="navbar-nav ml-auto">
