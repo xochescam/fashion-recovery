@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class TypeController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_027';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +21,7 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = DB::table('fashionrecovery.GR_027')
-                    ->get();
+        $types = DB::table($this->table)->get();
 
         return view('admin.type.list',compact('types'));
     }
@@ -50,20 +52,20 @@ class TypeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_027')
+            DB::table($this->table)
                 ->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/types/create');
+            return Redirect::to('types/create');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/types/create');
+            return Redirect::to('types/create');
         }
     }
 
@@ -86,7 +88,7 @@ class TypeController extends Controller
      */
     public function edit($id)
     {
-        $type = DB::table('fashionrecovery.GR_027')
+        $type = DB::table($this->table)
                         ->where('TypeID',$id)
                         ->first();
 
@@ -110,7 +112,7 @@ class TypeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_027')
+            DB::table($this->table)
                 ->where('TypeID',$id)
                 ->update($data);
 
@@ -118,7 +120,7 @@ class TypeController extends Controller
 
             DB::commit();
 
-            return Redirect::to('/types/'.$id.'/edit');
+            return Redirect::to('types/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
@@ -126,7 +128,7 @@ class TypeController extends Controller
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
 
-            return Redirect::to('/types/'.$id.'/edit');
+            return Redirect::to('types/'.$id.'/edit');
         }
     }
 
@@ -142,13 +144,16 @@ class TypeController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_027" WHERE "TypeID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
+
+            $deleted = DB::delete('DELETE FROM '.$stringTable.' WHERE "TypeID"='.$id);
 
             Session::flash('success','Se ha eliminado correctamente el registro');
 
             DB::commit();
 
-            return Redirect::to('/types');
+            return Redirect::to('types');
 
         } catch (\Exception $ex) {
 

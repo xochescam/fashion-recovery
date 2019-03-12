@@ -15,7 +15,7 @@
 						<thead>
 						    <tr>
 							    <th scope="col">Nombre</th>
-							    <th scope="col">Activa</th>
+							    <th scope="col">Activo</th>
 							    <th scope="col"></th>
 						    </tr>
 						  </thead>
