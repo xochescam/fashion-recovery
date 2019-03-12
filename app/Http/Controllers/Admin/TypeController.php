@@ -116,10 +116,9 @@ class TypeController extends Controller
                 ->where('TypeID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
+            Session::flash('success','Se ha modificado correctamente');
             return Redirect::to('types/'.$id.'/edit');
 
         } catch (\Exception $ex) {
@@ -127,7 +126,6 @@ class TypeController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
             return Redirect::to('types/'.$id.'/edit');
         }
     }
@@ -149,10 +147,9 @@ class TypeController extends Controller
 
             $deleted = DB::delete('DELETE FROM '.$stringTable.' WHERE "TypeID"='.$id);
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
-
             DB::commit();
 
+            Session::flash('success','Se ha eliminado correctamente el registro');
             return Redirect::to('types');
 
         } catch (\Exception $ex) {
@@ -160,7 +157,6 @@ class TypeController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
             return Redirect::to('/types/');
         }
     }
