@@ -50,21 +50,20 @@ class DepartmentController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_025')
+            $res = DB::table('fashionrecovery.GR_025')
                 ->insert($data);
-
-            Session::flash('success','Se ha guardado correctamente');
-
-            return Redirect::to('/departments/create');
 
             DB::commit();
 
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('/departments/create');
+
         } catch (\Exception $ex) {
 
-            DB::rollback();
+             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/departments/create');
+             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+             return Redirect::to('/departments/create');
         }
     }
 
@@ -180,7 +179,7 @@ class DepartmentController extends Controller
     public function getData($data) {
 
         return [
-                'DepName'    => $data['name'],
+                'DepName'      => $data['name'],
                 'Active'       => isset($data['active']) ? true : false,
                 'CreationDate' => date("Y-m-d H:i:s"),
                 'CreatedBy'    => Auth::User()->id
