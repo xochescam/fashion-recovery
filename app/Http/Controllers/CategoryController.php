@@ -18,7 +18,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('fashionrecovery.GR_025')
+        $categories = DB::table('fashionrecovery.GR_026')
         ->get();
 
         return view('admin.category.list',compact('categories'));
@@ -50,7 +50,7 @@ class CategoryController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_025')
+            DB::table('fashionrecovery.GR_026')
                 ->insert($data);
 
             Session::flash('success','Se ha guardado correctamente');
@@ -87,7 +87,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = DB::table('fashionrecovery.GR_025')
+        $category = DB::table('fashionrecovery.GR_026')
                     ->where('CategoryID',$id)
                     ->first();
 
@@ -112,7 +112,7 @@ class CategoryController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_025')
+            DB::table('fashionrecovery.GR_026')
                 ->where('CategoryID',$id)
                 ->update($data);
 
@@ -144,7 +144,7 @@ class CategoryController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_025" WHERE "CategoryID"='.$id);
+            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_026" WHERE "CategoryID"='.$id);
 
             Session::flash('success','Se ha eliminado correctamente el registro');
 
