@@ -89,4 +89,5 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('clothing-types', 'ClothingTypeController@store')->name('clothing-types.store');
 	Route::get('clothing-types/{clothingTypeId}/edit', 'ClothingTypeController@edit')->name('clothing-types.edit');
 	Route::post('clothing-types/{clothingTypeId}', 'ClothingTypeController@update')->name('clothing-types.update');
+	Route::get('clothing-types/{clothingTypeId}/delete', 'ClothingTypeController@destroy')->name('clothing-types.destroy');
 });
