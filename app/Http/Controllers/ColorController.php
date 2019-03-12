@@ -86,7 +86,11 @@ class ColorController extends Controller
      */
     public function edit($id)
     {
-        //
+        $color = DB::table('fashionrecovery.GR_018')
+                    ->where('ColorID',$id)
+                    ->first();
+
+        return view('admin.color.edit',compact('color'));
     }
 
     /**
@@ -98,7 +102,32 @@ class ColorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_018')
+                ->where('ColorID',$id)
+                ->update($data);
+
+            Session::flash('success','Se ha modificado correctamente');
+
+            DB::commit();
+
+            return Redirect::to('/colors/'.$id.'/edit');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/colors/'.$id.'/edit');
+        }
     }
 
     /**
