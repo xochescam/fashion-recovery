@@ -105,4 +105,5 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('calendar-sales', 'CalendarSaleController@store')->name('calendar-sales.store');
 	Route::get('calendar-sales/{calendarSaleId}/edit', 'CalendarSaleController@edit')->name('calendar-sales.edit');
 	Route::post('calendar-sales/{calendarSaleId}', 'CalendarSaleController@update')->name('calendar-sales.update');
+	Route::get('calendar-sales/{calendarSaleId}/delete', 'CalendarSaleController@destroy')->name('calendar-sales.destroy');
 });

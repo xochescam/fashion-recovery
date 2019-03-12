@@ -136,7 +136,26 @@ class CalendarSaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+
+            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_015" WHERE "CalendarSalesID"='.$id);
+
+            Session::flash('success','Se ha eliminado correctamente el registro');
+
+            DB::commit();
+
+            return Redirect::to('/calendar-sales');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/calendar-sales/');
+        }
     }
 
     /**
