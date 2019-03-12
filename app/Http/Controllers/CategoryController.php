@@ -19,7 +19,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = DB::table('fashionrecovery.GR_026')
-        ->get();
+                            ->get();
 
         return view('admin.category.list',compact('categories'));
     }
@@ -53,11 +53,10 @@ class CategoryController extends Controller
             DB::table('fashionrecovery.GR_026')
                 ->insert($data);
 
-            Session::flash('success','Se ha guardado correctamente');
-
-            return Redirect::to('/categories/create');
-
             DB::commit();
+
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('/categories/create');
 
         } catch (\Exception $ex) {
 
