@@ -94,7 +94,14 @@ class ClothingTypeController extends Controller
      */
     public function edit($id)
     {
-        //
+        $clothingType = DB::table('fashionrecovery.GR_019')
+                            ->where('ClothingTypeID',$id)
+                            ->first();
+
+        $brands      = DB::table('fashionrecovery.GR_017')->get();
+        $departments = DB::table('fashionrecovery.GR_025')->get();
+
+        return view('admin.clothing-type.edit',compact('clothingType','brands','departments'));
     }
 
     /**
@@ -106,7 +113,32 @@ class ClothingTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_019')
+                ->where('ClothingTypeID',$id)
+                ->update($data);
+
+            Session::flash('success','Se ha modificado correctamente');
+
+            DB::commit();
+
+            return Redirect::to('/clothing-type/'.$id.'/edit');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/clothing-type/'.$id.'/edit');
+        }
     }
 
     /**
