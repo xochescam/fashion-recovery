@@ -20,7 +20,7 @@ class SeasonController extends Controller
     {
         $seasons = DB::table('fashionrecovery.GR_016')->get();
 
-        return view('admin.seasons.list',compact('seasons'));
+        return view('admin.season.list',compact('seasons'));
     }
 
     /**
@@ -30,7 +30,7 @@ class SeasonController extends Controller
      */
     public function create()
     {
-        return view('admin.seasons.create');
+        return view('admin.season.create');
     }
 
     /**
@@ -84,7 +84,11 @@ class SeasonController extends Controller
      */
     public function edit($id)
     {
-        //
+        $season = DB::table('fashionrecovery.GR_016')
+                    ->where('SeasonID',$id)
+                    ->first();
+
+        return view('admin.season.edit',compact('season'));
     }
 
     /**
@@ -96,7 +100,32 @@ class SeasonController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_016')
+                ->where('SeasonID',$id)
+                ->update($data);
+
+            Session::flash('success','Se ha modificado correctamente');
+
+            DB::commit();
+
+            return Redirect::to('/seasons/'.$id.'/edit');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            return Redirect::to('/seasons/'.$id.'/edit');
+        }
     }
 
     /**
