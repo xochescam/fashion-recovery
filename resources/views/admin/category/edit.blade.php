@@ -6,7 +6,7 @@
       <div class="container py-5">
         <div class="row">
           <div class="col-md-6 offset-md-3">
-            <h2 class="text-center">Modificar categoria</h2>
+            <h2 class="text-center">Modificar categoría</h2>
 
             <form method="POST" action="{{ route('categories.update',$category->CategoryID) }}" class="was-validated">
               @include('admin.category.form')

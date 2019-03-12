@@ -6,7 +6,7 @@
 	    <div class="container py-5">
 	      	<div class="row">
 	        	<div class="col-12">
-	          		<h2 class="text-center TituloFR my-4">Categorias</h2>
+	          		<h2 class="text-center TituloFR my-4">Categorías</h2>
 
 						@include('alerts.success')
   					@include('alerts.warning')

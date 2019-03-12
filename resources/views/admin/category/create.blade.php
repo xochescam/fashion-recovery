@@ -6,7 +6,7 @@
       <div class="container py-5">
         <div class="row">
           <div class="col-md-6 offset-md-3">
-            <h2 class="text-center">Crear categoria</h2>
+            <h2 class="text-center">Crear categoría</h2>
 
             <form method="POST" action="{{ url('categories') }}" class="was-validated">
               @include('admin.category.form')
