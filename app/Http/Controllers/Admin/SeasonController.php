@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class SeasonController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_016';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +21,7 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        $seasons = DB::table('fashionrecovery.GR_016')->get();
+        $seasons = DB::table($this->table)->get();
 
         return view('admin.season.list',compact('seasons'));
     }
@@ -49,19 +52,19 @@ class SeasonController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_016')->insert($data);
+            DB::table($this->table)->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/seasons/create');
+            return Redirect::to('seasons/create');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/seasons/create');
+            return Redirect::to('seasons/create');
         }
     }
 
@@ -84,7 +87,7 @@ class SeasonController extends Controller
      */
     public function edit($id)
     {
-        $season = DB::table('fashionrecovery.GR_016')
+        $season = DB::table($this->table)
                     ->where('SeasonID',$id)
                     ->first();
 
@@ -108,23 +111,21 @@ class SeasonController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_016')
+            DB::table($this->table)
                 ->where('SeasonID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
-            return Redirect::to('/seasons/'.$id.'/edit');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('seasons/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/seasons/'.$id.'/edit');
+            return Redirect::to('seasons/'.$id.'/edit');
         }
     }
 
@@ -142,19 +143,17 @@ class SeasonController extends Controller
 
             $deleted = DB::delete('DELETE FROM fashionrecovery."GR_016" WHERE "SeasonID"='.$id);
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
-
             DB::commit();
 
-            return Redirect::to('/seasons');
+            Session::flash('success','Se ha eliminado correctamente el registro');
+            return Redirect::to('seasons');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/seasons/');
+            return Redirect::to('seasons');
         }
     }
 

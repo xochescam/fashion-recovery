@@ -92,12 +92,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('clothing-types/{clothingTypeId}/delete', 'Admin\ClothingTypeController@destroy')->name('clothing-types.destroy');
 
 	//Seasons
-	Route::get('seasons', 'SeasonController@index');
-	Route::get('seasons/create', 'SeasonController@create')->name('seasons.create');
-	Route::post('seasons', 'SeasonController@store')->name('seasons.store');
-	Route::get('seasons/{seasonId}/edit', 'SeasonController@edit')->name('seasons.edit');
-	Route::post('seasons/{seasonId}', 'SeasonController@update')->name('seasons.update');
-	Route::get('seasons/{seasonId}/delete', 'SeasonController@destroy')->name('seasons.destroy');
+	Route::get('seasons', 'Admin\SeasonController@index');
+	Route::get('seasons/create', 'Admin\SeasonController@create')->name('seasons.create');
+	Route::post('seasons', 'Admin\SeasonController@store')->name('seasons.store');
+	Route::get('seasons/{seasonId}/edit', 'Admin\SeasonController@edit')->name('seasons.edit');
+	Route::post('seasons/{seasonId}', 'Admin\SeasonController@update')->name('seasons.update');
+	Route::get('seasons/{seasonId}/delete', 'Admin\SeasonController@destroy')->name('seasons.destroy');
 
 	//Calendario de ofertas
 	Route::get('calendar-sales', 'CalendarSaleController@index');
