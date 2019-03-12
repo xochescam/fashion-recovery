@@ -73,4 +73,5 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('colors', 'ColorController@store')->name('colors.store');
 	Route::get('colors/{colorId}/edit', 'ColorController@edit')->name('colors.edit');
 	Route::post('colors/{colorId}', 'ColorController@update')->name('colors.update');
+	Route::get('colors/{colorId}/delete', 'ColorController@destroy')->name('colors.destroy');
 });
