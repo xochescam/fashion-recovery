@@ -36,7 +36,10 @@ class ClothingTypeController extends Controller
      */
     public function create()
     {
-        //
+        $brands      = DB::table('fashionrecovery.GR_017')->get();
+        $departments = DB::table('fashionrecovery.GR_025')->get();
+
+        return view('admin.clothing-type.create',compact('brands','departments'));
     }
 
     /**
@@ -47,7 +50,29 @@ class ClothingTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->getData($request->toArray());
+
+            DB::table('fashionrecovery.GR_019')
+                ->insert($data);
+
+            DB::commit();
+
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('/clothing-types/create');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('/clothing-types/create');
+        }
     }
 
     /**
@@ -93,5 +118,35 @@ class ClothingTypeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Validate the brand request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function validator($request)
+    {
+        return $request->validate([
+            'name'         => ['required'],
+            'brandId'      => ['required'],
+            'departmentId' => ['required']
+        ]);
+    }
+
+
+    public function getData($data) {
+
+        return [
+             'ClothingTypeName' => $data['name'],
+             'BrandID'          => $data['brandId'],
+             'DepartmentID'     => $data['departmentId'],
+             'Active'           => isset($data['active']) ? true : false,
+             'CreationDate'     => date("Y-m-d H:i:s"),
+             'CreatedBy'        => Auth::User()->id
+        ];
     }
 }

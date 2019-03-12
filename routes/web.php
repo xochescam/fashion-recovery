@@ -85,4 +85,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Clothing types
 	Route::get('clothing-types', 'ClothingTypeController@index');
+	Route::get('clothing-types/create', 'ClothingTypeController@create')->name('clothing-types.create');
+	Route::post('clothing-types', 'ClothingTypeController@store')->name('clothing-types.store');
 });
