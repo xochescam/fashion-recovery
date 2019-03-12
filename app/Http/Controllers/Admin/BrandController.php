@@ -155,7 +155,7 @@ class BrandController extends Controller
             $explode     = explode('.', $this->table);
             $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            $deleted = DB::delete('DELETE FROM '.$stringTable.' WHERE "BrandID"='.$id);
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "BrandID"='.$id);
 
             DB::commit();
 
