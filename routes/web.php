@@ -52,12 +52,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('departments/{departmentId}/delete', 'Admin\DepartmentController@destroy')->name('departments.destroy');
 
 	//Categories
-	Route::get('categories', 'CategoryController@index');
-	Route::get('categories/create', 'CategoryController@create')->name('categories.create');
-	Route::post('categories', 'CategoryController@store')->name('categories.store');
-	Route::get('categories/{categoryId}/edit', 'CategoryController@edit')->name('categories.edit');
-	Route::post('categories/{categoryId}', 'CategoryController@update')->name('categories.update');
-	Route::get('categories/{categoryId}/delete', 'CategoryController@destroy')->name('categories.destroy');
+	Route::get('categories', 'Admin\CategoryController@index');
+	Route::get('categories/create', 'Admin\CategoryController@create')->name('categories.create');
+	Route::post('categories', 'Admin\CategoryController@store')->name('categories.store');
+	Route::get('categories/{categoryId}/edit', 'Admin\CategoryController@edit')->name('categories.edit');
+	Route::post('categories/{categoryId}', 'Admin\CategoryController@update')->name('categories.update');
+	Route::get('categories/{categoryId}/delete', 'Admin\CategoryController@destroy')->name('categories.destroy');
 
 	//Types
 	Route::get('types', 'TypeController@index');

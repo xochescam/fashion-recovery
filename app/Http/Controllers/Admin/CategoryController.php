@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class CategoryController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_026';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +21,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table('fashionrecovery.GR_026')
-                            ->get();
+        $categories = DB::table($this->table)->get();
 
         return view('admin.category.list',compact('categories'));
     }
@@ -50,20 +52,19 @@ class CategoryController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_026')
-                ->insert($data);
+            DB::table($this->table)->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/categories/create');
+            return Redirect::to('categories/create');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/categories/create');
+            return Redirect::to('categories/create');
         }
     }
 
@@ -86,7 +87,7 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = DB::table('fashionrecovery.GR_026')
+        $category = DB::table($this->table)
                     ->where('CategoryID',$id)
                     ->first();
 
@@ -111,23 +112,21 @@ class CategoryController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_026')
+            DB::table($this->table)
                 ->where('CategoryID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
-            return Redirect::to('/categories/'.$id.'/edit');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('categories/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/categories/'.$id.'/edit');
+            return Redirect::to('categories/'.$id.'/edit');
         }
     }
 
@@ -143,13 +142,16 @@ class CategoryController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_026" WHERE "CategoryID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
+
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "CategoryID"='.$id);
 
             Session::flash('success','Se ha eliminado correctamente el registro');
 
             DB::commit();
 
-            return Redirect::to('/categories');
+            return Redirect::to('categories');
 
         } catch (\Exception $ex) {
 
@@ -157,7 +159,7 @@ class CategoryController extends Controller
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
 
-            return Redirect::to('/categories/');
+            return Redirect::to('categories');
         }
     }
 
@@ -172,7 +174,7 @@ class CategoryController extends Controller
     public function validator($request)
     {
         return $request->validate([
-            'name'         => ['required']
+            'name' => ['required']
         ]);
     }
 

@@ -18,7 +18,7 @@
       <div class="form-check">
           <input class="form-check-input is-invalid" type="checkbox" id="active" name="active" value="{{ (isset($category->Active) && $category->Active) ? 'true' : 'false'  }}" {{ (isset($category->Active) && $category->Active) ? 'checked' : ''  }}>
           <label class="form-check-label" for="active">
-              Activo
+              Activa
           </label>
     </div>
   </div>
