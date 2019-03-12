@@ -50,4 +50,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('departments/{departmentId}/edit', 'DepartmentController@edit')->name('departments.edit');
 	Route::post('departments/{departmentId}', 'DepartmentController@update')->name('departments.update');
 	Route::get('departments/{departmentId}/delete', 'DepartmentController@destroy')->name('departments.destroy');
+
+	//Categorias
+	Route::get('categories', 'CategoryController@index');
+	Route::get('categories/create', 'CategoryController@create')->name('categories.create');
+	Route::post('categories', 'CategoryController@store')->name('categories.store');
+	Route::get('categories/{departmentId}/edit', 'CategoryController@edit')->name('categories.edit');
+	Route::post('categories/{departmentId}', 'CategoryController@update')->name('categories.update');
+	Route::get('categories/{departmentId}/delete', 'CategoryController@destroy')->name('categories.destroy');
 });
