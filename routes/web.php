@@ -66,4 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('types/{typeId}/edit', 'TypeController@edit')->name('types.edit');
 	Route::post('types/{typeId}', 'TypeController@update')->name('types.update');
 	Route::get('types/{typeId}/delete', 'TypeController@destroy')->name('types.destroy');
+
+	//Colors
+	Route::get('colors', 'ColorController@index');
 });
