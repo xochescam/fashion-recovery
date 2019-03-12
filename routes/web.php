@@ -74,4 +74,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('colors/{colorId}/edit', 'ColorController@edit')->name('colors.edit');
 	Route::post('colors/{colorId}', 'ColorController@update')->name('colors.update');
 	Route::get('colors/{colorId}/delete', 'ColorController@destroy')->name('colors.destroy');
+
+	//Sizes
+	Route::get('sizes', 'SizeController@index');
+	Route::get('sizes/create', 'SizeController@create')->name('sizes.create');
+	Route::post('sizes', 'SizeController@store')->name('sizes.store');
+	Route::get('sizes/{sizeId}/edit', 'SizeController@edit')->name('sizes.edit');
+	Route::post('sizes/{sizeId}', 'SizeController@update')->name('sizes.update');
+	Route::get('sizes/{sizeId}/delete', 'SizeController@destroy')->name('sizes.destroy');
 });
