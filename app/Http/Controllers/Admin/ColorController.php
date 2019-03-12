@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class ColorController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_018';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +21,7 @@ class ColorController extends Controller
      */
     public function index()
     {
-        $colors = DB::table('fashionrecovery.GR_018')
-                    ->get();
+        $colors = DB::table($this->table)->get();
 
         return view('admin.color.list',compact('colors'));
     }
@@ -50,20 +52,19 @@ class ColorController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            $res = DB::table('fashionrecovery.GR_018')
-                    ->insert($data);
+            $res = DB::table($this->table)->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/colors/create');
+            return Redirect::to('colors/create');
 
         } catch (\Exception $ex) {
 
              DB::rollback();
 
              Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-             return Redirect::to('/colors/create');
+             return Redirect::to('colors/create');
         }
     }
 
@@ -86,7 +87,7 @@ class ColorController extends Controller
      */
     public function edit($id)
     {
-        $color = DB::table('fashionrecovery.GR_018')
+        $color = DB::table($this->table)
                     ->where('ColorID',$id)
                     ->first();
 
@@ -110,23 +111,21 @@ class ColorController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_018')
+            DB::table($this->table)
                 ->where('ColorID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
-            return Redirect::to('/colors/'.$id.'/edit');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('colors/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/colors/'.$id.'/edit');
+            return Redirect::to('colors/'.$id.'/edit');
         }
     }
 
@@ -142,21 +141,22 @@ class ColorController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_018" WHERE "ColorID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
+            $deleted = DB::delete('DELETE FROM '.$stringTable.' WHERE "ColorID"='.$id);
 
             DB::commit();
 
-            return Redirect::to('/colors');
+            Session::flash('success','Se ha eliminado correctamente el registro');
+            return Redirect::to('colors');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/colors/');
+            return Redirect::to('colors');
         }
     }
 
@@ -171,7 +171,7 @@ class ColorController extends Controller
     public function validator($request)
     {
         return $request->validate([
-            'name'         => ['required']
+            'name' => ['required']
         ]);
     }
 

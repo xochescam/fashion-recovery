@@ -68,12 +68,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('types/{typeId}/delete', 'Admin\TypeController@destroy')->name('types.destroy');
 
 	//Colors
-	Route::get('colors', 'ColorController@index');
-	Route::get('colors/create', 'ColorController@create')->name('colors.create');
-	Route::post('colors', 'ColorController@store')->name('colors.store');
-	Route::get('colors/{colorId}/edit', 'ColorController@edit')->name('colors.edit');
-	Route::post('colors/{colorId}', 'ColorController@update')->name('colors.update');
-	Route::get('colors/{colorId}/delete', 'ColorController@destroy')->name('colors.destroy');
+	Route::get('colors', 'Admin\ColorController@index');
+	Route::get('colors/create', 'Admin\ColorController@create')->name('colors.create');
+	Route::post('colors', 'Admin\ColorController@store')->name('colors.store');
+	Route::get('colors/{colorId}/edit', 'Admin\ColorController@edit')->name('colors.edit');
+	Route::post('colors/{colorId}', 'Admin\ColorController@update')->name('colors.update');
+	Route::get('colors/{colorId}/delete', 'Admin\ColorController@destroy')->name('colors.destroy');
 
 	//Sizes
 	Route::get('sizes', 'SizeController@index');
