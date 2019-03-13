@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class SizeController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_020';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,10 +21,9 @@ class SizeController extends Controller
      */
     public function index()
     {
-        $sizes = DB::table('fashionrecovery.GR_020')
-                    ->get();
+        $sizes = DB::table($this->table)->get();
 
-        // $sizes = DB::table('fashionrecovery.GR_020')
+        // $sizes = DB::table($this->table)
         //             ->join('fashionrecovery.GR_027', 'GR_020.TypeID', '=', 'GR_027.TypeID')
         //             ->join('fashionrecovery.GR_017', 'GR_020.BrandID', '=', 'GR_017.BrandID')
         //             ->join('fashionrecovery.GR_025', 'GR_020.DepartmentID', '=', 'GR_025.DepartmentID')
@@ -61,20 +63,19 @@ class SizeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            $res = DB::table('fashionrecovery.GR_020')
-                ->insert($data);
+            $res = DB::table($this->table)->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/sizes/create');
+            return Redirect::to('sizes/create');
 
         } catch (\Exception $ex) {
 
              DB::rollback();
 
              Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-             return Redirect::to('/sizes/create');
+             return Redirect::to('sizes/create');
         }
     }
 
@@ -97,14 +98,13 @@ class SizeController extends Controller
      */
     public function edit($id)
     {
-        $size = DB::table('fashionrecovery.GR_020')
+        $size = DB::table($this->table)
                     ->where('SizeID',$id)
                     ->first();
 
         $types       = DB::table('fashionrecovery.GR_027')->get();
         $brands      = DB::table('fashionrecovery.GR_017')->get();
         $departments = DB::table('fashionrecovery.GR_025')->get();
-
 
         return view('admin.size.edit',compact('size','types','brands','departments'));
     }
@@ -126,23 +126,21 @@ class SizeController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_020')
+            DB::table($this->table)
                 ->where('SizeID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
-            return Redirect::to('/sizes/'.$id.'/edit');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('sizes/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/sizes/'.$id.'/edit');
+            return Redirect::to('sizes/'.$id.'/edit');
         }
     }
 
@@ -158,21 +156,22 @@ class SizeController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_020" WHERE "SizeID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "SizeID"='.$id);
 
             DB::commit();
 
-            return Redirect::to('/sizes');
+            Session::flash('success','Se ha eliminado correctamente el registro');
+            return Redirect::to('sizes');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/sizes');
+            return Redirect::to('sizes');
         }
     }
 

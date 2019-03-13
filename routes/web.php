@@ -76,12 +76,12 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('colors/{colorId}/delete', 'Admin\ColorController@destroy')->name('colors.destroy');
 
 	//Sizes
-	Route::get('sizes', 'SizeController@index');
-	Route::get('sizes/create', 'SizeController@create')->name('sizes.create');
-	Route::post('sizes', 'SizeController@store')->name('sizes.store');
-	Route::get('sizes/{sizeId}/edit', 'SizeController@edit')->name('sizes.edit');
-	Route::post('sizes/{sizeId}', 'SizeController@update')->name('sizes.update');
-	Route::get('sizes/{sizeId}/delete', 'SizeController@destroy')->name('sizes.destroy');
+	Route::get('sizes', 'Admin\SizeController@index');
+	Route::get('sizes/create', 'Admin\SizeController@create')->name('sizes.create');
+	Route::post('sizes', 'Admin\SizeController@store')->name('sizes.store');
+	Route::get('sizes/{sizeId}/edit', 'Admin\SizeController@edit')->name('sizes.edit');
+	Route::post('sizes/{sizeId}', 'Admin\SizeController@update')->name('sizes.update');
+	Route::get('sizes/{sizeId}/delete', 'Admin\SizeController@destroy')->name('sizes.destroy');
 
 	//Clothing types
 	Route::get('clothing-types', 'Admin\ClothingTypeController@index');
