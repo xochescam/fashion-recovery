@@ -113,19 +113,19 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return DB::table('fashionrecovery.GR_001')->insert([
-             'email'           => $data['email'],
-             'password'         => Hash::make($data['password']),
-             'Alias'            => $data['alias'],
-             'Name'             => $data['name'],
-             'Lastname'         => $data['last_name'],
-             'Gender'           => $data['gender'],
-             'Birthdate'        => $data['birth_date'],
-             'ProfileID'        => 3,
-             'StatusID'         => 2,
-             'CreatedFromID'    => 3,
-             'CreationDate'     => date("Y-m-d H:i:s"),
-             'Confirmed'        => false,
-             'Notifications'    => isset($data['notifications']) ? true : false
+             'email'         => $data['email'],
+             'password'      => Hash::make($data['password']),
+             'Alias'         => $data['alias'],
+             'Name'          => $data['name'],
+             'Lastname'      => $data['last_name'],
+             'Gender'        => $data['gender'],
+             'Birthdate'     => $data['birth_date'],
+             'ProfileID'     => 3,
+             'StatusID'      => 2,
+             'CreatedFromID' => 3,
+             'CreationDate'  => date("Y-m-d H:i:s"),
+             'Confirmed'     => false,
+             'Notifications' => isset($data['notifications']) ? true : false
         ]);
     }
 
