@@ -141,7 +141,10 @@ class SeasonController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_016" WHERE "SeasonID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
+
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "SeasonID"='.$id);
 
             DB::commit();
 
