@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use DB;
@@ -11,6 +12,8 @@ use Redirect;
 
 class CalendarSaleController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_015';
+
     /**
      * Display a listing of the resource.
      *
@@ -18,7 +21,7 @@ class CalendarSaleController extends Controller
      */
     public function index()
     {
-        $calendarSales = DB::table('fashionrecovery.GR_015')->get();
+        $calendarSales = DB::table($this->table)->get();
 
         return view('admin.calendar-sale.list',compact('calendarSales'));
     }
@@ -49,19 +52,19 @@ class CalendarSaleController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_015')->insert($data);
+            DB::table($this->table)->insert($data);
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('/calendar-sales/create');
+            return Redirect::to('calendar-sales/create');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/calendar-sales/create');
+            return Redirect::to('calendar-sales/create');
         }
     }
 
@@ -84,7 +87,7 @@ class CalendarSaleController extends Controller
      */
     public function edit($id)
     {
-        $calendarSale = DB::table('fashionrecovery.GR_015')
+        $calendarSale = DB::table($this->table)
                             ->where('CalendarSalesID',$id)
                             ->first();
 
@@ -108,23 +111,21 @@ class CalendarSaleController extends Controller
 
             $data = $this->getData($request->toArray());
 
-            DB::table('fashionrecovery.GR_015')
+            DB::table($this->table)
                 ->where('CalendarSalesID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
-
             DB::commit();
 
-            return Redirect::to('/calendar-sales/'.$id.'/edit');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('calendar-sales/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('/calendar-sales/'.$id.'/edit');
+            return Redirect::to('calendar-sales/'.$id.'/edit');
         }
     }
 
@@ -140,13 +141,16 @@ class CalendarSaleController extends Controller
 
         try {
 
-            $deleted = DB::delete('DELETE FROM fashionrecovery."GR_015" WHERE "CalendarSalesID"='.$id);
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
+
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "CalendarSalesID"='.$id);
 
             Session::flash('success','Se ha eliminado correctamente el registro');
 
             DB::commit();
 
-            return Redirect::to('/calendar-sales');
+            return Redirect::to('calendar-sales');
 
         } catch (\Exception $ex) {
 
@@ -154,7 +158,7 @@ class CalendarSaleController extends Controller
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
 
-            return Redirect::to('/calendar-sales/');
+            return Redirect::to('calendar-sales/');
         }
     }
 

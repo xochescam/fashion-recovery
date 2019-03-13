@@ -100,10 +100,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('seasons/{seasonId}/delete', 'Admin\SeasonController@destroy')->name('seasons.destroy');
 
 	//Calendario de ofertas
-	Route::get('calendar-sales', 'CalendarSaleController@index');
-	Route::get('calendar-sales/create', 'CalendarSaleController@create')->name('calendar-sales.create');
-	Route::post('calendar-sales', 'CalendarSaleController@store')->name('calendar-sales.store');
-	Route::get('calendar-sales/{calendarSaleId}/edit', 'CalendarSaleController@edit')->name('calendar-sales.edit');
-	Route::post('calendar-sales/{calendarSaleId}', 'CalendarSaleController@update')->name('calendar-sales.update');
-	Route::get('calendar-sales/{calendarSaleId}/delete', 'CalendarSaleController@destroy')->name('calendar-sales.destroy');
+	Route::get('calendar-sales', 'Admin\CalendarSaleController@index');
+	Route::get('calendar-sales/create', 'Admin\CalendarSaleController@create')->name('calendar-sales.create');
+	Route::post('calendar-sales', 'Admin\CalendarSaleController@store')->name('calendar-sales.store');
+	Route::get('calendar-sales/{calendarSaleId}/edit', 'Admin\CalendarSaleController@edit')->name('calendar-sales.edit');
+	Route::post('calendar-sales/{calendarSaleId}', 'Admin\CalendarSaleController@update')->name('calendar-sales.update');
+	Route::get('calendar-sales/{calendarSaleId}/delete', 'Admin\CalendarSaleController@destroy')->name('calendar-sales.destroy');
 });
