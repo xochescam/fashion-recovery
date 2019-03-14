@@ -21,13 +21,11 @@ class ClothingTypeController extends Controller
      */
     public function index()
     {
-        $clothingTypes = DB::table($this->table)->get();
-
-        // $sizes = DB::table($this->table)
-        //             ->join('fashionrecovery.GR_017', 'GR_019.BrandID', '=', 'GR_017.BrandID')
-        //             ->join('fashionrecovery.GR_025', 'GR_019.DepartmentID', '=', 'GR_025.DepartmentID')
-        //             ->select('GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active',  'GR_027.BrandName', 'GR_017.DepartmentName', 'GR_025.DepName')
-        //            ->get();
+        $clothingTypes = DB::table($this->table)
+                            ->join('fashionrecovery.GR_017', 'GR_019.BrandID', '=', 'GR_017.BrandID')
+                            ->join('fashionrecovery.GR_025', 'GR_019.DepartmentID', '=', 'GR_025.DepartmentID')
+                            ->select('GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active',  'GR_017.BrandName', 'GR_025.DepName')
+                            ->get();
 
         return view('admin.clothing-type.list',compact('clothingTypes'));
     }
@@ -130,14 +128,14 @@ class ClothingTypeController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha modificado correctamente');
-            return Redirect::to('clothing-type/'.$id.'/edit');
+            return Redirect::to('clothing-types/'.$id.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('clothing-type/'.$id.'/edit');
+            return Redirect::to('clothing-types/'.$id.'/edit');
         }
     }
 
@@ -161,14 +159,14 @@ class ClothingTypeController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha eliminado correctamente el registro');
-            return Redirect::to('clothing-type');
+            return Redirect::to('clothing-types');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('clothing-type');
+            return Redirect::to('clothing-types');
         }
     }
 

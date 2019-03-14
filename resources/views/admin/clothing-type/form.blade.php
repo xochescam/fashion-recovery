@@ -5,7 +5,7 @@
 
   <div class="form-group">
     <label for="name">Nombre</label>
-    <input type="text" class="form-control is-invalid" name="name" id="name" value=" {{ isset($color->ColorName) ? $color->ColorName : old('name') }}">
+    <input type="text" class="form-control is-invalid" name="name" id="name" value=" {{ isset($clothingType->ClothingTypeName) ? $clothingType->ClothingTypeName : old('name') }}">
 
     @if ($errors->has('name'))
       <div class="invalid-feedback">
@@ -20,7 +20,7 @@
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($brands as $item)
-          <option value="{{ $item->BrandID }}"  {{ (isset($brand->BrandID) && ($item->BrandID == $brand->BrandID) || old('brandId'))  ? 'selected' : '' }} > {{ $item->BrandName }} </option>
+          <option value="{{ $item->BrandID }}"  {{ (isset($clothingType->BrandID) && ($item->BrandID == $clothingType->BrandID) || old('brandId'))  ? 'selected' : '' }} > {{ $item->BrandName }} </option>
         @endforeach
     </select>
 
@@ -37,7 +37,7 @@
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $item)
-          <option value="{{ $item->DepartmentID }}"  {{ (isset($brand->DepartmentID) && ($item->DepartmentID == $brand->DepartmentID) || old('departmentId'))  ? 'selected' : '' }} > {{ $item->DepName }} </option>
+          <option value="{{ $item->DepartmentID }}"  {{ (isset($clothingType->DepartmentID) && ($item->DepartmentID == $clothingType->DepartmentID) || old('departmentId'))  ? 'selected' : '' }} > {{ $item->DepName }} </option>
         @endforeach
     </select>
 
@@ -50,7 +50,7 @@
 
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input is-invalid" type="checkbox" id="active" name="active" value="{{ (isset($color->Active) && $color->Active) ? 'true' : 'false'  }}" {{ (isset($color->Active) && $color->Active) ? 'checked' : ''  }}>
+      <input class="form-check-input is-invalid" type="checkbox" id="active" name="active" value="{{ (isset($clothingType->Active) && $clothingType->Active) ? 'true' : 'false'  }}" {{ (isset($clothingType->Active) && $clothingType->Active) ? 'checked' : ''  }}>
       <label class="form-check-label" for="active">
               Activo
       </label>

@@ -8,7 +8,7 @@
           <div class="col-md-6 offset-md-3">
             <h2 class="text-center">Modificar tipo de ropa</h2>
 
-            <form method="POST" action="{{ route('clothing-type.update',$clothingType->ClothingTypeID) }}" class="was-validated">
+            <form method="POST" action="{{ route('clothing-types.update',$clothingType->ClothingTypeID) }}" class="was-validated">
               @include('admin.clothing-type.form')
             </form>
           </div>

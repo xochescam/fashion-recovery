@@ -25,9 +25,9 @@
 
 						 	@foreach($clothingTypes as $item)
 						 		<tr>
-								    <th> {{ $item->SizeName }} </th>
-								    <td></td>
-								    <td></td>
+								    <th> {{ $item->ClothingTypeName }} </th>
+								    <td> {{ $item->BrandName }} </td>
+								    <td> {{ $item->DepName }}</td>
 								    <td> {{ $item->Active }} </td>
 								    <td>
 										<a class="btn btn-success btn-sm" href="{{ route('clothing-types.edit',$item->ClothingTypeID) }}" role="button">Modificar</a>
