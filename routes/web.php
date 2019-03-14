@@ -33,7 +33,12 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');
+
+	//Update password
+	Route::view('update-password', 'auth.passwords.update');
+	Route::post('update-password', 'Auth\PasswordController@update');
 
 	//Brands
 	Route::get('brands', 'Admin\BrandController@index');
