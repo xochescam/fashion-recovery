@@ -11,9 +11,12 @@ use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Http\Request;
 
+use App\Mail\ConfirmAccount;
+
 use DB;
 use Session;
 use Redirect;
+use Mail;
 
 class RegisterController extends Controller
 {
@@ -92,6 +95,9 @@ class RegisterController extends Controller
 
             DB::commit();
 
+            Mail::to($user->email)
+                ->send(new ConfirmAccount($user));
+
             return $this->registered($request, $user)
                             ?: redirect($this->redirectPath());
 
@@ -136,5 +142,39 @@ class RegisterController extends Controller
                   ->first();
 
         return $user === null ? false : true;
+    }
+
+    protected function confirmAccount($userId) {
+
+        $table = 'fashionrecovery.GR_001';
+        $user  = DB::table($table)->where('id',$userId)->first();
+
+        if($user->Confirmed) {
+            abort(403);
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            DB::table($table)
+                ->where('id',$userId)
+                ->update(['Confirmed' => true]);
+
+            Mail::to($user->email)
+                ->send(new ConfirmAccount($user));
+
+            DB::commit();
+
+            Session::flash('success','Se ha confirmado exitosamente la cuenta');
+            return Redirect::to('/login');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('/login');
+        }
     }
 }

@@ -12,7 +12,6 @@
 */
 
 Route::get('/', function () {
-	//Auth::logout();
     return view('home');
 });
 
@@ -28,6 +27,10 @@ Route::view('terms', 'footer.terms');
 Route::view('privacy', 'footer.privacy');
 Route::view('return-policy', 'footer.return-policy');
 Route::view('about', 'footer.about');
+
+//Route::view('confirm-account', 'emails.account.confirm');
+
+Route::get('confirm-account/{userID}', 'Auth\RegisterController@confirmAccount');
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 

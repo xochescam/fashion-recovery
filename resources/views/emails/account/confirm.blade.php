@@ -16,7 +16,7 @@
 	                    </p>
 
 	                    <div style="margin:50px;text-align:center;margin-top: 0px;">
-	                        <a href="#" target="_blank" style="background-color: #009c77;
+	                        <a href=" {{ url('confirm-account',$UserID) }} " target="_blank" style="background-color: #009c77;
     color: #fff;display: inline-block;font: 400 14px/1 &quot;Open Sans&quot;, sans-serif;font-size: 0.875rem;padding: 1em 1.3em; transition: background-color 200ms ease-out;text-decoration: none;cursor: pointer;">
 								Confirmar
 							</a>
