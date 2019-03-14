@@ -8,7 +8,7 @@
 	                <td width="700" valign="top">
 
 	                    <p style="color: #444; font: 300 15px sans-serif; line-height: 1.6em; margin: 1.5em 0 1.5em; padding: 0; text-align: center;">
-	                        Hola, {{ $name }}
+	                        ¡Hola, {{ $name }}!
 	                    </p>
 
 	                    <p style="color: #444;font: 16px sans-serif;margin: 20px;text-align: center;font-weight: bold;    margin-bottom: 40px;">

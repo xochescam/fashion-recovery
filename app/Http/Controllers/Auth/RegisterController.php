@@ -91,13 +91,16 @@ class RegisterController extends Controller
 
             event(new Registered($user = $this->create($request->all())));
 
-            Session::flash('success','Se ha registrado correctamente');
-
-            DB::commit();
+            $user = DB::table('fashionrecovery.GR_001')
+                        ->where('email',$request->email)
+                        ->first();
 
             Mail::to($user->email)
                 ->send(new ConfirmAccount($user));
 
+             DB::commit();
+
+            Session::flash('success','Se ha registrado correctamente');
             return $this->registered($request, $user)
                             ?: redirect($this->redirectPath());
 
@@ -126,8 +129,8 @@ class RegisterController extends Controller
              'Lastname'      => $data['last_name'],
              'Gender'        => $data['gender'],
              'Birthdate'     => $data['birth_date'],
-             'ProfileID'     => 3,
-             'StatusID'      => 2,
+             'ProfileID'     => 1,
+             'StatusID'      => 1,
              'CreatedFromID' => 3,
              'CreationDate'  => date("Y-m-d H:i:s"),
              'Confirmed'     => false,
@@ -166,7 +169,7 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha confirmado exitosamente la cuenta');
+            Session::flash('success','Se ha confirmado la cuenta exitosamente');
             return Redirect::to('/login');
 
         } catch (\Exception $ex) {
