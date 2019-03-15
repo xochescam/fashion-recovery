@@ -21,14 +21,12 @@ class SizeController extends Controller
      */
     public function index()
     {
-        $sizes = DB::table($this->table)->get();
-
-        // $sizes = DB::table($this->table)
-        //             ->join('fashionrecovery.GR_027', 'GR_020.TypeID', '=', 'GR_027.TypeID')
-        //             ->join('fashionrecovery.GR_017', 'GR_020.BrandID', '=', 'GR_017.BrandID')
-        //             ->join('fashionrecovery.GR_025', 'GR_020.DepartmentID', '=', 'GR_025.DepartmentID')
-        //             ->select('GR_020.SizeID','GR_020.SizeName', 'GR_020.Active',  'GR_027.TypeName', 'GR_017.BrandName', 'GR_025.DepName')
-        //            ->get();
+        $sizes = DB::table($this->table)
+                    ->join('fashionrecovery.GR_019', 'GR_020.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
+                    ->join('fashionrecovery.GR_017', 'GR_020.BrandID', '=', 'GR_017.BrandID')
+                    ->join('fashionrecovery.GR_025', 'GR_020.DepartmentID', '=', 'GR_025.DepartmentID')
+                    ->select('GR_020.SizeID','GR_020.SizeName', 'GR_020.Active',  'GR_019.ClothingTypeName', 'GR_017.BrandName', 'GR_025.DepName')
+                    ->get();
 
         return view('admin.size.list',compact('sizes'));
     }
@@ -40,11 +38,11 @@ class SizeController extends Controller
      */
     public function create()
     {
-        $types       = DB::table('fashionrecovery.GR_027')->get();
-        $brands      = DB::table('fashionrecovery.GR_017')->get();
-        $departments = DB::table('fashionrecovery.GR_025')->get();
+        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
+        $brands        = DB::table('fashionrecovery.GR_017')->get();
+        $departments   = DB::table('fashionrecovery.GR_025')->get();
 
-        return view('admin.size.create',compact('types','brands','departments'));
+        return view('admin.size.create',compact('clothingTypes','brands','departments'));
     }
 
     /**
@@ -102,11 +100,13 @@ class SizeController extends Controller
                     ->where('SizeID',$id)
                     ->first();
 
-        $types       = DB::table('fashionrecovery.GR_027')->get();
-        $brands      = DB::table('fashionrecovery.GR_017')->get();
-        $departments = DB::table('fashionrecovery.GR_025')->get();
+        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
+        $brands        = DB::table('fashionrecovery.GR_017')->get();
+        $departments   = DB::table('fashionrecovery.GR_025')->get();
 
-        return view('admin.size.edit',compact('size','types','brands','departments'));
+
+
+        return view('admin.size.edit',compact('size','clothingTypes','brands','departments'));
     }
 
     /**
@@ -118,11 +118,11 @@ class SizeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validator($request);
+        //$this->validator($request);
 
-        DB::beginTransaction();
+        //DB::beginTransaction();
 
-        try {
+        //try {
 
             $data = $this->getData($request->toArray());
 
@@ -130,18 +130,19 @@ class SizeController extends Controller
                 ->where('SizeID',$id)
                 ->update($data);
 
-            DB::commit();
+            //DB::commit();
 
             Session::flash('success','Se ha modificado correctamente');
             return Redirect::to('sizes/'.$id.'/edit');
 
-        } catch (\Exception $ex) {
+        //} catch (\Exception $ex) {
 
-            DB::rollback();
+            //DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('sizes/'.$id.'/edit');
-        }
+            //Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+
+            //return Redirect::to('sizes/'.$id.'/edit');
+        //}
     }
 
     /**
@@ -186,11 +187,11 @@ class SizeController extends Controller
     public function validator($request)
     {
         return $request->validate([
-            'name'       => ['required'],
-            //'typeId'       => ['required'],
-            //'brandId'      => ['required'],
-            //'departmentId' => ['required'],
-            'active'     => ['required']
+            'name'           => ['required'],
+            'clothingTypeId' => ['required'],
+            'brandId'        => ['required'],
+            'departmentId'   => ['required'],
+            'active'         => ['required']
         ]);
     }
 
@@ -198,13 +199,13 @@ class SizeController extends Controller
     public function getData($data) {
 
         return [
-                'SizeName'          => $data['name'],
-                // 'ClothingTypeID' => $data['typeId'],
-                // 'BrandID'        => $data['brandId'],
-                // 'DepartmentID'   => $data['departmentId'],
-                'Active'            => isset($data['active']) ? true : false,
-                'CreationDate'      => date("Y-m-d H:i:s"),
-                'CreatedBy'         => Auth::User()->id
+                'SizeName'       => $data['name'],
+                'ClothingTypeID' => $data['clothingTypeId'],
+                'BrandID'        => $data['brandId'],
+                'DepartmentID'   => $data['departmentId'],
+                'Active'         => isset($data['active']) ? true : false,
+                'CreationDate'   => date("Y-m-d H:i:s"),
+                'CreatedBy'      => Auth::User()->id
         ];
     }
 }

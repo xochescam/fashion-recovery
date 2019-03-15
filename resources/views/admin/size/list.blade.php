@@ -18,22 +18,22 @@
 							    <th scope="col">Tipo</th>
 							    <th scope="col">Marca</th>
 							    <th scope="col">Departamento</th>
-							    <th scope="col">Activa</th>
+							    <th scope="col">Activo</th>
 							    <th scope="col"></th>
 						    </tr>
 						  </thead>
 						 <tbody>
 
-						 	@foreach($sizes as $type)
+						 	@foreach($sizes as $item)
 						 		<tr>
-								    <th> {{ $size->SizeName }} </th>
-								    <td></td>
-								    <td></td>
-								    <td></td>
-								    <td> {{ $size->Active }} </td>
+								    <th> {{ $item->SizeName }} </th>
+								    <td> {{ $item->ClothingTypeName }} </td>
+								    <td> {{ $item->BrandName }} </td>
+								    <td> {{ $item->DepName }} </td>
+								    <td> {{ $item->Active }} </td>
 								    <td>
-										<a class="btn btn-success btn-sm" href="{{ route('sizes.edit',$size->SizeID) }}" role="button">Modificar</a>
-										<a class="btn btn-danger btn-sm" href="{{ route('sizes.destroy',$size->SizeID) }}" role="button">Eliminar</a>
+										<a class="btn btn-success btn-sm" href="{{ route('sizes.edit',$item->SizeID) }}" role="button">Modificar</a>
+										<a class="btn btn-danger btn-sm" href="{{ route('sizes.destroy',$item->SizeID) }}" role="button">Eliminar</a>
 								    </td>
 							    </tr>
 						 	@endforeach
