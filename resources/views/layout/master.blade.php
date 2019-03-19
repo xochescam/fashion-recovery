@@ -18,9 +18,8 @@
   <body>
 
     @include('layout.header')
-    @include('layout.partials.main')
 
-    @yield('content')
+        @yield('content')
 
     @include('layout.footer')
 
