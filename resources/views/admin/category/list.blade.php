@@ -8,7 +8,11 @@
 	        	<div class="col-12">
 	          		<h2 class="text-center TituloFR my-4">Categorías</h2>
 
-						@include('alerts.success')
+					<div class="w-auto float-right mb-4">
+						<a class="btn btn-success" href="{{ url('categories/create') }}" role="button">Crear</a>
+					</div>
+
+					@include('alerts.success')
   					@include('alerts.warning')
 
 					<table class="table table-striped">

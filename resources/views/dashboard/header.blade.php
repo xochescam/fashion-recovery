@@ -5,79 +5,21 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <a class="navbar-brand" href="#">Panel de administración</a>
+      <a class="navbar-brand" href="{{ url('dashboard') }}">Panel de administración</a>
       <ul class="navbar-nav">
 
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Departamentos</a>
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catálogos</a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('departments') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('departments/create') }}">Crear</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Marcas</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('brands') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('brands/create') }}">Crear</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Categorías</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('categories') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('categories/create') }}">Crear</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tipos</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('types') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('types/create') }}">Crear</a>
-          </div>
-        </li>
-
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Colores</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('colors') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('colors/create') }}">Crear</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tamaños</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('sizes') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('sizes/create') }}">Crear</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tipo de ropa</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('clothing-types') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('clothing-types/create') }}">Crear</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Temporadas</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('seasons') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('seasons/create') }}">Crear</a>
-          </div>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Calendario</a>
-          <div class="dropdown-menu">
-            <a class="dropdown-item" href="{{ url('calendar-sales') }}">Lista</a>
-            <a class="dropdown-item" href="{{ url('calendar-sales/create') }}">Crear</a>
+            <a class="dropdown-item" href="{{ url('departments') }}">Departamentos</a>
+            <a class="dropdown-item" href="{{ url('brands') }}">Marcas</a>
+            <a class="dropdown-item" href="{{ url('categories') }}">Categorias</a>
+            <a class="dropdown-item" href="{{ url('types') }}">Tipos</a>
+            <a class="dropdown-item" href="{{ url('colors') }}">Colores</a>
+            <a class="dropdown-item" href="{{ url('sizes') }}">Tamaños</a>
+            <a class="dropdown-item" href="{{ url('clothing-types') }}">Tipos de ropa</a>
+            <a class="dropdown-item" href="{{ url('seasons') }}">Temporadas</a>
+            <a class="dropdown-item" href="{{ url('calendar-sales') }}">Calendario de ofertas</a>
           </div>
         </li>
       </ul>

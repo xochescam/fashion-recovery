@@ -8,6 +8,10 @@
 	        	<div class="col-12">
 	          		<h2 class="text-center TituloFR my-4">Colores</h2>
 
+					<div class="w-auto float-right mb-4">
+						<a class="btn btn-success" href="{{ url('colors/create') }}" role="button">Crear</a>
+					</div>
+
 					@include('alerts.success')
   					@include('alerts.warning')
 
