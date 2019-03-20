@@ -28,9 +28,10 @@ Route::view('privacy', 'footer.privacy');
 Route::view('return-policy', 'footer.return-policy');
 Route::view('about', 'footer.about');
 
-//Route::view('confirm-account', 'emails.account.confirm');
-
 Route::get('confirm-account/{userID}', 'Auth\RegisterController@confirmAccount');
+
+Route::get('register/seller', 'SellerController@create');
+Route::post('register/seller', 'SellerController@store');
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
