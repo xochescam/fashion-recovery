@@ -14,7 +14,7 @@
       </form>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{ url('') }}">¿Quieres Vender?</a>
+          <a class="nav-link" href="{{ Auth::User() !== null ? url('register/seller') : url('register') }}">¿Quieres Vender?</a>
         </li>
 
         <li class="nav-item dropdown">
@@ -36,9 +36,6 @@
         <li class="nav-item active">
           <a class="nav-link" href="{{ url('login') }}">Iniciar Sesión</a>
         </li>
-{{--         <li class="nav-item active">
-          <a class="nav-link" href="{{ url('register') }}">Registrate</a>
-        </li> --}}
       </ul>
     </div>
   </div>
