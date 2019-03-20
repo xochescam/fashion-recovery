@@ -19,7 +19,7 @@
 
     @include('dashboard.header')
 
-        @yield('content')
+    @yield('content')
 
 
     <!-- Optional JavaScript -->
