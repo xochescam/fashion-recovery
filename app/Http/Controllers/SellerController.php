@@ -11,6 +11,7 @@ use Auth;
 
 class SellerController extends Controller
 {
+    protected $table = 'fashionrecovery.GR_033';
 
     /**
      * Display a listing of the resource.
@@ -48,19 +49,22 @@ class SellerController extends Controller
 
             $data = $this->sellerData($request->toArray());
 
-            DB::table('fashionrecovery.GR_033')->insert($data);
+            DB::table($this->table)->insert($data);
+
+            $this->saveID($request->toArray());
+            $this->saveSelfie($request->toArray());
 
             DB::commit();
 
             Session::flash('success','Se ha registrado correctamente');
-            return Redirect::to('register/seller');
+            return Redirect::to('seller');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('register/seller');
+            Session::flash('warning','Ha ocurrido un error');
+            return Redirect::to('seller');
         }
     }
 
@@ -83,7 +87,11 @@ class SellerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $seller = DB::table($this->table)
+                    ->where('SellerID',$id)
+                    ->first();
+
+        return view('seller.edit',compact('seller'));
     }
 
     /**
@@ -95,7 +103,33 @@ class SellerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validator($request);
+
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->sellerData($request->toArray());
+
+            DB::table($this->table)
+                ->where('SellerID',$id)
+                ->update($data);
+
+            $this->saveID($request->toArray());
+            $this->saveSelfie($request->toArray());
+
+            DB::commit();
+
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('seller/'.$id.'/edit');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('seller/'.$id.'/edit');
+        }
     }
 
     /**
@@ -116,15 +150,12 @@ class SellerController extends Controller
      * @return \Illuminate\Http\Response
      */
     protected function saveID($data) {
-
         $date         = date("Y-m-d H:i:s");
-        $originalName = $data['IdentityDocumentPath']->getClientOriginalName();
-        $ext          = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-        $IDName       = "sellers/".Auth::User()->id.'/'.Auth::User()->id.'_ID.'.$ext;
+        $IDName       = "sellers/".Auth::User()->id.'/'.Auth::User()->id.'_ID.jpg';
 
         \Storage::disk('public')->put($IDName,  \File::get($data['IdentityDocumentPath']));
 
-        return $IDName;
+        return true;
     }
 
     /* Save ID document to disk.
@@ -135,13 +166,11 @@ class SellerController extends Controller
     protected function saveSelfie($data) {
 
         $date         = date("Y-m-d H:i:s");
-        $originalName = $data['SelfiePath']->getClientOriginalName();
-        $ext          = strtolower(pathinfo($originalName, PATHINFO_EXTENSION));
-        $selfieName   = "sellers/".Auth::User()->id.'/'.Auth::User()->id.'_selfie.'.$ext;
+        $selfieName   = "sellers/".Auth::User()->id.'/'.Auth::User()->id.'_selfie.jpg';
 
         \Storage::disk('public')->put($selfieName,  \File::get($data['SelfiePath']));
 
-        return $selfieName;
+        return true;
     }
 
 
@@ -165,8 +194,10 @@ class SellerController extends Controller
 
     protected function sellerData($data) {
 
+        $userId = Auth::User()->id;
+
         return [
-             'UserID'               => Auth::User()->id,
+             'UserID'               => $userId,
              'SellerSince'          => date("Y-m-d H:i:s"),
              'Greeting'             => $data['Greeting'],
              'AboutMe'              => $data['AboutMe'],
@@ -179,9 +210,9 @@ class SellerController extends Controller
              'VerifiedByFR'         => false,
              'Ranking'              => 0,
              'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false,
-             'IdentityDocumentPath' => $this->saveID($data),
+             'IdentityDocumentPath' => 'sellers/'. $userId.'/'.$userId.'_ID.jpg',
              'Selfie'               => isset($data['SelfiePath']) ? true : false,
-             'SelfiePath'           => $this->saveSelfie($data),
+             'SelfiePath'           => 'sellers/'. $userId.'/'.$userId.'_selfie.jpg',
              'VerifiedEmail'        => false,
              'VerifiedPhone'        => false //Phone ?
         ];

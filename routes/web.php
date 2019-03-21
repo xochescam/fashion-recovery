@@ -30,12 +30,15 @@ Route::view('about', 'footer.about');
 
 Route::get('confirm-account/{userID}', 'Auth\RegisterController@confirmAccount');
 
-Route::get('register/seller', 'SellerController@create');
-Route::post('register/seller', 'SellerController@store');
-
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
+
+	Route::get('seller', 'SellerController@create');
+	Route::post('seller', 'SellerController@store');
+
+	Route::get('seller/{sellerId}/edit', 'SellerController@edit');
+	Route::post('seller/{sellerId}', 'SellerController@update');
 
 	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');
