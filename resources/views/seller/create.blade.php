@@ -8,7 +8,7 @@
           <div class="col-md-8 offset-md-2">
             <h2 class="text-center">Registro de vendedor</h2>
 
-            <form method="POST" action="{{ url('register/seller') }}" class="was-validated" enctype="multipart/form-data">
+            <form method="POST" action="{{ url('seller') }}" class="was-validated" enctype="multipart/form-data">
               @include('seller.form')
             </form>
           </div>
