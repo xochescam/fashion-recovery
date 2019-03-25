@@ -9,7 +9,7 @@
         </div>
         <div class="row justify-content-around shadow-lg p-3 mb-5 bg-white rounded mx-md-5">
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4" >
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/zapatillas.jpeg') }}" alt="Card image cap">
               <div class="card-body">
                 <div class="badges float-right">
@@ -26,7 +26,7 @@
           </div>
 
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/blusa.jpeg') }}" alt="Card image cap">
               <div class="card-body">
                 <div class="badges float-right">
@@ -43,7 +43,7 @@
           </div>
 
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/blazer.jpeg') }}" alt="Card image cap">
               <div class="card-body">
                 <div class="badges float-right">
@@ -60,7 +60,7 @@
           </div>
 
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/cinturon.png') }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
@@ -77,7 +77,7 @@
           </div>
 
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/pantalon.png') }}" alt="Card image cap" height="200px;" >
               <div class="card-body">
                 <div class="badges float-right">
@@ -94,7 +94,7 @@
           </div>
 
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/bermuda.png') }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
@@ -111,7 +111,7 @@
           </div>
 
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/camiseta.png') }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
@@ -128,7 +128,7 @@
           </div>
 
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-            <div class="card shadow p-3 mb-5 bg-white rounded">
+            <div class="card card--public shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
