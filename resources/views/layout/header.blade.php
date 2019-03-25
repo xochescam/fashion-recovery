@@ -14,7 +14,7 @@
       </form>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{ Auth::User() !== null ? url('register/seller') : url('register') }}">¿Quieres Vender?</a>
+          <a class="nav-link" href="{{ Auth::User() !== null ? url('seller') : url('register') }}">¿Quieres Vender?</a>
         </li>
 
         <li class="nav-item dropdown">

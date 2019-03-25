@@ -30,6 +30,10 @@ class SellerController extends Controller
      */
     public function create()
     {
+        if(!Auth::User()->isBuyerProfile()) {
+            abort(403);
+        }
+
         return view('seller.create');
     }
 
@@ -51,13 +55,17 @@ class SellerController extends Controller
 
             DB::table($this->table)->insert($data);
 
+            DB::table('fashionrecovery.GR_001')
+                ->where('id',Auth::User()->id)
+                ->update(['ProfileID' => 2]);
+
             $this->saveID($request->toArray());
             $this->saveSelfie($request->toArray());
 
             DB::commit();
 
             Session::flash('success','Se ha registrado correctamente');
-            return Redirect::to('seller');
+            return Redirect::to('seller'); //cambiar
 
         } catch (\Exception $ex) {
 
@@ -78,6 +86,7 @@ class SellerController extends Controller
     {
         //
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -209,10 +218,10 @@ class SellerController extends Controller
              'Ranking'              => 0,
              'VerifiedByFR'         => false,
              'Ranking'              => 0,
-             'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false,
-             'IdentityDocumentPath' => 'sellers/'. $userId.'/'.$userId.'_ID.jpg',
+             'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false, //save thumbs
+             'IdentityDocumentPath' => 'storage/sellers/'. $userId.'/'.$userId.'_ID.jpg',
              'Selfie'               => isset($data['SelfiePath']) ? true : false,
-             'SelfiePath'           => 'sellers/'. $userId.'/'.$userId.'_selfie.jpg',
+             'SelfiePath'           => 'storage/sellers/'. $userId.'/'.$userId.'_selfie.jpg',
              'VerifiedEmail'        => false,
              'VerifiedPhone'        => false //Phone ?
         ];
