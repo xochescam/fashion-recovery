@@ -39,7 +39,7 @@
 
         @if(Auth::User()->ProfileID == 1)
           <li class="nav-item">
-            <a class="nav-link" href="{{ url('/register/seller') }}">¿Quieres Vender?</a>
+            <a class="nav-link" href="{{ url('seller') }}">¿Quieres Vender?</a>
           </li>
         @endif
 
@@ -49,7 +49,7 @@
           </a>
 
           <div class="dropdown-menu  btn-fr" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url('data') }}">Mis Datos</a>
+            <a class="dropdown-item" href="{{ url('auth',Auth::User()->id) }}">Mis Datos</a>
             <a class="dropdown-item" href="{{ url('') }}">Mis Preferencias</a>
             <a class="dropdown-item" href="{{ url('') }}">Whish List</a>
             <a class="dropdown-item" href="{{ url('') }}">Mis Pedidos</a>
