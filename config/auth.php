@@ -65,14 +65,9 @@ return [
     */
 
     'providers' => [
-        // 'users' => [
-        //     'driver' => 'eloquent',
-        //     'model' => App\User::class,
-        // ],
-
         'users' => [
-            'driver' => 'database',
-            'table' => 'fashionrecovery.GR_001',
+             'driver' => 'eloquent',
+             'model' => App\User::class,
         ],
     ],
 
