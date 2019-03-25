@@ -17,9 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-//prov
-Route::view('data', 'data');
-
 //footer
 Route::view('support', 'footer.support');
 Route::view('faq', 'footer.faq');
@@ -34,14 +31,23 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//Dashboard
+	Route::get('dashboard', 'DashboardController@index');
+
+	//Auth user
+	Route::get('auth/{authId}/edit', 'AuthController@edit');
+	Route::post('auth/{authId}', 'AuthController@update');
+	Route::get('auth/{authId}', 'AuthController@show');
+
+	//Seller
 	Route::get('seller', 'SellerController@create');
 	Route::post('seller', 'SellerController@store');
-
 	Route::get('seller/{sellerId}/edit', 'SellerController@edit');
 	Route::post('seller/{sellerId}', 'SellerController@update');
 
-	//Dashboard
-	Route::get('dashboard', 'DashboardController@index');
+	//Item
+	Route::get('item', 'ItemController@create');
+	Route::post('item', 'ItemController@store');
 
 	//Update password
 	Route::view('update-password', 'auth.passwords.update');
