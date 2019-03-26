@@ -46,7 +46,7 @@
 
                 <div class="card-body">
                   <div class="w-auto float-right mb-4">
-                    <a class="btn btn-success" href="{{ url('seller',$seller->SellerID,'edit') }}" role="button">Modificar datos</a>
+                    <a class="btn btn-success" href="{{ url('seller/'.$seller->SellerID.'/edit') }}" role="button">Modificar datos</a>
                   </div>
 
                   <h5 class="card-title">Saludo:</h5>
