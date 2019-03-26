@@ -52,22 +52,19 @@ class AuthController extends Controller
      */
     public function show($id)
     {
-        $user = Auth::User();
-        $seller = null;
-        $creationDateUser = '';
-        $birthDateUser    = '';
+        $user             = Auth::User();
+        $seller           = null;
         $sellerSince      = '';
+        $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
+        $birthDateUser    = $this->formatDate("d F Y", $user->Birthdate);
 
         if($user->ProfileID == 2) {
             $seller = DB::table('fashionrecovery.GR_033')
                         ->where('UserID',$id)
                         ->first();
 
-            $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
-            $birthDateUser    = $this->formatDate("d F Y", $user->Birthdate);
-            $sellerSince      = $this->formatDate("d F Y", $seller->SellerSince);
+            $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
         }
-
 
         return view('auth.show',compact('seller','creationDateUser','birthDateUser','sellerSince'));
     }
