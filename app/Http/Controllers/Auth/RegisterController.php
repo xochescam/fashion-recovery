@@ -65,7 +65,7 @@ class RegisterController extends Controller
             'password'        => ['required', 'min:6'],
             'alias'           => ['required','max:30'],
             'gender'          => ['required'],
-            'birth_date'      => ['required', 'date'],
+            'birth_date'      => ['required', 'date','before:'.date("Y-m-d")],
         ]);
     }
 
