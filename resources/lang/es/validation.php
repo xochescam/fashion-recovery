@@ -180,5 +180,15 @@ return [
         'birth_date'            => 'fecha de nacimiento',
         'notifications'         => 'notificaciones',
         'departmentId'          => 'departamento',
+        'current_password'      => 'contraseña actual',
+        'password_confirmation' => 'confirmar nueva contraseña',
+        'Greeting'              => 'saludo',
+        'AboutMe'               => 'acerca de mi',
+        'LiveIn'                => 'lugar de residencia',
+        'WorkIn'                => 'lugar de trabajo',
+        'Phone'                 => 'teléfono',
+        'IdentityDocumentPath'  => 'documento de identificación',
+        'SelfiePath'            => 'foto de perfil',
+
     ],
 ];
