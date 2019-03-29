@@ -46,8 +46,18 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('seller/{sellerId}', 'SellerController@update');
 
 	//Item
+	Route::get('items', 'ItemController@index');
 	Route::get('item', 'ItemController@create');
 	Route::post('item', 'ItemController@store');
+
+	//Closet
+	Route::get('closets', 'ClosetController@index');
+	Route::get('closet', 'ClosetController@create');
+	Route::post('closet', 'ClosetController@store');
+	Route::get('closet/{closetId}', 'ClosetController@show')->name('closet.show');
+	Route::get('closet/{closetId}/edit', 'ClosetController@edit')->name('closet.edit');
+	Route::post('closet/{closetId}', 'ClosetController@update')->name('closet.update');
+	Route::get('closet/{closetId}/delete', 'ClosetController@destroy')->name('closet.destroy');
 
 	//Update password
 	Route::view('update-password', 'auth.passwords.update');
