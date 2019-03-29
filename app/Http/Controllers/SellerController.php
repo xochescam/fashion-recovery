@@ -65,7 +65,7 @@ class SellerController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha registrado correctamente');
-            return Redirect::to('seller'); //cambiar
+            return Redirect::to('auth',Auth::User()->id); //cambiar
 
         } catch (\Exception $ex) {
 
@@ -194,6 +194,7 @@ class SellerController extends Controller
         $request->validate([
             'Greeting'             => ['required','max:50'],
             'AboutMe'              => ['required','max:256'],
+            'Phone'                => ['required','numeric'],
             'LiveIn'               => ['required','max:35'],
             'WorkIn'               => ['required','max:35'],
             'IdentityDocumentPath' => ['required','mimes:jpg,jpeg,png'],
@@ -212,6 +213,7 @@ class SellerController extends Controller
              'AboutMe'              => $data['AboutMe'],
              'LiveIn'               => $data['LiveIn'],
              'WorkIn'               => $data['WorkIn'],
+             'Phone'                => $data['Phone'],
              'TotalEvaluations'     => 0,
              'ItemsSold'            => 0,
              'ItemsReturned'        => 0,

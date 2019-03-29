@@ -133,7 +133,7 @@ class AuthController extends Controller
             //DB::commit();
 
             Session::flash('success','Se ha modificado correctamente');
-            return Redirect::to('seller/'.$id);
+            return Redirect::to('auth/'.$id);
 
         //} catch (\Exception $ex) {
 

@@ -25,8 +25,7 @@
   @endif
 </div>
 
-<div class="form-row">
-  <div class="form-group col-md-6">
+  <div class="form-group">
     <label for="LiveIn">Lugar de residencia</label>
     <input type="text" class="form-control is-invalid" name="LiveIn" id="LiveIn" value="{{ isset($seller->LiveIn) ? $seller->LiveIn : old('LiveIn') }}">
 
@@ -37,7 +36,7 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6">
+  <div class="form-group">
     <label for="WorkIn">Lugar de trabajo</label>
     <input type="text" class="form-control is-invalid" name="WorkIn" id="WorkIn" value="{{ isset($seller->WorkIn) ? $seller->WorkIn : old('WorkIn') }}">
 
@@ -47,10 +46,20 @@
       </div>
     @endif
   </div>
-</div>
+
+  <div class="form-group">
+    <label for="Phone">Teléfono</label>
+    <input type="tel" name="Phone" id="Phone" class="form-control is-invalid" maxlength="10" value="{{ isset($seller->Phone) ? $seller->Phone : old('Phone') }}"></input>
+
+    @if ($errors->has('Phone'))
+      <div class="invalid-feedback">
+        {{ $errors->first('Phone') }}
+      </div>
+    @endif
+  </div>
+
 
 <div class="form-row">
-
   <div class="form-group col-md-6">
     <label>Documento de identificación</label>
 
