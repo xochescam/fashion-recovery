@@ -8,7 +8,7 @@
     <label>Fotos de la prenda</label>
 
     <div class="custom-file">
-      <input type="file" class="custom-file-input is-invalid" id="PicturesUploaded" name="PicturesUploaded" lang="es">
+      <input type="file" class="custom-file-input is-invalid" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple>
       <label class="custom-file-label" for="PicturesUploaded">
         {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
       </label>
