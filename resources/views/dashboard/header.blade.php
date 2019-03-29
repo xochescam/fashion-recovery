@@ -50,13 +50,13 @@
 
           <div class="dropdown-menu  btn-fr" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="{{ url('auth',Auth::User()->id) }}">Mis Datos</a>
-            <a class="dropdown-item" href="{{ url('') }}">Mis Preferencias</a>
-            <a class="dropdown-item" href="{{ url('') }}">Whish List</a>
-            <a class="dropdown-item" href="{{ url('') }}">Mis Pedidos</a>
+            <a class="dropdown-item" href="{{ url('#') }}">Mis Preferencias</a>
+            <a class="dropdown-item" href="{{ url('#') }}">Whish List</a>
+            <a class="dropdown-item" href="{{ url('#') }}">Mis Pedidos</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('') }}">Mi Guardarropa</a>
+            <a class="dropdown-item" href="{{ url('#') }}">Mi Guardarropa</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('') }}">Administración</a>
+            <a class="dropdown-item" href="{{ url('#') }}">Administración</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="{{ url('update-password') }}">Cambiar contraseña</a>
             <a class="dropdown-item" href="{{ route('logout') }}">Cerrar sesión</a>
