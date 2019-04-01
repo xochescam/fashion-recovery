@@ -24,6 +24,9 @@ body{
   color:white;
 }
 
+.green-color {
+  color: #009c77;
+}
 
 #main .carousel-inner img{
   max-height: 70vh;

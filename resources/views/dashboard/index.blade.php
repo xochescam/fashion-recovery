@@ -6,8 +6,7 @@
 	    <div class="container py-5">
 	      	<div class="row">
 	        	<div class="col-12">
-	          		<h1 class="text-left TituloFR my-4">Panel de administración</h1>
-
+	        		
 					<div class="row">
 					  <div class="col-sm-6">
 					    <div class="card">

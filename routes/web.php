@@ -64,74 +64,74 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('update-password', 'Auth\PasswordController@update');
 
 	//Brands
-	Route::get('brands', 'Admin\BrandController@index');
-	Route::get('brands/create', 'Admin\BrandController@create')->name('brands.create');
-	Route::post('brands', 'Admin\BrandController@store')->name('brands.store');
-	Route::get('brands/{brandId}/edit', 'Admin\BrandController@edit')->name('brands.edit');
-	Route::post('brands/{brandId}', 'Admin\BrandController@update')->name('brands.update');
-	Route::get('brands/{brandId}/delete', 'Admin\BrandController@destroy')->name('brands.destroy');
+	Route::get('brands', 'Catalogs\BrandController@index');
+	Route::get('brands/create', 'Catalogs\BrandController@create')->name('brands.create');
+	Route::post('brands', 'Catalogs\BrandController@store')->name('brands.store');
+	Route::get('brands/{brandId}/edit', 'Catalogs\BrandController@edit')->name('brands.edit');
+	Route::post('brands/{brandId}', 'Catalogs\BrandController@update')->name('brands.update');
+	Route::get('brands/{brandId}/delete', 'Catalogs\BrandController@destroy')->name('brands.destroy');
 
 	//Departments
-	Route::get('departments', 'Admin\DepartmentController@index');
-	Route::get('departments/create', 'Admin\DepartmentController@create')->name('departments.create');
-	Route::post('departments', 'Admin\DepartmentController@store')->name('departments.store');
-	Route::get('departments/{departmentId}/edit', 'Admin\DepartmentController@edit')->name('departments.edit');
-	Route::post('departments/{departmentId}', 'Admin\DepartmentController@update')->name('departments.update');
-	Route::get('departments/{departmentId}/delete', 'Admin\DepartmentController@destroy')->name('departments.destroy');
+	Route::get('departments', 'Catalogs\DepartmentController@index');
+	Route::get('departments/create', 'Catalogs\DepartmentController@create')->name('departments.create');
+	Route::post('departments', 'Catalogs\DepartmentController@store')->name('departments.store');
+	Route::get('departments/{departmentId}/edit', 'Catalogs\DepartmentController@edit')->name('departments.edit');
+	Route::post('departments/{departmentId}', 'Catalogs\DepartmentController@update')->name('departments.update');
+	Route::get('departments/{departmentId}/delete', 'Catalogs\DepartmentController@destroy')->name('departments.destroy');
 
 	//Categories
-	Route::get('categories', 'Admin\CategoryController@index');
-	Route::get('categories/create', 'Admin\CategoryController@create')->name('categories.create');
-	Route::post('categories', 'Admin\CategoryController@store')->name('categories.store');
-	Route::get('categories/{categoryId}/edit', 'Admin\CategoryController@edit')->name('categories.edit');
-	Route::post('categories/{categoryId}', 'Admin\CategoryController@update')->name('categories.update');
-	Route::get('categories/{categoryId}/delete', 'Admin\CategoryController@destroy')->name('categories.destroy');
+	Route::get('categories', 'Catalogs\CategoryController@index');
+	Route::get('categories/create', 'Catalogs\CategoryController@create')->name('categories.create');
+	Route::post('categories', 'Catalogs\CategoryController@store')->name('categories.store');
+	Route::get('categories/{categoryId}/edit', 'Catalogs\CategoryController@edit')->name('categories.edit');
+	Route::post('categories/{categoryId}', 'Catalogs\CategoryController@update')->name('categories.update');
+	Route::get('categories/{categoryId}/delete', 'Catalogs\CategoryController@destroy')->name('categories.destroy');
 
 	//Types
-	Route::get('types', 'Admin\TypeController@index');
-	Route::get('types/create', 'Admin\TypeController@create')->name('types.create');
-	Route::post('types', 'Admin\TypeController@store')->name('types.store');
-	Route::get('types/{typeId}/edit', 'Admin\TypeController@edit')->name('types.edit');
-	Route::post('types/{typeId}', 'Admin\TypeController@update')->name('types.update');
-	Route::get('types/{typeId}/delete', 'Admin\TypeController@destroy')->name('types.destroy');
+	Route::get('types', 'Catalogs\TypeController@index');
+	Route::get('types/create', 'Catalogs\TypeController@create')->name('types.create');
+	Route::post('types', 'Catalogs\TypeController@store')->name('types.store');
+	Route::get('types/{typeId}/edit', 'Catalogs\TypeController@edit')->name('types.edit');
+	Route::post('types/{typeId}', 'Catalogs\TypeController@update')->name('types.update');
+	Route::get('types/{typeId}/delete', 'Catalogs\TypeController@destroy')->name('types.destroy');
 
 	//Colors
-	Route::get('colors', 'Admin\ColorController@index');
-	Route::get('colors/create', 'Admin\ColorController@create')->name('colors.create');
-	Route::post('colors', 'Admin\ColorController@store')->name('colors.store');
-	Route::get('colors/{colorId}/edit', 'Admin\ColorController@edit')->name('colors.edit');
-	Route::post('colors/{colorId}', 'Admin\ColorController@update')->name('colors.update');
-	Route::get('colors/{colorId}/delete', 'Admin\ColorController@destroy')->name('colors.destroy');
+	Route::get('colors', 'Catalogs\ColorController@index');
+	Route::get('colors/create', 'Catalogs\ColorController@create')->name('colors.create');
+	Route::post('colors', 'Catalogs\ColorController@store')->name('colors.store');
+	Route::get('colors/{colorId}/edit', 'Catalogs\ColorController@edit')->name('colors.edit');
+	Route::post('colors/{colorId}', 'Catalogs\ColorController@update')->name('colors.update');
+	Route::get('colors/{colorId}/delete', 'Catalogs\ColorController@destroy')->name('colors.destroy');
 
 	//Sizes
-	Route::get('sizes', 'Admin\SizeController@index');
-	Route::get('sizes/create', 'Admin\SizeController@create')->name('sizes.create');
-	Route::post('sizes', 'Admin\SizeController@store')->name('sizes.store');
-	Route::get('sizes/{sizeId}/edit', 'Admin\SizeController@edit')->name('sizes.edit');
-	Route::post('sizes/{sizeId}', 'Admin\SizeController@update')->name('sizes.update');
-	Route::get('sizes/{sizeId}/delete', 'Admin\SizeController@destroy')->name('sizes.destroy');
+	Route::get('sizes', 'Catalogs\SizeController@index');
+	Route::get('sizes/create', 'Catalogs\SizeController@create')->name('sizes.create');
+	Route::post('sizes', 'Catalogs\SizeController@store')->name('sizes.store');
+	Route::get('sizes/{sizeId}/edit', 'Catalogs\SizeController@edit')->name('sizes.edit');
+	Route::post('sizes/{sizeId}', 'Catalogs\SizeController@update')->name('sizes.update');
+	Route::get('sizes/{sizeId}/delete', 'Catalogs\SizeController@destroy')->name('sizes.destroy');
 
 	//Clothing types
-	Route::get('clothing-types', 'Admin\ClothingTypeController@index');
-	Route::get('clothing-types/create', 'Admin\ClothingTypeController@create')->name('clothing-types.create');
-	Route::post('clothing-types', 'Admin\ClothingTypeController@store')->name('clothing-types.store');
-	Route::get('clothing-types/{clothingTypeId}/edit', 'Admin\ClothingTypeController@edit')->name('clothing-types.edit');
-	Route::post('clothing-types/{clothingTypeId}', 'Admin\ClothingTypeController@update')->name('clothing-types.update');
-	Route::get('clothing-types/{clothingTypeId}/delete', 'Admin\ClothingTypeController@destroy')->name('clothing-types.destroy');
+	Route::get('clothing-types', 'Catalogs\ClothingTypeController@index');
+	Route::get('clothing-types/create', 'Catalogs\ClothingTypeController@create')->name('clothing-types.create');
+	Route::post('clothing-types', 'Catalogs\ClothingTypeController@store')->name('clothing-types.store');
+	Route::get('clothing-types/{clothingTypeId}/edit', 'Catalogs\ClothingTypeController@edit')->name('clothing-types.edit');
+	Route::post('clothing-types/{clothingTypeId}', 'Catalogs\ClothingTypeController@update')->name('clothing-types.update');
+	Route::get('clothing-types/{clothingTypeId}/delete', 'Catalogs\ClothingTypeController@destroy')->name('clothing-types.destroy');
 
 	//Seasons
-	Route::get('seasons', 'Admin\SeasonController@index');
-	Route::get('seasons/create', 'Admin\SeasonController@create')->name('seasons.create');
-	Route::post('seasons', 'Admin\SeasonController@store')->name('seasons.store');
-	Route::get('seasons/{seasonId}/edit', 'Admin\SeasonController@edit')->name('seasons.edit');
-	Route::post('seasons/{seasonId}', 'Admin\SeasonController@update')->name('seasons.update');
-	Route::get('seasons/{seasonId}/delete', 'Admin\SeasonController@destroy')->name('seasons.destroy');
+	Route::get('seasons', 'Catalogs\SeasonController@index');
+	Route::get('seasons/create', 'Catalogs\SeasonController@create')->name('seasons.create');
+	Route::post('seasons', 'Catalogs\SeasonController@store')->name('seasons.store');
+	Route::get('seasons/{seasonId}/edit', 'Catalogs\SeasonController@edit')->name('seasons.edit');
+	Route::post('seasons/{seasonId}', 'Catalogs\SeasonController@update')->name('seasons.update');
+	Route::get('seasons/{seasonId}/delete', 'Catalogs\SeasonController@destroy')->name('seasons.destroy');
 
 	//Calendario de ofertas
-	Route::get('calendar-sales', 'Admin\CalendarSaleController@index');
-	Route::get('calendar-sales/create', 'Admin\CalendarSaleController@create')->name('calendar-sales.create');
-	Route::post('calendar-sales', 'Admin\CalendarSaleController@store')->name('calendar-sales.store');
-	Route::get('calendar-sales/{calendarSaleId}/edit', 'Admin\CalendarSaleController@edit')->name('calendar-sales.edit');
-	Route::post('calendar-sales/{calendarSaleId}', 'Admin\CalendarSaleController@update')->name('calendar-sales.update');
-	Route::get('calendar-sales/{calendarSaleId}/delete', 'Admin\CalendarSaleController@destroy')->name('calendar-sales.destroy');
+	Route::get('calendar-sales', 'Catalogs\CalendarSaleController@index');
+	Route::get('calendar-sales/create', 'Catalogs\CalendarSaleController@create')->name('calendar-sales.create');
+	Route::post('calendar-sales', 'Catalogs\CalendarSaleController@store')->name('calendar-sales.store');
+	Route::get('calendar-sales/{calendarSaleId}/edit', 'Catalogs\CalendarSaleController@edit')->name('calendar-sales.edit');
+	Route::post('calendar-sales/{calendarSaleId}', 'Catalogs\CalendarSaleController@update')->name('calendar-sales.update');
+	Route::get('calendar-sales/{calendarSaleId}/delete', 'Catalogs\CalendarSaleController@destroy')->name('calendar-sales.destroy');
 });
