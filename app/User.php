@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Notifications\MailResetPasswordNotification;
 
 use Auth;
 
@@ -31,6 +32,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password','remember_token',
     ];
+
+    /**
+     * Send a password reset email to the user
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new MailResetPasswordNotification($token));
+    }
 
     public function isBuyerProfile() {
         $profile = Auth::User()->ProfileID;

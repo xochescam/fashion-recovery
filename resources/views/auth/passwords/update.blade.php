@@ -6,7 +6,7 @@
       <div class="container py-5">
         <div class="row">
           <div class="col col-sm-12 col-md-6 offset-md-3">
-            <h2 class="text-center my-3 h6-md">Cambiar contraseña</h2>
+            <h2 class="text-center TituloFR my-4">Cambiar contraseña</h2>
 
             <form method="POST" action="{{ url('update-password') }}" class="was-validated">
               @csrf

@@ -89,7 +89,7 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
-            'table' => 'password_resets',
+            'table' => 'fashionrecovery.GR_034',
             'expire' => 60,
         ],
     ],
