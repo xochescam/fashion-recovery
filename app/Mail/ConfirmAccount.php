@@ -19,15 +19,17 @@ class ConfirmAccount extends Mailable
      * @var Order
      */
     protected $user;
+    protected $beSeller;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($user, $beSeller)
     {
-        $this->user = $user;
+        $this->user     = $user;
+        $this->beSeller = $beSeller;
     }
 
     /**
@@ -41,7 +43,8 @@ class ConfirmAccount extends Mailable
                     ->view('emails.account.confirm')
                     ->with([
                         'UserID' => $this->user->id,
-                        'name'   => $this->user->Name
+                        'name'   => $this->user->Name,
+                        'beSeller' => $this->beSeller,
                     ]);
 
     }

@@ -6,7 +6,7 @@
       <div class="container py-5">
         <div class="row">
           <div class="col-md-8 offset-md-2">
-            <h2 class="text-center">Mis datos</h2>
+            <h2 class="text-center TituloFR my-4">Mis datos</h2>
           </div>
 
           <div class="col-md-8 offset-md-2 mb-4">
@@ -15,7 +15,7 @@
 
               <div class="card-body">
                 <div class="w-auto float-right mb-4">
-                  <a class="btn btn-success" href="{{ url('auth/'.(Auth::User()->id).'/edit') }}" role="button">Modificar datos</a>
+                  <a class="btn btn-fr" href="{{ url('auth/'.(Auth::User()->id).'/edit') }}" role="button">Modificar datos</a>
                 </div>
 
                 <h5 class="card-title">Alias:</h5>
@@ -46,7 +46,7 @@
 
                 <div class="card-body">
                   <div class="w-auto float-right mb-4">
-                    <a class="btn btn-success" href="{{ url('seller/'.$seller->SellerID.'/edit') }}" role="button">Modificar datos</a>
+                    <a class="btn btn-fr" href="{{ url('seller/'.$seller->SellerID.'/edit') }}" role="button">Modificar datos</a>
                   </div>
 
                   <h5 class="card-title">Saludo:</h5>
@@ -82,8 +82,6 @@
               </div>
             </div>
           @endif
-
-
         </div>
       </div>
     </main>

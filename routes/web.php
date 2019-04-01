@@ -25,9 +25,16 @@ Route::view('privacy', 'footer.privacy');
 Route::view('return-policy', 'footer.return-policy');
 Route::view('about', 'footer.about');
 
-Route::get('confirm-account/{userID}', 'Auth\RegisterController@confirmAccount');
+Route::get('confirm-account/{userID}/{beSeller}', 'Auth\RegisterController@confirmAccount');
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
+
+Route::get('login/{beSeller}','Auth\LoginController@getForm');
+Route::post('login/{beSeller}','Auth\LoginController@login');
+
+Route::get('register/{beSeller}','Auth\RegisterController@getForm');
+Route::post('register/{beSeller}','Auth\RegisterController@register');
+
 
 Route::group(['middleware' => ['auth']], function () {
 

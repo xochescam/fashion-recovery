@@ -8,7 +8,7 @@
           <div class="col col-sm-12 col-md-6 offset-md-3">
             <h2 class="text-center my-3 h6-md">Iniciar Sesión</h2>
 
-            <form method="POST" action="{{ url('login') }}" class="was-validated">
+            <form method="POST" action="{{ url('login/'.$beSeller) }}" class="was-validated">
               @csrf
 
               @include('alerts.success')
@@ -46,10 +46,10 @@
         </div>
         <div class="row text-center my-5">
           <div class="col ">
-            <p><a href="#" class="text-center">¿Olvidaste tu contraseña?</a></p>
+            <p><a href="{{ route('password.request') }}" class="text-center">¿Olvidaste tu contraseña?</a></p>
           </div>
           <div class="col ">
-            <p>¿Aún no tienes cuenta?<a href="{{ url('register') }}" class="text-center"> Registrate aquí</a></p>
+            <p>¿Aún no tienes cuenta?<a href="{{ url('register',0) }}" class="text-center"> Registrate aquí</a></p>
           </div>
         </div>
       </div>

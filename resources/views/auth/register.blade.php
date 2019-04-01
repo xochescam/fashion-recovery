@@ -8,7 +8,7 @@
           <div class="col">
             <h2 class="text-center">Crear Cuenta</h2>
 
-            <form method="POST" action="{{ url('register') }}" class="was-validated">
+            <form method="POST" action="{{ url('register/'.$beSeller) }}" class="was-validated">
               @csrf
 
               @include('alerts.success')

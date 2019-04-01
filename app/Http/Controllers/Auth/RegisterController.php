@@ -33,12 +33,6 @@ class RegisterController extends Controller
 
     use RegistersUsers;
 
-    /**
-     * Where to redirect users after registration.
-     *
-     * @var string
-     */
-    protected $redirectTo = '/login';
 
     /**
      * Create a new controller instance.
@@ -48,6 +42,11 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+    }
+
+    public function getForm($beSeller) {
+
+        return view('auth.register',compact('beSeller'));
     }
 
     /**
@@ -75,14 +74,15 @@ class RegisterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function register(Request $request)
+    public function register(Request $request, $beSeller)
     {
+
         $this->validator($request);
 
         if($this->existsEmail($request->email)) {
 
             Session::flash('warning','Esta cuenta ya existe. Accede a tu cuenta');
-            return Redirect::to('/register');
+            return Redirect::to('register/'.$beSeller);
         }
 
         DB::beginTransaction();
@@ -96,20 +96,20 @@ class RegisterController extends Controller
                         ->first();
 
             Mail::to($user->email)
-                ->send(new ConfirmAccount($user));
+                ->send(new ConfirmAccount($user, $beSeller));
 
-             DB::commit();
+            DB::commit();
 
             Session::flash('success','Se ha registrado correctamente');
             return $this->registered($request, $user)
-                            ?: redirect($this->redirectPath());
+                            ?: redirect('login/'.$beSeller);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/register');
+            return Redirect::to('register/'.$beSeller);
         }
     }
 
@@ -147,7 +147,7 @@ class RegisterController extends Controller
         return $user === null ? false : true;
     }
 
-    protected function confirmAccount($userId) {
+    protected function confirmAccount($userId, $beSeller) {
 
         $table = 'fashionrecovery.GR_001';
         $user  = DB::table($table)->where('id',$userId)->first();
@@ -164,20 +164,20 @@ class RegisterController extends Controller
                 ->where('id',$userId)
                 ->update(['Confirmed' => true]);
 
-            Mail::to($user->email)
-                ->send(new ConfirmAccount($user));
+            // Mail::to($user->email)
+            //     ->send(new ConfirmAccount($user));
 
             DB::commit();
 
             Session::flash('success','Se ha confirmado la cuenta exitosamente');
-            return Redirect::to('/login');
+            return Redirect::to('login/'.$beSeller);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/login');
+            return Redirect::to('login/'.$beSeller);
         }
     }
 }

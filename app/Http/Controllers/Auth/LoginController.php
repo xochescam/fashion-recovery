@@ -45,6 +45,10 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    public function getForm($beSeller) {
+
+        return view('auth.login',compact('beSeller'));
+    }
     /**
      * Validate the user login request.
      *
@@ -69,9 +73,11 @@ class LoginController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function login(Request $request)
+    public function login(Request $request, $beSeller)
     {
         $this->validateLogin($request);
+
+        $route = $beSeller == 1 ? 'seller' : 'dashboard' ;
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -83,12 +89,12 @@ class LoginController extends Controller
         }
 
         if (Auth::attempt( ['email' => $request->email, 'password' => $request->password] ) ) {
-            return Redirect::to('/dashboard');
+            return Redirect::to($route);
 
         } else {
 
             Session::flash('warning','Tus datos no son correctos');
-            return Redirect::to('/login');
+            return Redirect::to('login/'.$beSeller);
         }
 
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -107,6 +113,6 @@ class LoginController extends Controller
     {
         Auth::logout();
 
-        return redirect('/login');
+        return redirect('login/0');
     }
 }
