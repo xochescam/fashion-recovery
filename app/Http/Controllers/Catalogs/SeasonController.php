@@ -183,8 +183,8 @@ class SeasonController extends Controller
 
         return [
              'SeasonName'   => $data['name'],
-             'PeriodStart'  => $data['periodStart'],
-             'PeriodEnd'    => $data['periodEnd'],
+             'PeriodStart'  => $data['periodStart'], //guardar time
+             'PeriodEnd'    => $data['periodEnd'], //guardar time
              'Discount'     => $data['discount'],
              'Active'       => isset($data['active']) ? true : false,
              'CreationDate' => date("Y-m-d H:i:s"),

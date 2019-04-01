@@ -4,8 +4,8 @@
 @include('alerts.warning')
 
   <div class="form-group">
-    <label for="holiday">Holiday</label>
-    <input type="text" class="form-control is-invalid" name="holiday" id="holiday" value=" {{ isset($calendarSale->holiday) ? $calendarSale->Holiday : old('holiday') }}">
+    <label for="holiday">Festejo</label>
+    <input type="text" class="form-control is-invalid" name="holiday" id="holiday" value=" {{ isset($calendarSale->Holiday) ? $calendarSale->Holiday : old('holiday') }}">
 
     @if ($errors->has('holiday'))
       <div class="invalid-feedback">
@@ -16,8 +16,8 @@
 
   <div class="form-group">
 
-    <label for="periodStart">Periodo de inicio</label>
-    <input type="datetime-local" class="form-control is-invalid" name="periodStart" id="periodStart" value=" {{ isset($calendarSale->PeriodStart) ? $calendarSale->PeriodStart : old('periodStart') }}">
+    <label for="periodStart">Fecha de inicio</label>
+    <input type="date" class="form-control is-invalid date_time_input" name="periodStart" id="periodStart" value=" {{ isset($calendarSale->PeriodStart) ? $calendarSale->PeriodStart : old('periodStart') }}">
 
     @if ($errors->has('periodStart'))
       <div class="invalid-feedback">
@@ -27,8 +27,8 @@
   </div>
 
   <div class="form-group">
-    <label for="periodEnd">Periodo de fin</label>
-    <input type="datetime-local" class="form-control is-invalid" name="periodEnd" id="periodEnd" value=" {{ isset($calendarSale->PeriodEnd) ? $calendarSale->PeriodEnd : old('periodEnd') }}">
+    <label for="periodEnd">Fecha de fin</label>
+    <input type="date" class="form-control is-invalid date_time_input" name="periodEnd" id="periodEnd" value=" {{ isset($calendarSale->PeriodEnd) ? $calendarSale->PeriodEnd : old('periodEnd') }}">
 
     @if ($errors->has('periodEnd'))
       <div class="invalid-feedback">
@@ -39,7 +39,7 @@
 
   <div class="form-group">
     <label for="discount">Descuento</label>
-    <input type="number" class="form-control is-invalid" name="discount" id="discount" value=" {{ isset($calendarSale->Discount) ? $calendarSale->Discount : old('discount') }}">
+    <input type="number" class="form-control is-invalid" name="discount" id="discount" value="{{ isset($calendarSale->Discount) ? $calendarSale->Discount : old('discount') }}">
 
     @if ($errors->has('discount'))
       <div class="invalid-feedback">

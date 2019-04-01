@@ -19,7 +19,7 @@
 						<thead>
 						    <tr>
 							    <th scope="col">Nombre</th>
-							    <th scope="col">Tipo</th>
+							    <th scope="col">Tipo de ropa</th>
 							    <th scope="col">Marca</th>
 							    <th scope="col">Departamento</th>
 							    <th scope="col">Activo</th>
@@ -34,12 +34,12 @@
 								    <td> {{ $item->ClothingTypeName }} </td>
 								    <td> {{ $item->BrandName }} </td>
 								    <td> {{ $item->DepName }} </td>
-								    <td> 
+								    <td>
 								    	@if($item->Active)
 											<i class="fas fa-check green-color"></i>
 										@else
 											<i class="fas fa-times text-danger"></i>
-										@endif	
+										@endif
 								    </td>
 								    <td>
 										<a class="btn btn-sm btn-fr" href="{{ route('sizes.edit',$item->SizeID) }}" role="button">Modificar</a>
