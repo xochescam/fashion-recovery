@@ -42,9 +42,15 @@
 
         <script>
 
-        const date = document.querySelector('date_input');
-    
-        if (date && date.type != 'date' ) $('.date_input').datepicker();
+        const date = document.querySelector('.date_input');
+
+        if (date && date.type != 'date' )
+            $('.date_input').datepicker({
+                format: "yyyy-mm-dd",
+                language: "es",
+                orientation: "bottom auto",
+                autoclose: true
+            })
 
         </script>
   </body>
