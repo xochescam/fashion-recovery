@@ -31,7 +31,7 @@
 
                 <div class="form-group col-md-12">
                   <label for="password">Contraseña</label>
-                  <input type="password" name="password" class="form-control is-invalid" id="password" placeholder="Ingresa tu correo">
+                  <input type="password" name="password" class="form-control is-invalid" id="password" placeholder="Escribe tu nueva contraseña">
 
                   @if ($errors->has('password'))
                     <div class="invalid-feedback">
@@ -42,7 +42,7 @@
 
                 <div class="form-group col-md-12">
                   <label for="password_confirmation">Confirmar contraseña</label>
-                  <input type="password" name="password_confirmation" class="form-control is-invalid" id="password_confirmation" placeholder="Ingresa tu correo">
+                  <input type="password" name="password_confirmation" class="form-control is-invalid" id="password_confirmation" placeholder="Vuelve a escribir tu nueva contraseña">
 
                   @if ($errors->has('password_confirmation'))
                     <div class="invalid-feedback">
