@@ -21,7 +21,12 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        $items = DB::table($this->table) //Mostrar solo una imagen
+                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->get();
+
+        return view('item.list',compact('items'));
     }
 
     /**
@@ -60,6 +65,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -69,8 +75,18 @@ class ItemController extends Controller
             $data = $this->itemData($request->toArray());
 
             DB::table($this->table)->insert($data);
+            $id = DB::getPdo()->lastInsertId(); //change
 
-            $this->saveItems($request->toArray());
+            $itemsName = $this->saveItems($request->toArray(), $id);
+
+            foreach ($itemsName as $key => $value) { //change
+
+                DB::table('fashionrecovery.GR_032')->insert([
+                    'ItemID' => $id,
+                    'PicturePath' => $value,
+                    'CreationDate' => date("Y-m-d H:i:s")
+                ]);
+            }
 
             DB::commit();
 
@@ -100,14 +116,14 @@ class ItemController extends Controller
             'PicturesUploaded' => ['required'], //validar imagenes
             'OriginalPrice'    => ['required'],
             'ActualPrice'      => ['required'],
-            'ColorID'          => ['required'],
-            'SizeID'           => ['required'],
+            //'ColorID'          => ['required'],
+            //'SizeID'           => ['required'],
             'ClothingTypeID'   => ['required'],
             'DepartmentID'     => ['required'],
             'CategoryID'       => ['required'],
             'TypeID'           => ['required'],
             'ClosetID'         => ['required'],
-            'OffSaleID'        => ['required']
+            //'OffSaleID'        => ['required']
         ]);
     }
 
@@ -155,16 +171,24 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    protected function saveItems($data) {
+    protected function saveItems($data,$item) {
+
+        $itemsName = [];
+        $count     = 0;
 
         foreach ($data['PicturesUploaded'] as $key => $value) {
-            $date   = date("Y-m-d H:i:s");
-            $itemName = "items/".Auth::User()->id.'_ID.jpg'; //nombre de la imagen
 
-            \Storage::disk('public')->put($itemName,  \File::get($value));
+            $date   = date("Ymd-His");
+            $dir = 'sellers/'.Auth::User()->id.'/items/'.$item.'/';
+            $name = $date.'-'.$count++.'.jpg';
+
+            \Storage::disk('public')->put($dir.$name,  \File::get($value));
+            \Storage::disk('public')->put($dir.'thumb-'.$name,  \File::get($value)); //thumb
+
+            array_push($itemsName,$dir.$name);
         }
 
-        return true;
+        return $itemsName;
     }
 
     /**
