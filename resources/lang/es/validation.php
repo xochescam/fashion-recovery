@@ -189,6 +189,12 @@ return [
         'Phone'                 => 'teléfono',
         'IdentityDocumentPath'  => 'documento de identificación',
         'SelfiePath'            => 'foto de perfil',
+        'holiday'               => 'festejo',
+        'periodStart'           => 'fecha de inicio',
+        'periodEnd'             => 'fecha de fin',
+        'discount'              => 'descuento',
+        'brandId'               => 'marca',
+        'clothingTypeId'        => 'tipo de ropa',
 
     ],
 ];
