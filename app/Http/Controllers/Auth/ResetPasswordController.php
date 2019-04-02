@@ -74,7 +74,7 @@ class ResetPasswordController extends Controller
     protected function sendResetResponse(Request $request, $response)
     {
         Session::flash('success','Se ha cambiado la contraseña');
-        return Redirect::to('login');
+        return Redirect::to('login/0');
     }
 
     /**
@@ -95,6 +95,6 @@ class ResetPasswordController extends Controller
             ]);
 
         Session::flash('success','Se ha cambiado la contraseña');
-        return Redirect::to('login');
+        return Redirect::to('login/0');
     }
 }
