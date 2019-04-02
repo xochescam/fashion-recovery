@@ -6,7 +6,7 @@
       <div class="container py-5">
         <div class="row">
           <div class="col-md-8 offset-md-2">
-            <h2 class="text-center">Modificar datos</h2>
+            <h2 class="text-center TituloFR my-4">Modificar datos</h2>
 
             <form method="POST" action="{{ url('auth',Auth::User()->id) }}" class="was-validated">
               @csrf

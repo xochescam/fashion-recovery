@@ -26,8 +26,8 @@
               <a class="dropdown-item" href="{{ url('categories') }}">Categorias</a>
               <a class="dropdown-item" href="{{ url('types') }}">Tipos</a>
               <a class="dropdown-item" href="{{ url('colors') }}">Colores</a>
-              <a class="dropdown-item" href="{{ url('sizes') }}">Tamaños</a>
               <a class="dropdown-item" href="{{ url('clothing-types') }}">Tipos de ropa</a>
+              <a class="dropdown-item" href="{{ url('sizes') }}">Tamaños</a>
               <a class="dropdown-item" href="{{ url('seasons') }}">Temporadas</a>
               <a class="dropdown-item" href="{{ url('calendar-sales') }}">Calendario de ofertas</a>
             </div>
