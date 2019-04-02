@@ -10,7 +10,7 @@
         <a class="navbar-brand" href="{{ url('dashboard') }}">Panel de administración</a>
 
       @else
-        <a class="navbar-brand" href="{{ url('/') }}">
+        <a class="navbar-brand" href="{{ url('dashboard') }}">
           <img src="{{ url('img/header/transparent_logo.png') }}" alt="Fashion Recovery"/>
         </a>
 

@@ -145,7 +145,7 @@ class ItemController extends Controller
              'CategoryID'       => $data['CategoryID'],
              'TypeID'           => $data['TypeID'],
              'ClosetID'         => $closet,
-             'OffSaleID'        => 1,
+             'OffSaleID'        => $data['OffSaleID'],
              'CreationDate'     => date("Y-m-d H:i:s")
         ];
     }

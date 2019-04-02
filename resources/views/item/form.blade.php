@@ -49,7 +49,7 @@
       <option value="" selected>- Seleccionar -</option>
 
           @foreach($colors as $color)
-            <option value="{{ $color->ColorID }}"  {{ (isset($item->ColorID) && ($color->ColorID == $item->ColorID) || old('ColorID'))  ? 'selected' : '' }} > {{ $color->Name }} </option>
+            <option value="{{ $color->ColorID }}"  {{ (isset($item->ColorID) && ($color->ColorID == $item->ColorID) || old('ColorID'))  ? 'selected' : '' }} > {{ $color->ColorName }} </option>
           @endforeach
     </select>
 
@@ -66,7 +66,7 @@
       <option value="" selected>- Seleccionar -</option>
 
           @foreach($sizes as $size)
-            <option value="{{ $size->SizeID }}"  {{ (isset($item->SizeID) && ($size->SizeID == $item->SizeID) || old('SizeID'))  ? 'selected' : '' }} > {{ $size->Name }} </option>
+            <option value="{{ $size->SizeID }}"  {{ (isset($item->SizeID) && ($size->SizeID == $item->SizeID) || old('SizeID'))  ? 'selected' : '' }} > {{ $size->SizeName }} </option>
           @endforeach
     </select>
 
@@ -182,7 +182,7 @@
       <option value="" selected>- Seleccionar -</option>
 
           @foreach($offers as $offer)
-            <option value="{{ $offer->OffSaleID }}"  {{ (isset($item->OffSaleID) && ($offer->OffSaleID == $item->OffSaleID) || old('OffSaleID'))  ? 'selected' : '' }} >
+            <option value="{{ $offer->OfferID }}"  {{ (isset($item->OfferID) && ($offer->OfferID == $item->OfferID) || old('OffSaleID'))  ? 'selected' : '' }} >
               {{ $offer->Discount }}
             </option>
           @endforeach
