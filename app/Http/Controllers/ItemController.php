@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreItemRequest;
+
 
 use DB;
 use Redirect;
@@ -63,7 +65,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
 
         $this->validator($request);
@@ -112,18 +114,9 @@ class ItemController extends Controller
      */
     protected function validator(Request $request)
     {
+
         $request->validate([
-            'PicturesUploaded' => ['required'], //validar imagenes
-            'OriginalPrice'    => ['required'],
-            'ActualPrice'      => ['required'],
-            //'ColorID'          => ['required'],
-            //'SizeID'           => ['required'],
-            'ClothingTypeID'   => ['required'],
-            'DepartmentID'     => ['required'],
-            'CategoryID'       => ['required'],
-            'TypeID'           => ['required'],
-            'ClosetID'         => ['required'],
-            //'OffSaleID'        => ['required']
+
         ]);
     }
 

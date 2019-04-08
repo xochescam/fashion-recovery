@@ -8,22 +8,36 @@
     <label>Fotos de la prenda</label>
 
     <div class="custom-file">
-      <input type="file" class="custom-file-input is-invalid" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple>
+      <input type="file" class="custom-file-input is-invalid" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value={{ old('PicturesUploaded') ? old('PicturesUploaded') : '' }} >
       <label class="custom-file-label" for="PicturesUploaded">
         {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
       </label>
 
+
       @if ($errors->has('PicturesUploaded'))
+
         <div class="invalid-feedback">
-          {{ $errors->first('PicturesUploaded') }}
+            {{ $errors->first('PicturesUploaded') }}
         </div>
+
+      @elseif(count($errors->has('PicturesUploaded.*')) > 0)
+
+        @foreach ($errors->get('PicturesUploaded.*') as $error => $value)
+
+          <div class="invalid-feedback">
+            {{ $errors->first($error) }}
+          </div>
+
+        @endforeach
+
       @endif
+
     </div>
   </div>
 
   <div class="form-group">
     <label for="OriginalPrice">Precio original</label>
-    <input type="text" class="form-control is-invalid" name="OriginalPrice" id="OriginalPrice" value=" {{ isset($item->OriginalPrice) ? $item->OriginalPrice : old('OriginalPrice') }}">
+    <input type="number" class="form-control is-invalid" name="OriginalPrice" id="OriginalPrice" value=" {{ isset($item->OriginalPrice) ? $item->OriginalPrice : old('OriginalPrice') }}">
 
     @if ($errors->has('OriginalPrice'))
       <div class="invalid-feedback">
@@ -34,7 +48,7 @@
 
   <div class="form-group">
     <label for="ActualPrice">Precio actual</label>
-    <input type="text" class="form-control is-invalid" name="ActualPrice" id="ActualPrice" value=" {{ isset($item->ActualPrice) ? $item->ActualPrice : old('ActualPrice') }}">
+    <input type="number" class="form-control is-invalid" name="ActualPrice" id="ActualPrice" value=" {{ isset($item->ActualPrice) ? $item->ActualPrice : old('ActualPrice') }}">
 
     @if ($errors->has('ActualPrice'))
       <div class="invalid-feedback">

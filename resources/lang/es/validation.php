@@ -195,6 +195,16 @@ return [
         'discount'              => 'descuento',
         'brandId'               => 'marca',
         'clothingTypeId'        => 'tipo de ropa',
-
+        'PicturesUploaded'      => 'fotos de la prenda',
+        'OriginalPrice'         => 'precio original',
+        'ActualPrice'           => 'precio actual',
+        'ColorID'               => 'color',
+        'SizeID'                => 'tamaño',
+        'ClothingTypeID'        => 'tipo de ropa',
+        'DepartmentID'          => 'departamento',
+        'CategoryID'            => 'categoria',
+        'TypeID'                => 'tipo',
+        'ClosetID'              => 'closet',
+        'OffSaleID'             => 'oferta'
     ],
 ];
