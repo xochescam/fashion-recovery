@@ -80,11 +80,15 @@ class ClosetController extends Controller
     {
         $closet = DB::table($this->table)->where('ClosetID',$id)->first();
 
-        $items = DB::table($this->table) //Mostrar solo una imagen
+        $items = DB::table($this->table)
                     ->join('fashionrecovery.GR_029', 'GR_030.ClosetID', '=', 'GR_029.ClosetID')
-                    //->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
                     ->where('fashionrecovery.GR_030.ClosetID',$id)
-                    ->get();
+                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_031.Discount','GR_029.OriginalPrice','GR_029.ActualPrice')
+                    ->get()
+                    ->groupBy('ItemID');
 
         return view('closet.show',compact('items','closet'));
     }

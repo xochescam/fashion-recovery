@@ -2,14 +2,14 @@
 
 @section('content')
 
-	 <main id="main" style="height:85vh;">
+	 <main id="main">
       <div class="container py-5">
         <h2 class="text-center mb-5">Closets</h2>
 
         @include('alerts.success')
         @include('alerts.warning')
 
-        <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Subir closet</a>
+        <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Crear closet</a>
 
         <div class="row">
 

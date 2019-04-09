@@ -2,7 +2,7 @@
 
 @section('content')
 
-	 <main id="main" style="height:85vh;">
+	 <main id="main">
       <div class="container py-5">
         <h2 class="text-center mb-5">{{ $closet->ClosetName }}</h2>
 
@@ -16,11 +16,17 @@
           @foreach($items as $item)
 
             <div class="col-sm-4 mb-4">
+
               <div class="card">
+                <a href="{{ url('item',$item->first()->ItemID) }}"><img src="{{ url('storage/'.$item->first()->PicturePath) }}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
-                   {{ $item->ActualPrice }}
+                  <h5 class="card-title">{{ $item->first()->ActualPrice }}
+                    <small class="line-through">{{ $item->first()->OriginalPrice }}</small>
+                    <span class="badge badge-secondary green-background float-right">{{ $item->first()->Discount }}%</span>
+                  </h5>
                 </div>
               </div>
+
             </div>
 
           @endforeach
