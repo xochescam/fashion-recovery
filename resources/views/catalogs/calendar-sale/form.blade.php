@@ -4,7 +4,7 @@
 @include('alerts.warning')
 
   <div class="form-group">
-    <label for="holiday">Festejo</label>
+    <label for="holiday">Festividad</label>
     <input type="text" class="form-control is-invalid" name="holiday" id="holiday" value=" {{ isset($calendarSale->Holiday) ? $calendarSale->Holiday : old('holiday') }}">
 
     @if ($errors->has('holiday'))
