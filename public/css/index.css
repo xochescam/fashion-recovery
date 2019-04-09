@@ -24,8 +24,16 @@ body{
   color:white;
 }
 
+.line-through {
+  text-decoration: line-through;
+}
+
 .green-color {
   color: #009c77;
+}
+
+.green-background {
+  background: #009c77;
 }
 
 .custom-file-label::after {
