@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.4') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.5') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
