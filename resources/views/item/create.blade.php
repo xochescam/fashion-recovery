@@ -2,11 +2,11 @@
 
 @section('content')
 
-	 <main id="main" style="height:85vh;">
+	 <main id="main">
       <div class="container py-5">
         <div class="row">
           <div class="col-md-6 offset-md-3">
-            <h2 class="text-center">Subir</h2>
+            <h2 class="text-center">Subir prenda</h2>
 
             <form method="POST" action="{{ url('item') }}" class="was-validated" enctype="multipart/form-data">
               @include('item.form')

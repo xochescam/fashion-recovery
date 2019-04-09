@@ -49,7 +49,7 @@ class StoreItemRequest extends FormRequest
     {
         $images = [];
 
-        if(count($this->PicturesUploaded) > 0) {
+        if(isset($this->PicturesUploaded) && count($this->PicturesUploaded) > 0) {
 
             foreach ($this->PicturesUploaded as $key => $value) {
 

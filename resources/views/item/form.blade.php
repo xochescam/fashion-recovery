@@ -3,7 +3,6 @@
   @include('alerts.success')
   @include('alerts.warning')
 
-
   <div class="form-group">
     <label>Fotos de la prenda</label>
 
@@ -20,7 +19,7 @@
             {{ $errors->first('PicturesUploaded') }}
         </div>
 
-      @elseif(count($errors->has('PicturesUploaded.*')) > 0)
+      @elseif($errors->has('PicturesUploaded.*') && $errors->has('PicturesUploaded.*') > 0)
 
         @foreach ($errors->get('PicturesUploaded.*') as $error => $value)
 
@@ -37,7 +36,7 @@
 
   <div class="form-group">
     <label for="OriginalPrice">Precio original</label>
-    <input type="number" class="form-control is-invalid" name="OriginalPrice" id="OriginalPrice" value=" {{ isset($item->OriginalPrice) ? $item->OriginalPrice : old('OriginalPrice') }}">
+    <input type="money" class="form-control is-invalid" name="OriginalPrice" id="OriginalPrice" value=" {{ isset($item->OriginalPrice) ? $item->OriginalPrice : old('OriginalPrice') }}">
 
     @if ($errors->has('OriginalPrice'))
       <div class="invalid-feedback">
@@ -48,7 +47,8 @@
 
   <div class="form-group">
     <label for="ActualPrice">Precio actual</label>
-    <input type="number" class="form-control is-invalid" name="ActualPrice" id="ActualPrice" value=" {{ isset($item->ActualPrice) ? $item->ActualPrice : old('ActualPrice') }}">
+
+    <input type="money" class="form-control is-invalid" name="ActualPrice" id="ActualPrice" value=" {{ isset($item->ActualPrice) ? $item->ActualPrice : old('ActualPrice') }}">
 
     @if ($errors->has('ActualPrice'))
       <div class="invalid-feedback">
@@ -58,12 +58,13 @@
   </div>
 
 	<div class="form-group">
+
     <label for="ColorID">Color</label>
     <select id="ColorID" class="form-control is-invalid" name="ColorID">
       <option value="" selected>- Seleccionar -</option>
 
           @foreach($colors as $color)
-            <option value="{{ $color->ColorID }}"  {{ (isset($item->ColorID) && ($color->ColorID == $item->ColorID) || old('ColorID'))  ? 'selected' : '' }} > {{ $color->ColorName }} </option>
+            <option value="{{ $color->ColorID }}"  {{ (isset($item->ColorID) && ($color->ColorID === $item->ColorID) || old('ColorID'))  ? 'selected' : '' }} > {{ $color->ColorName }} </option>
           @endforeach
     </select>
 
@@ -190,13 +191,14 @@
     @endif
   </div>
 
+
   <div class="form-group">
     <label for="OffSaleID">Oferta</label>
     <select id="OffSaleID" class="form-control is-invalid" name="OffSaleID">
       <option value="" selected>- Seleccionar -</option>
 
           @foreach($offers as $offer)
-            <option value="{{ $offer->OfferID }}"  {{ (isset($item->OfferID) && ($offer->OfferID == $item->OfferID) || old('OffSaleID'))  ? 'selected' : '' }} >
+            <option value="{{ $offer->OfferID }}"  {{ (isset($item->OffSaleID) && ($offer->OfferID == $item->OffSaleID) || old('OffSaleID'))  ? 'selected' : '' }} >
               {{ $offer->Discount }}
             </option>
           @endforeach

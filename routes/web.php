@@ -56,6 +56,10 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('items', 'ItemController@index');
 	Route::get('item', 'ItemController@create');
 	Route::post('item', 'ItemController@store');
+	Route::get('item/{itemId}', 'ItemController@show');
+	Route::get('item/{itemId}/edit', 'ItemController@edit');
+	Route::post('item/{itemId}', 'ItemController@update')->name('item.update');
+	Route::get('item/{itemId}/delete', 'ItemController@destroy')->name('item.destroy');
 
 	//Closet
 	Route::get('closets', 'ClosetController@index');
