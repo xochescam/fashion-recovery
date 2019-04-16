@@ -43,28 +43,36 @@
           </li>
         @endif
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Mi Perfil
           </a>
 
-          <div class="dropdown-menu  btn-fr" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url('auth',Auth::User()->id) }}">Mis Datos</a>
-            <a class="dropdown-item" href="{{ url('#') }}">Mis Preferencias</a>
-            <a class="dropdown-item" href="{{ url('#') }}">Whish List</a>
-            <a class="dropdown-item" href="{{ url('#') }}">Mis Pedidos</a>
+          <div class="dropdown-menu btn-fr" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mis Datos</a>
+            <a class="dropdown-item text-left" href="{{ url('#') }}">Mis Preferencias</a>
+            <a class="dropdown-item text-left" href="{{ url('#') }}">Whish List</a>
+            <a class="dropdown-item text-left" href="{{ url('#') }}">Mis Pedidos</a>
+            
+            @if(Auth::User()->ProfileID == 2)
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-left" href="{{ url('#') }}">Mi Guardarropa</a>
+            @endif
+
+            @if(Auth::User()->ProfileID > 2)
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item text-left" href="{{ url('#') }}">Administración</a>
+            @endif
+
+
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('#') }}">Mi Guardarropa</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('#') }}">Administración</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('update-password') }}">Cambiar contraseña</a>
-            <a class="dropdown-item" href="{{ route('logout') }}">Cerrar sesión</a>
+            <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
+            <a class="dropdown-item text-left" href="{{ route('logout') }}">Cerrar sesión</a>
           </div>
         </li>
 
         <li class="nav-item active">
-            <a class="nav-link" href="#">{{ Auth::User()->Name }}</a>
+            <a class="nav-link" href="#">{{ isset(Auth::User()->Name) ? Auth::User()->Name : Auth::User()->Alias }}</a>
         </li>
       </ul>
     </div>

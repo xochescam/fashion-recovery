@@ -17,10 +17,10 @@
               <h1 class="fCooperHewitt"><b>FASHION RECOVERY</b></h1>
               <p class="d-none d-md-block">
                 "La prenda más verde es la que ya existe." Juntos vamos a crear conciencia y cuidemos el planeta.
-                Sé parte de este gran movimiento.<br />Te esperamos!
+                Sé parte de este gran movimiento.<br />¡Te esperamos!
               </p>
-              <a href="{{ url('') }}" class="btn btn-outline-light">Vende tu Guardarropa</a>
-              <button class="btn btn-fr" type="button">Comprar!</button>
+              <a href="{{ url('/register/1') }}" class="btn btn-outline-light">Vende tu Guardarropa</a>
+              <a href="{{ url('#offersDeLaSemana') }}" class="btn btn-fr" role="button">Comprar</a>
             </div>
           </div>
         </div>

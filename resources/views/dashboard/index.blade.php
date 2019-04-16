@@ -32,7 +32,17 @@
 
 					@else
 
-						<h4>Hola, {{ Auth::User()->Name }}</h4>
+						<h4 class="mb-5">Hola, {{ isset(Auth::User()->Name) ? Auth::User()->Name : Auth::User()->Alias }}</h4>
+
+						@include('alerts.success')
+              			@include('alerts.warning')
+
+						@if(!Auth::User()->Confirmed)
+
+							<div class="alert alert-warning w-50" role="alert">
+							  Recuerda confirmar tu cuenta <a href="{{ url('resend-confirm-account',Auth::User()->id) }}" class="alert-link">reenviar enlace</a>. Give it a click if you like.
+							</div>
+						@endif
 
 					@endif
 

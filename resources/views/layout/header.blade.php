@@ -9,32 +9,16 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <form class="form-inline my-2 my-lg-0 mr-auto">
-        <input class="form-control mr-sm-2" type="search" placeholder="Buscar en Guardarropas..." aria-label="Search">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscar en Guardarropa" aria-label="Search">
         <button class="btn btn-outline-light my-2 my-sm-0 mx-2" type="submit">Buscar</button>
       </form>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="{{ Auth::User() !== null ? url('seller') : url('register',1) }}">¿Quieres Vender?</a>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Mi Perfil
-          </a>
-          <div class="dropdown-menu  btn-fr" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="{{ url('data') }}">Mis Datos</a>
-            <a class="dropdown-item" href="{{ url('') }}">Mis Preferencias</a>
-            <a class="dropdown-item" href="{{ url('') }}">Whish List</a>
-            <a class="dropdown-item" href="{{ url('') }}">Mis Pedidos</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('') }}">Mi Guardarropa</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="{{ url('') }}">Administración</a>
-          </div>
+          <a class="nav-link" href="{{ Auth::User() !== null ? url('seller') : url('register',1) }}">¿Quieres vender?</a>
         </li>
 
         <li class="nav-item active">
-          <a class="nav-link" href="{{ url('login',0) }}">Iniciar Sesión</a>
+          <a class="nav-link" href="{{ url('login',0) }}">Iniciar sesión</a>
         </li>
       </ul>
     </div>

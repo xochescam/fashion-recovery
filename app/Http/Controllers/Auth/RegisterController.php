@@ -58,13 +58,12 @@ class RegisterController extends Controller
     protected function validator(Request $request)
     {
         $request->validate([
-            'name'            => ['required', 'max:80'],
-            'last_name'       => ['required', 'max:80'],
-            'email'           => ['required', 'email', 'max:100'],
-            'password'        => ['required', 'min:6'],
-            'alias'           => ['required','max:30'],
-            'gender'          => ['required'],
-            'birth_date'      => ['required', 'date','before:'.date("Y-m-d")],
+            'name'       => isset($request->name) ? ['max:80'] : [''],
+            'last_name'  => isset($request->last_name) ? ['max:80'] : [''],
+            'email'      => ['email', 'max:100'],
+            'password'   => ['confirmed','min:6'],
+            'alias'      => ['max:30'],
+            'birth_date' => isset($request->birth_date) ? ['date','before:'.date("Y-m-d")] : [''],
         ]);
     }
 
@@ -178,6 +177,36 @@ class RegisterController extends Controller
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
             return Redirect::to('login/'.$beSeller);
+        }
+    }
+
+    protected function resendConfirmAccount($userID) {
+
+        $table = 'fashionrecovery.GR_001';
+        $user  = DB::table($table)->where('id',$userId)->first();
+
+        if($user->Confirmed) {
+            abort(403);
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            Mail::to($user->email)
+                ->send(new ConfirmAccount($user, 0));
+
+            DB::commit();
+
+            Session::flash('success','Se ha confirmado la cuenta exitosamente');
+            return Redirect::to('dashboard');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('dashboard');
         }
     }
 }

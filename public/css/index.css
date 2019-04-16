@@ -14,6 +14,13 @@ body{
   width: 400px;
 }
 
+.invalid-validation {
+  width: 100%;
+  margin-top: .25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+
 .btn-fr{
   background-color: #009c77;
   color:white  !important;
@@ -55,6 +62,10 @@ div a{
   text-align: center !important;
 }
 
+.card--item {
+  cursor: pointer;
+}
+
 .card--public:hover{
   border: 3.5px solid #009c77;
   box-shadow:0 1.5rem 3.5rem rgba(0,0,0,.175)!important;
@@ -90,6 +101,25 @@ div a{
   color: white;
 }
 
+.custom-file-label--profile {
+  height: 90px;
+  width: 80px;
+  border-radius: 0px;
+  background: url('../img/default.png');
+  border: 1px solid #adadad;
+}
+
+.custom-file-label--profile::after {
+  content:'';
+  padding: 0px;
+  border-left: 0px;
+}
+
+.custom-file p{
+    height: 90px;
+    padding-top: 30px;
+    padding-left: 100px;
+}
 
 
 /* // Extra small devices (portrait phones, less than 576px)  No media query for `xs` since this is the default in Bootstrap */
@@ -116,5 +146,6 @@ div a{
 /* // Extra large devices (large desktops, 1200px and up)
 @media (max-width: 1200px) {
 }
+
 
 

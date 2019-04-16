@@ -52,6 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('seller/{sellerId}/edit', 'SellerController@edit');
 	Route::post('seller/{sellerId}', 'SellerController@update');
 
+	Route::get('resend-confirm-account/{userId}','Auth\RegisterController@resendConfirmAccount');
+
 	//Item
 	Route::get('items', 'ItemController@index');
 	Route::get('item', 'ItemController@create');

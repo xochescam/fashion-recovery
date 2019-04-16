@@ -65,7 +65,7 @@ class SellerController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha registrado correctamente');
-            return Redirect::to('auth/'.Auth::User()->id); //cambiar
+            return Redirect::to('item'); //cambiar
 
         } catch (\Exception $ex) {
 

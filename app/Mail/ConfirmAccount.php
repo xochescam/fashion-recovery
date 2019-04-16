@@ -43,7 +43,7 @@ class ConfirmAccount extends Mailable
                     ->view('emails.account.confirm')
                     ->with([
                         'UserID' => $this->user->id,
-                        'name'   => $this->user->Name,
+                        'name'   => isset($this->user->Name) ? $this->user->Name : $this->user->Alias,
                         'beSeller' => $this->beSeller,
                     ]);
 

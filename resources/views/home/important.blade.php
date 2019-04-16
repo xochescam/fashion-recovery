@@ -9,7 +9,7 @@
       </div>
       <div class="row justify-content-around shadow-lg p-3 mb-5 bg-light rounded mx-md-5">
 
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 ">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/women.jpg') }}" alt="Guardarropa para Mujer">
             <div class="card-body">
@@ -20,7 +20,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/men.jpg') }}" alt="Guardarropa para Hombre">
             <div class="card-body">
@@ -31,7 +31,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/kid.jpg') }}" alt="Guardarropa para Niños">
             <div class="card-body">
@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/maternity.jpg') }}" alt="Guardarropa para Bebés y Maternidad">
             <div class="card-body">
