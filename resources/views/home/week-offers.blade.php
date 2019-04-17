@@ -144,141 +144,28 @@
             </div>
           </div>
 
+          @foreach($items as $item)
+
           <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
             <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
+              <img class="card-img-top" src="{{ url($item->first()->PicturePath) }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
+                  <h5><span class="badge badge-pill badge-success">{{ $item->first()->ActualPrice }} % </span></h5>
+                  <span class="badge badge-pill badge-warning"> {{ $item->first()->Discount }} % </span>
                 </div>
-                <h4 class="card-title">Zara</h4>
+                <h4 class="card-title">{{ $item->first()->BrandName }}</h4>
                 <h6>Falda</h6>
                 <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
+                  Talla: 5 <br />Color: {{ $item->first()->ColorName }}</p>
                 <a href="#" class="btn btn-fr">Comprar</a>
               </div>
             </div>
           </div>
 
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
-                </div>
-                <h4 class="card-title">Zara</h4>
-                <h6>Falda</h6>
-                <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
-                <a href="#" class="btn btn-fr">Comprar</a>
-              </div>
-            </div>
-          </div>
+          @endforeach
 
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
-                </div>
-                <h4 class="card-title">Zara</h4>
-                <h6>Falda</h6>
-                <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
-                <a href="#" class="btn btn-fr">Comprar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
-                </div>
-                <h4 class="card-title">Zara</h4>
-                <h6>Falda</h6>
-                <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
-                <a href="#" class="btn btn-fr">Comprar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
-                </div>
-                <h4 class="card-title">Zara</h4>
-                <h6>Falda</h6>
-                <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
-                <a href="#" class="btn btn-fr">Comprar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
-                </div>
-                <h4 class="card-title">Zara</h4>
-                <h6>Falda</h6>
-                <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
-                <a href="#" class="btn btn-fr">Comprar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
-                </div>
-                <h4 class="card-title">Zara</h4>
-                <h6>Falda</h6>
-                <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
-                <a href="#" class="btn btn-fr">Comprar</a>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-              <img class="card-img-top" src="{{ url('img/offers/falda.png') }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">$400.90</span></h5>
-                  <span class="badge badge-pill badge-warning">35%</span>
-                </div>
-                <h4 class="card-title">Zara</h4>
-                <h6>Falda</h6>
-                <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: Dorada</p>
-                <a href="#" class="btn btn-fr">Comprar</a>
-              </div>
-            </div>
-          </div>
+          
 
         </div>
       </div>

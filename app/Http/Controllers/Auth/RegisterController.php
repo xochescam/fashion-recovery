@@ -80,7 +80,13 @@ class RegisterController extends Controller
 
         if($this->existsEmail($request->email)) {
 
-            Session::flash('warning','Esta cuenta ya existe. Accede a tu cuenta');
+            Session::flash('warning','Esta cuenta ya existe. Accede a tu cuenta.');
+            return Redirect::to('register/'.$beSeller);
+        }
+
+        if($this->existsAlias($request->alias)) {
+
+            Session::flash('warning','El alias ya existe. Intenta con otro.');
             return Redirect::to('register/'.$beSeller);
         }
 
@@ -146,67 +152,16 @@ class RegisterController extends Controller
         return $user === null ? false : true;
     }
 
-    protected function confirmAccount($userId, $beSeller) {
+    protected function existsAlias($alias) {
 
-        $table = 'fashionrecovery.GR_001';
-        $user  = DB::table($table)->where('id',$userId)->first();
+        $user = DB::table('fashionrecovery.GR_001')
+                  ->where('Alias',$alias)
+                  ->first();
 
-        if($user->Confirmed) {
-            abort(403);
-        }
-
-        DB::beginTransaction();
-
-        try {
-
-            DB::table($table)
-                ->where('id',$userId)
-                ->update(['Confirmed' => true]);
-
-            // Mail::to($user->email)
-            //     ->send(new ConfirmAccount($user));
-
-            DB::commit();
-
-            Session::flash('success','Se ha confirmado la cuenta exitosamente');
-            return Redirect::to('login/'.$beSeller);
-
-        } catch (\Exception $ex) {
-
-            DB::rollback();
-
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('login/'.$beSeller);
-        }
+        return $user === null ? false : true;
     }
 
-    protected function resendConfirmAccount($userID) {
 
-        $table = 'fashionrecovery.GR_001';
-        $user  = DB::table($table)->where('id',$userId)->first();
 
-        if($user->Confirmed) {
-            abort(403);
-        }
 
-        DB::beginTransaction();
-
-        try {
-
-            Mail::to($user->email)
-                ->send(new ConfirmAccount($user, 0));
-
-            DB::commit();
-
-            Session::flash('success','Se ha confirmado la cuenta exitosamente');
-            return Redirect::to('dashboard');
-
-        } catch (\Exception $ex) {
-
-            DB::rollback();
-
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('dashboard');
-        }
-    }
 }

@@ -10,7 +10,7 @@ use DB;
 use Redirect;
 use Session;
 use Auth;
-
+use Image;
 
 class ItemController extends Controller
 {
@@ -68,11 +68,11 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
+    public function store(Request $request)
     {
-        DB::beginTransaction();
+        //DB::beginTransaction();
 
-        try {
+        //try {
 
             $data = $this->itemData($request->toArray());
 
@@ -90,18 +90,18 @@ class ItemController extends Controller
                 ]);
             }
 
-            DB::commit();
+            //DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('item'); //cambiar
 
-        } catch (\Exception $ex) {
+        //} catch (\Exception $ex) {
 
-            DB::rollback();
+            //DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error');
-            return Redirect::to('seller');
-        }
+            //Session::flash('warning','Ha ocurrido un error');
+            //return Redirect::to('seller');
+        //}
     }
 
 
@@ -154,16 +154,16 @@ class ItemController extends Controller
         $itemsName = [];
         $count     = 0;
 
-
         foreach ($data['PicturesUploaded'] as $key => $value) {
 
             $date   = date("Ymd-His");
             $dir = 'sellers/'.Auth::User()->id.'/items/'.$item.'/';
             $name = $date.'-'.$count++.'.jpg';
+            $img = Image::make($value->getRealPath())->fit(200);
+            $img->stream();
             //eliminar carpeta al actualizar
             \Storage::disk('public')->put($dir.$name,  \File::get($value));
-            \Storage::disk('public')->put($dir.'thumb-'.$name,  \File::get($value)); //thumb
-
+            \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
             array_push($itemsName,$dir.$name);
         }
 

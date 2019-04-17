@@ -25,7 +25,16 @@ class ClosetController extends Controller
                     ->where('UserID',Auth::User()->id)
                     ->get();
 
-        return view('closet.list',compact('closets'));
+
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->whereIn('GR_029.ClosetID',$closets->groupBy('ClosetID')->keys()->toArray())
+                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->get()
+                    ->groupBy('ClosetID')
+                    ->toArray();
+
+        return view('closet.list',compact('closets','items'));
     }
 
     /**

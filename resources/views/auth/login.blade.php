@@ -53,13 +53,13 @@
 
           </div>
         </div>
-        <div class="row mt-4">
+        <div class="row mt-4 ">
           <div class="col col-md-6 offset-md-3">
             <p class="mb-1"><a href="{{ route('password.request') }}" class="text-center">¿Olvidaste tu contraseña?</a></p>
           </div>
         </div>
         <div class="row">
-          <div class="col col-md-6 offset-md-3">
+          <div class="col col-md-6 offset-md-3 mb-5">
             <p class="mb-1">¿Aún no tienes cuenta?<a href="{{ url('register',0) }}" class="text-center"> Registrate aquí</a></p>
           </div>
         </div>

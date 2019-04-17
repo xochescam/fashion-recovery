@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Mail\ConfirmAccount;
+
 use DB;
 use Redirect;
 use Session;
@@ -120,9 +122,9 @@ class AuthController extends Controller
     {
         $this->validator($request);
 
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        //try {
+        try {
 
             $data = $this->authData($request->toArray());
 
@@ -130,18 +132,18 @@ class AuthController extends Controller
                 ->where('id',$id)
                 ->update($data);
 
-            //DB::commit();
+            DB::commit();
 
-            Session::flash('success','Se ha modificado correctamente');
+            Session::flash('success','Se han actualizado los datos correctamente.');
             return Redirect::to('auth/'.$id);
 
-        //} catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
-            //DB::rollback();
+            DB::rollback();
 
-            //Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            //return Redirect::to('auth/'.$id.'/edit');
-        //}
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('auth/'.$id);
+        }
     }
 
     /**
@@ -154,10 +156,11 @@ class AuthController extends Controller
     {
         //unique:users,email,'.$id
         $request->validate([
-            'name'      => ['required', 'max:80'],
-            'last_name' => ['required', 'max:80'],
-            'email'     => ['required', 'email', 'max:100'],
-            'alias'     => ['required','max:30']
+            'name'       => isset($request->name) ? ['max:80'] : [''],
+            'last_name'  => isset($request->last_name) ? ['max:80'] : [''],
+            'email'      => ['email', 'max:100'],
+            'password'   => ['confirmed','min:6'],
+            'Alias'      => ['max:30'],
         ]);
     }
 
@@ -165,8 +168,8 @@ class AuthController extends Controller
 
         return [
              'email'         => $data['email'],
-             'Alias'         => $data['alias'],
-             'Name'          => $data['name'],
+             'Alias'         => $data['Alias'],
+             'Name'          => $data['Name'],
              'Lastname'      => $data['last_name'],
              'Notifications' => isset($data['notifications']) ? true : false
         ];
@@ -181,5 +184,65 @@ class AuthController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function resend($userID) {
+        $table = 'fashionrecovery.GR_001';
+        $user  = DB::table($table)->where('id',$userID)->first();
+
+        if($user->Confirmed) {
+            abort(403);
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            Mail::to($user->email)
+                ->send(new ConfirmAccount($user, 0));
+
+            DB::commit();
+
+            Session::flash('success','Se ha reenviado el correo exitosamente.');
+            return Redirect::to('dashboard');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
+            return Redirect::to('dashboard');
+        }
+    }
+
+    public function confirmAccount($userId, $beSeller) {
+
+        $table = 'fashionrecovery.GR_001';
+        $user  = DB::table($table)->where('id',$userId)->first();
+
+        if($user->Confirmed) {
+            abort(403);
+        }
+
+        DB::beginTransaction();
+
+        try {
+
+            DB::table($table)
+                ->where('id',$userId)
+                ->update(['Confirmed' => true]);
+
+            DB::commit();
+
+            Session::flash('success','Se ha confirmado la cuenta exitosamente');
+            return Redirect::to('login/'.$beSeller);
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('login/'.$beSeller);
+        }
     }
 }

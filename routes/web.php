@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
+Route::get('/', 'HomeController@index');
+
 
 Auth::routes();
 
@@ -25,7 +25,7 @@ Route::view('privacy', 'footer.privacy');
 Route::view('return-policy', 'footer.return-policy');
 Route::view('about', 'footer.about');
 
-Route::get('confirm-account/{userID}/{beSeller}', 'Auth\RegisterController@confirmAccount');
+Route::get('confirm-account/{userID}/{beSeller}', 'AuthController@confirmAccount');
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
@@ -38,6 +38,9 @@ Route::post('register/{beSeller}','Auth\RegisterController@register');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//Guardarropas
+	Route::get('guardarropas', 'DashboardController@index');
+	
 	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');
 
@@ -52,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('seller/{sellerId}/edit', 'SellerController@edit');
 	Route::post('seller/{sellerId}', 'SellerController@update');
 
-	Route::get('resend-confirm-account/{userId}','Auth\RegisterController@resendConfirmAccount');
+	Route::get('resend-confirm-account/{userId}', 'AuthController@resend');
 
 	//Item
 	Route::get('items', 'ItemController@index');

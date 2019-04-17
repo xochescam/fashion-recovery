@@ -4,7 +4,7 @@
 
 	 <main id="main">
       <div class="container py-5">
-        <h2 class="text-center mb-5">{{ $closet->ClosetName }}</h2>
+        <h2 class="text-center TituloFR my-4 mb-5 ">{{ $closet->ClosetName }}</h2>
 
         <a href="{{ url('item') }}" class="btn btn-fr mb-4">Subir prenda</a>
 

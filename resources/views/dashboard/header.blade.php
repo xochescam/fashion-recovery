@@ -6,30 +6,24 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-      @if(Auth::User()->ProfileID == 4)
-        <a class="navbar-brand" href="{{ url('dashboard') }}">Panel de administración</a>
-
-      @else
-        <a class="navbar-brand" href="{{ url('dashboard') }}">
+      <a class="navbar-brand" href="{{ url('dashboard') }}">
           <img src="{{ url('img/header/transparent_logo.png') }}" alt="Fashion Recovery"/>
-        </a>
-
-      @endif
+      </a>
 
       @if(Auth::User()->ProfileID == 4)
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catálogos</a>
             <div class="dropdown-menu">
-              <a class="dropdown-item" href="{{ url('departments') }}">Departamentos</a>
-              <a class="dropdown-item" href="{{ url('brands') }}">Marcas</a>
-              <a class="dropdown-item" href="{{ url('categories') }}">Categorias</a>
-              <a class="dropdown-item" href="{{ url('types') }}">Tipos</a>
-              <a class="dropdown-item" href="{{ url('colors') }}">Colores</a>
-              <a class="dropdown-item" href="{{ url('clothing-types') }}">Tipos de ropa</a>
-              <a class="dropdown-item" href="{{ url('sizes') }}">Tamaños</a>
-              <a class="dropdown-item" href="{{ url('seasons') }}">Temporadas</a>
-              <a class="dropdown-item" href="{{ url('calendar-sales') }}">Calendario de ofertas</a>
+              <a class="dropdown-item text-left" href="{{ url('departments') }}">Departamentos</a>
+              <a class="dropdown-item text-left" href="{{ url('brands') }}">Marcas</a>
+              <a class="dropdown-item text-left" href="{{ url('categories') }}">Categorias</a>
+              <a class="dropdown-item text-left" href="{{ url('types') }}">Tipos</a>
+              <a class="dropdown-item text-left" href="{{ url('colors') }}">Colores</a>
+              <a class="dropdown-item text-left" href="{{ url('clothing-types') }}">Tipos de ropa</a>
+              <a class="dropdown-item text-left" href="{{ url('sizes') }}">Tamaños</a>
+              <a class="dropdown-item text-left" href="{{ url('seasons') }}">Temporadas</a>
+              <a class="dropdown-item text-left" href="{{ url('calendar-sales') }}">Calendario de ofertas</a>
             </div>
           </li>
         </ul>
@@ -56,7 +50,7 @@
             
             @if(Auth::User()->ProfileID == 2)
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item text-left" href="{{ url('#') }}">Mi Guardarropa</a>
+              <a class="dropdown-item text-left" href="{{ url('guardarropas') }}">Mi Guardarropa</a>
             @endif
 
             @if(Auth::User()->ProfileID > 2)
@@ -72,7 +66,7 @@
         </li>
 
         <li class="nav-item active">
-            <a class="nav-link" href="#">{{ isset(Auth::User()->Name) ? Auth::User()->Name : Auth::User()->Alias }}</a>
+            <a class="nav-link" href="#">{{ Auth::User()->Alias }}</a>
         </li>
       </ul>
     </div>

@@ -60,7 +60,7 @@ class SellerController extends Controller
                 ->update(['ProfileID' => 2]);
 
             $this->saveID($request->toArray());
-            $this->saveSelfie($request->toArray());
+            //$this->saveSelfie($request->toArray());
 
             DB::commit();
 
@@ -125,7 +125,7 @@ class SellerController extends Controller
                 ->update($data);
 
             $this->saveID($request->toArray());
-            $this->saveSelfie($request->toArray());
+            //$this->saveSelfie($request->toArray());
 
             DB::commit();
 
@@ -192,13 +192,13 @@ class SellerController extends Controller
     protected function validator(Request $request)
     {
         $request->validate([
-            'Greeting'             => ['required','max:50'],
-            'AboutMe'              => ['required','max:256'],
-            'Phone'                => ['required','numeric'],
-            'LiveIn'               => ['required','max:35'],
-            'WorkIn'               => ['required','max:35'],
-            'IdentityDocumentPath' => ['required','mimes:jpg,jpeg,png'],
-            'SelfiePath'           => ['required','mimes:jpg,jpeg,png']
+            'Greeting'             => ['max:50'],
+            'AboutMe'              => ['max:256'],
+            'Phone'                => ['numeric'],
+            'LiveIn'               => ['max:35'],
+            'WorkIn'               => ['max:35'],
+            'IdentityDocumentPath' => ['mimes:jpg,jpeg,png'],
+            //'SelfiePath'           => ['mimes:jpg,jpeg,png']
         ]);
     }
 
@@ -212,7 +212,7 @@ class SellerController extends Controller
              'Greeting'             => $data['Greeting'],
              'AboutMe'              => $data['AboutMe'],
              'LiveIn'               => $data['LiveIn'],
-             'WorkIn'               => $data['WorkIn'],
+             'WorkIn'               => null,
              'Phone'                => $data['Phone'],
              'TotalEvaluations'     => 0,
              'ItemsSold'            => 0,
@@ -222,8 +222,8 @@ class SellerController extends Controller
              'Ranking'              => 0,
              'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false, //save thumbs
              'IdentityDocumentPath' => 'storage/sellers/'. $userId.'/'.$userId.'_ID.jpg',
-             'Selfie'               => isset($data['SelfiePath']) ? true : false,
-             'SelfiePath'           => 'storage/sellers/'. $userId.'/'.$userId.'_selfie.jpg',
+             'Selfie'               => false,
+             'SelfiePath'           => null,
              'VerifiedEmail'        => false,
              'VerifiedPhone'        => false //Phone ?
         ];

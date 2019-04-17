@@ -137,7 +137,7 @@
                 <div class="form-check mt-2">
                   <input class="form-check-input" type="checkbox" id="terms" name="terms"  value="true" checked>
                   <label class="form-check-label" for="terms">
-                    He leído y acepto los <a href="{{ url('terms') }}">Términos y condiciones</a> y <a href="{{ url('privacy') }}">Aviso de privacidad</a
+                    He leído y acepto los <a href="{{ url('terms') }}" target="_blank">Términos y condiciones</a> y <a href="{{ url('privacy') }}" target="_blank">Aviso de privacidad</a
                   </label>
                 </div>
 

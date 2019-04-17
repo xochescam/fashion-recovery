@@ -14,6 +14,25 @@ body{
   width: 400px;
 }
 
+small{
+  color: #949393;
+}
+
+textarea::placeholder {
+  font-style: italic;
+  font-size: 14px;
+}
+
+.placeholderclass::before{
+width:100%;
+content:attr(placeholder);
+}
+
+.placeholderclass:hover::before{
+width:0%;
+content:"";
+}
+
 .invalid-validation {
   width: 100%;
   margin-top: .25rem;
@@ -124,6 +143,14 @@ div a{
 .card-img-top {
     max-height: 12rem;
     object-fit: cover;
+}
+
+.yellow {
+  color: #fdd234;
+}
+
+.gray {
+  color: #ccc;
 }
 
 
