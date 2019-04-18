@@ -13,7 +13,7 @@
 
             @if(Auth::User()->ProfileID == 2)
               <div class="card mb-5 card--selfie">
-                <img src=" {{ url('storage/'.$seller->SelfieThumbPath) }} " class="card-img-top" alt="">
+                <img src="http://fashionrecovery.azurewebsites.net/storage/'.{{$seller->SelfieThumbPath}}" class="card-img-top" alt="">
               </div>
             @endif
 
