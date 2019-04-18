@@ -208,7 +208,7 @@ class ItemController extends Controller
         foreach ($data['PicturesUploaded'] as $key => $value) {
 
             $date   = date("Ymd-His");
-            $dir = 'items/'.Auth::User()->id.'/'.$item.'/';
+            $dir = 'items/'.Auth::User()->id.'/item_'.$item.'/';
             $name = $date.'-'.$count++.'.jpg';
             $img = Image::make($value->getRealPath())->fit(200);
             $img->stream();
