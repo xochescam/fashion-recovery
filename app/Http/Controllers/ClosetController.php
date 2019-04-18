@@ -163,10 +163,15 @@ class ClosetController extends Controller
      */
     public function destroy($id)
     {
+                    
          DB::beginTransaction();
 
         try {
 
+            $name = DB::table($this->table)
+                    ->where('ClosetID',$id)
+                    ->first()
+                    ->ClosetName;
             $explode     = explode('.', $this->table);
             $stringTable = $explode[0].'."'.$explode[1].'"';
 
@@ -174,7 +179,7 @@ class ClosetController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha eliminado correctamente la colección.');
+            Session::flash('success','Se ha eliminado correctamente la colección '.$name.'.');
             return Redirect::to('closets');
 
         } catch (\Exception $ex) {
