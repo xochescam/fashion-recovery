@@ -85,7 +85,7 @@
                 </div>
 
                 <div class="form-group col-md-6">
-                  <label for="password_confirmation">Repetir contraseña *</label>
+                  <label for="password_confirmation">Repite tu contraseña *</label>
                   <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Repetir contraseña" value="{{ old('password') }}" required>
 
                   <div class="invalid-feedback">

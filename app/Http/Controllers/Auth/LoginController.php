@@ -93,7 +93,7 @@ class LoginController extends Controller
 
         } else {
 
-            Session::flash('warning','Tus datos no son correctos');
+            Session::flash('warning','Tu correo o contraseña no son válidos.');
             return Redirect::to('login/'.$beSeller);
         }
 

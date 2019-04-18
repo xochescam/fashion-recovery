@@ -26,7 +26,7 @@
                     </div>
                   @else
                     <div class="invalid-feedback">
-                      Ingresa un correo electrónico válido.
+                      Ingresa tu correo electrónico.
                     </div>
                   @endif
 
@@ -42,7 +42,7 @@
                     </div>
                   @else
                     <div class="invalid-feedback">
-                      El campo contraseña es requerido.
+                      Ingresa tu contraseña.
                     </div>
                   @endif
                 </div>

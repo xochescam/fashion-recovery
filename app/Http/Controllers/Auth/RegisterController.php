@@ -105,7 +105,7 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha registrado correctamente');
+            Session::flash('success','Tu cuenta ha sido creada. Inicia sesión.');
             return $this->registered($request, $user)
                             ?: redirect('login/'.$beSeller);
 
