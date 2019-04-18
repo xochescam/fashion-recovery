@@ -4,6 +4,51 @@
 @include('alerts.warning')
 
 <div class="form-row">
+    <div class="form-group col-md-6">
+    <label>Foto de perfil *</label>
+
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" id="SelfiePath" name="SelfiePath" lang="es" required>
+      <label class="custom-file-label" for="SelfiePath">
+        {{ isset($seller->SelfiePath) ? $seller->SelfiePath : (old('SelfiePath') ? old('SelfiePath') : 'Seleccionar archivo') }}
+      </label>
+      <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit ducimus ex, quasi ipsam.</small>
+
+      @if ($errors->has('SelfiePath'))
+        <div class="invalid-validation">
+          {{ $errors->first('SelfiePath') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo selfie es obligatorio.
+        </div>
+      @endif
+    </div>
+  </div>
+    <div class="form-group col-md-6">
+    <label>Documento de identificación *</label>
+
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" id="IdentityDocumentPath" name="IdentityDocumentPath" lang="es" required>
+      <label class="custom-file-label" for="IdentityDocumentPath">
+        {{ isset($seller->IdentityDocumentPath) ? $seller->IdentityDocumentPath : (old('IdentityDocumentPath') ? old('IdentityDocumentPath') : 'Seleccionar archivo') }}
+      </label>
+      <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit ducimus ex, quasi ipsam.</small>
+
+      @if ($errors->has('IdentityDocumentPath'))
+        <div class="invalid-validation">
+          {{ $errors->first('IdentityDocumentPath') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo documento de identificación es obligatorio.
+        </div>
+      @endif
+    </div>
+  </div>
+</div>
+
+<div class="form-row">
   <div class="form-group col-md-6">
       <label for="Greeting">Deja un saludo *</label>
       <textarea name="Greeting" id="Greeting" class="form-control" placeholder="Deja un saludo para que tú perfil sea confiable y amigable a tus posibles clientes" rows="3" required>{{ isset($seller->Greeting) ? $seller->Greeting : old('Greeting') }}</textarea>
@@ -35,7 +80,21 @@
 </div>
 
 <div class="form-row">
-  <div class="form-group w-100">
+  <div class="form-group col-md-6">
+    <label for="Phone">Teléfono *</label>
+    <input type="tel" name="Phone" id="Phone" class="form-control" maxlength="10" value="{{ isset($seller->Phone) ? $seller->Phone : old('Phone') }}" placeholder="5212000000" required>
+
+    @if ($errors->has('Phone'))
+      <div class="invalid-validation">
+        {{ $errors->first('Phone') }}
+      </div>
+    @else
+        <div class="invalid-feedback">
+          El campo teléfono es obligatorio.
+        </div>
+    @endif
+  </div>
+    <div class="form-group col-md-6">
     <label for="LiveIn">Lugar de residencia *</label>
       <select name="LiveIn" id="LiveIn" class="form-control" required>
         <option value="" selected>- Seleccionar -</option>
@@ -147,45 +206,6 @@
   </div>
 </div>
 
-<div class="form-row">
-  <div class="form-group col-md-6">
-    <label for="Phone">Teléfono *</label>
-    <input type="tel" name="Phone" id="Phone" class="form-control" maxlength="10" value="{{ isset($seller->Phone) ? $seller->Phone : old('Phone') }}" placeholder="5212000000" required>
-
-    @if ($errors->has('Phone'))
-      <div class="invalid-validation">
-        {{ $errors->first('Phone') }}
-      </div>
-    @else
-        <div class="invalid-feedback">
-          El campo teléfono es obligatorio.
-        </div>
-    @endif
-  </div>
-
-  <div class="form-group col-md-6">
-    <label>Documento de identificación *</label>
-
-    <div class="custom-file">
-      <input type="file" class="custom-file-input" id="IdentityDocumentPath" name="IdentityDocumentPath" lang="es" required>
-      <label class="custom-file-label" for="IdentityDocumentPath">
-        {{ isset($seller->IdentityDocumentPath) ? $seller->IdentityDocumentPath : (old('IdentityDocumentPath') ? old('IdentityDocumentPath') : 'Seleccionar archivo') }}
-      </label>
-      <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit ducimus ex, quasi ipsam.</small>
-
-      @if ($errors->has('IdentityDocumentPath'))
-        <div class="invalid-validation">
-          {{ $errors->first('IdentityDocumentPath') }}
-        </div>
-      @else
-        <div class="invalid-feedback">
-          El campo documento de identificación es obligatorio.
-        </div>
-      @endif
-    </div>
-  </div>
-</div>
-
 <div class="text-center mt-5">
-  <button type="submit" class="btn btn-fr w-50">Registrarme</button>
+  <button type="submit" class="btn btn-fr w-50">Comenzar a vender</button>
 </div>

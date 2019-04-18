@@ -8,6 +8,7 @@ use DB;
 use Redirect;
 use Session;
 use Auth;
+use Image;
 
 class SellerController extends Controller
 {
@@ -60,7 +61,7 @@ class SellerController extends Controller
                 ->update(['ProfileID' => 2]);
 
             $this->saveID($request->toArray());
-            //$this->saveSelfie($request->toArray());
+            $this->saveSelfie($request->toArray());
 
             DB::commit();
 
@@ -125,7 +126,7 @@ class SellerController extends Controller
                 ->update($data);
 
             $this->saveID($request->toArray());
-            //$this->saveSelfie($request->toArray());
+            $this->saveSelfie($request->toArray());
 
             DB::commit();
 
@@ -175,9 +176,13 @@ class SellerController extends Controller
     protected function saveSelfie($data) {
 
         $date         = date("Y-m-d H:i:s");
-        $selfieName   = "sellers/".Auth::User()->id.'/'.Auth::User()->id.'_selfie.jpg';
+        $dir          = "sellers/".Auth::User()->id.'/';
+        $selfieName   = Auth::User()->id.'_selfie.jpg';
+        $img          = Image::make($data['SelfiePath']->getRealPath())->fit(200);
+        $img->stream();
 
-        \Storage::disk('public')->put($selfieName,  \File::get($data['SelfiePath']));
+        \Storage::disk('public')->put($dir.$selfieName,  \File::get($data['SelfiePath']));
+        \Storage::disk('public')->put($dir.'thumb-'.$selfieName, $img, 'public');
 
         return true;
     }
@@ -220,10 +225,11 @@ class SellerController extends Controller
              'Ranking'              => 0,
              'VerifiedByFR'         => false,
              'Ranking'              => 0,
-             'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false, //save thumbs
+             'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false,
              'IdentityDocumentPath' => 'storage/sellers/'. $userId.'/'.$userId.'_ID.jpg',
-             'Selfie'               => false,
-             'SelfiePath'           => null,
+             'Selfie'               => isset($data['SelfiePath']) ? true : false,
+             'SelfiePath'           => 'storage/sellers/'. $userId.'/'.$userId.'_selfie.jpg',
+             'SelfieThumbPath'      => 'storage/sellers/'. $userId.'/thumb_'.$userId.'_selfie.jpg',
              'VerifiedEmail'        => false,
              'VerifiedPhone'        => false //Phone ?
         ];
