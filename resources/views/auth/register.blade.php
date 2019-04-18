@@ -113,7 +113,7 @@
 
                 <div class="form-group col-md-6">
                   <label for="birth_date">Fecha de nacimiento</label>
-                  <input type="date" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("Y-m-d") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') }}">
+                  <input type="text" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("Y-m-d") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') }}"  onblur="(this.type='text')" onfocus="(this.type='date')">
 
                   @if ($errors->has('birth_date'))
                     <div class="invalid-feedback">
