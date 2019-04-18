@@ -229,7 +229,7 @@ class SellerController extends Controller
              'IdentityDocumentPath' => 'storage/sellers/'. $userId.'/'.$userId.'_ID.jpg',
              'Selfie'               => isset($data['SelfiePath']) ? true : false,
              'SelfiePath'           => 'storage/sellers/'. $userId.'/'.$userId.'_selfie.jpg',
-             'SelfieThumbPath'      => 'storage/sellers/'. $userId.'/thumb_'.$userId.'_selfie.jpg',
+             'SelfieThumbPath'      => 'storage/sellers/'. $userId.'/thumb-'.$userId.'_selfie.jpg',
              'VerifiedEmail'        => false,
              'VerifiedPhone'        => false //Phone ?
         ];

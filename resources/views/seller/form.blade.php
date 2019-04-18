@@ -20,7 +20,7 @@
         </div>
       @else
         <div class="invalid-feedback">
-          El campo selfie es obligatorio.
+          El campo foto de perfil es obligatorio.
         </div>
       @endif
     </div>
