@@ -4,20 +4,19 @@
 
 	 <main id="main">
       <div class="container py-5">
-        <h2 class="text-center TituloFR my-4 mb-5 ">Tus Guardarropas</h2>
+        <h2 class="text-center TituloFR my-4 mb-5 ">Mis colecciones</h2>
 
-        <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia eligendi sint, officiis fugit optio ullam quod eveniet, unde quibusdam nostrum.</p>
+        <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia eligendi sint, officiis fugit optio ullam quod eveniet, unde quibusdam nostrum.</p>
 
         @include('alerts.success')
         @include('alerts.warning')
 
         <div>
-          <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Crear Guardarropa</a>
+          <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Nueva colección</a>
         </div>
 
         <div class="row">
           
-
           @foreach($closets as $closet)
 
             <div class="col-sm-4 mb-4">
