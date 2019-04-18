@@ -300,17 +300,17 @@
 
 <div class="form-group">
   <div class="form-check mt-2">
-    <input class="form-check-input js-check-offer" type="checkbox" id="offer" name="offer"  value="true">
+    <input class="form-check-input js-check-offer" type="checkbox" id="offer" name="offer"  value="true" {{ $item && $item->first()->OffSaleID !== null ? 'checked' : '' }}>
     <label class="form-check-label" for="offer">¿Te gustaría agregar una oferta a la prenda?
     </label>
   </div>
 </div>
 
-<div class="card mb-4 js-check-container hidden">
+<div class="card mb-4 js-check-container {{ $item && $item->first()->OffSaleID !== null ? '' : 'hidden' }}">
   <div class="card-body">
     <div class="form-group">
       <label for="Discount">Descuento *</label>
-      <input type="number" class="form-control" name="Discount" id="Discount" value=" {{ old('Discount') }}">
+      <input type="number" class="form-control" name="Discount" id="Discount" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->Discount : old('Discount') }}">
       <small>Escribe el porcentaje de descuento que le deseas aplicar a la prenda.</small>
 
       @if ($errors->has('Discount'))
@@ -322,7 +322,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="ValidFrom">Desde *</label>
-        <input type="date" class="form-control" name="ValidFrom" id="ValidFrom" value=" {{ old('ValidFrom') }}">
+        <input type="date" class="form-control" name="ValidFrom" id="ValidFrom" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->ValidFrom : old('ValidFrom') }}">
         <small>Selecciona la fecha inicial de la oferta.</small>
 
         @if ($errors->has('ValidFrom'))
@@ -334,7 +334,7 @@
 
       <div class="form-group col-md-6">
         <label for="ValidUntil">Hasta *</label>
-        <input type="date" class="form-control" name="ValidUntil" id="ValidUntil" value=" {{ old('ValidUntil') }}">
+        <input type="date" class="form-control" name="ValidUntil" id="ValidUntil" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->ValidUntil : old('ValidUntil') }}">
         <small>Selecciona la fecha final de la oferta.</small>
 
         @if ($errors->has('ValidUntil'))

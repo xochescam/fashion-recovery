@@ -393,7 +393,7 @@ class ItemController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
+            Session::flash('success','Se ha eliminado correctamente la prenda.');
             return Redirect::to('items');
 
         } catch (\Exception $ex) {

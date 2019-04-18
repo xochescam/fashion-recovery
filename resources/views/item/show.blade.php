@@ -19,7 +19,7 @@
               <h5 class="card-header">{{ $item->first()->ActualPrice }}
                 <small class="line-through">{{ $item->first()->OriginalPrice }}</small>
                 @if($item->first()->OffSaleID !== null)
-                  <span class="badge badge-secondary green-background float-right">{{ $offers[1][0]->Discount }}%</span>
+                  <span class="badge badge-secondary green-background float-right">{{ $offers[$item->first()->OffSaleID][0]->Discount }}%</span>
                 @endif
               </h5>
 

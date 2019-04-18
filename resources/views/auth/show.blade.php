@@ -10,6 +10,13 @@
           </div>
 
           <div class="col-md-3">
+
+            @if(Auth::User()->ProfileID == 2)
+              <div class="card mb-5 card--selfie">
+                <img src=" {{ url($seller->SelfieThumbPath) }} " class="card-img-top" alt="">
+              </div>
+            @endif
+
             <ul class="list-group list-group-flush">
               <a href="#" class="list-group-item list-group-item-action text-left">
                 Mis datos
@@ -38,7 +45,7 @@
                     <a class="btn btn-fr" href="{{ url('auth/'.(Auth::User()->id).'/edit') }}" role="button">Modificar datos</a>
                   </div> --}}
 
-                  <form method="POST" action="{{ url('auth',Auth::User()->id) }}" class="was-validated">
+                  <form method="POST" action="{{ url('auth',Auth::User()->id) }}" class="needs-validation" novalidate>
                      @csrf
 
                     @include('alerts.success')
@@ -106,13 +113,36 @@
                     </div>
 
                     <div class="form-group row">
-                      <label class="col-sm-3 col-form-label text-right">Género</label>
-                      <label class="col-sm-9 col-form-label text-left">{{ Auth::User()->Gender }}</label>
+                        <label class="col-sm-3 col-form-label text-right" for="gender">Género</label>
+                        <div class="col-sm-9">
+                          <select id="gender" class="form-control" name="gender" >
+                            <option value="" selected>- Seleccionar -</option>
+                            <option value="Masculino" {{ Auth::User()->Gender == 'Masculino' || old('gender') == 'Masculino' ? 'selected' : ''}}>Masculino</option>
+                            <option value="Femenino" {{ Auth::User()->Gender == 'Femenino' ||old('gender') == 'Femenino' ? 'selected' : ''}}>Femenino</option>
+                            <option value="Indefinido" {{ Auth::User()->Gender == 'Indefinido' || old('gender') == 'Indefinido' ? 'selected' : ''}}>Indefinido</option>
+                          </select>
+
+                          @if ($errors->has('gender'))
+                            <div class="invalid-feedback">
+                              {{ $errors->first('gender') }}
+                            </div>
+                          @endif
+                        </div>
                     </div>
 
                     <div class="form-group row">
-                      <label class="col-sm-3 col-form-label text-right">Fecha de nacimiento</label>
-                      <label class="col-sm-9 col-form-label text-left">{{ $birthDateUser }}</label>
+                        <label for="birth_date" class="col-sm-3 col-form-label text-right">Fecha de nacimiento</label>
+      
+                      <div class="form-group col-md-9">
+                        <input type="text" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("Y-m-d") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') || Auth::User()->Birthdate ? $birthDateUser : old('birth_date') }}"  onblur="(this.type='text')" onfocus="(this.type='date')">
+
+                        @if ($errors->has('birth_date'))
+                          <div class="invalid-feedback">
+                            {{ $errors->first('birth_date') }}
+                          </div>
+                        @endif
+                      </div>
+
                     </div>
 
                      <div class="form-group row">
@@ -133,30 +163,33 @@
 
                   <div class="card-body">
 
-                  <form method="POST" action="{{ url('auth',Auth::User()->id) }}" class="needs-validation">
+                  <form method="POST" action="{{ url('seller',$seller->SellerID) }}" class="needs-validation" novalidate>
                      @csrf
+
+                    @include('alerts.success')
+                    @include('alerts.warning')
 
                       <div class="form-group row">
                         <label for="Greeting" class="col-sm-3 col-form-label text-right">Deja un saludo</label>
                         <div class="col-sm-9">
-                          <textarea class="form-control" name="Greeting" id="Greeting"  cols="30" rows="3">{{ $seller->Greeting }}</textarea>
-                        </div>
+                          <textarea class="form-control" name="Greeting" id="Greeting"  cols="30" rows="3" required>{{ $seller->Greeting }}</textarea>
 
-                        @if ($errors->has('Greeting'))
-                          <div class="invalid-validation">
-                            {{ $errors->first('Greeting') }}
-                          </div>
-                        @else
-                          <div class="invalid-feedback">
-                            El campo deja un saludo es obligatorio.
-                          </div>
-                        @endif
+                          @if ($errors->has('Greeting'))
+                            <div class="invalid-validation">
+                              {{ $errors->first('Greeting') }}
+                            </div>
+                          @else
+                            <div class="invalid-feedback">
+                              El campo deja un saludo es obligatorio.
+                            </div>
+                          @endif
+                        </div>
                       </div>
 
                       <div class="form-group row">
                         <label for="AboutMe" class="col-sm-3 col-form-label text-right">Acerca de mi</label>
                         <div class="col-sm-9">
-                          <textarea class="form-control" name="AboutMe" id="AboutMe"  cols="30" rows="3">{{ $seller->AboutMe }}</textarea>
+                          <textarea class="form-control" name="AboutMe" id="AboutMe"  cols="30" rows="3" required>{{ $seller->AboutMe }}</textarea>
                           @if ($errors->has('AboutMe'))
                             <div class="invalid-validation">
                               {{ $errors->first('AboutMe') }}
@@ -167,14 +200,12 @@
                             </div>
                           @endif
                         </div>
-
-                        
                       </div>
 
                       <div class="form-group row">
                         <label for="LiveIn" class="col-sm-3 col-form-label text-right">Lugar de residencia</label>
                         <div class="col-sm-9">
-                          <select name="LiveIn" id="LiveIn" class="form-control">
+                          <select name="LiveIn" id="LiveIn" class="form-control" required>
                             <option value="" selected>- Seleccionar -</option>
                             <option value="Aguascalientes" {{ $seller->LiveIn == "Aguascalientes" ? "selected" : '' }}>
                               Aguascalientes
@@ -310,11 +341,6 @@
                       </div>
 
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label text-right">Vendedor desde</label>
-                        <label class="col-sm-9 col-form-label text-left">{{ $sellerSince }}</label>
-                      </div>
-
-                      <div class="form-group row">
                         <label class="col-sm-3 col-form-label text-right">Documento de identificación</label>
 
                         <div class="col-sm-8 col-form-label text-left">
@@ -338,7 +364,10 @@
                         
                       </div>
 
-
+                      <div class="form-group row">
+                        <label class="col-sm-3 col-form-label text-right">Vendedor desde</label>
+                        <label class="col-sm-9 col-form-label text-left">{{ $sellerSince }}</label>
+                      </div>
 
                       <div class="w-auto float-right">
                         <button class="btn btn-fr">Guardar</button>

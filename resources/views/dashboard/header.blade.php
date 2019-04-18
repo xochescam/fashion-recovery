@@ -39,7 +39,7 @@
 
         <li class="nav-item dropdown ">
           <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Mi Perfil
+            {{ Auth::User()->Alias }}
           </a>
 
           <div class="dropdown-menu btn-fr" aria-labelledby="navbarDropdown">
@@ -65,9 +65,16 @@
           </div>
         </li>
 
-        <li class="nav-item active">
-            <a class="nav-link" href="#">{{ Auth::User()->Alias }}</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i> </a>
+          <div class="dropdown-menu dropdown-menu--notifications">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
         </li>
+
+        
       </ul>
     </div>
   </div>

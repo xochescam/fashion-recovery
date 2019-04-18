@@ -59,7 +59,7 @@ class AuthController extends Controller
         $seller           = null;
         $sellerSince      = '';
         $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
-        $birthDateUser    = $this->formatDate("d F Y", $user->Birthdate);
+        $birthDateUser = date("d/m/Y", strtotime($user->Birthdate));
 
         if($user->ProfileID == 2) {
             $seller = DB::table('fashionrecovery.GR_033')
@@ -121,11 +121,12 @@ class AuthController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd('ok');
         $this->validator($request);
 
-        DB::beginTransaction();
+        //DB::beginTransaction();
 
-        try {
+        //try {
 
             $data = $this->authData($request->toArray());
 
@@ -133,18 +134,18 @@ class AuthController extends Controller
                 ->where('id',$id)
                 ->update($data);
 
-            DB::commit();
+            //DB::commit();
 
             Session::flash('success','Se han actualizado los datos correctamente.');
             return Redirect::to('auth/'.$id);
 
-        } catch (\Exception $ex) {
+        //} catch (\Exception $ex) {
 
-            DB::rollback();
+            //DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('auth/'.$id);
-        }
+            //Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            //return Redirect::to('auth/'.$id);
+        //}
     }
 
     /**
@@ -172,7 +173,9 @@ class AuthController extends Controller
              'Alias'         => $data['Alias'],
              'Name'          => $data['Name'],
              'Lastname'      => $data['last_name'],
-             'Notifications' => isset($data['notifications']) ? true : false
+             'Notifications' => isset($data['notifications']) ? true : false,
+             'Gender'        => isset($data['gender']) ? $data['gender'] : false,
+             'Birthdate'     => isset($data['birth_date']) ? $data['birth_date'] : false
         ];
     }
 

@@ -10,8 +10,20 @@ body{
   /* background-color: #009c77; */
 }
 
+.dropdown-menu--notifications {
+  left: -150px;
+}
+
+.card--selfie {
+  cursor: pointer;
+}
+
 #header img{
   width: 400px;
+}
+
+.nav-link {
+  cursor: pointer;
 }
 
 .hidden {
