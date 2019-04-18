@@ -216,8 +216,6 @@ class ItemController extends Controller
             \Storage::disk('public')->put($dir.$name,  \File::get($value));
             \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
 
-            chmod($dir, 0777);
-
             $items = [
                 'name' => $dir.$name,
                 'thumb' => $dir.'thumb-'.$name
