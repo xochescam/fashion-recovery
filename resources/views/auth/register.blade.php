@@ -58,8 +58,6 @@
                   <label for="email">Correo electrónico *</label>
                   <input type="email" class="form-control" name="email" id="email" placeholder="Correo electrónico" value="{{ old('email') }}" required>
 
-                  
-
                   @if ($errors->has('email'))
                     <div class="invalid-validation">
                       {{ $errors->first('email') }}

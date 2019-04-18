@@ -14,6 +14,10 @@ class ClosetController extends Controller
 {
     protected $table = 'fashionrecovery.GR_030';
 
+
+    public function ownClosets() {
+        return view('dashboard.ownClosets');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -55,7 +59,6 @@ class ClosetController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validator($request);
 
         DB::beginTransaction();
 
@@ -68,7 +71,7 @@ class ClosetController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('closet');
+            return Redirect::to('closets');
 
         } catch (\Exception $ex) {
 
@@ -95,7 +98,7 @@ class ClosetController extends Controller
                     ->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
                     ->where('fashionrecovery.GR_030.ClosetID',$id)
                     ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_031.Discount','GR_029.OriginalPrice','GR_029.ActualPrice')
+                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_032.ThumbPath','GR_031.Discount','GR_029.OriginalPrice','GR_029.ActualPrice')
                     ->get()
                     ->groupBy('ItemID');
 
@@ -126,8 +129,6 @@ class ClosetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validator($request);
-
         DB::beginTransaction();
 
         try {
@@ -173,7 +174,7 @@ class ClosetController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
+            Session::flash('success','Se ha eliminado correctamente el guardarropa.');
             return Redirect::to('closets');
 
         } catch (\Exception $ex) {
@@ -186,28 +187,13 @@ class ClosetController extends Controller
     }
 
 
-    /**
-     * Validate the brand request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return void
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function validator($request)
-    {
-        return $request->validate([
-            'ClosetName' => ['required']
-        ]);
-    }
-
-
     public function getData($data) {
 
         return [
-            'UserID'       => Auth::User()->id,
-            'ClosetName'   => $data['ClosetName'],
-            'CreationDate' => date("Y-m-d H:i:s")
+            'UserID'            => Auth::User()->id,
+            'ClosetName'        => $data['ClosetName'],
+            'ClosetDescription' => $data['ClosetDescription'],
+            'CreationDate'      => date("Y-m-d H:i:s")
         ];
     }
 }

@@ -42,6 +42,7 @@
 
     <script>
         const dateTime = document.querySelectorAll('.date_time_input');
+        const offerCheck = document.querySelector('.js-check-offer');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
 
@@ -81,6 +82,19 @@
                 orientation: "bottom auto",
                 autoclose: true
             })
+
+        if(offerCheck) {
+
+            const container = document.querySelector('.js-check-container');
+
+            offerCheck.addEventListener('change', function(e) {
+                if(e.currentTarget.checked) {
+                    container.classList.remove('hidden');
+                } else {
+                    container.classList.add('hidden');
+                }
+            });
+        }
 
     </script>
   </body>

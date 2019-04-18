@@ -5,11 +5,17 @@
 	 <main id="main">
       <div class="container py-5">
         <div class="row">
-          <div class="col-md-6 offset-md-3">
-            <h2 class="text-center">Subir prenda</h2>
+          <h2 class="text-center TituloFR my-4 mb-5 w-100">Subir prenda</h2>
 
-            <form method="POST" action="{{ url('item') }}" class="was-validated" enctype="multipart/form-data">
+          <p class="text-center mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p> 
+
+          <div class="col-md-8 offset-md-2">
+            <form method="POST" action="{{ url('item') }}" class="needs-validation" enctype="multipart/form-data" novalidate>
               @include('item.form')
+
+              <div class="text-center mt-5">
+                 <button type="submit" class="btn btn-fr w-50">Subir</button>
+              </div>
             </form>
           </div>
         </div>

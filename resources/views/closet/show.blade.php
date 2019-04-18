@@ -6,7 +6,7 @@
       <div class="container py-5">
         <h2 class="text-center TituloFR my-4 mb-5 ">{{ $closet->ClosetName }}</h2>
 
-        <a href="{{ url('item') }}" class="btn btn-fr mb-4">Subir prenda</a>
+        <p class="mb-5 text-center">{{ $closet->ClosetDescription }}</p>
 
         @include('alerts.success')
         @include('alerts.warning')
@@ -18,7 +18,7 @@
             <div class="col-sm-4 mb-4">
 
               <div class="card">
-                <a href="{{ url('item',$item->first()->ItemID) }}"><img src="{{ url('storage/'.$item->first()->PicturePath) }}" class="card-img-top" alt="..."></a>
+                <a href="{{ url('item',$item->first()->ItemID) }}"><img src="{{ url('storage/'.$item->first()->ThumbPath) }}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">{{ $item->first()->ActualPrice }}
                     <small class="line-through">{{ $item->first()->OriginalPrice }}</small>

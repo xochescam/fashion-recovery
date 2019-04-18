@@ -25,9 +25,8 @@ class ItemController extends Controller
     {
         $items = DB::table($this->table)
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
-                    ->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
-                    ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_031.Discount','GR_029.OriginalPrice','GR_029.ActualPrice')
+                   ->where('GR_029.OwnerID',Auth::User()->id)
+                   ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_029.OriginalPrice','GR_029.ActualPrice','GR_032.ThumbPath','GR_029.ItemDescription')
                     ->get()
                     ->groupBy('ItemID');
 
@@ -41,16 +40,22 @@ class ItemController extends Controller
      */
     public function create()
     {
+        $item = false;
         $colors        = DB::table('fashionrecovery.GR_018')->get();
         $sizes         = DB::table('fashionrecovery.GR_020')->get();
         $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
         $departments   = DB::table('fashionrecovery.GR_025')->get();
         $categories    = DB::table('fashionrecovery.GR_026')->get();
         $types         = DB::table('fashionrecovery.GR_027')->get();
-        $closets       = DB::table('fashionrecovery.GR_030')->get();
+        $brands        = DB::table('fashionrecovery.GR_017')->get();
         $offers        = DB::table('fashionrecovery.GR_031')->get();
+        $closets       = DB::table('fashionrecovery.GR_030')
+                        ->where('UserID',Auth::User()->id)
+                        ->get();
 
         return view('item.create',compact(
+            'brands',
+            'item',
             'colors',
             'sizes',
             'clothingTypes',
@@ -68,11 +73,11 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        //try {
+        try {
 
             $data = $this->itemData($request->toArray());
 
@@ -85,25 +90,52 @@ class ItemController extends Controller
 
                 DB::table('fashionrecovery.GR_032')->insert([
                     'ItemID' => $id,
-                    'PicturePath' => $value,
+                    'PicturePath' => $value['name'],
+                    'ThumbPath' => $value['thumb'],
                     'CreationDate' => date("Y-m-d H:i:s")
                 ]);
             }
 
-            //DB::commit();
+            DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('item'); //cambiar
+            return Redirect::to('items'); //cambiar
 
-        //} catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
-            //DB::rollback();
+            DB::rollback();
 
-            //Session::flash('warning','Ha ocurrido un error');
-            //return Redirect::to('seller');
-        //}
+            Session::flash('warning','Ha ocurrido un error');
+            return Redirect::to('seller');
+        }
     }
 
+    protected function updateItemData($data) {
+
+        $closet = $data['ClosetID'] == "default" ?
+                    $this->saveDefaultCloset()->ClosetID :
+                    $data['ClosetID'];
+
+        $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
+
+        return [
+             'ItemDescription'  => $data['ItemDescription'],
+             'OwnerID'          => Auth::User()->id,
+             //'PicturesUploaded' => count($data['PicturesUploaded']),
+             //'OriginalPrice'    => $data['OriginalPrice'],
+             //'ActualPrice'      => $data['ActualPrice'],
+             'ColorID'          => $data['ColorID'],
+             'SizeID'           => $data['SizeID'],
+             'ClothingTypeID'   => $data['ClothingTypeID'],
+             'DepartmentID'     => $data['DepartmentID'],
+             'CategoryID'       => $data['CategoryID'],
+             'TypeID'           => $data['TypeID'],
+             'BrandID'          => $data['BrandID'],
+             'ClosetID'         => $closet,
+             'OffSaleID'        => $OffSaleID,
+             //'CreationDate'     => date("Y-m-d H:i:s")
+        ];
+    }
 
     protected function itemData($data) {
 
@@ -111,7 +143,10 @@ class ItemController extends Controller
                     $this->saveDefaultCloset()->ClosetID :
                     $data['ClosetID'];
 
+        $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
+
         return [
+             'ItemDescription'  => $data['ItemDescription'],
              'OwnerID'          => Auth::User()->id,
              'PicturesUploaded' => count($data['PicturesUploaded']),
              'OriginalPrice'    => $data['OriginalPrice'],
@@ -122,10 +157,24 @@ class ItemController extends Controller
              'DepartmentID'     => $data['DepartmentID'],
              'CategoryID'       => $data['CategoryID'],
              'TypeID'           => $data['TypeID'],
+             'BrandID'          => $data['BrandID'],
              'ClosetID'         => $closet,
-             'OffSaleID'        => $data['OffSaleID'],
+             'OffSaleID'        => $OffSaleID,
              'CreationDate'     => date("Y-m-d H:i:s")
         ];
+    }
+
+    public function saveOffer($data) {
+
+        $offer = DB::table('fashionrecovery.GR_031')
+                    ->insert([
+                        'Discount'   => $data['Discount'],
+                        'ValidFrom'  => $data['ValidFrom'],
+                        'ValidUntil' => $data['ValidUntil'],
+                        'UserID'     => Auth::User()->id
+                    ]);
+
+        return $id = DB::getPdo()->lastInsertId();
     }
 
     protected function saveDefaultCloset() {
@@ -152,6 +201,8 @@ class ItemController extends Controller
     protected function saveItems($data,$item) {
 
         $itemsName = [];
+        $thumbName = [];
+        $items = [];
         $count     = 0;
 
         foreach ($data['PicturesUploaded'] as $key => $value) {
@@ -164,7 +215,13 @@ class ItemController extends Controller
             //eliminar carpeta al actualizar
             \Storage::disk('public')->put($dir.$name,  \File::get($value));
             \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
-            array_push($itemsName,$dir.$name);
+
+            $items = [
+                'name' => $dir.$name,
+                'thumb' => $dir.'thumb-'.$name
+            ];
+
+            array_push($itemsName,$items);        
         }
 
         return $itemsName;
@@ -180,10 +237,22 @@ class ItemController extends Controller
     {
         $db = 'fashionrecovery';
 
+        $colors        = DB::table('fashionrecovery.GR_018')->get();
+        $sizes         = DB::table('fashionrecovery.GR_020')->get();
+        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
+        $departments   = DB::table('fashionrecovery.GR_025')->get();
+        $categories    = DB::table('fashionrecovery.GR_026')->get();
+        $types         = DB::table('fashionrecovery.GR_027')->get();
+        $offers        = DB::table('fashionrecovery.GR_031')->get();
+        $brands        = DB::table('fashionrecovery.GR_017')->get();
+        $closets       = DB::table('fashionrecovery.GR_030')
+                        ->where('UserID',Auth::User()->id)
+                        ->get();
+
         $item = DB::table($this->table) //Mostrar solo una imagen
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
-                    ->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
+                    //->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
                     ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
                     ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
@@ -194,22 +263,41 @@ class ItemController extends Controller
                     ->where('GR_029.ItemID',$id)
                     ->select('GR_029.ItemID',
                              'GR_032.ItemPictureID',
-                             'GR_032.PicturePath',
-                             'GR_031.Discount',
+                             'GR_032.ThumbPath',
+                             'GR_029.OffSaleID',
+                             'GR_029.BrandID',
+                             'GR_029.ItemDescription',
+                             //'GR_031.Discount',
                              'GR_029.OriginalPrice',
                              'GR_029.ActualPrice',
-                             'GR_020.SizeName',
-                             'GR_018.ColorName',
-                             'GR_019.ClothingTypeName',
-                             'GR_025.DepName',
-                             'GR_026.CategoryName',
-                             'GR_027.TypeName',
-                             'GR_030.ClosetName'
+                             'GR_020.SizeID',
+                             'GR_018.ColorID',
+                             'GR_019.ClothingTypeID',
+                             'GR_025.DepartmentID',
+                             'GR_026.CategoryID',
+                             'GR_027.TypeID',
+                             'GR_030.ClosetID'
                          )
                     ->get()->groupBy('ItemID')->first();
 
-
-        return view('item.show',compact('item'));
+        $offers = DB::table('fashionrecovery.GR_031')
+                    ->where('UserID',Auth::User()->id)
+                    ->get()
+                    ->groupBy('OfferID')->toArray();
+           
+        return view('item.show',compact(
+            'brands',
+            'item',
+            'offers',
+            'colors',
+            'sizes',
+            'clothingTypes',
+            'departments',
+            'categories',
+            'types',
+            'closets',
+            'offers'
+        ));
     }
 
     /**
@@ -256,21 +344,21 @@ class ItemController extends Controller
 
         try {
 
-            $data = $this->itemData($request->toArray());
+            $data = $this->updateItemData($request->toArray());
 
             DB::table($this->table)->where('ItemID',$id)->update($data);
 
-            $itemsName = $this->saveItems($request->toArray(), $id);
+            //$itemsName = $this->saveItems($request->toArray(), $id);
 
-            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
+            // DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
 
-            foreach ($itemsName as $key => $value) { //change
-                DB::table('fashionrecovery.GR_032')->insert([
-                    'ItemID' => $id,
-                    'PicturePath' => $value,
-                    'CreationDate' => date("Y-m-d H:i:s")
-                ]);
-            }
+            // foreach ($itemsName as $key => $value) { //change
+            //     DB::table('fashionrecovery.GR_032')->insert([
+            //         'ItemID' => $id,
+            //         'PicturePath' => $value,
+            //         'CreationDate' => date("Y-m-d H:i:s")
+            //     ]);
+            // }
 
             DB::commit();
 

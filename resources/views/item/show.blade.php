@@ -14,36 +14,31 @@
         </div>
 
         <div class="row">
-
-          <div class="col-4 card mr-4">
-            <div class="card-body">
-              <h5>{{ $item->first()->ActualPrice }}
+          <div class=" col-4 ">
+            <div class="card mb-4">
+              <h5 class="card-header">{{ $item->first()->ActualPrice }}
                 <small class="line-through">{{ $item->first()->OriginalPrice }}</small>
-                <span class="badge badge-secondary green-background float-right">{{ $item->first()->Discount }}%</span>
+                @if($item->first()->OffSaleID !== null)
+                  <span class="badge badge-secondary green-background float-right">{{ $offers[1][0]->Discount }}%</span>
+                @endif
               </h5>
 
-              <hr>
+              <div class="card-body">
+                <form method="POST" action="{{ route('item.update',$item->first()->ItemID) }}" class="needs-validation" novalidate>
+                  @csrf
+                        
+                  @include('item.form')
 
-              <div class="text-right">
-                <a href="{{ url('item/'.$item->first()->ItemID.'/edit') }}" class="btn btn-fr btn-sm mb-4">Modificar datos</a>
+
+                  <div class="text-center mt-5">
+                     <button type="submit" class="btn btn-fr w-50">Guardar</button>
+                  </div>
+
+                </form>
               </div>
-
-              <p class="card-text">Color: <br> {{ $item->first()->ColorName }} </p>
-
-              <p class="card-text">Tamaño: <br> {{ $item->first()->SizeName }} </p>
-
-              <p class="card-text">Tipo de ropa: <br> {{ $item->first()->ClothingTypeName }} </p>
-
-              <p class="card-text">Departamento: <br> {{ $item->first()->DepName }} </p>
-
-              <p class="card-text">Categoria: <br> {{ $item->first()->CategoryName }} </p>
-
-              <p class="card-text">Tipo: <br> {{ $item->first()->TypeName }} </p>
-
-              <p class="card-text">Closet: <br> {{ $item->first()->ClosetName }} </p>
             </div>
-
           </div>
+          
 
           <div class="col-8 row">
 
@@ -51,7 +46,7 @@
               <div class="col-sm-4 mb-4">
 
                 <div class="card">
-                  <img src="{{ url('storage/'.$picture->PicturePath) }}" class="card-img-top" alt="...">
+                  <img src="{{ url('storage/'.$picture->ThumbPath) }}" class="card-img-top" alt="...">
                   <a href="{{ route('item.destroy',$picture->ItemPictureID) }}" class="btn btn-danger btn-sm">Eliminar</a>
                 </div>
 

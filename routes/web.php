@@ -39,7 +39,7 @@ Route::post('register/{beSeller}','Auth\RegisterController@register');
 Route::group(['middleware' => ['auth']], function () {
 
 	//Guardarropas
-	Route::get('guardarropas', 'DashboardController@index');
+	Route::get('guardarropa', 'ClosetController@ownClosets');
 	
 	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');

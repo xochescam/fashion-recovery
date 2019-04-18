@@ -24,9 +24,9 @@ class StoreItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'PicturesUploaded'   => ['required'], //validar imagenes
+            //'PicturesUploaded'   => ['required'], //validar imagenes
             'PicturesUploaded.*' => ['mimes:jpeg,png,jpg'], //validar imagenes
-            'OriginalPrice'    => ['required'],
+            /*'OriginalPrice'    => ['required'],
             'ActualPrice'      => ['required'],
             'ColorID'          => ['required'],
             'SizeID'           => ['required'],
@@ -35,7 +35,7 @@ class StoreItemRequest extends FormRequest
             'CategoryID'       => ['required'],
             'TypeID'           => ['required'],
             'ClosetID'         => ['required'],
-            'OffSaleID'        => ['required']
+            'OffSaleID'        => ['required']*/
         ];
     }
 

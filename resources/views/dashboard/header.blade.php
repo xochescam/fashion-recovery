@@ -50,7 +50,7 @@
             
             @if(Auth::User()->ProfileID == 2)
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item text-left" href="{{ url('guardarropas') }}">Mi Guardarropa</a>
+              <a class="dropdown-item text-left" href="{{ url('guardarropa') }}">Mi Guardarropa</a>
             @endif
 
             @if(Auth::User()->ProfileID > 2)
