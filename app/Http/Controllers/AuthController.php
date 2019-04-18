@@ -10,6 +10,7 @@ use DB;
 use Redirect;
 use Session;
 use Auth;
+use Mail;
 
 class AuthController extends Controller
 {
