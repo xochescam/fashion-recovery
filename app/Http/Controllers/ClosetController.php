@@ -70,7 +70,7 @@ class ClosetController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha guardado correctamente');
+            Session::flash('success','Se ha guardado correctamente la colección.');
             return Redirect::to('closets');
 
         } catch (\Exception $ex) {
@@ -139,7 +139,7 @@ class ClosetController extends Controller
                 ->where('ClosetID',$id)
                 ->update($data);
 
-            Session::flash('success','Se ha modificado correctamente');
+            Session::flash('success','Se ha modificado correctamente la colección.');
 
             DB::commit();
 
@@ -174,7 +174,7 @@ class ClosetController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha eliminado correctamente el guardarropa.');
+            Session::flash('success','Se ha eliminado correctamente la colección.');
             return Redirect::to('closets');
 
         } catch (\Exception $ex) {
