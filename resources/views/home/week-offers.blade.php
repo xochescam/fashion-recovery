@@ -151,7 +151,7 @@
               <img class="card-img-top" src="{{ url($item->first()->ThumbPath) }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">{{ $item->first()->ActualPrice }} % </span></h5>
+                  <h5><span class="badge badge-pill badge-success">{{ $item->first()->ActualPrice }} </span></h5>
                 </div>
                 <h4 class="card-title">{{ $item->first()->BrandName }}</h4>
                 <h6>Falda</h6>
