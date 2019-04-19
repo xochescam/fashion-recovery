@@ -5,21 +5,6 @@
   @include('alerts.warning')
 @endif
 
-<div class="form-group">
-  <label for="ItemDescription">Descripción corta *</label>
-  <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
-      
-  @if ($errors->has('ItemDescription'))
-    <div class="invalid-validation">
-      {{ $errors->first('ItemDescription') }}
-    </div>
-  @else
-    <div class="invalid-feedback">
-      El campo de descripción corta es obligatorio.
-    </div>
-  @endif    
-</div>
-
 @if(!$item)
 <div class="form-group">
   <label>Fotos de la prenda *</label>
@@ -57,8 +42,9 @@
 
   </div>
 </div>
+@endif
 
-
+@if(!$item)
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="OriginalPrice">Precio original *</label>
@@ -94,6 +80,21 @@
     </div>
   </div>
 @endif
+
+<div class="form-group">
+  <label for="ItemDescription">Descripción corta *</label>
+  <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
+      
+  @if ($errors->has('ItemDescription'))
+    <div class="invalid-validation">
+      {{ $errors->first('ItemDescription') }}
+    </div>
+  @else
+    <div class="invalid-feedback">
+      El campo de descripción corta es obligatorio.
+    </div>
+  @endif    
+</div>
 
 <div class="form-group">
   <label for="BrandID">Marca *</label>
