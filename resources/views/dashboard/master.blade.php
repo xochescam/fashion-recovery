@@ -43,6 +43,7 @@
     <script>
         const dateTime = document.querySelectorAll('.date_time_input');
         const offerCheck = document.querySelector('.js-check-offer');
+        const selfieInput = document.querySelector('.js-selfie-input');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
 
@@ -95,6 +96,21 @@
                 }
             });
         }
+
+        if(selfieInput) {    
+            const btn = document.querySelector('.js-selfie-btn');
+            const img = document.querySelector('.js-selfie-img');
+
+            selfieInput.addEventListener('change', function(e) {
+                
+                btn.classList.remove('hidden');
+
+                $('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
+                img.style.width = "200px";
+            });
+        }
+
+
 
     </script>
   </body>

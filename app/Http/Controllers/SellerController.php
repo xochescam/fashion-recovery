@@ -235,4 +235,26 @@ class SellerController extends Controller
         ];
     }
 
+    public function updateSelfie(Request $request, $id) {
+
+        //DB::beginTransaction();
+
+        //try {
+            
+            $this->saveSelfie($request->toArray());
+
+            DB::commit();
+
+            Session::flash('success','Se ha actualizado la foto de perfil exitosamente.');
+            return Redirect::to('auth/'.$id);
+
+        //} catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
+            return Redirect::to('auth/'.$id);
+        //}
+    }
+
 }

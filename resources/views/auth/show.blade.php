@@ -5,16 +5,34 @@
 	 <main id="main">
       <div class="container py-5">
         <div class="row">
-          <div class="col-md-8 offset-md-2">
+
+          <div class="w-100">
             <h2 class="text-center TituloFR my-4 mb-5">Mis datos</h2>
+
+            @include('alerts.success')
+            @include('alerts.warning')
           </div>
 
-          <div class="col-md-3">
+          <div class="col-md-3 text-center">
 
             @if(Auth::User()->ProfileID == 2)
-              <div class="card mb-5 card--selfie">
-                <img src=" {{ url($seller->SelfieThumbPath) }} " class="card-img-top" alt="">
-              </div>
+
+              <form method="POST" action="{{ url('update-selfie',Auth::User()->id) }}" class="mb-5" enctype="multipart/form-data">
+                @csrf
+
+                <label for="SelfiePath" class="mb-2">
+                  <div class="card card--selfie ">
+                    <img src=" {{ url($seller->SelfieThumbPath) }} " class="card-img-top js-selfie-img" alt="">
+                    <i class="far fa-edit" id="edit_icon"></i>
+                  </div>
+                  <input type="file" class="selfieInput js-selfie-input" id="SelfiePath" name="SelfiePath">
+                </label>
+                
+                <div class="text-center">
+                  <button class="btn btn-fr hidden js-selfie-btn">Actualizar</button>
+                </div>
+              </form>
+
             @endif
 
             <ul class="list-group list-group-flush">
@@ -47,9 +65,6 @@
 
                   <form method="POST" action="{{ url('auth',Auth::User()->id) }}" class="needs-validation" novalidate>
                      @csrf
-
-                    @include('alerts.success')
-                    @include('alerts.warning')
                       
                     <div class="form-group row">
                       <label for="Alias" class="col-sm-3 col-form-label text-right">Alias</label>
@@ -165,9 +180,6 @@
 
                   <form method="POST" action="{{ url('seller',$seller->SellerID) }}" class="needs-validation" novalidate>
                      @csrf
-
-                    @include('alerts.success')
-                    @include('alerts.warning')
 
                       <div class="form-group row">
                         <label for="Greeting" class="col-sm-3 col-form-label text-right">Deja un saludo</label>

@@ -9,6 +9,31 @@ body{
   background-image: url('../img/header/BoardGreen.jpg');
   /* background-color: #009c77; */
 }
+.selfieInput {
+  cursor:pointer;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute !important;
+  white-space: nowrap;
+  width: 1px; 
+}
+
+.card--selfie:hover #edit_icon {
+  display: block;
+}
+
+.card--selfie #edit_icon{
+  display: none;
+  text-align: right;
+  padding: 5px;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  color: #009c77;
+}
 
 .dropdown-menu--notifications {
   left: -150px;
