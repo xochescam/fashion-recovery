@@ -9,6 +9,7 @@ use Redirect;
 use Session;
 use Auth;
 use Image;
+use File;
 
 class SellerController extends Controller
 {
@@ -61,7 +62,7 @@ class SellerController extends Controller
                 ->update(['ProfileID' => 2]);
 
             $this->saveID($request->toArray());
-            $this->saveSelfie($request->toArray());
+            $this->saveSelfie($request->toArray(), false);
 
             DB::commit();
 
@@ -119,14 +120,17 @@ class SellerController extends Controller
 
         try {
 
-            $data = $this->sellerData($request->toArray());
+
+            $this->saveID($request->toArray());
+            $selfie = $this->saveSelfie($request->toArray());
+
+            $data = $this->sellerData($request->toArray(), $selfie);
 
             DB::table($this->table)
                 ->where('SellerID',$id)
                 ->update($data);
 
-            $this->saveID($request->toArray());
-            $this->saveSelfie($request->toArray());
+            
 
             DB::commit();
 
@@ -173,18 +177,30 @@ class SellerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    protected function saveSelfie($data) {
+    protected function saveSelfie($data, $isUpdate) {
 
-        $date         = date("Y-m-d H:i:s");
+        $date         = date("Ymd-His");
         $dir          = "sellers/".Auth::User()->id.'/';
-        $selfieName   = Auth::User()->id.'_selfie.jpg';
+        $selfieName   = $date.'_'.Auth::User()->id.'_selfie.jpg';
         $img          = Image::make($data['SelfiePath']->getRealPath())->fit(200);
         $img->stream();
+
+        if($isUpdate) {
+
+            $seller = DB::table($this->table)
+                        ->where('UserID',Auth::User()->id)
+                        ->first();
+
+            File::delete($seller->SelfiePath, $seller->SelfieThumbPath);
+        }
 
         \Storage::disk('public')->put($dir.$selfieName,  \File::get($data['SelfiePath']));
         \Storage::disk('public')->put($dir.'thumb-'.$selfieName, $img, 'public');
 
-        return true;
+        return [
+                'mean'  => 'storage/'.$dir.$selfieName,
+                'thumb' => 'storage/'.$dir.'thumb-'.$selfieName
+            ];
     }
 
 
@@ -207,7 +223,7 @@ class SellerController extends Controller
         ]);
     }
 
-    protected function sellerData($data) {
+    protected function sellerData($data, $selfie) {
 
         $userId = Auth::User()->id;
 
@@ -228,8 +244,8 @@ class SellerController extends Controller
              'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false,
              'IdentityDocumentPath' => 'storage/sellers/'. $userId.'/'.$userId.'_ID.jpg',
              'Selfie'               => isset($data['SelfiePath']) ? true : false,
-             'SelfiePath'           => 'storage/sellers/'. $userId.'/'.$userId.'_selfie.jpg',
-             'SelfieThumbPath'      => 'storage/sellers/'. $userId.'/thumb-'.$userId.'_selfie.jpg',
+             'SelfiePath'           => $selfie['mean'],
+             'SelfieThumbPath'      => $selfie['thumb'],
              'VerifiedEmail'        => false,
              'VerifiedPhone'        => false //Phone ?
         ];
@@ -237,24 +253,32 @@ class SellerController extends Controller
 
     public function updateSelfie(Request $request, $id) {
 
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        //try {
+        try {
+        
+            $selfie = $this->saveSelfie($request->toArray(), true);
             
-            $this->saveSelfie($request->toArray());
+            DB::table($this->table)
+                ->where('UserID',$id)
+                ->update([
+                    'SelfiePath' => $selfie['mean'],
+                    'SelfieThumbPath' => $selfie['thumb'],
+                ]);
+
 
             DB::commit();
 
             Session::flash('success','Se ha actualizado la foto de perfil exitosamente.');
             return Redirect::to('auth/'.$id);
 
-        //} catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
             return Redirect::to('auth/'.$id);
-        //}
+        }
     }
 
 }
