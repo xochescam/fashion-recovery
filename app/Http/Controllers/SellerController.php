@@ -53,7 +53,10 @@ class SellerController extends Controller
 
         try {
 
-            $data = $this->sellerData($request->toArray());
+            $this->saveID($request->toArray());
+            $selfie = $this->saveSelfie($request->toArray(), false);
+
+            $data = $this->sellerData($request->toArray(), $selfie);
 
             DB::table($this->table)->insert($data);
 
@@ -61,8 +64,7 @@ class SellerController extends Controller
                 ->where('id',Auth::User()->id)
                 ->update(['ProfileID' => 2]);
 
-            $this->saveID($request->toArray());
-            $this->saveSelfie($request->toArray(), false);
+
 
             DB::commit();
 
