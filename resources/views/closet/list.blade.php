@@ -11,7 +11,7 @@
         @include('alerts.success')
         @include('alerts.warning')
 
-        <div>
+        <div class="text-right w-100">
           <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Nueva colección</a>
         </div>
 

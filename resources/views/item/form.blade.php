@@ -10,11 +10,17 @@
   <label>Fotos de la prenda *</label>
 
   <div class="custom-file">
-    <input type="file" class="custom-file-input" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value={{ old('PicturesUploaded') }} required>
+    <input type="file" class="custom-file-input js-items-input" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value={{ old('PicturesUploaded') }} required>
     <label class="custom-file-label" for="PicturesUploaded">
       {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
     </label>
     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate veniam id molestiae, quasi repudiandae totam.</small>
+
+    <input type="hidden" name="realPicturesUploaded" class="js-input-real-pictures">
+
+    <div class="w-100" id="itemsList">
+
+    </div>
 
     @if ($errors->has('PicturesUploaded'))
 
@@ -96,82 +102,34 @@
   @endif    
 </div>
 
-<div class="form-group">
-  <label for="BrandID">Marca *</label>
-  <select id="BrandID" class="form-control" name="BrandID" required>
-    <option value="" selected>- Seleccionar -</option>
-
-    @if($closets->count() == 0)
-      <option value="default" > Closet por defecto </option>
-    @endif
-
-    @foreach($brands as $brand)
-      <option value="{{ $brand->BrandID }}"  {{ ($item && ($brand->BrandID == $item->first()->BrandID) || old('BrandID'))  ? 'selected' : '' }} >
-        {{ $brand->BrandName }}
-      </option>
-    @endforeach
-  </select>
-  <small>¿De qué marca es está prenda?</small>
-
-  @if ($errors->has('BrandID'))
-    <div class="invalid-feedback">
-      {{ $errors->first('BrandID') }}
-    </div>
-  @else
-    <div class="invalid-feedback">
-      El campo marca es obligatorio.
-    </div>
-  @endif
-</div>
-
 <div class="form-row">
   <div class="form-group col-md-6">
-    <label for="ColorID">Color *</label>
-    <select id="ColorID" class="form-control" name="ColorID" required>
+    <label for="BrandID">Marca *</label>
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" required>
       <option value="" selected>- Seleccionar -</option>
 
-        @foreach($colors as $color)
-          <option value="{{ $color->ColorID }}"  {{ ($item && ($color->ColorID === $item->first()->ColorID) || old('ColorID'))  ? 'selected' : '' }} > {{ $color->ColorName }} </option>
-        @endforeach
-    </select>
-    <small>¿De qué color es la prenda?</small>
+      @if($closets->count() == 0)
+        <option value="default" > Closet por defecto </option>
+      @endif
 
-    @if ($errors->has('ColorID'))
+      @foreach($brands as $brand)
+        <option value="{{ $brand->BrandID }}"  {{ ($item && ($brand->BrandID == $item->first()->BrandID) || old('BrandID'))  ? 'selected' : '' }} >
+          {{ $brand->BrandName }}
+        </option>
+      @endforeach
+    </select>
+    <small>¿De qué marca es está prenda?</small>
+
+    @if ($errors->has('BrandID'))
       <div class="invalid-feedback">
-        {{ $errors->first('ColorID') }}
+        {{ $errors->first('BrandID') }}
       </div>
     @else
       <div class="invalid-feedback">
-        El campo color es obligatorio.
+        El campo marca es obligatorio.
       </div>
-    @endif
+    @endif    
   </div>
-
-  <div class="form-group col-md-6">
-    <label for="SizeID">Talla *</label>
-    <select id="SizeID" class="form-control" name="SizeID" required>
-      <option value="" selected>- Seleccionar -</option>
-
-      @foreach($sizes as $size)
-        <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} > {{ $size->SizeName }} </option>
-      @endforeach
-    </select>
-    <small>¿Cuál es la talla de la prenda?</small>
-
-      @if ($errors->has('SizeID'))
-        <div class="invalid-feedback">
-          {{ $errors->first('SizeID') }}
-        </div>
-      @else
-        <div class="invalid-feedback">
-          El campo talla es obligatorio.
-        </div>
-      @endif
-  </div>
-</div>
-
-
-<div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
     <select id="DepartmentID" class="form-control" name="DepartmentID" required>
@@ -195,7 +153,55 @@
       </div>
     @endif
   </div>
+</div>
 
+<div class="form-row">
+  <div class="form-group col-md-6">
+    <label for="SizeID">Talla *</label>
+    <select id="SizeID" class="form-control" name="SizeID" required>
+      <option value="" selected>- Seleccionar -</option>
+
+      @foreach($sizes as $size)
+        <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} > {{ $size->SizeName }} </option>
+      @endforeach
+    </select>
+    <small>¿Cuál es la talla de la prenda?</small>
+
+      @if ($errors->has('SizeID'))
+        <div class="invalid-feedback">
+          {{ $errors->first('SizeID') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo talla es obligatorio.
+        </div>
+      @endif
+  </div>
+  <div class="form-group col-md-6">
+    <label for="ColorID">Color *</label>
+    <select id="ColorID" class="form-control" name="ColorID" required>
+      <option value="" selected>- Seleccionar -</option>
+
+        @foreach($colors as $color)
+          <option value="{{ $color->ColorID }}"  {{ ($item && ($color->ColorID === $item->first()->ColorID) || old('ColorID'))  ? 'selected' : '' }} > {{ $color->ColorName }} </option>
+        @endforeach
+    </select>
+    <small>¿De qué color es la prenda?</small>
+
+    @if ($errors->has('ColorID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('ColorID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo color es obligatorio.
+      </div>
+    @endif
+  </div>
+</div>
+
+
+<div class="form-row">
   <div class="form-group col-md-6">
     <label for="CategoryID">Categoría *</label>
     <select id="CategoryID" class="form-control" name="CategoryID" required>
@@ -219,9 +225,59 @@
       </div>
     @endif
   </div>
+  <div class="form-group col-md-6">
+    <label for="TypeID">Tipo *</label>
+    <select id="TypeID" class="form-control" name="TypeID" required>
+      <option value="" selected>- Seleccionar -</option>
+
+          @foreach($types as $type)
+            <option value="{{ $type->TypeID }}"  {{ ($item && ($type->TypeID == $item->first()->TypeID) || old('TypeID'))  ? 'selected' : '' }} >
+              {{ $type->TypeName }}
+            </option>
+          @endforeach
+    </select>
+    <small>Ejemplo: Casual, Formal, Playa...</small>
+
+    @if ($errors->has('TypeID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('TypeID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo tipo es obligatorio.
+      </div>
+    @endif
+  </div>
 </div>
 
 <div class="form-row">
+  <div class="form-group col-md-6">
+    <label for="ClosetID">Closet *</label>
+    <select id="ClosetID" class="form-control" name="ClosetID" required>
+      <option value="" selected>- Seleccionar -</option>
+
+      @if($closets->count() == 0)
+        <option value="default" > Closet por defecto </option>
+      @endif
+
+      @foreach($closets as $closet)
+        <option value="{{ $closet->ClosetID }}"  {{ ($item && ($closet->ClosetID == $item->first()->ClosetID) || old('ClosetID'))  ? 'selected' : '' }} >
+          {{ $closet->ClosetName }}
+        </option>
+      @endforeach
+    </select>
+    <small>¿En qué closet se va a colgar está prenda?</small>
+
+    @if ($errors->has('ClosetID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('ClosetID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo closet es obligatorio.
+      </div>
+    @endif
+  </div> 
   <div class="form-group col-md-6">
     <label for="ClothingTypeID">Tipo de ropa *</label>
     <select id="ClothingTypeID" class="form-control" name="ClothingTypeID" required>
@@ -245,58 +301,6 @@
       </div>
     @endif
   </div> 
-
-  <div class="form-group col-md-6">
-    <label for="TypeID">Tipo *</label>
-    <select id="TypeID" class="form-control" name="TypeID" required>
-      <option value="" selected>- Seleccionar -</option>
-
-          @foreach($types as $type)
-            <option value="{{ $type->TypeID }}"  {{ ($item && ($type->TypeID == $item->first()->TypeID) || old('TypeID'))  ? 'selected' : '' }} >
-              {{ $type->TypeName }}
-            </option>
-          @endforeach
-    </select>
-    <small>Ejemplo: Casual, Formal, Playa...</small>
-
-    @if ($errors->has('TypeID'))
-      <div class="invalid-feedback">
-        {{ $errors->first('TypeID') }}
-      </div>
-    @else
-      <div class="invalid-feedback">
-        El campo tipo es obligatorio.
-      </div>
-    @endif
-  </div> 
-</div>
-
-<div class="form-group">
-  <label for="ClosetID">Closet *</label>
-  <select id="ClosetID" class="form-control" name="ClosetID" required>
-    <option value="" selected>- Seleccionar -</option>
-
-    @if($closets->count() == 0)
-      <option value="default" > Closet por defecto </option>
-    @endif
-
-    @foreach($closets as $closet)
-      <option value="{{ $closet->ClosetID }}"  {{ ($item && ($closet->ClosetID == $item->first()->ClosetID) || old('ClosetID'))  ? 'selected' : '' }} >
-        {{ $closet->ClosetName }}
-      </option>
-    @endforeach
-  </select>
-  <small>¿En qué closet se va a colgar está prenda?</small>
-
-  @if ($errors->has('ClosetID'))
-    <div class="invalid-feedback">
-      {{ $errors->first('ClosetID') }}
-    </div>
-  @else
-    <div class="invalid-feedback">
-      El campo closet es obligatorio.
-    </div>
-  @endif
 </div>
 
 <div class="form-group">
@@ -315,32 +319,44 @@
       <small>Escribe el porcentaje de descuento que le deseas aplicar a la prenda.</small>
 
       @if ($errors->has('Discount'))
-        <div class="invalid-feedback">
+        <div class="invalid-validation">
           {{ $errors->first('Discount') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo descuento es obligatorio.
         </div>
       @endif
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="ValidFrom">Desde *</label>
-        <input type="date" class="form-control" name="ValidFrom" id="ValidFrom" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->ValidFrom : old('ValidFrom') }}">
+        <input type="text" class="form-control" name="ValidFrom" id="ValidFrom" value="{{ isset($ValidFrom) && $ValidFrom !== '' ? $ValidFrom : '' }}" onblur="(this.type='text')" onfocus="(this.type='date')" placeholder="dd/mm/yyyy">
         <small>Selecciona la fecha inicial de la oferta.</small>
 
         @if ($errors->has('ValidFrom'))
-          <div class="invalid-feedback">
+          <div class="invalid-validation">
             {{ $errors->first('ValidFrom') }}
+          </div>
+        @else
+          <div class="invalid-feedback">
+            El campo desde es obligatorio.
           </div>
         @endif
       </div>
 
       <div class="form-group col-md-6">
         <label for="ValidUntil">Hasta *</label>
-        <input type="date" class="form-control" name="ValidUntil" id="ValidUntil" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->ValidUntil : old('ValidUntil') }}">
+        <input type="text" class="form-control" name="ValidUntil" id="ValidUntil" value="{{ isset($ValidUntil) && $ValidUntil !== '' ? $ValidUntil : '' }}" onblur="(this.type='text')" onfocus="(this.type='date')" placeholder="dd/mm/yyyy">
         <small>Selecciona la fecha final de la oferta.</small>
 
         @if ($errors->has('ValidUntil'))
-          <div class="invalid-feedback">
+          <div class="invalid-validation">
             {{ $errors->first('ValidUntil') }}
+          </div>
+        @else
+          <div class="invalid-feedback">
+            El campo hasta es obligatorio.
           </div>
         @endif
       </div>

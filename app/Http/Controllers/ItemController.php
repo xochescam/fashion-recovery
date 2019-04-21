@@ -73,7 +73,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
+    public function store(Request $request)
     {
         DB::beginTransaction();
 
@@ -111,6 +111,9 @@ class ItemController extends Controller
     }
 
     protected function updateItemData($data) {
+
+        $data['ValidFrom'] = date("Y-m-d H:i:s",strtotime($data['ValidFrom']));
+        $data['ValidUntil'] = date("Y-m-d H:i:s",strtotime($data['ValidUntil']));
 
         $closet = $data['ClosetID'] == "default" ?
                     $this->saveDefaultCloset()->ClosetID :
@@ -204,24 +207,27 @@ class ItemController extends Controller
         $thumbName = [];
         $items = [];
         $count     = 0;
+        $realFiles = explode(',', $data['realPicturesUploaded']);
 
         foreach ($data['PicturesUploaded'] as $key => $value) {
 
-            $date   = date("Ymd-His");
-            $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
-            $name = $date.'-'.$count++.'.jpg';
-            $img = Image::make($value->getRealPath())->fit(200);
-            $img->stream();
-            //eliminar carpeta al actualizar
-            \Storage::disk('public')->put($dir.$name,  \File::get($value));
-            \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
+            if(in_array($value->getClientOriginalName(), $realFiles)) {
+                $date   = date("Ymd-His");
+                $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
+                $name = $date.'-'.$count++.'.jpg';
+                $img = Image::make($value->getRealPath())->fit(200);
+                $img->stream();
+                //eliminar carpeta al actualizar
+                \Storage::disk('public')->put($dir.$name,  \File::get($value));
+                \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
 
-            $items = [
-                'name' => $dir.$name,
-                'thumb' => $dir.'thumb-'.$name
-            ];
+                $items = [
+                    'name' => $dir.$name,
+                    'thumb' => $dir.'thumb-'.$name
+                ];
 
-            array_push($itemsName,$items);        
+                array_push($itemsName,$items);
+            }         
         }
 
         return $itemsName;
@@ -236,6 +242,8 @@ class ItemController extends Controller
     public function show($id)
     {
         $db = 'fashionrecovery';
+        $ValidFrom = '';
+        $ValidUntil = '';
 
         $colors        = DB::table('fashionrecovery.GR_018')->get();
         $sizes         = DB::table('fashionrecovery.GR_020')->get();
@@ -243,7 +251,6 @@ class ItemController extends Controller
         $departments   = DB::table('fashionrecovery.GR_025')->get();
         $categories    = DB::table('fashionrecovery.GR_026')->get();
         $types         = DB::table('fashionrecovery.GR_027')->get();
-        $offers        = DB::table('fashionrecovery.GR_031')->get();
         $brands        = DB::table('fashionrecovery.GR_017')->get();
         $closets       = DB::table('fashionrecovery.GR_030')
                         ->where('UserID',Auth::User()->id)
@@ -285,7 +292,17 @@ class ItemController extends Controller
                     ->get()
                     ->groupBy('OfferID')->toArray();
            
+        if(isset($item->first()->OffSaleID)) {
+
+            $offer = $offers[$item->first()->OffSaleID];
+            
+            $ValidFrom = date("d/m/Y", strtotime($offer[0]->ValidFrom));
+            $ValidUntil = date("d/m/Y", strtotime($offer[0]->ValidUntil));
+        }
+
         return view('item.show',compact(
+            'ValidFrom',
+            'ValidUntil',
             'brands',
             'item',
             'offers',
@@ -340,9 +357,9 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, $id)
     {
-        DB::beginTransaction();
+        //DB::beginTransaction();
 
-        try {
+        //try {
 
             $data = $this->updateItemData($request->toArray());
 
@@ -360,18 +377,18 @@ class ItemController extends Controller
             //     ]);
             // }
 
-            DB::commit();
+            //DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('item/'.$id); //cambiar
 
-        } catch (\Exception $ex) {
+        //} catch (\Exception $ex) {
 
-            DB::rollback();
+            //DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error');
-            return Redirect::to('item/'.$id.'/edit');
-        }
+            //Session::flash('warning','Ha ocurrido un error');
+            //return Redirect::to('item/'.$id);
+        //}
     }
 
     /**

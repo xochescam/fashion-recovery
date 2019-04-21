@@ -38,6 +38,8 @@ Route::post('register/{beSeller}','Auth\RegisterController@register');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	Route::get('departments-by-brand/{brandId}', 'ItemApiController@getDepartmentsByBrand');
+
 	//Guardarropas
 	Route::get('guardarropa', 'ClosetController@ownClosets');
 	

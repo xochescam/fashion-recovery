@@ -8,7 +8,9 @@
 
         <p class="text-center mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 
-        <a href="{{ url('item') }}" class="btn btn-fr mb-4">Subir prenda</a>
+        <div class="text-right w-100">
+          <a href="{{ url('item') }}" class="btn btn-fr mb-4">Subir prenda</a>
+        </div>
 
         <div class="row">
 

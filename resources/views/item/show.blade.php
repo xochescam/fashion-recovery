@@ -10,7 +10,10 @@
         @include('alerts.warning')
 
         <div class="text-right">
-          <a href="#" class="btn btn-fr mb-4">Agregar fotos</a>
+          <label for="Items" class="btn btn-fr mb-4">
+            <input type="file" name="Items">
+            Agregar fotos
+          </label>
         </div>
 
         <div class="row">
@@ -28,7 +31,6 @@
                   @csrf
                         
                   @include('item.form')
-
 
                   <div class="text-center mt-5">
                      <button type="submit" class="btn btn-fr w-50">Guardar</button>

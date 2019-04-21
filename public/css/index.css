@@ -39,6 +39,10 @@ body{
   left: -150px;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .card--selfie {
   cursor: pointer;
 }
