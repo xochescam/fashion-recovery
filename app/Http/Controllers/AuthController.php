@@ -55,13 +55,16 @@ class AuthController extends Controller
      */
     public function show($id)
     {
+
         $user             = Auth::User();
         $seller           = null;
         $sellerSince      = '';
         $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
         $birthDateUser = date("d/m/Y", strtotime($user->Birthdate));
 
+
         if($user->ProfileID == 2) {
+
             $seller = DB::table('fashionrecovery.GR_033')
                         ->where('UserID',$id)
                         ->first();

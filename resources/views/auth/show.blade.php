@@ -178,13 +178,13 @@
 
                   <div class="card-body">
 
-                  <form method="POST" action="{{ url('seller',$seller->SellerID) }}" class="needs-validation" novalidate>
+                  <form method="POST" action="{{ url('seller',$seller->UserID) }}" class="needs-validation" enctype="multipart/form-data" novalidate>
                      @csrf
 
                       <div class="form-group row">
                         <label for="Greeting" class="col-sm-3 col-form-label text-right">Deja un saludo</label>
                         <div class="col-sm-9">
-                          <textarea class="form-control" name="Greeting" id="Greeting"  cols="30" rows="3" required>{{ $seller->Greeting }}</textarea>
+                          <textarea class="form-control" name="Greeting" id="Greeting"  cols="30" rows="3" max="50" required>{{ $seller->Greeting }}</textarea>
 
                           @if ($errors->has('Greeting'))
                             <div class="invalid-validation">
@@ -201,7 +201,7 @@
                       <div class="form-group row">
                         <label for="AboutMe" class="col-sm-3 col-form-label text-right">Acerca de mi</label>
                         <div class="col-sm-9">
-                          <textarea class="form-control" name="AboutMe" id="AboutMe"  cols="30" rows="3" required>{{ $seller->AboutMe }}</textarea>
+                          <textarea class="form-control" name="AboutMe" id="AboutMe"  cols="30" rows="3" max="256" required>{{ $seller->AboutMe }}</textarea>
                           @if ($errors->has('AboutMe'))
                             <div class="invalid-validation">
                               {{ $errors->first('AboutMe') }}
@@ -209,6 +209,23 @@
                           @else
                             <div class="invalid-feedback">
                               El campo acerca de mi es obligatorio.
+                            </div>
+                          @endif
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
+                        <label for="Phone" class="col-sm-3 col-form-label text-right">Teléfono</label>
+                        <div class="col-sm-9">
+                          <input type="tel" class="form-control" name="Phone" id="Phone"  maxlength="10" value="{{ $seller->Phone }}" required> 
+                    
+                          @if ($errors->has('Phone'))
+                            <div class="invalid-validation">
+                              {{ $errors->first('Phone') }}
+                            </div>
+                          @else
+                            <div class="invalid-feedback">
+                              El campo teléfono es obligatorio.
                             </div>
                           @endif
                         </div>
@@ -327,6 +344,36 @@
                       </div>
 
                       <div class="form-group row">
+                        <label class="col-sm-3 col-form-label text-right">Documento de identificación</label>
+
+                        <div class="col-sm-9 col-form-label text-left">
+                          <div class="custom-file">
+                            <input type="file" class="custom-file-input" id="IdentityDocumentPath" name="IdentityDocumentPath" lang="es" value="{{ url($seller->IdentityDocumentPath) }}">
+                            <label class="custom-file-label" for="IdentityDocumentPath">
+                              @if(isset($seller->IdentityDocumentPath) || old('IdentityDocumentPath'))
+                                <i class="fas fa-check green-color mr-1"></i> 
+                                <span class="green-color">Verificado</span>
+                              @else
+                                Seleccionar archivo
+                              @endif
+                            </label>
+
+                            
+
+                            @if ($errors->has('IdentityDocumentPath'))
+                              <div class="invalid-validation">
+                                {{ $errors->first('IdentityDocumentPath') }}
+                              </div>
+                            @else
+                            <div class="invalid-feedback">
+                              El campo documento de identificación es obligatorio.
+                            </div>
+                            @endif
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group row">
                         <label class="col-sm-3 col-form-label text-right">Evaluaciones</label>
                         <label class="col-sm-9 col-form-label text-left">{{ $seller->TotalEvaluations > 0 ? $seller->TotalEvaluations." evaluaciones." : "No cuenta con evaluaciones." }}</label>
                       </div>
@@ -350,30 +397,6 @@
                           <i class="far fa-star gray"></i>
                           <i class="far fa-star gray"></i>
                         </div>
-                      </div>
-
-                      <div class="form-group row">
-                        <label class="col-sm-3 col-form-label text-right">Documento de identificación</label>
-
-                        <div class="col-sm-8 col-form-label text-left">
-                          <div class="custom-file">
-                            <input type="file" class="custom-file-input" id="IdentityDocumentPath" name="IdentityDocumentPath" lang="es">
-                            <label class="custom-file-label" for="IdentityDocumentPath">
-                              {{ isset($seller->IdentityDocumentPath) ? $seller->IdentityDocumentPath : (old('IdentityDocumentPath') ? old('IdentityDocumentPath') : 'Seleccionar archivo') }}
-                            </label>
-
-                            @if ($errors->has('IdentityDocumentPath'))
-                              <div class="invalid-feedback">
-                                {{ $errors->first('IdentityDocumentPath') }}
-                              </div>
-                            @else
-                            <div class="invalid-feedback">
-                              El campo documento de identificación es obligatorio.
-                            </div>
-                            @endif
-                          </div>
-                        </div>
-                        
                       </div>
 
                       <div class="form-group row">
