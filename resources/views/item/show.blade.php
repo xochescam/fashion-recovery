@@ -8,13 +8,23 @@
 
         @include('alerts.success')
         @include('alerts.warning')
+        
+        <form method="POST" action="{{ url('add-items',$item->first()->ItemID) }}" class="mb-4" enctype="multipart/form-data">
+          @csrf
 
-        <div class="text-right">
-          <label for="Items" class="btn btn-fr mb-4">
-            <input type="file" name="Items">
-            Agregar fotos
+          <div class="text-right">
+            <label for="Items" class="btn btn-fr">
+              Agregar fotos
+              <input type="file" class="no-file js-add-items" id="Items" name="PicturesUploaded[]" multiple>
           </label>
-        </div>
+          </div>
+          
+          <input type="hidden" name="realPicturesUploaded" class="js-input-real-pictures">
+
+          <div class="text-right ml-2">
+            <button class="btn btn-fr js-add-items-btn">Guardar</button>
+          </div>
+        </form>
 
         <div class="row">
           <div class=" col-4 ">
@@ -41,19 +51,19 @@
             </div>
           </div>
           
+          <div class="col-8">
+            <div class="row js-items-container">
+              @foreach($item as $picture)
+                <div class="col-sm-4 mb-5 thumb-size">
 
-          <div class="col-8 row">
+                  <div class="card">
+                    <img src="{{ url('storage/'.$picture->ThumbPath) }}" class="card-img-top" alt="...">
+                    <a href="{{ route('item.destroy',$picture->ItemPictureID) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                  </div>
 
-            @foreach($item as $picture)
-              <div class="col-sm-4 mb-4">
-
-                <div class="card">
-                  <img src="{{ url('storage/'.$picture->ThumbPath) }}" class="card-img-top" alt="...">
-                  <a href="{{ route('item.destroy',$picture->ItemPictureID) }}" class="btn btn-danger btn-sm">Eliminar</a>
                 </div>
-
-              </div>
-            @endforeach
+              @endforeach
+            </div>
           </div>
 
         </div>

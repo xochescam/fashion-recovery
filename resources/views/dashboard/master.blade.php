@@ -46,6 +46,7 @@
         const selfieInput = document.querySelector('.js-selfie-input');
         const brandsSelect = document.querySelector('.js-brands-select');
         const itemsInput = document.querySelector('.js-items-input');
+        const addItems = document.querySelector('.js-add-items');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
 
@@ -159,7 +160,7 @@
 
             const list = document.querySelector('#itemsList');
             const realPictures = document.querySelector('.js-input-real-pictures');
-            var arr1 = [];
+            var arr = [];
         
             itemsInput.addEventListener('change', function(e) {
                 const files = e.currentTarget.files;
@@ -173,36 +174,87 @@
 
                     list.insertAdjacentHTML('beforeend', item);
 
-                    arr1.push(files[i].name);
+                    arr.push(files[i].name);
                 }
 
-                realPictures.value = arr1;
+                realPictures.value = arr;
 
                 const deleteItem = document.querySelectorAll('.js-delete-item');
 
                 Array.prototype.forEach.call(deleteItem, (btn) => {
 
                   btn.addEventListener('click', function(e) {
-                    arr1 = [];
+                    arr = [];
                     list.removeChild(e.currentTarget.parentNode);
 
                     const newList = document.querySelectorAll('#itemsList span');
 
                     for (var i = newList.length - 1; i >= 0; i--) {
-                        arr1.push(newList[i].innerText);
+                        arr.push(newList[i].innerText);
                     }
 
-                    realPictures.value = arr1;
+                    realPictures.value = arr;
 
                   });
 
                 });
 
-            });
-
-             
+            });  
         }
 
+        if(addItems) {
+
+            const container = document.querySelector('.js-items-container');
+            const realPictures = document.querySelector('.js-input-real-pictures');
+            const btn = document.querySelector('.js-add-items-btn');
+
+            var arr = [];
+
+            addItems.addEventListener('change', function(e) {
+
+                btn.classList.remove('hidden');
+
+                const files = e.currentTarget.files;
+
+                for (var i = files.length - 1; i >= 0; i--) {
+
+                    const content = `<div class="col-sm-4 mb-5 thumb-size js-new-item" data-name="`+files[i].name+`">
+                            <div class="card">
+                              <img src="`+URL.createObjectURL(files[i])+`" class="card-img-top" alt="..." height="200px" width="200px">
+                              <button class="btn btn-danger btn-sm js-delete-img">Eliminar</button>
+                            </div></div>`;
+
+                    container.insertAdjacentHTML('beforeend', content);
+
+                    arr.push(files[i].name);
+                }
+
+                realPictures.value = arr;
+
+                const deleteImg = document.querySelectorAll('.js-delete-img');
+
+                Array.prototype.forEach.call(deleteImg, (btn) => {
+
+                    btn.addEventListener('click', function(e) {
+                        arr = [];
+
+                        container.removeChild(e.currentTarget.parentNode.parentNode);
+
+                        const newItem = document.querySelectorAll('.js-new-item');
+
+
+                        for (var i = newItem.length - 1; i >= 0; i--) {
+                            arr.push(newItem[i].getAttribute('data-name'));
+                        }
+
+                        realPictures.value = arr;
+                    });
+
+                });
+
+            });
+
+        } 
 
 
     </script>

@@ -421,4 +421,37 @@ class ItemController extends Controller
             return Redirect::to('item/'.$id);
         }
     }
+
+    public function addItem(Request $request, $itemId) {
+        DB::beginTransaction();
+
+        try {
+
+            $data = $this->updateItemData($request->toArray());
+            
+            $itemsName = $this->saveItems($request->toArray(), $itemId);
+
+            foreach ($itemsName as $key => $value) { //change
+
+                 DB::table('fashionrecovery.GR_032')->insert([
+                    'ItemID' => $itemId,
+                    'PicturePath' => $value['name'],
+                    'ThumbPath' => $value['thumb'],
+                    'CreationDate' => date("Y-m-d H:i:s")
+                 ]);
+            }
+
+            DB::commit();
+
+            Session::flash('success','Se ha guardado correctamente');
+            return Redirect::to('item/'.$itemId);
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error');
+            return Redirect::to('item/'.$id);
+        }
+    }
 }

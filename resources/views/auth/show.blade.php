@@ -25,7 +25,7 @@
                     <img src=" {{ url($seller->SelfieThumbPath) }} " class="card-img-top js-selfie-img" alt="">
                     <i class="far fa-edit" id="edit_icon"></i>
                   </div>
-                  <input type="file" class="selfieInput js-selfie-input" id="SelfiePath" name="SelfiePath">
+                  <input type="file" class="selfieInput no-file js-selfie-input" id="SelfiePath" name="SelfiePath">
                 </label>
                 
                 <div class="text-center">

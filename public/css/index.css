@@ -9,7 +9,17 @@ body{
   background-image: url('../img/header/BoardGreen.jpg');
   /* background-color: #009c77; */
 }
-.selfieInput {
+.thumb-size {
+  height: 200px;
+  width: 200px;
+}
+
+
+.flex {
+  display: flex !important;
+}
+
+.no-file {
   cursor:pointer;
   border: 0;
   clip: rect(0, 0, 0, 0);
