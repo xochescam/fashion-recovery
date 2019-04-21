@@ -73,7 +73,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
         DB::beginTransaction();
 
@@ -357,38 +357,38 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, $id)
     {
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        //try {
+        try {
 
             $data = $this->updateItemData($request->toArray());
 
             DB::table($this->table)->where('ItemID',$id)->update($data);
 
-            //$itemsName = $this->saveItems($request->toArray(), $id);
+            $itemsName = $this->saveItems($request->toArray(), $id);
 
-            // DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
+            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
 
-            // foreach ($itemsName as $key => $value) { //change
-            //     DB::table('fashionrecovery.GR_032')->insert([
-            //         'ItemID' => $id,
-            //         'PicturePath' => $value,
-            //         'CreationDate' => date("Y-m-d H:i:s")
-            //     ]);
-            // }
+            foreach ($itemsName as $key => $value) { //change
+                 DB::table('fashionrecovery.GR_032')->insert([
+                     'ItemID' => $id,
+                     'PicturePath' => $value,
+                     'CreationDate' => date("Y-m-d H:i:s")
+                 ]);
+            }
 
-            //DB::commit();
+            DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('item/'.$id); //cambiar
 
-        //} catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
-            //DB::rollback();
+            DB::rollback();
 
-            //Session::flash('warning','Ha ocurrido un error');
-            //return Redirect::to('item/'.$id);
-        //}
+            Session::flash('warning','Ha ocurrido un error');
+            return Redirect::to('item/'.$id);
+        }
     }
 
     /**
