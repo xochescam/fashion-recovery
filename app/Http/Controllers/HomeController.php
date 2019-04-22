@@ -24,7 +24,8 @@ class HomeController extends Controller
                     ->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
                     ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_032.ThumbPath','GR_029.OriginalPrice','GR_029.ActualPrice','GR_020.SizeName','GR_018.ColorName','GR_017.BrandName')
                     ->get()
-                    ->groupBy('ItemID');
+                    ->groupBy('ItemID')
+                    ->take(16);
                                         
         return view('home',compact('items'));
     }
