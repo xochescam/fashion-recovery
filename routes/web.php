@@ -35,6 +35,8 @@ Route::post('login/{beSeller}','Auth\LoginController@login');
 Route::get('register/{beSeller}','Auth\RegisterController@getForm');
 Route::post('register/{beSeller}','Auth\RegisterController@register');
 
+//Search
+Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
@@ -42,7 +44,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Guardarropas
 	Route::get('guardarropa', 'ClosetController@ownClosets');
-	
+
 	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');
 
@@ -156,5 +158,6 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('calendar-sales', 'Catalogs\CalendarSaleController@store')->name('calendar-sales.store');
 	Route::get('calendar-sales/{calendarSaleId}/edit', 'Catalogs\CalendarSaleController@edit')->name('calendar-sales.edit');
 	Route::post('calendar-sales/{calendarSaleId}', 'Catalogs\CalendarSaleController@update')->name('calendar-sales.update');
-	Route::get('calendar-sales/{calendarSaleId}/delete', 'Catalogs\CalendarSaleController@destroy')->name('calendar-sales.destroy');
+    Route::get('calendar-sales/{calendarSaleId}/delete', 'Catalogs\CalendarSaleController@destroy')->name('calendar-sales.destroy');
+
 });
