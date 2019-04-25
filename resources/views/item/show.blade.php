@@ -4,7 +4,7 @@
 
 	 <main id="main">
       <div class="container py-5">
-        <h2 class="text-center mb-5">Ver prenda</h2>
+        <h2 class="text-center TituloFR my-4 mb-5 w-100">Ver prenda</h2>
 
         @include('alerts.success')
         @include('alerts.warning')
