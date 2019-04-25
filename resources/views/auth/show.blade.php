@@ -40,7 +40,7 @@
                 Mis datos
               </a>
               <a href="#" class="list-group-item list-group-item-action text-left">
-                Preferencias
+                Mis preferencias
               </a>
               <a href="#" class="list-group-item list-group-item-action text-left">
                 Wish Lists
