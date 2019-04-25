@@ -91,8 +91,14 @@
   </div>
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" disabled="true" required>
-      <option value="" selected>- Seleccionar -</option>
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" disabled="true">
+
+        @if($item)
+          <option value="{{ $item->first()->BrandID }}" selected>{{ $brands->where('BrandID',$item->first()->BrandID)->first()->BrandName }}</option>
+        @else
+          <option value="" selected>- Seleccionar -</option>
+        @endif
+
     </select>
     <small>¿De qué marca es está prenda?</small>
 
@@ -112,7 +118,13 @@
   <div class="form-group col-md-6">
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" disabled="true" required>
-      <option value="" selected>- Seleccionar -</option>
+      
+      @if($item)
+          <option value="{{ $item->first()->SizeID }}" selected>{{ $sizes->where('SizeID',$item->first()->SizeID)->first()->SizeName }}</option>
+        @else
+          <option value="" selected>- Seleccionar -</option>
+        @endif
+
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
 
