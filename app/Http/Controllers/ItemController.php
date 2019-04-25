@@ -426,8 +426,6 @@ class ItemController extends Controller
         DB::beginTransaction();
 
         try {
-
-            $data = $this->updateItemData($request->toArray());
             
             $itemsName = $this->saveItems($request->toArray(), $itemId);
 
@@ -451,7 +449,7 @@ class ItemController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
-            return Redirect::to('item/'.$id);
+            return Redirect::to('item/'.$itemId);
         }
     }
 }
