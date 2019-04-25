@@ -42,22 +42,20 @@ class ItemController extends Controller
     {
         $item = false;
         $colors        = DB::table('fashionrecovery.GR_018')->get();
-        $sizes         = DB::table('fashionrecovery.GR_020')->get();
+        //$sizes         = DB::table('fashionrecovery.GR_020')->get();
         $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
         $departments   = DB::table('fashionrecovery.GR_025')->get();
         $categories    = DB::table('fashionrecovery.GR_026')->get();
         $types         = DB::table('fashionrecovery.GR_027')->get();
-        $brands        = DB::table('fashionrecovery.GR_017')->get();
+        //$brands        = DB::table('fashionrecovery.GR_017')->get();
         $offers        = DB::table('fashionrecovery.GR_031')->get();
         $closets       = DB::table('fashionrecovery.GR_030')
                         ->where('UserID',Auth::User()->id)
                         ->get();
 
         return view('item.create',compact(
-            'brands',
             'item',
             'colors',
-            'sizes',
             'clothingTypes',
             'departments',
             'categories',
@@ -258,14 +256,6 @@ class ItemController extends Controller
 
         $item = DB::table($this->table) //Mostrar solo una imagen
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
-                    ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
-                    //->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
-                    ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
-                    ->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
-                    ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
-                    ->join('fashionrecovery.GR_026', 'GR_029.CategoryID', '=', 'GR_026.CategoryID')
-                    ->join('fashionrecovery.GR_027', 'GR_029.TypeID', '=', 'GR_027.TypeID')
-                    ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
                     ->where('GR_029.OwnerID',Auth::User()->id)
                     ->where('GR_029.ItemID',$id)
                     ->select('GR_029.ItemID',
@@ -277,13 +267,13 @@ class ItemController extends Controller
                              //'GR_031.Discount',
                              'GR_029.OriginalPrice',
                              'GR_029.ActualPrice',
-                             'GR_020.SizeID',
-                             'GR_018.ColorID',
-                             'GR_019.ClothingTypeID',
-                             'GR_025.DepartmentID',
-                             'GR_026.CategoryID',
-                             'GR_027.TypeID',
-                             'GR_030.ClosetID'
+                             'GR_029.SizeID',
+                             'GR_029.ColorID',
+                             'GR_029.ClothingTypeID',
+                             'GR_029.DepartmentID',
+                             'GR_029.CategoryID',
+                             'GR_029.TypeID',
+                             'GR_029.ClosetID'
                          )
                     ->get()->groupBy('ItemID')->first();
 

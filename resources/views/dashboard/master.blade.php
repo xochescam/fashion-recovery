@@ -44,7 +44,7 @@
         const dateTime = document.querySelectorAll('.date_time_input');
         const offerCheck = document.querySelector('.js-check-offer');
         const selfieInput = document.querySelector('.js-selfie-input');
-        const brandsSelect = document.querySelector('.js-brands-select');
+        const departmentsSelect = document.querySelector('.js-departments-select');
         const itemsInput = document.querySelector('.js-items-input');
         const addItems = document.querySelector('.js-add-items');
 
@@ -123,37 +123,122 @@
             });
         }
 
-        if(brandsSelect) {
+        if(departmentsSelect) {
 
-            brandsSelect.addEventListener('change', function(e) {
-                
-                //console.log(this.value);
-                // const request = new XMLHttpRequest();
-                // //const data    = new FormData(form);
-                // const url     = window.location.origin;
+            departmentsSelect.addEventListener('change', function(e) {
 
-                // request.open('GET', url+'/departments-by-brand/'+this.value, true);
-                // //request.setRequestHeader('X-CSRF-Token', token);
-                // //request.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-                // request.onload = function() {
-                //   if (request.status >= 200 && request.status < 400) {
-                            
-                //     console.log('yes');
+                const brandsSelect = document.querySelector('.js-brands-select');
+                const sizesSelect = document.querySelector('.js-sizes-select');
+                const request = new XMLHttpRequest();
+                const url     = window.location.origin;
+                brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+                sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+                brandsSelect.setAttribute('disabled',true);
+                sizesSelect.setAttribute('disabled',true);
 
-                //   } else {
-                //     // We reached our target server, but it returned an error
 
-                //    console.log('no');
+                request.open('GET', url+'/brands-by-department/'+this.value, true);
+                request.send(null);
+                request.onload = function() {
 
-                //   }
-                // };
+                   if (request.status >= 200 && request.status < 400) {
+                       
+                       const response = JSON.parse(request.response);
 
-                // request.onerror = function() {
-                //     // There was a connection error of some sort
-                //     console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
+                     if(response.length > 0){
 
-                // };
+                        for (var i = response.length - 1; i >= 0; i--) {
+
+                            brandsSelect.setAttribute('data-department',response[i].DepartmentID);
+
+                            var brand = `<option value="`+response[i].BrandID+`" data-department=`+response[i].DepartmentID+`>`+response[i].BrandName+`</option>`;
+
+                            brandsSelect.insertAdjacentHTML('beforeend', brand);
+
+                            brandsSelect.removeAttribute('disabled');
+
+                        }
+
+                        brandsSelect.addEventListener('change', sizesByBrand);
+                        
+
+                     } else {
+                        brandsSelect.setAttribute('disabled',true);
+                        sizesSelect.setAttribute('disabled',true);
+
+                        brandsSelect.innerHTML = `<option value="" selected>- No se encontraron marcas -</option>`;
+                     }
+
+                   } else {
+                        brandsSelect.setAttribute('disabled',true);
+                        sizesSelect.setAttribute('disabled',true);
+
+                        // We reached our target server, but it returned an error
+                        console.log('Ocurrio un error, inténtalo de nuevo.');
+                   }
+                };
+
+                request.onerror = function() {
+                    brandsSelect.setAttribute('disabled',true);
+                    sizesSelect.setAttribute('disabled',true);
+
+                    //There was a connection error of some sort
+                    console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
+
+                };
             });     
+        }
+
+        function sizesByBrand(e) {
+
+            const sizesSelect = document.querySelector('.js-sizes-select');
+            const request = new XMLHttpRequest();
+            const url     = window.location.origin;
+            const department = e.currentTarget.getAttribute('data-department');
+            sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+            sizesSelect.setAttribute('disabled',true);
+
+            request.open('GET', url+'/sizes-by-brand/'+department+'/'+this.value, true);
+            request.send(null);
+            request.onload = function() {
+
+               if (request.status >= 200 && request.status < 400) {
+                   
+                    const response = JSON.parse(request.response);
+
+                    if(response.length > 0){
+
+                        for (var i = response.length - 1; i >= 0; i--) {
+
+                            var size = `<option value="`+response[i].SizeID+`">`+response[i].SizeName+`</option>`;
+
+                            sizesSelect.insertAdjacentHTML('beforeend', size);
+                        }
+
+                        sizesSelect.removeAttribute('disabled');                   
+
+                    } else {
+                        sizesSelect.setAttribute('disabled',true);
+
+                        sizesSelect.innerHTML = `<option value="" selected>- No se encontraron tallas -</option>`;
+                    }
+
+               } else {
+                    sizesSelect.setAttribute('disabled',true);
+
+                    // We reached our target server, but it returned an error
+                    console.log('Ocurrio un error, inténtalo de nuevo.');
+               }
+            };
+
+            request.onerror = function() {
+                sizesSelect.setAttribute('disabled',true);
+
+
+                //There was a connection error of some sort
+                console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
+
+            };
         }
 
         if(itemsInput) {

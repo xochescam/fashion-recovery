@@ -40,7 +40,8 @@ Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
-	Route::get('departments-by-brand/{brandId}', 'ItemApiController@getDepartmentsByBrand');
+	Route::get('brands-by-department/{departmentId}', 'ItemApiController@getBrandsbyDepartment');
+	Route::get('sizes-by-brand/{departmentId}/{brandId}', 'ItemApiController@getSizesbyBrand');
 
 	//Guardarropas
 	Route::get('guardarropa', 'ClosetController@ownClosets');

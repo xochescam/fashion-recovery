@@ -68,7 +68,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
-    <select id="DepartmentID" class="form-control" name="DepartmentID" required>
+    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required>
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $department)
@@ -91,18 +91,8 @@
   </div>
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" required>
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" disabled="true" required>
       <option value="" selected>- Seleccionar -</option>
-
-      @if($closets->count() == 0)
-        <option value="default" > Closet por defecto </option>
-      @endif
-
-      @foreach($brands as $brand)
-        <option value="{{ $brand->BrandID }}"  {{ ($item && ($brand->BrandID == $item->first()->BrandID) || old('BrandID'))  ? 'selected' : '' }} >
-          {{ $brand->BrandName }}
-        </option>
-      @endforeach
     </select>
     <small>¿De qué marca es está prenda?</small>
 
@@ -121,12 +111,8 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="SizeID">Talla *</label>
-    <select id="SizeID" class="form-control" name="SizeID" required>
+    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" disabled="true" required>
       <option value="" selected>- Seleccionar -</option>
-
-      @foreach($sizes as $size)
-        <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} > {{ $size->SizeName }} </option>
-      @endforeach
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
 
