@@ -10,17 +10,13 @@
   <label>Fotos de la prenda *</label>
 
   <div class="custom-file">
-    <input type="file" class="custom-file-input js-items-input" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value={{ old('PicturesUploaded') }} required>
+    <input type="file" class="custom-file-input js-add-items" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value={{ old('PicturesUploaded') }} required>
     <label class="custom-file-label" for="PicturesUploaded">
       {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
     </label>
     <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate veniam id molestiae, quasi repudiandae totam.</small>
 
     <input type="hidden" name="realPicturesUploaded" class="js-input-real-pictures">
-
-    <div class="w-100" id="itemsList">
-
-    </div>
 
     @if ($errors->has('PicturesUploaded'))
 
@@ -45,6 +41,10 @@
       </div>
 
     @endif
+    
+  </div>
+
+  <div class="row js-items-container mt-2" id="">
 
   </div>
 </div>

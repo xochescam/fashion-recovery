@@ -207,12 +207,27 @@
             const container = document.querySelector('.js-items-container');
             const realPictures = document.querySelector('.js-input-real-pictures');
             const btn = document.querySelector('.js-add-items-btn');
+            const isNewItem = container.getAttribute('data-item');
 
             var arr = [];
 
             addItems.addEventListener('change', function(e) {
 
-                btn.classList.remove('hidden');
+                btn ? btn.classList.remove('hidden') : '';
+
+                const items = document.querySelectorAll('.js-new-item');
+                
+                
+                if(items.length > 0) {
+
+                    for (var i = items.length - 1; i >= 0; i--) {
+                        container.removeChild(items[i]);
+                    }
+                }
+
+                if(isNewItem == true) {
+                    container.innerHTML = "";
+                }
 
                 const files = e.currentTarget.files;
 

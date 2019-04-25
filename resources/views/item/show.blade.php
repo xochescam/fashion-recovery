@@ -52,7 +52,7 @@
           </div>
           
           <div class="col-8">
-            <div class="row js-items-container">
+            <div class="row js-items-container" data-item="false">
               @foreach($item as $picture)
                 <div class="col-sm-4 mb-5 thumb-size">
 
