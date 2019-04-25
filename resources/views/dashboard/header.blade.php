@@ -43,7 +43,7 @@
           </a>
 
           <div class="dropdown-menu btn-fr" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mis Datos</a>
+            <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mi cuenta</a>
             <a class="dropdown-item text-left" href="{{ url('#') }}">Mis Preferencias</a>
             <a class="dropdown-item text-left" href="{{ url('#') }}">Whish List</a>
             <a class="dropdown-item text-left" href="{{ url('#') }}">Mis Pedidos</a>

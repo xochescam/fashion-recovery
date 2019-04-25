@@ -7,7 +7,7 @@
         <div class="row">
 
           <div class="w-100">
-            <h2 class="text-center TituloFR my-4 mb-5">Mis datos</h2>
+            <h2 class="text-center TituloFR my-4 mb-5">Mi cuenta</h2>
 
             @include('alerts.success')
             @include('alerts.warning')
@@ -56,7 +56,7 @@
 
           <div class="col-md-9 ">
               <div class="card mb-4">
-                <h5 class="card-header">Datos de cuenta</h5>
+                <h5 class="card-header">Datos personales</h5>
 
                 <div class="card-body">
 {{--                   <div class="w-auto float-right mb-4">
