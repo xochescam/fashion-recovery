@@ -59,11 +59,16 @@ class AuthController extends Controller
         $user             = Auth::User();
         $seller           = null;
         $sellerSince      = '';
+        $items            = 0;
         $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
         $birthDateUser = date("d/m/Y", strtotime($user->Birthdate));
 
 
         if($user->ProfileID == 2) {
+
+            $items = DB::table('fashionrecovery.GR_029')
+                        ->where('OwnerID',$user->id)
+                        ->count();
 
             $seller = DB::table('fashionrecovery.GR_033')
                         ->where('UserID',$id)
@@ -72,7 +77,7 @@ class AuthController extends Controller
             $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
         }
 
-        return view('auth.show',compact('seller','creationDateUser','birthDateUser','sellerSince'));
+        return view('auth.show',compact('seller','creationDateUser','birthDateUser','sellerSince', 'items'));
     }
 
 

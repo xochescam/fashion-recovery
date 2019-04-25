@@ -174,7 +174,7 @@
 
             @if(Auth::User()->ProfileID == 2)
                 <div class="card">
-                  <h5 class="card-header">Vendedor</h5>
+                  <h5 class="card-header">Ventas</h5>
 
                   <div class="card-body">
 
@@ -384,12 +384,17 @@
                       </div>
 
                       <div class="form-group row">
+                        <label class="col-sm-3 col-form-label text-right">Prendas</label>
+                        <label class="col-sm-9 col-form-label text-left">{{ $items > 0 ? ($items == 1 ? $items." prenda subida." : $items." prendas subidas." ) : "No cuenta con prendas subidas." }}</label>
+                      </div>
+
+                      <div class="form-group row">
                         <label class="col-sm-3 col-form-label text-right">Devoluciones</label>
                         <label class="col-sm-9 col-form-label text-left">{{ $seller->ItemsReturned > 0 ? $seller->ItemsReturned." devoluciones." : "No cuenta con devoluciones." }}</label>
                       </div>
 
                       <div class="form-group row">
-                        <label class="col-sm-3 col-form-label text-right">Valoración</label>
+                        <label class="col-sm-3 col-form-label text-right">Ranking</label>
                         <div class="col-sm-9 col-form-label text-left">
                           <i class="fas fa-star yellow"></i>
                           <i class="fas fa-star yellow"></i>
