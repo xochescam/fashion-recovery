@@ -4,7 +4,7 @@
 
 	 <main id="main">
       <div class="container py-5">
-        <h2 class="text-center TituloFR my-4 mb-5 w-100">Tus prendas</h2>
+        <h2 class="text-center TituloFR my-4 mb-5 w-100">Mis prendas</h2>
 
         <p class="text-center mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 
