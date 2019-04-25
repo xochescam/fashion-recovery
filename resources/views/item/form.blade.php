@@ -50,43 +50,6 @@
 </div>
 @endif
 
-@if(!$item)
-  <div class="form-row">
-    <div class="form-group col-md-6">
-      <label for="OriginalPrice">Precio original *</label>
-      <input type="money" class="form-control" name="OriginalPrice" id="OriginalPrice" value="" required>
-      <small>¿Cuánto te costo la prenda??</small>
-
-      @if ($errors->has('OriginalPrice'))
-        <div class="invalid-feedback">
-          {{ $errors->first('OriginalPrice') }}
-        </div>
-      @else
-        <div class="invalid-feedback">
-          El campo precio original es obligatorio.
-        </div>
-      @endif
-    </div>
-
-    <div class="form-group col-md-6">
-      <label for="ActualPrice">Precio actual *</label>
-
-      <input type="money" class="form-control" name="ActualPrice" id="ActualPrice" value="" required>
-      <small>¿En cuánto venderás la prenda?</small>
-
-      @if ($errors->has('ActualPrice'))
-        <div class="invalid-feedback">
-          {{ $errors->first('ActualPrice') }}
-        </div>
-      @else
-        <div class="invalid-feedback">
-          El campo precio actual es obligatorio.
-        </div>
-      @endif
-    </div>
-  </div>
-@endif
-
 <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
   <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
@@ -103,6 +66,29 @@
 </div>
 
 <div class="form-row">
+  <div class="form-group col-md-6">
+    <label for="DepartmentID">Departamento *</label>
+    <select id="DepartmentID" class="form-control" name="DepartmentID" required>
+      <option value="" selected>- Seleccionar -</option>
+
+        @foreach($departments as $department)
+          <option value="{{ $department->DepartmentID }}"  {{ ($item && ($department->DepartmentID == $item->first()->DepartmentID) || old('DepartmentID'))  ? 'selected' : '' }} >
+              {{ $department->DepName }}
+          </option>
+        @endforeach
+    </select>
+    <small>Ejemplo: Niños, Niñas, Hombres...</small>
+
+    @if ($errors->has('DepartmentID'))
+        <div class="invalid-feedback">
+          {{ $errors->first('DepartmentID') }}
+        </div>
+    @else
+      <div class="invalid-feedback">
+        El campo departamento es obligatorio.
+      </div>
+    @endif
+  </div>
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
     <select id="BrandID" class="form-control js-brands-select" name="BrandID" required>
@@ -129,29 +115,6 @@
         El campo marca es obligatorio.
       </div>
     @endif    
-  </div>
-  <div class="form-group col-md-6">
-    <label for="DepartmentID">Departamento *</label>
-    <select id="DepartmentID" class="form-control" name="DepartmentID" required>
-      <option value="" selected>- Seleccionar -</option>
-
-        @foreach($departments as $department)
-          <option value="{{ $department->DepartmentID }}"  {{ ($item && ($department->DepartmentID == $item->first()->DepartmentID) || old('DepartmentID'))  ? 'selected' : '' }} >
-              {{ $department->DepName }}
-          </option>
-        @endforeach
-    </select>
-    <small>Ejemplo: Niños, Niñas, Hombres...</small>
-
-    @if ($errors->has('DepartmentID'))
-        <div class="invalid-feedback">
-          {{ $errors->first('DepartmentID') }}
-        </div>
-    @else
-      <div class="invalid-feedback">
-        El campo departamento es obligatorio.
-      </div>
-    @endif
   </div>
 </div>
 
@@ -252,34 +215,7 @@
 
 <div class="form-row">
   <div class="form-group col-md-6">
-    <label for="ClosetID">Closet *</label>
-    <select id="ClosetID" class="form-control" name="ClosetID" required>
-      <option value="" selected>- Seleccionar -</option>
-
-      @if($closets->count() == 0)
-        <option value="default" > Closet por defecto </option>
-      @endif
-
-      @foreach($closets as $closet)
-        <option value="{{ $closet->ClosetID }}"  {{ ($item && ($closet->ClosetID == $item->first()->ClosetID) || old('ClosetID'))  ? 'selected' : '' }} >
-          {{ $closet->ClosetName }}
-        </option>
-      @endforeach
-    </select>
-    <small>¿En qué closet se va a colgar está prenda?</small>
-
-    @if ($errors->has('ClosetID'))
-      <div class="invalid-feedback">
-        {{ $errors->first('ClosetID') }}
-      </div>
-    @else
-      <div class="invalid-feedback">
-        El campo closet es obligatorio.
-      </div>
-    @endif
-  </div> 
-  <div class="form-group col-md-6">
-    <label for="ClothingTypeID">Tipo de ropa *</label>
+    <label for="ClothingTypeID">Condición de mi prenda *</label>
     <select id="ClothingTypeID" class="form-control" name="ClothingTypeID" required>
       <option value="" selected>- Seleccionar -</option>
 
@@ -301,8 +237,71 @@
       </div>
     @endif
   </div> 
+  <div class="form-group col-md-6">
+    <label for="ClosetID">Colección *</label>
+    <select id="ClosetID" class="form-control" name="ClosetID" required>
+      <option value="" selected>- Seleccionar -</option>
+
+      @if($closets->count() == 0)
+        <option value="default" > Colección por defecto </option>
+      @endif
+
+      @foreach($closets as $closet)
+        <option value="{{ $closet->ClosetID }}"  {{ ($item && ($closet->ClosetID == $item->first()->ClosetID) || old('ClosetID'))  ? 'selected' : '' }} >
+          {{ $closet->ClosetName }}
+        </option>
+      @endforeach
+    </select>
+    <small>¿En qué colección se va a guardar está prenda?</small>
+
+    @if ($errors->has('ClosetID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('ClosetID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo closet es obligatorio.
+      </div>
+    @endif
+  </div> 
 </div>
 
+@if(!$item)
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="OriginalPrice">Precio original *</label>
+      <input type="money" class="form-control" name="OriginalPrice" id="OriginalPrice" value="" required>
+      <small>¿Cuánto te costo la prenda??</small>
+
+      @if ($errors->has('OriginalPrice'))
+        <div class="invalid-feedback">
+          {{ $errors->first('OriginalPrice') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo precio original es obligatorio.
+        </div>
+      @endif
+    </div>
+
+    <div class="form-group col-md-6">
+      <label for="ActualPrice">Precio actual *</label>
+
+      <input type="money" class="form-control" name="ActualPrice" id="ActualPrice" value="" required>
+      <small>¿En cuánto venderás la prenda?</small>
+
+      @if ($errors->has('ActualPrice'))
+        <div class="invalid-feedback">
+          {{ $errors->first('ActualPrice') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo precio actual es obligatorio.
+        </div>
+      @endif
+    </div>
+  </div>
+@endif
 <div class="form-group">
   <div class="form-check mt-2">
     <input class="form-check-input js-check-offer" type="checkbox" id="offer" name="offer"  value="true" {{ $item && $item->first()->OffSaleID !== null ? 'checked' : '' }}>
