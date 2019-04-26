@@ -40,8 +40,18 @@ Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//Item API
 	Route::get('brands-by-department/{departmentId}', 'ItemApiController@getBrandsbyDepartment');
 	Route::get('sizes-by-brand/{departmentId}/{brandId}', 'ItemApiController@getSizesbyBrand');
+
+	//Billing Info
+	Route::post('shipping', 'ShippingAddController@store');
+	Route::post('shipping/{shippingAddId}', 'ShippingAddController@update');
+
+	//Billing Info
+	Route::post('billing-info', 'BillingInfoController@store');
+	Route::post('billing-info/{billingInfoId}', 'BillingInfoController@update');
+
 
 	//Guardarropas
 	Route::get('guardarropa', 'ClosetController@ownClosets');
@@ -73,8 +83,6 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('item/{itemId}', 'ItemController@update')->name('item.update');
 	Route::get('item/{itemId}/delete', 'ItemController@destroy')->name('item.destroy');
 	Route::post('add-items/{itemId}', 'ItemController@addItem');
-
-
 
 	//Closet
 	Route::get('closets', 'ClosetController@index');
