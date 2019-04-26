@@ -205,6 +205,14 @@ return [
         'CategoryID'            => 'categoria',
         'TypeID'                => 'tipo',
         'ClosetID'              => 'closet',
-        'OffSaleID'             => 'oferta'
+        'OffSaleID'             => 'oferta',
+        'Street'                => 'calle',
+        'Suburb'                => 'colonia',
+        'ZipCode'               => 'código postal',
+        'City'                  => 'ciudad',
+        'State'                 => 'estado',
+        'RFC'                   => 'RFC',
+        'PhoneContact'          => 'teléfono',
     ],
+
 ];

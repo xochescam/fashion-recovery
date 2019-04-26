@@ -55,9 +55,10 @@ class AuthController extends Controller
      */
     public function show($id)
     {
-
         $user             = Auth::User();
         $seller           = null;
+        $invoice          = null;
+        $shipping         = null;
         $sellerSince      = '';
         $items            = 0;
         $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
@@ -75,9 +76,34 @@ class AuthController extends Controller
                         ->first();
 
             $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
+
+            $invoice = DB::table('fashionrecovery.GR_003')
+                        ->where('UserID',$id)
+                        ->first();
+
+            $shipping = DB::table('fashionrecovery.GR_002')
+                        ->where('UserID',$id)
+                        ->first();
+
+        } else if($user->ProfileID == 1) {
+
+            $invoice = DB::table('fashionrecovery.GR_003')
+                        ->where('UserID',$id)
+                        ->first();
+
+            $shipping = DB::table('fashionrecovery.GR_002')
+                        ->where('UserID',$id)
+                        ->first();
         }
 
-        return view('auth.show',compact('seller','creationDateUser','birthDateUser','sellerSince', 'items'));
+        return view('auth.show',
+            compact('seller',
+                    'creationDateUser',
+                    'birthDateUser',
+                    'sellerSince',
+                    'items',
+                    'invoice',
+                    'shipping'));
     }
 
 
