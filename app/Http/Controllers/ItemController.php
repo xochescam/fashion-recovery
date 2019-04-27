@@ -413,6 +413,7 @@ class ItemController extends Controller
     }
 
     public function addItem(Request $request, $itemId) {
+        
         DB::beginTransaction();
 
         try {
