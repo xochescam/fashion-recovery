@@ -91,7 +91,7 @@
   </div>
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" disabled="true">
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" disabled="true" value="{{ $item ? $item->first()->BrandID : '' }}">
 
         @if($item)
           <option value="{{ $item->first()->BrandID }}" selected>{{ $brands->where('BrandID',$item->first()->BrandID)->first()->BrandName }}</option>

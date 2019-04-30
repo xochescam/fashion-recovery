@@ -53,7 +53,7 @@ class SellerController extends Controller
 
         try {
 
-            $IDP    = $this->saveID($request->toArray());
+            $IDP    = $this->saveID($request->toArray(), true);
             $selfie = $this->saveSelfie($request->toArray(), false);
 
             $data = $this->sellerData($request->toArray(), $selfie, $IDP);
@@ -121,7 +121,7 @@ class SellerController extends Controller
         try {
 
             $IDP = isset($request->IdentityDocumentPath) ?
-                    $this->saveID($request->toArray()) :
+                    $this->saveID($request->toArray(), false) :
                     DB::table($this->table)
                         ->where('UserID',$id)
                         ->first()
@@ -170,16 +170,17 @@ class SellerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    protected function saveID($data) {
+    protected function saveID($data, $isNew) {
         $date         = date("Ymd-His");
         $IDName       = "sellers/".Auth::User()->id.'/'.$date.'_'.Auth::User()->id.'_ID.jpg';
 
-        if($data['IdentityDocumentPath']) {
+        if($data['IdentityDocumentPath'] && !$isNew) {
 
             $seller = DB::table($this->table)
                         ->where('UserID',Auth::User()->id)
                         ->first();
 
+                        dd($seller);
             File::delete($seller->IdentityDocumentPath);
         }
 
