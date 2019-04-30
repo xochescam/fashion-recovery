@@ -22,7 +22,6 @@
                 <div class="card-body">
                   <h5 class="card-title">{{ $item->first()->ActualPrice }}
                     <small class="line-through">{{ $item->first()->OriginalPrice }}</small>
-                    <span class="badge badge-secondary green-background float-right">{{ $item->first()->Discount }}%</span>
                   </h5>
                 </div>
               </div>
