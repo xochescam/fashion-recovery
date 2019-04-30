@@ -29,7 +29,6 @@ class ClosetController extends Controller
                     ->where('UserID',Auth::User()->id)
                     ->get();
 
-
         $items = DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
                     ->whereIn('GR_029.ClosetID',$closets->groupBy('ClosetID')->keys()->toArray())
@@ -95,10 +94,9 @@ class ClosetController extends Controller
         $items = DB::table($this->table)
                     ->join('fashionrecovery.GR_029', 'GR_030.ClosetID', '=', 'GR_029.ClosetID')
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
-                    ->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
                     ->where('fashionrecovery.GR_030.ClosetID',$id)
                     ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_032.ThumbPath','GR_031.Discount','GR_029.OriginalPrice','GR_029.ActualPrice')
+                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_032.ThumbPath','GR_029.OriginalPrice','GR_029.ActualPrice')
                     ->get()
                     ->groupBy('ItemID');
 
