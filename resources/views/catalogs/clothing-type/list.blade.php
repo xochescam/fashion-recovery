@@ -6,7 +6,7 @@
 	    <div class="container py-5">
 	      	<div class="row">
 	        	<div class="col-12">
-	          		<h2 class="text-center TituloFR my-4">Tipos de ropa</h2>
+	          		<h2 class="text-center TituloFR my-4">Tipos de prendas</h2>
 
 					@include('alerts.success')
   					@include('alerts.warning')
@@ -19,8 +19,9 @@
 						<thead>
 						    <tr>
 							    <th scope="col">Nombre</th>
-							    <th scope="col">Marca</th>
 							    <th scope="col">Departamento</th>
+							    <th scope="col">Marca</th>
+							    <th scope="col">Categoría</th>
 							    <th scope="col">Activo</th>
 							    <th scope="col"></th>
 						    </tr>
@@ -30,8 +31,9 @@
 						 	@foreach($clothingTypes as $item)
 						 		<tr>
 								    <th> {{ $item->ClothingTypeName }} </th>
-								    <td> {{ $item->BrandName }} </td>
 								    <td> {{ $item->DepName }}</td>
+								    <td> {{ $item->BrandName }} </td>
+								    <td> {{ $item->CategoryName }}</td>
 								    <td>
 								    	@if($item->Active)
 											<i class="fas fa-check green-color"></i>

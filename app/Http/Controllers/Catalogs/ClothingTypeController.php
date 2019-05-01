@@ -24,7 +24,8 @@ class ClothingTypeController extends Controller
         $clothingTypes = DB::table($this->table)
                             ->join('fashionrecovery.GR_017', 'GR_019.BrandID', '=', 'GR_017.BrandID')
                             ->join('fashionrecovery.GR_025', 'GR_019.DepartmentID', '=', 'GR_025.DepartmentID')
-                            ->select('GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active',  'GR_017.BrandName', 'GR_025.DepName')
+                            ->join('fashionrecovery.GR_026', 'GR_019.CategoryID', '=', 'GR_026.CategoryID')
+                            ->select('GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active',  'GR_017.BrandName', 'GR_025.DepName', 'GR_026.CategoryName')
                             ->get();
 
         return view('catalogs.clothing-type.list',compact('clothingTypes'));
@@ -39,8 +40,9 @@ class ClothingTypeController extends Controller
     {
         $brands      = DB::table('fashionrecovery.GR_017')->get();
         $departments = DB::table('fashionrecovery.GR_025')->get();
+        $categories  = DB::table('fashionrecovery.GR_026')->get();
 
-        return view('catalogs.clothing-type.create',compact('brands','departments'));
+        return view('catalogs.clothing-type.create',compact('brands','departments','categories'));
     }
 
     /**
@@ -50,8 +52,18 @@ class ClothingTypeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $this->validator($request);
+    {        
+        $exist = DB::table($this->table)
+                ->where('ClothingTypeName',$request->name)
+                ->where('BrandID',$request->brandId)
+                ->where('DepartmentID',$request->departmentId)
+                ->where('CategoryID',$request->categoryId)
+                ->first();
+
+        if(isset($exist)) {
+            Session::flash('warning','El tipo de prenda ya existe. Ingresa otro diferente.');
+            return Redirect::to('clothing-types/create');
+        }
 
         DB::beginTransaction();
 
@@ -98,10 +110,13 @@ class ClothingTypeController extends Controller
                             ->where('ClothingTypeID',$id)
                             ->first();
 
-        $brands      = DB::table('fashionrecovery.GR_017')->get();
         $departments = DB::table('fashionrecovery.GR_025')->get();
+        $categories  = DB::table('fashionrecovery.GR_026')->get();
+        $brands      = DB::table('fashionrecovery.GR_017')
+                        ->where('DepartmentID',$clothingType->DepartmentID)
+                        ->get();
 
-        return view('catalogs.clothing-type.edit',compact('clothingType','brands','departments'));
+        return view('catalogs.clothing-type.edit',compact('clothingType','brands','departments','categories'));
     }
 
     /**
@@ -113,8 +128,6 @@ class ClothingTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validator($request);
-
         DB::beginTransaction();
 
         try {
@@ -183,7 +196,8 @@ class ClothingTypeController extends Controller
         return $request->validate([
             'name'         => ['required'],
             'brandId'      => ['required'],
-            'departmentId' => ['required']
+            'departmentId' => ['required'],
+            'categoryId'   => ['required']
         ]);
     }
 
@@ -194,6 +208,7 @@ class ClothingTypeController extends Controller
              'ClothingTypeName' => $data['name'],
              'BrandID'          => $data['brandId'],
              'DepartmentID'     => $data['departmentId'],
+             'CategoryID'       => $data['categoryId'],
              'Active'           => isset($data['active']) ? true : false,
              'CreationDate'     => date("Y-m-d H:i:s"),
              'CreatedBy'        => Auth::User()->id

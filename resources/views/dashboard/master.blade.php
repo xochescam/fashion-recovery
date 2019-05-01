@@ -132,14 +132,21 @@
                 const sizesSelect = document.querySelector('.js-sizes-select');
                 const request = new XMLHttpRequest();
                 const url     = window.location.origin;
-                clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                 brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
-                sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                 brandsSelect.setAttribute('disabled',true);
-                sizesSelect.setAttribute('disabled',true);
-                clothingTypesSelect.setAttribute('disabled',true);
+                brandsSelect.setAttribute('required',false);
 
+                if(clothingTypesSelect || sizesSelect) {
+                    clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+                    sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
 
+                    clothingTypesSelect.setAttribute('disabled',true);
+                    sizesSelect.setAttribute('disabled',true);
+
+                    clothingTypesSelect.setAttribute('required',false);
+                    sizesSelect.setAttribute('required',false);
+                }
+                
                 request.open('GET', url+'/brands-by-department/'+this.value, true);
                 request.send(null);
                 request.onload = function() {
@@ -162,21 +169,36 @@
 
                         }
 
+                        brandsSelect.setAttribute('required',true);
                         brandsSelect.addEventListener('change', clothingTypesByBrand);
                         
 
                      } else {
                         brandsSelect.setAttribute('disabled',true);
-                        sizesSelect.setAttribute('disabled',true);
-                        clothingTypesSelect.setAttribute('disabled',true);
+                        brandsSelect.setAttribute('required',false);
+
+                        if(clothingTypesSelect || sizesSelect){
+                            sizesSelect.setAttribute('disabled',true);
+                            clothingTypesSelect.setAttribute('disabled',true);
+
+                            clothingTypesSelect.setAttribute('required',false);
+                            sizesSelect.setAttribute('required',false);
+                        }
 
                         brandsSelect.innerHTML = `<option value="" selected>- No se encontraron marcas -</option>`;
                      }
 
                    } else {
                         brandsSelect.setAttribute('disabled',true);
-                        sizesSelect.setAttribute('disabled',true);
-                        clothingTypesSelect.setAttribute('disabled',true);
+                        brandsSelect.setAttribute('required',false);
+
+                        if(clothingTypesSelect || sizesSelect){
+                            sizesSelect.setAttribute('disabled',true);
+                            clothingTypesSelect.setAttribute('disabled',true);
+
+                            clothingTypesSelect.setAttribute('required',false);
+                            sizesSelect.setAttribute('required',false);
+                        }
 
                         // We reached our target server, but it returned an error
                         console.log('Ocurrio un error, inténtalo de nuevo.');
@@ -185,8 +207,15 @@
 
                 request.onerror = function() {
                     brandsSelect.setAttribute('disabled',true);
-                    sizesSelect.setAttribute('disabled',true);
-                    clothingTypesSelect.setAttribute('disabled',true);
+                    brandsSelect.setAttribute('required',false);
+                    
+                    if(clothingTypesSelect || sizesSelect){
+                        sizesSelect.setAttribute('disabled',true);
+                        clothingTypesSelect.setAttribute('disabled',true);
+
+                        clothingTypesSelect.setAttribute('required',false);
+                        sizesSelect.setAttribute('required',false);
+                    }
 
                     //There was a connection error of some sort
                     console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
@@ -198,6 +227,10 @@
         function clothingTypesByBrand(e) {
 
             const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
+
+            if(!clothingTypesSelect) {
+                return;
+            }
             const sizesSelect = document.querySelector('.js-sizes-select');
             const request = new XMLHttpRequest();
             const url     = window.location.origin;
