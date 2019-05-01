@@ -52,7 +52,7 @@
 
 <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
-  <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
+  <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
       
   @if ($errors->has('ItemDescription'))
     <div class="invalid-validation">
