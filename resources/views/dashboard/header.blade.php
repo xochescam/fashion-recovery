@@ -18,10 +18,10 @@
               <a class="dropdown-item text-left" href="{{ url('departments') }}">Departamentos</a>
               <a class="dropdown-item text-left" href="{{ url('brands') }}">Marcas</a>
               <a class="dropdown-item text-left" href="{{ url('categories') }}">Categorias</a>
-              <a class="dropdown-item text-left" href="{{ url('types') }}">Tipos</a>
+              <a class="dropdown-item text-left" href="{{ url('types') }}">Condiciones</a>
               <a class="dropdown-item text-left" href="{{ url('colors') }}">Colores</a>
               <a class="dropdown-item text-left" href="{{ url('clothing-types') }}">Tipos de ropa</a>
-              <a class="dropdown-item text-left" href="{{ url('sizes') }}">Tamaños</a>
+              <a class="dropdown-item text-left" href="{{ url('sizes') }}">Tallas</a>
               <a class="dropdown-item text-left" href="{{ url('seasons') }}">Temporadas</a>
               <a class="dropdown-item text-left" href="{{ url('calendar-sales') }}">Calendario de ofertas</a>
             </div>
