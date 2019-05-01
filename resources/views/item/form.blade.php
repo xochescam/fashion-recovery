@@ -10,7 +10,7 @@
   <label>Fotos de la prenda *</label>
 
   <div class="custom-file">
-    <input type="file" class="custom-file-input js-add-items" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value={{ old('PicturesUploaded') }} required>
+    <input type="file" class="custom-file-input js-add-items" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value="{{ old('PicturesUploaded') }}" required>
     <label class="custom-file-label" for="PicturesUploaded">
       {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
     </label>
@@ -238,7 +238,7 @@
   </div>
   <div class="form-group col-md-6">
     <label for="ClosetID">Colección *</label>
-    <select id="ClosetID" class="form-control" name="ClosetID" required>
+    <select id="ClosetID" class="form-control" name="ClosetID">
       <option value="" selected>- Seleccionar -</option>
 
       @if($closets->count() == 0)
@@ -256,10 +256,6 @@
     @if ($errors->has('ClosetID'))
       <div class="invalid-feedback">
         {{ $errors->first('ClosetID') }}
-      </div>
-    @else
-      <div class="invalid-feedback">
-        El campo colección es obligatorio.
       </div>
     @endif
   </div> 

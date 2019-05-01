@@ -113,7 +113,7 @@ class ItemController extends Controller
         $data['ValidFrom'] = date("Y-m-d H:i:s",strtotime($data['ValidFrom']));
         $data['ValidUntil'] = date("Y-m-d H:i:s",strtotime($data['ValidUntil']));
 
-        $closet = $data['ClosetID'] == "default" ?
+        $closet = !isset($data['ClosetID']) || $data['ClosetID'] == "default" ?
                     $this->saveDefaultCloset()->ClosetID :
                     $data['ClosetID'];
 
@@ -140,7 +140,7 @@ class ItemController extends Controller
 
     protected function itemData($data) {
 
-        $closet = $data['ClosetID'] == "default" ?
+        $closet = !isset($data['ClosetID']) || $data['ClosetID'] == "default" ?
                     $this->saveDefaultCloset()->ClosetID :
                     $data['ClosetID'];
 
