@@ -120,9 +120,11 @@
     <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}">
         <option value="" selected>- Seleccionar -</option>
 
-        @foreach($brands as $brand)
-          <option value="{{ $brand->BrandID }}" {{ $item && $item->first()->BrandID == $brand->BrandID || old('BrandID') ? 'selected' : '' }} >{{ $brand->BrandName }}</option>
-        @endforeach
+        @if(isset($brands))
+          @foreach($brands as $brand)
+            <option value="{{ $brand->BrandID }}" {{ $item && $item->first()->BrandID == $brand->BrandID || old('BrandID') ? 'selected' : '' }} >{{ $brand->BrandName }}</option>
+          @endforeach
+        @endif
 
     </select>
     <small>¿De qué marca es está prenda?</small>
@@ -143,11 +145,13 @@
     <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}>
       <option value="" selected>- Seleccionar -</option>
 
+      @if(isset($clothingTypes))
         @foreach($clothingTypes as $clothingType)
           <option value="{{ $clothingType->ClothingTypeID }}"  {{ ($item && ($clothingType->ClothingTypeID == $item->first()->ClothingTypeID) || old('ClothingTypeID'))  ? 'selected' : '' }} >
             {{ $clothingType->ClothingTypeName }}
           </option>
         @endforeach
+      @endif
     </select>
     <small>Ejemplo: Casual, Formal, Deportiva...</small>
 
@@ -170,11 +174,14 @@
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}}>
       <option value="" selected>- Seleccionar -</option>
       
-      @foreach($sizes as $size)
-        <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} >
-            {{ $size->SizeName }}
-        </option>
-      @endforeach
+      @if(isset($sizes))
+        @foreach($sizes as $size)
+          <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} >
+              {{ $size->SizeName }}
+          </option>
+        @endforeach
+      @endif
+      
 
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
