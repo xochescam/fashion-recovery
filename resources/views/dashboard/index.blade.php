@@ -45,7 +45,7 @@
 
 			              </div>
 			              <h4 class="card-title">{{ $item->BrandName }}</h4>
-			              <h6>Falda</h6>
+			              <h6>{{ $item->ItemDescription }}</h6>
 
 			              <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
 			                Talla: 5 <br />Color: {{ $item->ColorName }}</p>
