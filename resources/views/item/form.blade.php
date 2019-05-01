@@ -90,58 +90,8 @@
     @endif
   </div>
   <div class="form-group col-md-6">
-    <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" disabled="true" value="{{ $item ? $item->first()->BrandID : '' }}">
-
-        @if($item)
-          <option value="{{ $item->first()->BrandID }}" selected>{{ $brands->where('BrandID',$item->first()->BrandID)->first()->BrandName }}</option>
-        @else
-          <option value="" selected>- Seleccionar -</option>
-        @endif
-
-    </select>
-    <small>¿De qué marca es está prenda?</small>
-
-    @if ($errors->has('BrandID'))
-      <div class="invalid-feedback">
-        {{ $errors->first('BrandID') }}
-      </div>
-    @else
-      <div class="invalid-feedback">
-        El campo marca es obligatorio.
-      </div>
-    @endif    
-  </div>
-</div>
-
-<div class="form-row">
-  <div class="form-group col-md-6">
-    <label for="ClothingTypeID">Tipo de ropa *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  disabled="true" required>
-      <option value="" selected>- Seleccionar -</option>
-
-        @foreach($clothingTypes as $clothingType)
-          <option value="{{ $clothingType->ClothingTypeID }}"  {{ ($item && ($clothingType->ClothingTypeID == $item->first()->ClothingTypeID) || old('ClothingTypeID'))  ? 'selected' : '' }} >
-            {{ $clothingType->ClothingTypeName }}
-          </option>
-        @endforeach
-    </select>
-    <small>Ejemplo: Casual, Formal, Deportiva...</small>
-
-    @if ($errors->has('ClothingTypeID'))
-        <div class="invalid-feedback">
-          {{ $errors->first('ClothingTypeID') }}
-        </div>
-    @else
-      <div class="invalid-feedback">
-        El campo tipo de ropa es obligatorio.
-      </div>
-    @endif
-  </div>
-
-  <div class="form-group col-md-6">
     <label for="CategoryID">Categoría *</label>
-    <select id="CategoryID" class="form-control" name="CategoryID" required>
+    <select id="CategoryID" class="form-control js-categories-select" name="CategoryID" required>
       <option value="" selected>- Seleccionar -</option>
 
           @foreach($categories as $category)
@@ -164,17 +114,67 @@
   </div>
 </div>
 
+<div class="form-row">
+  <div class="form-group col-md-6">
+    <label for="BrandID">Marca *</label>
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}">
+        <option value="" selected>- Seleccionar -</option>
+
+        @foreach($brands as $brand)
+          <option value="{{ $brand->BrandID }}" {{ $item && $item->first()->BrandID == $brand->BrandID || old('BrandID') ? 'selected' : '' }} >{{ $brand->BrandName }}</option>
+        @endforeach
+
+    </select>
+    <small>¿De qué marca es está prenda?</small>
+
+    @if ($errors->has('BrandID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('BrandID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo marca es obligatorio.
+      </div>
+    @endif    
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="ClothingTypeID">Tipo de prenda *</label>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}>
+      <option value="" selected>- Seleccionar -</option>
+
+        @foreach($clothingTypes as $clothingType)
+          <option value="{{ $clothingType->ClothingTypeID }}"  {{ ($item && ($clothingType->ClothingTypeID == $item->first()->ClothingTypeID) || old('ClothingTypeID'))  ? 'selected' : '' }} >
+            {{ $clothingType->ClothingTypeName }}
+          </option>
+        @endforeach
+    </select>
+    <small>Ejemplo: Casual, Formal, Deportiva...</small>
+
+    @if ($errors->has('ClothingTypeID'))
+        <div class="invalid-feedback">
+          {{ $errors->first('ClothingTypeID') }}
+        </div>
+    @else
+      <div class="invalid-feedback">
+        El campo tipo de prenda es obligatorio.
+      </div>
+    @endif
+  </div>
+</div>
+
 
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="SizeID">Talla *</label>
-    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" disabled="true" required>
+    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}}>
+      <option value="" selected>- Seleccionar -</option>
       
-      @if($item)
-          <option value="{{ $item->first()->SizeID }}" selected>{{ $sizes->where('SizeID',$item->first()->SizeID)->first()->SizeName }}</option>
-        @else
-          <option value="" selected>- Seleccionar -</option>
-        @endif
+      @foreach($sizes as $size)
+        <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} >
+            {{ $size->SizeName }}
+        </option>
+      @endforeach
 
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
@@ -237,7 +237,7 @@
     @endif
   </div>
   <div class="form-group col-md-6">
-    <label for="ClosetID">Colección *</label>
+    <label for="ClosetID">Colección</label>
     <select id="ClosetID" class="form-control" name="ClosetID">
       <option value="" selected>- Seleccionar -</option>
 
