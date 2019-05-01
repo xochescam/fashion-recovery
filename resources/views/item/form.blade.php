@@ -259,7 +259,7 @@
       </div>
     @else
       <div class="invalid-feedback">
-        El campo closet es obligatorio.
+        El campo colección es obligatorio.
       </div>
     @endif
   </div> 
