@@ -127,14 +127,17 @@
 
             departmentsSelect.addEventListener('change', function(e) {
 
+                const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
                 const brandsSelect = document.querySelector('.js-brands-select');
                 const sizesSelect = document.querySelector('.js-sizes-select');
                 const request = new XMLHttpRequest();
                 const url     = window.location.origin;
+                clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                 brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                 sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                 brandsSelect.setAttribute('disabled',true);
                 sizesSelect.setAttribute('disabled',true);
+                clothingTypesSelect.setAttribute('disabled',true);
 
 
                 request.open('GET', url+'/brands-by-department/'+this.value, true);
@@ -159,12 +162,13 @@
 
                         }
 
-                        brandsSelect.addEventListener('change', sizesByBrand);
+                        brandsSelect.addEventListener('change', clothingTypesByBrand);
                         
 
                      } else {
                         brandsSelect.setAttribute('disabled',true);
                         sizesSelect.setAttribute('disabled',true);
+                        clothingTypesSelect.setAttribute('disabled',true);
 
                         brandsSelect.innerHTML = `<option value="" selected>- No se encontraron marcas -</option>`;
                      }
@@ -172,6 +176,7 @@
                    } else {
                         brandsSelect.setAttribute('disabled',true);
                         sizesSelect.setAttribute('disabled',true);
+                        clothingTypesSelect.setAttribute('disabled',true);
 
                         // We reached our target server, but it returned an error
                         console.log('Ocurrio un error, inténtalo de nuevo.');
@@ -181,6 +186,7 @@
                 request.onerror = function() {
                     brandsSelect.setAttribute('disabled',true);
                     sizesSelect.setAttribute('disabled',true);
+                    clothingTypesSelect.setAttribute('disabled',true);
 
                     //There was a connection error of some sort
                     console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
@@ -189,16 +195,80 @@
             });     
         }
 
-        function sizesByBrand(e) {
+        function clothingTypesByBrand(e) {
+
+            const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
+            const sizesSelect = document.querySelector('.js-sizes-select');
+            const request = new XMLHttpRequest();
+            const url     = window.location.origin;
+            const department = e.currentTarget.getAttribute('data-department');
+            clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+            sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+            clothingTypesSelect.setAttribute('disabled',true);
+            sizesSelect.setAttribute('disabled',true);
+
+            request.open('GET', url+'/clothing-type-by-brand/'+department+'/'+this.value, true);
+            request.send(null);
+            request.onload = function() {
+
+               if (request.status >= 200 && request.status < 400) {
+                   
+                    const response = JSON.parse(request.response);
+
+                    if(response.length > 0){
+
+                        for (var i = response.length - 1; i >= 0; i--) {
+
+                            clothingTypesSelect.setAttribute('data-department',response[i].DepartmentID);
+                            clothingTypesSelect.setAttribute('data-brand',response[i].BrandID);
+
+
+                            var size = `<option value="`+response[i].ClothingTypeID+`" data-department=`+response[i].DepartmentID+` data-brand=`+response[i].BrandID+`>`+response[i].ClothingTypeName+`</option>`;
+
+                            clothingTypesSelect.insertAdjacentHTML('beforeend', size);
+                        }
+
+                        clothingTypesSelect.removeAttribute('disabled');  
+
+                        clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
+
+                    } else {
+                        clothingTypesSelect.setAttribute('disabled',true);
+
+                        clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de ropa -</option>`;
+                    }
+
+               } else {
+                    clothingTypesSelect.setAttribute('disabled',true);
+                    sizesSelect.setAttribute('disabled',true);
+
+                    // We reached our target server, but it returned an error
+                    console.log('Ocurrio un error, inténtalo de nuevo.');
+               }
+            };
+
+            request.onerror = function() {
+                clothingTypesSelect.setAttribute('disabled',true);
+                sizesSelect.setAttribute('disabled',true);
+
+
+                //There was a connection error of some sort
+                console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
+
+            };
+        }
+
+        function sizesByClothingType(e) {
 
             const sizesSelect = document.querySelector('.js-sizes-select');
             const request = new XMLHttpRequest();
             const url     = window.location.origin;
             const department = e.currentTarget.getAttribute('data-department');
+            const brand = e.currentTarget.getAttribute('data-brand');
             sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
             sizesSelect.setAttribute('disabled',true);
 
-            request.open('GET', url+'/sizes-by-brand/'+department+'/'+this.value, true);
+            request.open('GET', url+'/sizes-by-clothing-type/'+department+'/'+brand+'/'+this.value, true);
             request.send(null);
             request.onload = function() {
 

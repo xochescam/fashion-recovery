@@ -116,6 +116,57 @@
 
 <div class="form-row">
   <div class="form-group col-md-6">
+    <label for="ClothingTypeID">Tipo de ropa *</label>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  disabled="true" required>
+      <option value="" selected>- Seleccionar -</option>
+
+        @foreach($clothingTypes as $clothingType)
+          <option value="{{ $clothingType->ClothingTypeID }}"  {{ ($item && ($clothingType->ClothingTypeID == $item->first()->ClothingTypeID) || old('ClothingTypeID'))  ? 'selected' : '' }} >
+            {{ $clothingType->ClothingTypeName }}
+          </option>
+        @endforeach
+    </select>
+    <small>Ejemplo: Casual, Formal, Deportiva...</small>
+
+    @if ($errors->has('ClothingTypeID'))
+        <div class="invalid-feedback">
+          {{ $errors->first('ClothingTypeID') }}
+        </div>
+    @else
+      <div class="invalid-feedback">
+        El campo tipo de ropa es obligatorio.
+      </div>
+    @endif
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="CategoryID">Categoría *</label>
+    <select id="CategoryID" class="form-control" name="CategoryID" required>
+      <option value="" selected>- Seleccionar -</option>
+
+          @foreach($categories as $category)
+            <option value="{{ $category->CategoryID }}"  {{ ($item && ($category->CategoryID == $item->first()->CategoryID) || old('CategoryID'))  ? 'selected' : '' }} >
+              {{ $category->CategoryName }}
+            </option>
+          @endforeach
+    </select>
+    <small>Ejemplo: Ropa, Calzado, Accesorios...</small>
+
+    @if ($errors->has('CategoryID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('CategoryID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo categoría es obligatorio.
+      </div>
+    @endif
+  </div>
+</div>
+
+
+<div class="form-row">
+  <div class="form-group col-md-6">
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" disabled="true" required>
       
@@ -161,33 +212,9 @@
   </div>
 </div>
 
-
 <div class="form-row">
   <div class="form-group col-md-6">
-    <label for="CategoryID">Categoría *</label>
-    <select id="CategoryID" class="form-control" name="CategoryID" required>
-      <option value="" selected>- Seleccionar -</option>
-
-          @foreach($categories as $category)
-            <option value="{{ $category->CategoryID }}"  {{ ($item && ($category->CategoryID == $item->first()->CategoryID) || old('CategoryID'))  ? 'selected' : '' }} >
-              {{ $category->CategoryName }}
-            </option>
-          @endforeach
-    </select>
-    <small>Ejemplo: Ropa, Calzado, Accesorios...</small>
-
-    @if ($errors->has('CategoryID'))
-      <div class="invalid-feedback">
-        {{ $errors->first('CategoryID') }}
-      </div>
-    @else
-      <div class="invalid-feedback">
-        El campo categoría es obligatorio.
-      </div>
-    @endif
-  </div>
-  <div class="form-group col-md-6">
-    <label for="TypeID">Tipo *</label>
+    <label for="TypeID">Condición de la prenda *</label>
     <select id="TypeID" class="form-control" name="TypeID" required>
       <option value="" selected>- Seleccionar -</option>
 
@@ -197,7 +224,7 @@
             </option>
           @endforeach
     </select>
-    <small>Ejemplo: Casual, Formal, Playa...</small>
+    <small>Ejemplo: Nuevo con etiqueta...</small>
 
     @if ($errors->has('TypeID'))
       <div class="invalid-feedback">
@@ -205,36 +232,10 @@
       </div>
     @else
       <div class="invalid-feedback">
-        El campo tipo es obligatorio.
+        El campo condición de la prenda es obligatorio.
       </div>
     @endif
   </div>
-</div>
-
-<div class="form-row">
-  <div class="form-group col-md-6">
-    <label for="ClothingTypeID">Condición de mi prenda *</label>
-    <select id="ClothingTypeID" class="form-control" name="ClothingTypeID" required>
-      <option value="" selected>- Seleccionar -</option>
-
-        @foreach($clothingTypes as $clothingType)
-          <option value="{{ $clothingType->ClothingTypeID }}"  {{ ($item && ($clothingType->ClothingTypeID == $item->first()->ClothingTypeID) || old('ClothingTypeID'))  ? 'selected' : '' }} >
-            {{ $clothingType->ClothingTypeName }}
-          </option>
-        @endforeach
-    </select>
-    <small>?</small>
-
-    @if ($errors->has('ClothingTypeID'))
-        <div class="invalid-feedback">
-          {{ $errors->first('ClothingTypeID') }}
-        </div>
-    @else
-      <div class="invalid-feedback">
-        El campo tipo de ropa es obligatorio.
-      </div>
-    @endif
-  </div> 
   <div class="form-group col-md-6">
     <label for="ClosetID">Colección *</label>
     <select id="ClosetID" class="form-control" name="ClosetID" required>
@@ -269,7 +270,7 @@
     <div class="form-group col-md-6">
       <label for="OriginalPrice">Precio original *</label>
       <input type="money" class="form-control" name="OriginalPrice" id="OriginalPrice" value="" required>
-      <small>¿Cuánto te costo la prenda??</small>
+      <small>¿Cuánto te costo la prenda?</small>
 
       @if ($errors->has('OriginalPrice'))
         <div class="invalid-feedback">

@@ -42,7 +42,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Item API
 	Route::get('brands-by-department/{departmentId}', 'ItemApiController@getBrandsbyDepartment');
-	Route::get('sizes-by-brand/{departmentId}/{brandId}', 'ItemApiController@getSizesbyBrand');
+	Route::get('clothing-type-by-brand/{departmentId}/{brandId}', 'ItemApiController@getClothingTypebyBrand');
+	Route::get('sizes-by-clothing-type/{departmentId}/{brandId}/{clothingTypeId}', 'ItemApiController@getSizesbyClothingType');
 
 	//Billing Info
 	Route::post('shipping', 'ShippingAddController@store');

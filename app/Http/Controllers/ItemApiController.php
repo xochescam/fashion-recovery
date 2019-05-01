@@ -16,7 +16,16 @@ class ItemApiController extends Controller
         					->toJson();
     }
 
-    public function getSizesbyBrand($DepartmentID,$BrandID) {
+    public function getClothingTypebyBrand($DepartmentID,$BrandID) {
+
+        return DB::table('fashionrecovery.GR_019')
+                ->where('DepartmentID',$DepartmentID)
+                ->where('BrandID',$BrandID)
+                ->get()
+                ->toJson();
+    }
+
+    public function getSizesbyClothingType($DepartmentID,$BrandID,$ClothingTypeID) {
 
         return DB::table('fashionrecovery.GR_020')
                 ->where('DepartmentID',$DepartmentID)
