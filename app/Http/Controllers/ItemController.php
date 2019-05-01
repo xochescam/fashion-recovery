@@ -243,17 +243,6 @@ class ItemController extends Controller
         $ValidFrom = '';
         $ValidUntil = '';
 
-        $colors        = DB::table('fashionrecovery.GR_018')->get();
-        $sizes         = DB::table('fashionrecovery.GR_020')->get();
-        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
-        $departments   = DB::table('fashionrecovery.GR_025')->get();
-        $categories    = DB::table('fashionrecovery.GR_026')->get();
-        $types         = DB::table('fashionrecovery.GR_027')->get();
-        $brands        = DB::table('fashionrecovery.GR_017')->get();
-        $closets       = DB::table('fashionrecovery.GR_030')
-                        ->where('UserID',Auth::User()->id)
-                        ->get();
-
         $item = DB::table($this->table) //Mostrar solo una imagen
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
                     ->where('GR_029.OwnerID',Auth::User()->id)
@@ -276,6 +265,29 @@ class ItemController extends Controller
                              'GR_029.ClosetID'
                          )
                     ->get()->groupBy('ItemID')->first();
+
+
+        $colors        = DB::table('fashionrecovery.GR_018')->get();
+        $departments   = DB::table('fashionrecovery.GR_025')->get();
+        $categories    = DB::table('fashionrecovery.GR_026')->get();
+        $types         = DB::table('fashionrecovery.GR_027')->get();
+        $brands        = DB::table('fashionrecovery.GR_017')
+                            ->where('DepartmentID',$item->first()->DepartmentID)
+                            ->get();
+        $clothingTypes = DB::table('fashionrecovery.GR_019')
+                            ->where('DepartmentID',$item->first()->DepartmentID)
+                            ->where('BrandID',$item->first()->BrandID)
+                            ->where('CategoryID',$item->first()->CategoryID)
+                            ->get();
+        $sizes         = DB::table('fashionrecovery.GR_020')
+                            ->where('DepartmentID',$item->first()->DepartmentID)
+                            ->where('BrandID',$item->first()->BrandID)
+                            ->where('ClothingTypeID',$item->first()->ClothingTypeID)
+                            ->get();
+
+        $closets       = DB::table('fashionrecovery.GR_030')
+                        ->where('UserID',Auth::User()->id)
+                        ->get();
 
         $offers = DB::table('fashionrecovery.GR_031')
                     ->where('UserID',Auth::User()->id)
