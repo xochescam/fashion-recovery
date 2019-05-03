@@ -28,7 +28,7 @@ body{
   padding: 0;
   position: absolute !important;
   white-space: nowrap;
-  width: 1px; 
+  width: 1px;
 }
 
 .card--selfie:hover #edit_icon {
@@ -208,6 +208,64 @@ div a{
   color: #ccc;
 }
 
+.dot {
+    height: 25px;
+    width: 25px;
+    /* background-color: #bbb; */
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.dot-blue
+{
+    background-color: blue;
+}
+
+.dot-red
+{
+    background-color: red;
+}
+
+.dot-green
+{
+    background-color: green;
+}
+
+.dot-yellow
+{
+    background-color: yellow;
+}
+
+.badge-fr{
+    background-color: #009c77;
+    color: white;
+    margin-left: .25rem;
+}
+
+.modal-full {
+    min-width: 100%;
+    margin: 0;
+}
+
+.modal-full .modal-content {
+    min-height: 100vh;
+}
+
+.irs-bar, .irs-from, .irs-to
+{
+    background-color: #009c77 !important;
+    font-size: 10px !important;
+}
+
+.irs-handle
+{
+    border-color: #009c77 !important;
+}
+
+.irs-grid-text, .irs-min, .irs-max
+{
+    font-size: .5rem !important;
+}
 
 /* // Extra small devices (portrait phones, less than 576px)  No media query for `xs` since this is the default in Bootstrap */
 /* // Small devices (landscape phones, 576px and up) */
