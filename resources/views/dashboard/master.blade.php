@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.11') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.13') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -46,7 +46,9 @@
         const selfieInput = document.querySelector('.js-selfie-input');
         const departmentsSelect = document.querySelector('.js-departments-select');
         const itemsInput = document.querySelector('.js-items-input');
+        const itemFiles = document.querySelectorAll('.js-item-file');
         const addItems = document.querySelector('.js-add-items');
+        
         const categoriesSelect    = document.querySelector('.js-categories-select');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
@@ -427,6 +429,62 @@
             };
         }
 
+        if(itemFiles) {
+            Array.prototype.forEach.call(itemFiles, (file) => {
+                file.addEventListener('change', showItemPicture);    
+            });
+        }
+
+        function showItemPicture(e) {
+            const file = e.currentTarget.files;
+            const container = e.currentTarget.parentNode.querySelector('.container-item-img');
+            const type = e.currentTarget.getAttribute('data-type');
+            const name = e.currentTarget.getAttribute('data-name');
+            const parent = e.currentTarget.nextElementSibling.parentNode;
+            const label = e.currentTarget.nextElementSibling;
+            const input = e.currentTarget.nextElementSibling.previousElementSibling;
+
+            //console.log(input);
+            parent.removeChild(label);
+            parent.removeChild(input);
+
+            //e.currentTarget.nextElementSibling.style.display = "none";
+            
+            const content = `<img src="`+URL.createObjectURL(file[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
+                <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+
+                container.innerHTML = content;
+
+            const deleteButtons = document.querySelectorAll('.js-delete-item');
+
+            Array.prototype.forEach.call(deleteButtons, (btn) => {
+                btn.addEventListener('click', deleteItem);
+            }); 
+        }
+
+        function deleteItem(e) {
+            const type = e.currentTarget.getAttribute('data-type');
+            const name = e.currentTarget.getAttribute('data-name');
+            const container = e.currentTarget.parentNode.parentNode;
+            e.currentTarget.parentNode.innerHTML = '';
+            
+
+            const isRequired = (name !== 'in' || name !== 'selfie') ? 'required="true"' : '';
+
+
+            const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label">
+                 <span><i class="far fa-image"></i> <br>`+type+`</span>
+               </label>`;
+
+            container.insertAdjacentHTML('afterbegin', content);
+
+            const itemFiles = document.querySelectorAll('.js-item-file');
+
+            Array.prototype.forEach.call(itemFiles, (item) => {
+                item.addEventListener('change', showItemPicture);
+            }); 
+        }
+
         if(itemsInput) {
 
             const list = document.querySelector('#itemsList');
@@ -450,9 +508,9 @@
 
                 realPictures.value = arr;
 
-                const deleteItem = document.querySelectorAll('.js-delete-item');
+                const deleteIt = document.querySelectorAll('.js-delete-item');
 
-                Array.prototype.forEach.call(deleteItem, (btn) => {
+                Array.prototype.forEach.call(deleteIt, (btn) => {
 
                   btn.addEventListener('click', function(e) {
                     arr = [];

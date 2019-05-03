@@ -71,7 +71,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
+    public function store(Request $request)
     {
         DB::beginTransaction();
 
@@ -146,10 +146,21 @@ class ItemController extends Controller
 
         $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
 
+        $countImg = 0;
+
+        foreach ($data as $key => $value) {
+            $name = explode('_', $key);
+
+            if(count($name) > 2 && 
+                $name[1].'_'.$name[2] == 'item_file') {
+                $countImg++;
+            }
+        }
+
         return [
              'ItemDescription'  => $data['ItemDescription'],
              'OwnerID'          => Auth::User()->id,
-             'PicturesUploaded' => count($data['PicturesUploaded']),
+             'PicturesUploaded' => $countImg,
              'OriginalPrice'    => $data['OriginalPrice'],
              'ActualPrice'      => $data['ActualPrice'],
              'ColorID'          => $data['ColorID'],
@@ -205,11 +216,15 @@ class ItemController extends Controller
         $thumbName = [];
         $items = [];
         $count     = 0;
-        $realFiles = explode(',', $data['realPicturesUploaded']);
+        //$realFiles = explode(',', $data['realPicturesUploaded']);
+        
+        foreach ($data as $key => $value) {
 
-        foreach ($data['PicturesUploaded'] as $key => $value) {
+            $name = explode('_', $key);
 
-            if(in_array($value->getClientOriginalName(), $realFiles)) {
+            if(count($name) > 2 && 
+                $name[1].'_'.$name[2] === "item_file") {
+
                 $date   = date("Ymd-His");
                 $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
                 $name = $date.'-'.$count++.'.jpg';
