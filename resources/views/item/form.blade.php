@@ -6,10 +6,10 @@
 @endif
 
 @if(!$item)
-<div class="form-group">
+<div>
   <label>Fotos de la prenda *</label>
 
-  <div class="custom-file">
+{{--   <div class="custom-file">
     <input type="file" class="custom-file-input js-add-items" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value="{{ old('PicturesUploaded') }}" required>
     <label class="custom-file-label" for="PicturesUploaded">
       {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
@@ -42,11 +42,120 @@
 
     @endif
     
+  </div> --}}
+
+
+  <div class="row js-items-container mt-2 text-center">
+
+    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+      <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" required>
+      <label for="cover_item_file" class="card card--file-item custom-file-label">
+        <span><i class="far fa-image"></i> <br>Portada</span>
+      </label>
+
+      <div class="container-item-img"></div>
+
+      @if ($errors->has('cover_item_file'))
+        <div class="invalid-validation mb-2">
+          {{ $errors->first('cover_item_file') }}
+        </div>
+      @else
+        <div class="invalid-feedback mb-2">
+          Selecciona la foto de la portada de la prenda.
+        </div>
+      @endif
+    </div>
+
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" required>
+      <label for="front_item_file" class="card card--file-item custom-file-label">
+        <span><i class="far fa-image"></i> <br>Foto frontal</span>
+      </label>
+
+      <div class="container-item-img"></div>
+
+      @if ($errors->has('front_item_file'))
+        <div class="invalid-validation mb-2">
+          {{ $errors->first('front_item_file') }}
+        </div>
+      @else
+        <div class="invalid-feedback mb-2">
+          Selecciona la foto de la portada de la prenda.
+        </div>
+      @endif
+    </div>
+
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="label_item_file" id="label_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de la etiqueta" data-name="label" required>
+      <label for="label_item_file" class="card card--file-item custom-file-label">
+        <span><i class="far fa-image"></i> <br>Foto de la etiqueta</span>
+      </label>
+
+      <div class="container-item-img"></div>
+
+      @if ($errors->has('label_item_file'))
+        <div class="invalid-validation mb-2">
+          {{ $errors->first('label_item_file') }}
+        </div>
+      @else
+        <div class="invalid-feedback mb-2">
+          Selecciona la foto de la portada de la prenda.
+        </div>
+      @endif
+    </div>
+
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="back_item_file" id="back_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de espaldas" data-name="back" required>
+      <label for="back_item_file" class="card card--file-item custom-file-label">
+        <span><i class="far fa-image"></i> <br>Foto de espaldas</span>
+      </label>
+
+      <div class="container-item-img"></div>
+
+      @if ($errors->has('back_item_file'))
+        <div class="invalid-validation mb-2">
+          {{ $errors->first('back_item_file') }}
+        </div>
+      @else
+        <div class="invalid-feedback mb-2">
+          Selecciona la foto de la portada de la prenda.
+        </div>
+      @endif
+    </div>
+
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" data-name="selfie">
+      <label for="selfie_item_file" class="card card--file-item custom-file-label">
+        <span><i class="far fa-image"></i> <br>Selfie</span> 
+      </label>
+
+      <div class="container-item-img"></div>
+
+      @if ($errors->has('selfie_item_file'))
+        <div class="invalid-validation mb-2">
+          {{ $errors->first('selfie_item_file') }}
+        </div>
+      @endif
+    </div>
+
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="in_item_file" id="in_item_file" class="no-file js-item-file custom-file-input" data-type="Prenda puesta" data-name="in">
+      <label for="in_item_file" class="card card--file-item custom-file-label">
+        <span><i class="far fa-image"></i> <br>Prenda puesta</span>
+      </label>
+
+      <div class="container-item-img"></div>
+
+      @if ($errors->has('in_item_file'))
+        <div class="invalid-validation mb-2">
+          {{ $errors->first('in_item_file') }}
+        </div>
+      @endif
+    </div>
+
   </div>
 
-  <div class="row js-items-container mt-2" id="">
-
-  </div>
+   
 </div>
 @endif
 
@@ -117,7 +226,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}">
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}" required>
         <option value="" selected>- Seleccionar -</option>
 
         @if(isset($brands))
@@ -142,7 +251,7 @@
 
   <div class="form-group col-md-6">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($clothingTypes))
@@ -171,7 +280,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="SizeID">Talla *</label>
-    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}}>
+    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
       
       @if(isset($sizes))
@@ -199,7 +308,7 @@
   <div class="form-group col-md-6">
     <label for="ColorID">Color *</label>
     <select id="ColorID" class="form-control" name="ColorID" required>
-      <option value="" selected>- Seleccionar -</option>
+      <option value="" selected >- Seleccionar -</option>
 
         @foreach($colors as $color)
           <option value="{{ $color->ColorID }}"  {{ ($item && ($color->ColorID === $item->first()->ColorID) || old('ColorID'))  ? 'selected' : '' }} > {{ $color->ColorName }} </option>
@@ -306,7 +415,7 @@
 @endif
 <div class="form-group">
   <div class="form-check mt-2">
-    <input class="form-check-input js-check-offer" type="checkbox" id="offer" name="offer"  value="true" {{ $item && $item->first()->OffSaleID !== null ? 'checked' : '' }}>
+    <input class="form-check-input js-check-offer" type="checkbox" id="offer" name="offer"  value="true" {{ $item && $item->first()->OffSaleID !== null ? 'checked' : '' }} >
     <label class="form-check-label" for="offer">¿Te gustaría agregar una oferta a la prenda?
     </label>
   </div>

@@ -25,7 +25,10 @@ class StoreItemRequest extends FormRequest
     {
         return [
             //'PicturesUploaded'   => ['required'], //validar imagenes
-            'PicturesUploaded.*' => ['mimes:jpeg,png,jpg'], //validar imagenes
+            //'cover_item_file' => ['mimes:jpeg,png,jpg'], //validar imagenes
+            //'front_item_file' => ['mimes:jpeg,png,jpg'], 
+            //'label_item_file' => ['mimes:jpeg,png,jpg'], 
+            //'back_item_file' => ['mimes:jpeg,png,jpg'], 
             /*'OriginalPrice'    => ['required'],
             'ActualPrice'      => ['required'],
             'ColorID'          => ['required'],
