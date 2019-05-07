@@ -41,14 +41,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
 
     <script>
-        const dateTime          = document.querySelectorAll('.date_time_input');
-        const offerCheck        = document.querySelector('.js-check-offer');
-        const selfieInput       = document.querySelector('.js-selfie-input');
+        const dateTime = document.querySelectorAll('.date_time_input');
+        const offerCheck = document.querySelector('.js-check-offer');
+        const selfieInput = document.querySelector('.js-selfie-input');
         const departmentsSelect = document.querySelector('.js-departments-select');
-        const itemsInput        = document.querySelector('.js-items-input');
-        const itemFiles         = document.querySelectorAll('.js-item-file');
-        const addItems          = document.querySelector('.js-add-items');
-
+        const itemsInput = document.querySelector('.js-items-input');
+        const itemFiles = document.querySelectorAll('.js-item-file');
+        const addItems = document.querySelector('.js-add-items');
 
         const categoriesSelect    = document.querySelector('.js-categories-select');
 
@@ -430,6 +429,7 @@
             };
         }
 
+
         if(itemFiles) {
             Array.prototype.forEach.call(itemFiles, (file) => {
 
@@ -459,15 +459,17 @@
             });
         }
 
-        function showItemPicture(e) {
 
-            const file      = e.currentTarget.files;
+
+
+        function showItemPicture(e) {
+            const file = e.currentTarget.files;
             const container = e.currentTarget.parentNode.querySelector('.container-item-img');
-            const type      = e.currentTarget.getAttribute('data-type');
-            const name      = e.currentTarget.getAttribute('data-name');
-            const parent    = e.currentTarget.nextElementSibling.parentNode;
-            const label     = e.currentTarget.nextElementSibling;
-            const input     = e.currentTarget.nextElementSibling.previousElementSibling;
+            const type = e.currentTarget.getAttribute('data-type');
+            const name = e.currentTarget.getAttribute('data-name');
+            const parent = e.currentTarget.nextElementSibling.parentNode;
+            const label = e.currentTarget.nextElementSibling;
+            const input = e.currentTarget.nextElementSibling.previousElementSibling;
 
             //console.log(input);
             //parent.removeChild(label);
