@@ -15,7 +15,7 @@
           <div class="text-right">
             <label for="Items" class="btn btn-fr">
               Agregar fotos
-              <input type="file" class="no-file js-add-items" id="Items" name="PicturesUploaded[]" multiple>
+              <input type="file" class="no-file js-add-items" id="Items" name="PicturesUploaded[]" accept="image/*" multiple>
           </label>
           </div>
 
