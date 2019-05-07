@@ -41,13 +41,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
 
     <script>
-        const dateTime = document.querySelectorAll('.date_time_input');
-        const offerCheck = document.querySelector('.js-check-offer');
-        const selfieInput = document.querySelector('.js-selfie-input');
+        const dateTime          = document.querySelectorAll('.date_time_input');
+        const offerCheck        = document.querySelector('.js-check-offer');
+        const selfieInput       = document.querySelector('.js-selfie-input');
         const departmentsSelect = document.querySelector('.js-departments-select');
-        const itemsInput = document.querySelector('.js-items-input');
-        const itemFiles = document.querySelectorAll('.js-item-file');
-        const addItems = document.querySelector('.js-add-items');
+        const itemsInput        = document.querySelector('.js-items-input');
+        const itemFiles         = document.querySelectorAll('.js-item-file');
+        const addItems          = document.querySelector('.js-add-items');
+
 
         const categoriesSelect    = document.querySelector('.js-categories-select');
 
@@ -431,18 +432,42 @@
 
         if(itemFiles) {
             Array.prototype.forEach.call(itemFiles, (file) => {
-                file.addEventListener('change', showItemPicture);
+
+                if(file.files && file.files.length > 0) {
+
+                    const itemFile      = file.files;
+                    const container = file.parentNode.querySelector('.container-item-img');
+                    const type      = file.getAttribute('data-type');
+                    const name      = file.getAttribute('data-name');
+                    const parent    = file.nextElementSibling.parentNode;
+                    const label     = file.nextElementSibling;
+                    const input     = file.nextElementSibling.previousElementSibling;
+
+                    label.style.display = "none";
+
+                    const content = `<img src="`+URL.createObjectURL(itemFile[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
+                         <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+
+                        container.innerHTML = content;
+
+                    const deleteButtons = document.querySelectorAll('.js-delete-item');
+
+                    Array.prototype.forEach.call(deleteButtons, (btn) => {
+                         btn.addEventListener('click', deleteItem);
+                    });
+                }
             });
         }
 
         function showItemPicture(e) {
-            const file = e.currentTarget.files;
+
+            const file      = e.currentTarget.files;
             const container = e.currentTarget.parentNode.querySelector('.container-item-img');
-            const type = e.currentTarget.getAttribute('data-type');
-            const name = e.currentTarget.getAttribute('data-name');
-            const parent = e.currentTarget.nextElementSibling.parentNode;
-            const label = e.currentTarget.nextElementSibling;
-            const input = e.currentTarget.nextElementSibling.previousElementSibling;
+            const type      = e.currentTarget.getAttribute('data-type');
+            const name      = e.currentTarget.getAttribute('data-name');
+            const parent    = e.currentTarget.nextElementSibling.parentNode;
+            const label     = e.currentTarget.nextElementSibling;
+            const input     = e.currentTarget.nextElementSibling.previousElementSibling;
 
             //console.log(input);
             //parent.removeChild(label);
