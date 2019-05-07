@@ -77,7 +77,9 @@ class ItemController extends Controller
 
         try {
 
+
             $data = $this->itemData($request->toArray());
+
 
             DB::table($this->table)->insert($data);
             $id = DB::getPdo()->lastInsertId(); //change
@@ -151,7 +153,7 @@ class ItemController extends Controller
         foreach ($data as $key => $value) {
             $name = explode('_', $key);
 
-            if(count($name) > 2 && 
+            if(count($name) > 2 &&
                 $name[1].'_'.$name[2] == 'item_file') {
                 $countImg++;
             }
@@ -217,12 +219,12 @@ class ItemController extends Controller
         $items = [];
         $count     = 0;
         //$realFiles = explode(',', $data['realPicturesUploaded']);
-        
+
         foreach ($data as $key => $value) {
 
             $name = explode('_', $key);
 
-            if(count($name) > 2 && 
+            if(count($name) > 2 &&
                 $name[1].'_'.$name[2] === "item_file") {
 
                 $date   = date("Ymd-His");
@@ -240,7 +242,7 @@ class ItemController extends Controller
                 ];
 
                 array_push($itemsName,$items);
-            }         
+            }
         }
 
         return $itemsName;
@@ -308,11 +310,11 @@ class ItemController extends Controller
                     ->where('UserID',Auth::User()->id)
                     ->get()
                     ->groupBy('OfferID')->toArray();
-           
+
         if(isset($item->first()->OffSaleID)) {
 
             $offer = $offers[$item->first()->OffSaleID];
-            
+
             $ValidFrom = date("d/m/Y", strtotime($offer[0]->ValidFrom));
             $ValidUntil = date("d/m/Y", strtotime($offer[0]->ValidUntil));
         }
@@ -440,11 +442,11 @@ class ItemController extends Controller
     }
 
     public function addItem(Request $request, $itemId) {
-        
+
         DB::beginTransaction();
 
         try {
-            
+
             $itemsName = $this->saveItems($request->toArray(), $itemId);
 
             foreach ($itemsName as $key => $value) { //change

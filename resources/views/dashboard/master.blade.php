@@ -48,7 +48,7 @@
         const itemsInput = document.querySelector('.js-items-input');
         const itemFiles = document.querySelectorAll('.js-item-file');
         const addItems = document.querySelector('.js-add-items');
-        
+
         const categoriesSelect    = document.querySelector('.js-categories-select');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
@@ -113,12 +113,12 @@
             });
         }
 
-        if(selfieInput) {    
+        if(selfieInput) {
             const btn = document.querySelector('.js-selfie-btn');
             const img = document.querySelector('.js-selfie-img');
 
             selfieInput.addEventListener('change', function(e) {
-                
+
                 btn.classList.remove('hidden');
 
                 $('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
@@ -150,7 +150,7 @@
                 request.onload = function() {
 
                    if (request.status >= 200 && request.status < 400) {
-                       
+
                         const response = JSON.parse(request.response);
 
                         if(response.length > 0){
@@ -165,9 +165,9 @@
                                 clothingTypesSelect.insertAdjacentHTML('beforeend', size);
                             }
 
-                            clothingTypesSelect.removeAttribute('disabled');  
+                            clothingTypesSelect.removeAttribute('disabled');
 
-                            clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
+                            clothingTypesSelect.addEventListener('change', sizesByClothingType);
 
                         } else {
                             clothingTypesSelect.setAttribute('disabled',true);
@@ -219,13 +219,13 @@
                     clothingTypesSelect.setAttribute('required',false);
                     sizesSelect.setAttribute('required',false);
                 }
-                
+
                 request.open('GET', url+'/brands-by-department/'+this.value, true);
                 request.send(null);
                 request.onload = function() {
 
                    if (request.status >= 200 && request.status < 400) {
-                       
+
                        const response = JSON.parse(request.response);
 
                      if(response.length > 0){
@@ -244,7 +244,7 @@
 
                         brandsSelect.setAttribute('required',true);
                         brandsSelect.addEventListener('change', clothingTypesByBrand);
-                        
+
 
                      } else {
                         brandsSelect.setAttribute('disabled',true);
@@ -281,7 +281,7 @@
                 request.onerror = function() {
                     brandsSelect.setAttribute('disabled',true);
                     brandsSelect.setAttribute('required',false);
-                    
+
                     if(clothingTypesSelect || sizesSelect){
                         sizesSelect.setAttribute('disabled',true);
                         clothingTypesSelect.setAttribute('disabled',true);
@@ -294,7 +294,7 @@
                     console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
 
                 };
-            });     
+            });
         }
 
         function clothingTypesByBrand(e) {
@@ -315,14 +315,14 @@
             sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
             clothingTypesSelect.setAttribute('disabled',true);
             sizesSelect.setAttribute('disabled',true);
-            clothingTypesSelect.setAttribute('required',false); 
+            clothingTypesSelect.setAttribute('required',false);
 
             request.open('GET', url+'/clothing-type-by-brand/'+department+'/'+this.value+'/'+categoriesSelect.value, true);
             request.send(null);
             request.onload = function() {
 
                if (request.status >= 200 && request.status < 400) {
-                   
+
                     const response = JSON.parse(request.response);
 
                     if(response.length > 0){
@@ -338,10 +338,10 @@
                             clothingTypesSelect.insertAdjacentHTML('beforeend', size);
                         }
 
-                        clothingTypesSelect.removeAttribute('disabled'); 
-                        clothingTypesSelect.setAttribute('required',true); 
+                        clothingTypesSelect.removeAttribute('disabled');
+                        clothingTypesSelect.setAttribute('required',true);
 
-                        clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
+                        clothingTypesSelect.addEventListener('change', sizesByClothingType);
 
                     } else {
                         clothingTypesSelect.setAttribute('disabled',true);
@@ -388,7 +388,7 @@
             request.onload = function() {
 
                if (request.status >= 200 && request.status < 400) {
-                   
+
                     const response = JSON.parse(request.response);
 
                     if(response.length > 0){
@@ -400,8 +400,8 @@
                             sizesSelect.insertAdjacentHTML('beforeend', size);
                         }
 
-                        sizesSelect.removeAttribute('disabled'); 
-                        sizesSelect.setAttribute('required',true);                  
+                        sizesSelect.removeAttribute('disabled');
+                        sizesSelect.setAttribute('required',true);
 
                     } else {
                         sizesSelect.setAttribute('disabled',true);
@@ -431,7 +431,7 @@
 
         if(itemFiles) {
             Array.prototype.forEach.call(itemFiles, (file) => {
-                file.addEventListener('change', showItemPicture);    
+                file.addEventListener('change', showItemPicture);
             });
         }
 
@@ -445,11 +445,11 @@
             const input = e.currentTarget.nextElementSibling.previousElementSibling;
 
             //console.log(input);
-            parent.removeChild(label);
-            parent.removeChild(input);
+            //parent.removeChild(label);
+            //parent.removeChild(input);
 
-            //e.currentTarget.nextElementSibling.style.display = "none";
-            
+            label.style.display = "none";
+
             const content = `<img src="`+URL.createObjectURL(file[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
                 <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
 
@@ -459,30 +459,32 @@
 
             Array.prototype.forEach.call(deleteButtons, (btn) => {
                 btn.addEventListener('click', deleteItem);
-            }); 
+            });
         }
 
         function deleteItem(e) {
             const type = e.currentTarget.getAttribute('data-type');
             const name = e.currentTarget.getAttribute('data-name');
             const container = e.currentTarget.parentNode.parentNode;
+
+            e.currentTarget.parentNode.previousElementSibling.style.display = 'table';
             e.currentTarget.parentNode.innerHTML = '';
-            
-
-            const isRequired = (name !== 'in' || name !== 'selfie') ? 'required="true"' : '';
 
 
-            const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label">
-                 <span><i class="far fa-image"></i> <br>`+type+`</span>
-               </label>`;
+            //const isRequired = (name !== 'in' || name !== 'selfie') ? 'required="true"' : '';
 
-            container.insertAdjacentHTML('afterbegin', content);
+
+            // const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label">
+            //      <span><i class="far fa-image"></i> <br>`+type+`</span>
+            //    </label>`;
+
+            //container.insertAdjacentHTML('afterbegin', content);
 
             const itemFiles = document.querySelectorAll('.js-item-file');
 
             Array.prototype.forEach.call(itemFiles, (item) => {
                 item.addEventListener('change', showItemPicture);
-            }); 
+            });
         }
 
         if(itemsInput) {
@@ -490,14 +492,14 @@
             const list = document.querySelector('#itemsList');
             const realPictures = document.querySelector('.js-input-real-pictures');
             var arr = [];
-        
+
             itemsInput.addEventListener('change', function(e) {
                 const files = e.currentTarget.files;
 
                 for (var i = files.length - 1; i >= 0; i--) {
                     //var node = document.createElement("li");
-                    
-                    var item = `<span class="badge badge-pill green-color w-100 text-left">`+files[i].name+`                                            
+
+                    var item = `<span class="badge badge-pill green-color w-100 text-left">`+files[i].name+`
                         <i class="fas fa-times green-color float-right cursor-pointer js-delete-item" data-key="`+i+`" data-name="`+files[i].name+`"></i>
                         </span>`;
 
@@ -528,7 +530,7 @@
 
                 });
 
-            });  
+            });
         }
 
         if(addItems) {
@@ -545,8 +547,8 @@
                 btn ? btn.classList.remove('hidden') : '';
 
                 const items = document.querySelectorAll('.js-new-item');
-                
-                
+
+
                 if(items.length > 0) {
 
                     for (var i = items.length - 1; i >= 0; i--) {
@@ -598,7 +600,7 @@
 
             });
 
-        } 
+        }
 
 
     </script>

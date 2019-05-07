@@ -41,7 +41,7 @@
       </div>
 
     @endif
-    
+
   </div> --}}
 
 
@@ -66,7 +66,7 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size">
+    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" required>
       <label for="front_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto frontal</span>
@@ -85,7 +85,7 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size">
+    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="label_item_file" id="label_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de la etiqueta" data-name="label" required>
       <label for="label_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de la etiqueta</span>
@@ -104,7 +104,7 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size">
+    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="back_item_file" id="back_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de espaldas" data-name="back" required>
       <label for="back_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de espaldas</span>
@@ -123,10 +123,10 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size">
+    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" data-name="selfie">
       <label for="selfie_item_file" class="card card--file-item custom-file-label">
-        <span><i class="far fa-image"></i> <br>Selfie</span> 
+        <span><i class="far fa-image"></i> <br>Selfie</span>
       </label>
 
       <div class="container-item-img"></div>
@@ -138,7 +138,7 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size">
+    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="in_item_file" id="in_item_file" class="no-file js-item-file custom-file-input" data-type="Prenda puesta" data-name="in">
       <label for="in_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Prenda puesta</span>
@@ -155,14 +155,14 @@
 
   </div>
 
-   
+
 </div>
 @endif
 
 <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
   <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
-      
+
   @if ($errors->has('ItemDescription'))
     <div class="invalid-validation">
       {{ $errors->first('ItemDescription') }}
@@ -171,7 +171,7 @@
     <div class="invalid-feedback">
       El campo de descripción corta es obligatorio.
     </div>
-  @endif    
+  @endif
 </div>
 
 <div class="form-row">
@@ -246,7 +246,7 @@
       <div class="invalid-feedback">
         El campo marca es obligatorio.
       </div>
-    @endif    
+    @endif
   </div>
 
   <div class="form-group col-md-6">
@@ -282,7 +282,7 @@
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
-      
+
       @if(isset($sizes))
         @foreach($sizes as $size)
           <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} >
@@ -290,7 +290,7 @@
           </option>
         @endforeach
       @endif
-      
+
 
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
@@ -374,7 +374,7 @@
         {{ $errors->first('ClosetID') }}
       </div>
     @endif
-  </div> 
+  </div>
 </div>
 
 @if(!$item)
