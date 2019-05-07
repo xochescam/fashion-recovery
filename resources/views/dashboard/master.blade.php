@@ -429,9 +429,9 @@
             };
         }
 
-
         if(itemFiles) {
             Array.prototype.forEach.call(itemFiles, (file) => {
+                file.addEventListener('change', showItemPicture);
 
                 if(file.files && file.files.length > 0) {
 
@@ -458,9 +458,6 @@
                 }
             });
         }
-
-
-
 
         function showItemPicture(e) {
             const file = e.currentTarget.files;
