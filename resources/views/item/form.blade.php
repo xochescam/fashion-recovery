@@ -262,7 +262,7 @@
         @endforeach
       @endif
     </select>
-    <small>Ejemplo: Casual, Formal, Deportiva...</small>
+    <small>Ejemplo: Blazer, Playera, Jeans...</small>
 
     @if ($errors->has('ClothingTypeID'))
         <div class="invalid-feedback">
@@ -306,6 +306,31 @@
       @endif
   </div>
   <div class="form-group col-md-6">
+    <label for="ClothingStyleID">Estilo *</label>
+    <select id="ClothingStyleID" class="form-control" name="ClothingStyleID" required>
+      <option value="" selected >- Seleccionar -</option>
+
+        @foreach($styles as $style)
+          <option value="{{ $style->ClothingStyleID }}"  {{ ($item && ($style->ClothingStyleID === $item->first()->ClothingStyleID) || old('ClothingStyleID'))  ? 'selected' : '' }} > {{ $style->ClothingStyleName }} </option>
+        @endforeach
+    </select>
+    <small>Ejemplo: Casual, Formal, Deportiva</small>
+
+    @if ($errors->has('ClothingStyleID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('ClothingStyleID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo estilo es obligatorio.
+      </div>
+    @endif
+  </div>
+
+</div>
+
+<div class="form-row">
+  <div class="form-group col-md-6">
     <label for="ColorID">Color *</label>
     <select id="ColorID" class="form-control" name="ColorID" required>
       <option value="" selected >- Seleccionar -</option>
@@ -326,9 +351,6 @@
       </div>
     @endif
   </div>
-</div>
-
-<div class="form-row">
   <div class="form-group col-md-6">
     <label for="TypeID">Condición de la prenda *</label>
     <select id="TypeID" class="form-control" name="TypeID" required>
@@ -351,8 +373,10 @@
         El campo condición de la prenda es obligatorio.
       </div>
     @endif
-  </div>
-  <div class="form-group col-md-6">
+  </div> 
+</div>
+
+<div class="form-group">
     <label for="ClosetID">Colección</label>
     <select id="ClosetID" class="form-control" name="ClosetID">
       <option value="" selected>- Seleccionar -</option>
@@ -374,8 +398,7 @@
         {{ $errors->first('ClosetID') }}
       </div>
     @endif
-  </div> 
-</div>
+  </div>
 
 @if(!$item)
   <div class="form-row">

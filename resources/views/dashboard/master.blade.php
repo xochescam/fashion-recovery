@@ -374,15 +374,17 @@
             const categoriesSelect    = document.querySelector('.js-categories-select');
             const size = e.currentTarget.getAttribute('data-size');
 
-
             if(size == 'true') {
                 clothingTypesOnlyByBrand(e);
                 return;
 
             } else if(size == 'false' && (!clothingTypesSelect || categoriesSelect.value == '')) {
                 return;
+
+            } else if(size == 'false' && (!clothingTypesSelect || categoriesSelect.value == '')) {
+                return;
             }
-console.log('ok');
+
             const sizesSelect = document.querySelector('.js-sizes-select');
 
             const request = new XMLHttpRequest();

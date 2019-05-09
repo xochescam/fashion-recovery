@@ -43,10 +43,17 @@ class ClothingTypeController extends Controller
                         ->get();
 
         $departments = DB::table('fashionrecovery.GR_025')        
+                        ->where('Active',1)
+                        ->orderBy('BrandName')
+                        ->get();
+
+        $departments = DB::table('fashionrecovery.GR_025') 
+                        ->where('Active',1)       
                         ->orderBy('DepName')
                         ->get();
 
         $categories  = DB::table('fashionrecovery.GR_026')
+                        ->where('Active',1)       
                         ->orderBy('CategoryName')
                         ->get();
 
@@ -118,9 +125,12 @@ class ClothingTypeController extends Controller
                             ->where('ClothingTypeID',$id)
                             ->first();
 
-        $departments = DB::table('fashionrecovery.GR_025')->get();
-        $categories  = DB::table('fashionrecovery.GR_026')->get();
+        $departments = DB::table('fashionrecovery.GR_025')
+                        ->where('Active',1)->get();
+        $categories  = DB::table('fashionrecovery.GR_026')
+                        ->where('Active',1)->get();
         $brands      = DB::table('fashionrecovery.GR_017')
+                        ->where('Active',1)       
                         ->where('DepartmentID',$clothingType->DepartmentID)
                         ->get();
 

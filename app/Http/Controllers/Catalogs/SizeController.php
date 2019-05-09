@@ -43,6 +43,20 @@ class SizeController extends Controller
                              ->get();
 
         return view('catalogs.size.create',compact('departments'));
+                            ->where('Active',1)       
+                            ->orderBy('DepName')
+                            ->get();
+        $brands        = DB::table('fashionrecovery.GR_017')
+                            ->where('Active',1)       
+                            ->orderBy('BrandName')
+                            ->get();
+
+        $clothingTypes = DB::table('fashionrecovery.GR_019')
+                            ->where('Active',1)       
+                            ->orderBy('ClothingTypeName')
+                            ->get();
+
+        return view('catalogs.size.create',compact('departments','brands','clothingTypes'));
     }
 
     /**
@@ -112,15 +126,18 @@ class SizeController extends Controller
                     ->first();
 
         $departments   = DB::table('fashionrecovery.GR_025')
+                            ->where('Active',1)       
                             ->orderBy('DepName')
                             ->get();
 
         $brands        = DB::table('fashionrecovery.GR_017')
+                            ->where('Active',1)       
                             ->where('DepartmentID',$size->DepartmentID)
                             ->orderBy('BrandName')
                             ->get();
 
         $clothingTypes = DB::table('fashionrecovery.GR_019')
+                            ->where('Active',1)       
                             ->where('DepartmentID',$size->DepartmentID)
                             ->where('BrandID',$size->BrandID)
                             ->orderBy('ClothingTypeName')

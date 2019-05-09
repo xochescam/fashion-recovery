@@ -41,17 +41,30 @@ class ItemController extends Controller
     public function create()
     {
         $item = false;
-        $colors        = DB::table('fashionrecovery.GR_018')->get();
+        $colors        = DB::table('fashionrecovery.GR_018')
+                            ->where('Active',1)->get();
         //$sizes         = DB::table('fashionrecovery.GR_020')->get();
-        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
-        $departments   = DB::table('fashionrecovery.GR_025')->get();
-        $categories    = DB::table('fashionrecovery.GR_026')->get();
-        $types         = DB::table('fashionrecovery.GR_027')->get();
+        $clothingTypes = DB::table('fashionrecovery.GR_019')
+                            ->where('Active',1)->get();
+
+        $departments   = DB::table('fashionrecovery.GR_025')
+                            ->where('Active',1)->get();
+
+        $categories    = DB::table('fashionrecovery.GR_026')
+                            ->where('Active',1)->get();
+
+        $styles        = DB::table('fashionrecovery.GR_035')
+                            ->where('Active',1)->get();
+
+        $types         = DB::table('fashionrecovery.GR_027')
+                            ->where('Active',1)->get();
+
         //$brands        = DB::table('fashionrecovery.GR_017')->get();
         $offers        = DB::table('fashionrecovery.GR_031')->get();
+
         $closets       = DB::table('fashionrecovery.GR_030')
-                        ->where('UserID',Auth::User()->id)
-                        ->get();
+                            ->where('UserID',Auth::User()->id)
+                            ->get();
 
         return view('item.create',compact(
             'item',
@@ -59,6 +72,7 @@ class ItemController extends Controller
             'clothingTypes',
             'departments',
             'categories',
+            'styles',
             'types',
             'closets',
             'offers'
@@ -73,9 +87,9 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        DB::beginTransaction();
+        //DB::beginTransaction();
 
-        try {
+        //try {
 
             $data = $this->itemData($request->toArray());
 
@@ -94,18 +108,18 @@ class ItemController extends Controller
                 ]);
             }
 
-            DB::commit();
+            //DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('items'); //cambiar
 
-        } catch (\Exception $ex) {
+        //} catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
             return Redirect::to('seller');
-        }
+        //}
     }
 
     protected function updateItemData($data) {
@@ -130,6 +144,7 @@ class ItemController extends Controller
              'ClothingTypeID'   => $data['ClothingTypeID'],
              'DepartmentID'     => $data['DepartmentID'],
              'CategoryID'       => $data['CategoryID'],
+             'ClothingStyleID'  => $data['ClothingStyleID'],
              'TypeID'           => $data['TypeID'],
              'BrandID'          => $data['BrandID'],
              'ClosetID'         => $closet,
@@ -168,6 +183,7 @@ class ItemController extends Controller
              'ClothingTypeID'   => $data['ClothingTypeID'],
              'DepartmentID'     => $data['DepartmentID'],
              'CategoryID'       => $data['CategoryID'],
+             'ClothingStyleID'  => $data['ClothingStyleID'],
              'TypeID'           => $data['TypeID'],
              'BrandID'          => $data['BrandID'],
              'ClosetID'         => $closet,
@@ -276,33 +292,50 @@ class ItemController extends Controller
                              'GR_029.ClothingTypeID',
                              'GR_029.DepartmentID',
                              'GR_029.CategoryID',
+                             'GR_029.ClothingStyleID',
                              'GR_029.TypeID',
                              'GR_029.ClosetID'
                          )
                     ->get()->groupBy('ItemID')->first();
 
 
-        $colors        = DB::table('fashionrecovery.GR_018')->get();
-        $departments   = DB::table('fashionrecovery.GR_025')->get();
-        $categories    = DB::table('fashionrecovery.GR_026')->get();
-        $types         = DB::table('fashionrecovery.GR_027')->get();
+        $colors        = DB::table('fashionrecovery.GR_018')
+                            ->where('Active',1)->get();
+
+        $departments   = DB::table('fashionrecovery.GR_025')
+                            ->where('Active',1)->get();
+
+        $categories    = DB::table('fashionrecovery.GR_026')
+                            ->where('Active',1)->get();
+
+        $styles        = DB::table('fashionrecovery.GR_035')
+                            ->where('Active',1)->get();
+
+        $types         = DB::table('fashionrecovery.GR_027')
+                            ->where('Active',1)->get();
+
         $brands        = DB::table('fashionrecovery.GR_017')
+                            ->where('Active',1)->get()
                             ->where('DepartmentID',$item->first()->DepartmentID)
                             ->get();
+
         $clothingTypes = DB::table('fashionrecovery.GR_019')
+                            ->where('Active',1)->get()
                             ->where('DepartmentID',$item->first()->DepartmentID)
                             ->where('BrandID',$item->first()->BrandID)
                             ->where('CategoryID',$item->first()->CategoryID)
                             ->get();
+
         $sizes         = DB::table('fashionrecovery.GR_020')
+                            ->where('Active',1)->get()
                             ->where('DepartmentID',$item->first()->DepartmentID)
                             ->where('BrandID',$item->first()->BrandID)
                             ->where('ClothingTypeID',$item->first()->ClothingTypeID)
                             ->get();
 
         $closets       = DB::table('fashionrecovery.GR_030')
-                        ->where('UserID',Auth::User()->id)
-                        ->get();
+                            ->where('UserID',Auth::User()->id)
+                            ->get();
 
         $offers = DB::table('fashionrecovery.GR_031')
                     ->where('UserID',Auth::User()->id)
@@ -324,6 +357,7 @@ class ItemController extends Controller
             'item',
             'offers',
             'colors',
+            'styles',
             'sizes',
             'clothingTypes',
             'departments',
@@ -343,12 +377,13 @@ class ItemController extends Controller
     public function edit($id)
     {
         $item          = DB::table($this->table)->where('ItemID',$id)->first();
-        $colors        = DB::table('fashionrecovery.GR_018')->get();
-        $sizes         = DB::table('fashionrecovery.GR_020')->get();
-        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
-        $departments   = DB::table('fashionrecovery.GR_025')->get();
-        $categories    = DB::table('fashionrecovery.GR_026')->get();
-        $types         = DB::table('fashionrecovery.GR_027')->get();
+        $colors        = DB::table('fashionrecovery.GR_018')->where('Active',1)->get();
+        $sizes         = DB::table('fashionrecovery.GR_020')->where('Active',1)->get();
+        $clothingTypes = DB::table('fashionrecovery.GR_019')->where('Active',1)->get();
+        $departments   = DB::table('fashionrecovery.GR_025')->where('Active',1)->get();
+        $categories    = DB::table('fashionrecovery.GR_026')->where('Active',1)->get();
+        $styles        = DB::table('fashionrecovery.GR_026')->where('Active',1)->get();
+        $types         = DB::table('fashionrecovery.GR_027')->where('Active',1)->get();
         $closets       = DB::table('fashionrecovery.GR_030')->get();
         $offers        = DB::table('fashionrecovery.GR_031')->get();
 
@@ -359,6 +394,7 @@ class ItemController extends Controller
             'clothingTypes',
             'departments',
             'categories',
+            'styles',
             'types',
             'closets',
             'offers'
