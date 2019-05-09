@@ -514,13 +514,15 @@
                     showItemPicture(file);
 
                 }
-                //file.addEventListener('change', showItemPicture);    
+                file.addEventListener('change', showItemPicture);    
             });
         }
 
         function showItemPicture(e) {
 
             const el = e.currentTarget ?  e.currentTarget : e;
+
+
             const file = el.files;
             const container = el.parentNode.querySelector('.container-item-img');
             const type = el.getAttribute('data-type');

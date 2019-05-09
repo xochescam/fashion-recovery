@@ -87,7 +87,6 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         //DB::beginTransaction();
 
         //try {
@@ -316,19 +315,19 @@ class ItemController extends Controller
                             ->where('Active',1)->get();
 
         $brands        = DB::table('fashionrecovery.GR_017')
-                            ->where('Active',1)->get()
+                            ->where('Active',1)
                             ->where('DepartmentID',$item->first()->DepartmentID)
                             ->get();
 
         $clothingTypes = DB::table('fashionrecovery.GR_019')
-                            ->where('Active',1)->get()
+                            ->where('Active',1)
                             ->where('DepartmentID',$item->first()->DepartmentID)
                             ->where('BrandID',$item->first()->BrandID)
                             ->where('CategoryID',$item->first()->CategoryID)
                             ->get();
 
         $sizes         = DB::table('fashionrecovery.GR_020')
-                            ->where('Active',1)->get()
+                            ->where('Active',1)
                             ->where('DepartmentID',$item->first()->DepartmentID)
                             ->where('BrandID',$item->first()->BrandID)
                             ->where('ClothingTypeID',$item->first()->ClothingTypeID)
@@ -419,21 +418,21 @@ class ItemController extends Controller
 
             DB::table($this->table)->where('ItemID',$id)->update($data);
 
-            $itemsName = $this->saveItems($request->toArray(), $id);
+            // $itemsName = $this->saveItems($request->toArray(), $id);
 
-            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
+            // DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
 
-            foreach ($itemsName as $key => $value) { //change
-                 DB::table('fashionrecovery.GR_032')->insert([
-                     'ItemID' => $id,
-                     'PicturePath' => $value,
-                     'CreationDate' => date("Y-m-d H:i:s")
-                 ]);
-            }
+            // foreach ($itemsName as $key => $value) { //change
+            //      DB::table('fashionrecovery.GR_032')->insert([
+            //          'ItemID' => $id,
+            //          'PicturePath' => $value,
+            //          'CreationDate' => date("Y-m-d H:i:s")
+            //      ]);
+            // }
 
             DB::commit();
 
-            Session::flash('success','Se ha guardado correctamente');
+            Session::flash('success','Se ha modificado correctamente');
             return Redirect::to('item/'.$id); //cambiar
 
         } catch (\Exception $ex) {

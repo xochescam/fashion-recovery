@@ -27,7 +27,7 @@
         </form>
 
         <div class="row">
-          <div class=" col-4 ">
+          <div class=" col-sm-4 ">
             <div class="card mb-4">
               <h5 class="card-header">{{ $item->first()->ActualPrice }}
                 <small class="line-through">{{ $item->first()->OriginalPrice }}</small>
@@ -51,7 +51,7 @@
             </div>
           </div>
           
-          <div class="col-8">
+          <div class="col-sm-8">
             <div class="row js-items-container" data-item="false">
               @foreach($item as $picture)
                 <div class="col-sm-4 mb-5 thumb-size">
