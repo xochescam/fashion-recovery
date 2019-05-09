@@ -38,11 +38,11 @@ class SizeController extends Controller
      */
     public function create()
     {
-        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
-        $brands        = DB::table('fashionrecovery.GR_017')->get();
-        $departments   = DB::table('fashionrecovery.GR_025')->get();
+        $departments   = DB::table('fashionrecovery.GR_025')
+                             ->orderBy('DepName')
+                             ->get();
 
-        return view('catalogs.size.create',compact('clothingTypes','brands','departments'));
+        return view('catalogs.size.create',compact('departments'));
     }
 
     /**
@@ -53,7 +53,18 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validator($request);
+        $exist = DB::table($this->table)
+                ->where('SizeName',$request->name)
+                ->where('BrandID',$request->brandId)
+                ->where('DepartmentID',$request->departmentId)
+                ->where('ClothingTypeID',$request->clothingTypeId)
+                ->first();
+
+                //dd($exist);
+        if(isset($exist)) {
+            Session::flash('warning','La talla de la prenda ya existe. Ingresa otra diferente.');
+            return Redirect::to('sizes/create');
+        }
 
         DB::beginTransaction();
 
@@ -100,11 +111,20 @@ class SizeController extends Controller
                     ->where('SizeID',$id)
                     ->first();
 
-        $clothingTypes = DB::table('fashionrecovery.GR_019')->get();
-        $brands        = DB::table('fashionrecovery.GR_017')->get();
-        $departments   = DB::table('fashionrecovery.GR_025')->get();
+        $departments   = DB::table('fashionrecovery.GR_025')
+                            ->orderBy('DepName')
+                            ->get();
 
+        $brands        = DB::table('fashionrecovery.GR_017')
+                            ->where('DepartmentID',$size->DepartmentID)
+                            ->orderBy('BrandName')
+                            ->get();
 
+        $clothingTypes = DB::table('fashionrecovery.GR_019')
+                            ->where('DepartmentID',$size->DepartmentID)
+                            ->where('BrandID',$size->BrandID)
+                            ->orderBy('ClothingTypeName')
+                            ->get();
 
         return view('catalogs.size.edit',compact('size','clothingTypes','brands','departments'));
     }
@@ -118,7 +138,7 @@ class SizeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validator($request);
+        //$this->validator($request);
 
         DB::beginTransaction();
 

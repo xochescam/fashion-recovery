@@ -12,8 +12,19 @@ class ItemApiController extends Controller
 
         return DB::table('fashionrecovery.GR_017')
         					->where('DepartmentID',$DepartmentID)
+                            ->orderBy('BrandName','desc')
         					->get()
         					->toJson();
+    }
+
+    public function getClothingTypeOnlybyBrand($DepartmentID,$BrandID) {
+
+        return DB::table('fashionrecovery.GR_019')
+                ->where('DepartmentID',$DepartmentID)
+                ->where('BrandID',$BrandID)
+                ->orderBy('ClothingTypeName')
+                ->get()
+                ->toJson();
     }
 
     public function getClothingTypebyBrand($DepartmentID,$BrandID,$CategoryID) {
@@ -22,6 +33,7 @@ class ItemApiController extends Controller
                 ->where('DepartmentID',$DepartmentID)
                 ->where('BrandID',$BrandID)
                 ->where('CategoryID',$CategoryID)
+                ->orderBy('ClothingTypeName')
                 ->get()
                 ->toJson();
     }
@@ -31,6 +43,7 @@ class ItemApiController extends Controller
         return DB::table('fashionrecovery.GR_020')
                 ->where('DepartmentID',$DepartmentID)
         		->where('BrandID',$BrandID)
+                ->orderBy('SizeName')
         		->get()
         		->toJson();
     }

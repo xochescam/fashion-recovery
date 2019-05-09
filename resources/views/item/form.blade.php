@@ -177,7 +177,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
-    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required>
+    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required data-size="false">
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $department)
@@ -226,7 +226,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}" required>
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}" required data-size="false">
         <option value="" selected>- Seleccionar -</option>
 
         @if(isset($brands))
@@ -251,7 +251,7 @@
 
   <div class="form-group col-md-6">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required data-size="false">
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($clothingTypes))

@@ -38,9 +38,17 @@ class ClothingTypeController extends Controller
      */
     public function create()
     {
-        $brands      = DB::table('fashionrecovery.GR_017')->get();
-        $departments = DB::table('fashionrecovery.GR_025')->get();
-        $categories  = DB::table('fashionrecovery.GR_026')->get();
+        $brands      = DB::table('fashionrecovery.GR_017')
+                        ->orderBy('BrandName')
+                        ->get();
+
+        $departments = DB::table('fashionrecovery.GR_025')        
+                        ->orderBy('DepName')
+                        ->get();
+
+        $categories  = DB::table('fashionrecovery.GR_026')
+                        ->orderBy('CategoryName')
+                        ->get();
 
         return view('catalogs.clothing-type.create',compact('brands','departments','categories'));
     }

@@ -34,7 +34,7 @@
 
 	  <div class="form-group">
     	<div class="form-check">
-            <input class="form-check-input is-invalid" type="checkbox" id="active" name="active" value="{{ (isset($brand->Active) && $brand->Active) ? 'true' : 'false'  }}" {{ (isset($brand->Active) && $brand->Active) ? 'checked' : ''  }}>
+            <input class="form-check-input is-invalid" type="checkbox" id="active" name="active" value="{{ (isset($brand->Active) && $brand->Active) ? 'true' : 'false'  }}" {{ isset($brand->Active) ? ($brand->Active == 1 ? 'checked' : '' ) : 'checked'}}>
             <label class="form-check-label" for="active">
             	Activa
             </label>

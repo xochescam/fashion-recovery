@@ -50,7 +50,7 @@
 
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input is-invalid" type="checkbox" id="active" name="active" value="{{ (isset($season->Active) && $season->Active) ? 'true' : 'false'  }}" {{ (isset($season->Active) && $season->Active) ? 'checked' : ''  }}>
+      <input class="form-check-input is-invalid" type="checkbox" id="active" name="active" value="{{ (isset($season->Active) && $season->Active) ? 'true' : 'false'  }}" {{ isset($season->Active) ? ($season->Active == 1 ? 'checked' : '' ) : 'checked'}}>
       <label class="form-check-label" for="active">
               Activo
       </label>
