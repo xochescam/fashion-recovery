@@ -20,7 +20,7 @@
 
   <div class="form-group">
     <label for="departmentId">Departamento</label>
-    <select id="departmentId" class="form-control js-departments-select" name="departmentId" required>
+    <select id="departmentId" class="form-control js-departments-select" name="departmentId" required data-size="false">
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $item)
@@ -41,7 +41,7 @@
 
   <div class="form-group">
     <label for="brandId">Marca</label>
-    <select id="brandId" class="form-control js-brands-select" name="brandId" {{ isset($clothingType->BrandID) ? '' : 'disabled'  }}>
+    <select id="brandId" class="form-control js-brands-select" name="brandId" {{ isset($clothingType->BrandID) ? '' : 'disabled'  }} data-size="false">
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($brands as $item)
@@ -84,7 +84,7 @@
 
   <div class="form-group">
     <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="active" name="active" value="{{ (isset($clothingType->Active) && $clothingType->Active) ? 'true' : 'false'  }}" {{ (isset($clothingType->Active) && $clothingType->Active) ? 'checked' : ''  }}>
+      <input class="form-check-input" type="checkbox" id="active" name="active" value="{{ (isset($clothingType->Active) && $clothingType->Active) ? 'true' : 'false'  }}" {{ isset($clothingType->Active) ? ($clothingType->Active == 1 ? 'checked' : '' ) : 'checked'}}>
       <label class="form-check-label" for="active">
               Activo
       </label>

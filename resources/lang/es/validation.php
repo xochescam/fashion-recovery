@@ -213,6 +213,7 @@ return [
         'State'                 => 'estado',
         'RFC'                   => 'RFC',
         'PhoneContact'          => 'teléfono',
+        'ClothingStyleID'       => 'estilo',
     ],
 
 ];

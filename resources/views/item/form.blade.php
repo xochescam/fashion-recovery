@@ -41,14 +41,14 @@
       </div>
 
     @endif
-
+    
   </div> --}}
 
 
   <div class="row js-items-container mt-2 text-center">
 
     <div class="col-sm-4 mb-5 thumb-size js-item-picture">
-      <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" accept="image/*" value="{{ old('cover_item_file') }}" required>
+      <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" required>
       <label for="cover_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Portada</span>
       </label>
@@ -66,8 +66,8 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
-      <input type="file" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" accept="image/*" value="{{ old('front_item_file') }}" required>
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" required>
       <label for="front_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto frontal</span>
       </label>
@@ -85,8 +85,8 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
-      <input type="file" name="label_item_file" id="label_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de la etiqueta" data-name="label" accept="image/*" value="{{ old('label_item_file') }}" required>
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="label_item_file" id="label_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de la etiqueta" data-name="label" required>
       <label for="label_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de la etiqueta</span>
       </label>
@@ -104,8 +104,8 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
-      <input type="file" name="back_item_file" id="back_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de espaldas" data-name="back" accept="image/*" value="{{ old('back_item_file') }}" required>
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="back_item_file" id="back_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de espaldas" data-name="back" required>
       <label for="back_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de espaldas</span>
       </label>
@@ -123,10 +123,10 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
-      <input type="file" accept="image/*" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" data-name="selfie" value="{{ old('selfie_item_file') }}" >
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" data-name="selfie">
       <label for="selfie_item_file" class="card card--file-item custom-file-label">
-        <span><i class="far fa-image"></i> <br>Selfie</span>
+        <span><i class="far fa-image"></i> <br>Selfie</span> 
       </label>
 
       <div class="container-item-img"></div>
@@ -138,8 +138,8 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
-      <input type="file" name="in_item_file" id="in_item_file" class="no-file js-item-file custom-file-input" data-type="Prenda puesta" data-name="in" accept="image/*" value="{{ old('in_item_file') }}">
+    <div class="col-sm-4 mb-5 thumb-size">
+      <input type="file" name="in_item_file" id="in_item_file" class="no-file js-item-file custom-file-input" data-type="Prenda puesta" data-name="in">
       <label for="in_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Prenda puesta</span>
       </label>
@@ -155,14 +155,14 @@
 
   </div>
 
-
+   
 </div>
 @endif
 
 <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
   <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
-
+      
   @if ($errors->has('ItemDescription'))
     <div class="invalid-validation">
       {{ $errors->first('ItemDescription') }}
@@ -171,13 +171,13 @@
     <div class="invalid-feedback">
       El campo de descripción corta es obligatorio.
     </div>
-  @endif
+  @endif    
 </div>
 
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
-    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required>
+    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required data-size="false">
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $department)
@@ -226,7 +226,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}" required>
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}" required data-size="false">
         <option value="" selected>- Seleccionar -</option>
 
         @if(isset($brands))
@@ -246,12 +246,12 @@
       <div class="invalid-feedback">
         El campo marca es obligatorio.
       </div>
-    @endif
+    @endif    
   </div>
 
   <div class="form-group col-md-6">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required data-size="false">
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($clothingTypes))
@@ -262,7 +262,7 @@
         @endforeach
       @endif
     </select>
-    <small>Ejemplo: Casual, Formal, Deportiva...</small>
+    <small>Ejemplo: Blazer, Playera, Jeans...</small>
 
     @if ($errors->has('ClothingTypeID'))
         <div class="invalid-feedback">
@@ -282,7 +282,7 @@
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
-
+      
       @if(isset($sizes))
         @foreach($sizes as $size)
           <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} >
@@ -290,7 +290,7 @@
           </option>
         @endforeach
       @endif
-
+      
 
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
@@ -305,6 +305,31 @@
         </div>
       @endif
   </div>
+  <div class="form-group col-md-6">
+    <label for="ClothingStyleID">Estilo *</label>
+    <select id="ClothingStyleID" class="form-control" name="ClothingStyleID" required>
+      <option value="" selected >- Seleccionar -</option>
+
+        @foreach($styles as $style)
+          <option value="{{ $style->ClothingStyleID }}"  {{ ($item && ($style->ClothingStyleID === $item->first()->ClothingStyleID) || old('ClothingStyleID'))  ? 'selected' : '' }} > {{ $style->ClothingStyleName }} </option>
+        @endforeach
+    </select>
+    <small>Ejemplo: Casual, Formal, Deportiva</small>
+
+    @if ($errors->has('ClothingStyleID'))
+      <div class="invalid-feedback">
+        {{ $errors->first('ClothingStyleID') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo estilo es obligatorio.
+      </div>
+    @endif
+  </div>
+
+</div>
+
+<div class="form-row">
   <div class="form-group col-md-6">
     <label for="ColorID">Color *</label>
     <select id="ColorID" class="form-control" name="ColorID" required>
@@ -326,9 +351,6 @@
       </div>
     @endif
   </div>
-</div>
-
-<div class="form-row">
   <div class="form-group col-md-6">
     <label for="TypeID">Condición de la prenda *</label>
     <select id="TypeID" class="form-control" name="TypeID" required>
@@ -351,8 +373,10 @@
         El campo condición de la prenda es obligatorio.
       </div>
     @endif
-  </div>
-  <div class="form-group col-md-6">
+  </div> 
+</div>
+
+<div class="form-group">
     <label for="ClosetID">Colección</label>
     <select id="ClosetID" class="form-control" name="ClosetID">
       <option value="" selected>- Seleccionar -</option>
@@ -375,7 +399,6 @@
       </div>
     @endif
   </div>
-</div>
 
 @if(!$item)
   <div class="form-row">

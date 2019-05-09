@@ -6,44 +6,38 @@
 	    <div class="container py-5">
 	      	<div class="row">
 	        	<div class="col-12">
-	          		<h2 class="text-center TituloFR my-4">Tallas</h2>
+	          		<h2 class="text-center TituloFR my-4">Estilos de prendas</h2>
 
 					@include('alerts.success')
   					@include('alerts.warning')
 
 					<div class="w-auto float-right mb-4">
-						<a class="btn btn-fr" href="{{ url('sizes/create') }}" role="button">Crear</a>
+						<a class="btn btn-fr" href="{{ url('styles/create') }}" role="button">Crear</a>
 					</div>
 
 					<table class="table table-striped">
 						<thead>
 						    <tr>
 							    <th scope="col">Nombre</th>
-							    <th scope="col">Departamento</th>
-							    <th scope="col">Marca</th>
-							    <th scope="col">Tipo de prenda</th>
 							    <th scope="col">Activo</th>
 							    <th scope="col"></th>
 						    </tr>
 						  </thead>
 						 <tbody>
 
-						 	@foreach($sizes as $item)
+						 	@foreach($styles as $item)
 						 		<tr>
-								    <th> {{ $item->SizeName }} </th>
-								    <td> {{ $item->DepName }} </td>
-								    <td> {{ $item->BrandName }} </td>
-								    <td> {{ $item->ClothingTypeName }} </td>
+								    <th> {{ $item->ClothingStyleName }} </th>
 								    <td>
 								    	@if($item->Active)
 											<i class="fas fa-check green-color"></i>
 										@else
 											<i class="fas fa-times text-danger"></i>
-										@endif
+										@endif	
 								    </td>
 								    <td>
-										<a class="btn btn-sm btn-fr" href="{{ route('sizes.edit',$item->SizeID) }}" role="button">Modificar</a>
-										<a class="btn btn-danger btn-sm" href="{{ route('sizes.destroy',$item->SizeID) }}" role="button">Eliminar</a>
+										<a class="btn btn-sm btn-fr" href="{{ route('styles.edit',$item->ClothingStyleID) }}" role="button">Modificar</a>
+										<a class="btn btn-danger btn-sm" href="{{ route('styles.destroy',$item->ClothingStyleID) }}" role="button">Eliminar</a>
 								    </td>
 							    </tr>
 						 	@endforeach

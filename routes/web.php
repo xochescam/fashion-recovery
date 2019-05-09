@@ -43,6 +43,9 @@ Route::group(['middleware' => ['auth']], function () {
 	//Item API
 	Route::get('brands-by-department/{departmentId}', 'ItemApiController@getBrandsbyDepartment');
 	Route::get('clothing-type-by-brand/{departmentId}/{brandId}/{categoryId}', 'ItemApiController@getClothingTypebyBrand');
+
+	Route::get('clothing-type-only-by-brand/{departmentId}/{brandId}', 'ItemApiController@getClothingTypeOnlybyBrand');
+
 	Route::get('sizes-by-clothing-type/{departmentId}/{brandId}/{clothingTypeId}', 'ItemApiController@getSizesbyClothingType');
 
 	//Billing Info
@@ -137,6 +140,14 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('colors/{colorId}/edit', 'Catalogs\ColorController@edit')->name('colors.edit');
 	Route::post('colors/{colorId}', 'Catalogs\ColorController@update')->name('colors.update');
 	Route::get('colors/{colorId}/delete', 'Catalogs\ColorController@destroy')->name('colors.destroy');
+
+	//Styles
+	Route::get('styles', 'Catalogs\ItemStyleController@index');
+	Route::get('styles/create', 'Catalogs\ItemStyleController@create')->name('styles.create');
+	Route::post('styles', 'Catalogs\ItemStyleController@store')->name('styles.store');
+	Route::get('styles/{categoryId}/edit', 'Catalogs\ItemStyleController@edit')->name('styles.edit');
+	Route::post('styles/{categoryId}', 'Catalogs\ItemStyleController@update')->name('styles.update');
+	Route::get('styles/{categoryId}/delete', 'Catalogs\ItemStyleController@destroy')->name('styles.destroy');
 
 	//Sizes
 	Route::get('sizes', 'Catalogs\SizeController@index');

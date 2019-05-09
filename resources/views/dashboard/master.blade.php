@@ -48,7 +48,7 @@
         const itemsInput = document.querySelector('.js-items-input');
         const itemFiles = document.querySelectorAll('.js-item-file');
         const addItems = document.querySelector('.js-add-items');
-
+        
         const categoriesSelect    = document.querySelector('.js-categories-select');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
@@ -113,12 +113,12 @@
             });
         }
 
-        if(selfieInput) {
+        if(selfieInput) {    
             const btn = document.querySelector('.js-selfie-btn');
             const img = document.querySelector('.js-selfie-img');
 
             selfieInput.addEventListener('change', function(e) {
-
+                
                 btn.classList.remove('hidden');
 
                 $('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
@@ -150,7 +150,7 @@
                 request.onload = function() {
 
                    if (request.status >= 200 && request.status < 400) {
-
+                       
                         const response = JSON.parse(request.response);
 
                         if(response.length > 0){
@@ -165,9 +165,9 @@
                                 clothingTypesSelect.insertAdjacentHTML('beforeend', size);
                             }
 
-                            clothingTypesSelect.removeAttribute('disabled');
+                            clothingTypesSelect.removeAttribute('disabled');  
 
-                            clothingTypesSelect.addEventListener('change', sizesByClothingType);
+                            clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
 
                         } else {
                             clothingTypesSelect.setAttribute('disabled',true);
@@ -205,11 +205,18 @@
                 const sizesSelect = document.querySelector('.js-sizes-select');
                 const request = new XMLHttpRequest();
                 const url     = window.location.origin;
+                const size = e.currentTarget.getAttribute('data-size');
                 brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                 brandsSelect.setAttribute('disabled',true);
                 brandsSelect.setAttribute('required',false);
 
-                if(clothingTypesSelect || sizesSelect) {
+                if(size == true) {
+
+                    clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+                    clothingTypesSelect.setAttribute('disabled',true);
+                    clothingTypesSelect.setAttribute('required',false);
+
+                } else if ((clothingTypesSelect || sizesSelect) && !size) {
                     clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                     sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
 
@@ -219,13 +226,13 @@
                     clothingTypesSelect.setAttribute('required',false);
                     sizesSelect.setAttribute('required',false);
                 }
-
+                
                 request.open('GET', url+'/brands-by-department/'+this.value, true);
                 request.send(null);
                 request.onload = function() {
 
                    if (request.status >= 200 && request.status < 400) {
-
+                       
                        const response = JSON.parse(request.response);
 
                      if(response.length > 0){
@@ -244,13 +251,13 @@
 
                         brandsSelect.setAttribute('required',true);
                         brandsSelect.addEventListener('change', clothingTypesByBrand);
-
+                        
 
                      } else {
                         brandsSelect.setAttribute('disabled',true);
                         brandsSelect.setAttribute('required',false);
 
-                        if(clothingTypesSelect || sizesSelect){
+                        if((clothingTypesSelect || sizesSelect) && !size){
                             sizesSelect.setAttribute('disabled',true);
                             clothingTypesSelect.setAttribute('disabled',true);
 
@@ -265,7 +272,7 @@
                         brandsSelect.setAttribute('disabled',true);
                         brandsSelect.setAttribute('required',false);
 
-                        if(clothingTypesSelect || sizesSelect){
+                        if((clothingTypesSelect || sizesSelect) && !size){
                             sizesSelect.setAttribute('disabled',true);
                             clothingTypesSelect.setAttribute('disabled',true);
 
@@ -281,8 +288,8 @@
                 request.onerror = function() {
                     brandsSelect.setAttribute('disabled',true);
                     brandsSelect.setAttribute('required',false);
-
-                    if(clothingTypesSelect || sizesSelect){
+                    
+                    if((clothingTypesSelect || sizesSelect) && !size){
                         sizesSelect.setAttribute('disabled',true);
                         clothingTypesSelect.setAttribute('disabled',true);
 
@@ -294,35 +301,26 @@
                     console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
 
                 };
-            });
+            });     
         }
 
-        function clothingTypesByBrand(e) {
+        function clothingTypesOnlyByBrand(e) {
 
             const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
-            const categoriesSelect    = document.querySelector('.js-categories-select');
-
-            if(!clothingTypesSelect || categoriesSelect.value == '') {
-                return;
-            }
-
-            const sizesSelect = document.querySelector('.js-sizes-select');
 
             const request = new XMLHttpRequest();
             const url     = window.location.origin;
             const department = e.currentTarget.getAttribute('data-department');
             clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
-            sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
             clothingTypesSelect.setAttribute('disabled',true);
-            sizesSelect.setAttribute('disabled',true);
             clothingTypesSelect.setAttribute('required',false);
 
-            request.open('GET', url+'/clothing-type-by-brand/'+department+'/'+this.value+'/'+categoriesSelect.value, true);
+            request.open('GET', url+'/clothing-type-only-by-brand/'+department+'/'+e.currentTarget.value, true);
             request.send(null);
             request.onload = function() {
 
                if (request.status >= 200 && request.status < 400) {
-
+                   
                     const response = JSON.parse(request.response);
 
                     if(response.length > 0){
@@ -338,10 +336,89 @@
                             clothingTypesSelect.insertAdjacentHTML('beforeend', size);
                         }
 
-                        clothingTypesSelect.removeAttribute('disabled');
-                        clothingTypesSelect.setAttribute('required',true);
+                        clothingTypesSelect.removeAttribute('disabled'); 
+                        clothingTypesSelect.setAttribute('required',true); 
 
-                        clothingTypesSelect.addEventListener('change', sizesByClothingType);
+                        //clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
+
+                    } else {
+                        clothingTypesSelect.setAttribute('disabled',true);
+                        clothingTypesSelect.setAttribute('required',false);
+
+                        clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de ropa -</option>`;
+                    }
+
+               } else {
+                    clothingTypesSelect.setAttribute('disabled',true);
+                    clothingTypesSelect.setAttribute('required',false);
+
+                    // We reached our target server, but it returned an error
+                    console.log('Ocurrio un error, inténtalo de nuevo.');
+               }
+            };
+
+            request.onerror = function() {
+                clothingTypesSelect.setAttribute('disabled',true);
+                clothingTypesSelect.setAttribute('required',false);
+
+
+                //There was a connection error of some sort
+                console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
+
+            };
+        }
+
+        function clothingTypesByBrand(e) {
+
+            const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
+            const categoriesSelect    = document.querySelector('.js-categories-select');
+            const size = e.currentTarget.getAttribute('data-size');
+
+
+            if(size == 'true') {
+                clothingTypesOnlyByBrand(e);
+                return;
+
+            } else if(size == 'false' && (!clothingTypesSelect || categoriesSelect.value == '')) {
+                return;
+            }
+
+            const sizesSelect = document.querySelector('.js-sizes-select');
+
+            const request = new XMLHttpRequest();
+            const url     = window.location.origin;
+            const department = e.currentTarget.getAttribute('data-department');
+            clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+            sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+            clothingTypesSelect.setAttribute('disabled',true);
+            sizesSelect.setAttribute('disabled',true);
+            clothingTypesSelect.setAttribute('required',false); 
+
+            request.open('GET', url+'/clothing-type-by-brand/'+department+'/'+this.value+'/'+categoriesSelect.value, true);
+            request.send(null);
+            request.onload = function() {
+
+               if (request.status >= 200 && request.status < 400) {
+                   
+                    const response = JSON.parse(request.response);
+
+                    if(response.length > 0){
+
+                        for (var i = response.length - 1; i >= 0; i--) {
+
+                            clothingTypesSelect.setAttribute('data-department',response[i].DepartmentID);
+                            clothingTypesSelect.setAttribute('data-brand',response[i].BrandID);
+
+
+                            var size = `<option value="`+response[i].ClothingTypeID+`" data-department=`+response[i].DepartmentID+` data-brand=`+response[i].BrandID+`>`+response[i].ClothingTypeName+`</option>`;
+
+                            clothingTypesSelect.insertAdjacentHTML('beforeend', size);
+                        }
+
+                        clothingTypesSelect.removeAttribute('disabled'); 
+                        clothingTypesSelect.setAttribute('required',true); 
+
+                        clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
 
                     } else {
                         clothingTypesSelect.setAttribute('disabled',true);
@@ -388,7 +465,7 @@
             request.onload = function() {
 
                if (request.status >= 200 && request.status < 400) {
-
+                   
                     const response = JSON.parse(request.response);
 
                     if(response.length > 0){
@@ -400,8 +477,8 @@
                             sizesSelect.insertAdjacentHTML('beforeend', size);
                         }
 
-                        sizesSelect.removeAttribute('disabled');
-                        sizesSelect.setAttribute('required',true);
+                        sizesSelect.removeAttribute('disabled'); 
+                        sizesSelect.setAttribute('required',true);                  
 
                     } else {
                         sizesSelect.setAttribute('disabled',true);
@@ -431,31 +508,7 @@
 
         if(itemFiles) {
             Array.prototype.forEach.call(itemFiles, (file) => {
-                file.addEventListener('change', showItemPicture);
-
-                if(file.files && file.files.length > 0) {
-
-                    const itemFile      = file.files;
-                    const container = file.parentNode.querySelector('.container-item-img');
-                    const type      = file.getAttribute('data-type');
-                    const name      = file.getAttribute('data-name');
-                    const parent    = file.nextElementSibling.parentNode;
-                    const label     = file.nextElementSibling;
-                    const input     = file.nextElementSibling.previousElementSibling;
-
-                    label.style.display = "none";
-
-                    const content = `<img src="`+URL.createObjectURL(itemFile[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
-                         <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
-
-                        container.innerHTML = content;
-
-                    const deleteButtons = document.querySelectorAll('.js-delete-item');
-
-                    Array.prototype.forEach.call(deleteButtons, (btn) => {
-                         btn.addEventListener('click', deleteItem);
-                    });
-                }
+                file.addEventListener('change', showItemPicture);    
             });
         }
 
@@ -468,12 +521,9 @@
             const label = e.currentTarget.nextElementSibling;
             const input = e.currentTarget.nextElementSibling.previousElementSibling;
 
-            //console.log(input);
-            //parent.removeChild(label);
-            //parent.removeChild(input);
-
-            label.style.display = "none";
-
+            parent.removeChild(label);
+            parent.removeChild(input);
+            
             const content = `<img src="`+URL.createObjectURL(file[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
                 <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
 
@@ -483,32 +533,30 @@
 
             Array.prototype.forEach.call(deleteButtons, (btn) => {
                 btn.addEventListener('click', deleteItem);
-            });
+            }); 
         }
 
         function deleteItem(e) {
             const type = e.currentTarget.getAttribute('data-type');
             const name = e.currentTarget.getAttribute('data-name');
             const container = e.currentTarget.parentNode.parentNode;
-
-            e.currentTarget.parentNode.previousElementSibling.style.display = 'table';
             e.currentTarget.parentNode.innerHTML = '';
+            
+
+            const isRequired = (name !== 'in' || name !== 'selfie') ? 'required="true"' : '';
 
 
-            //const isRequired = (name !== 'in' || name !== 'selfie') ? 'required="true"' : '';
+            const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label">
+                 <span><i class="far fa-image"></i> <br>`+type+`</span>
+               </label>`;
 
-
-            // const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label">
-            //      <span><i class="far fa-image"></i> <br>`+type+`</span>
-            //    </label>`;
-
-            //container.insertAdjacentHTML('afterbegin', content);
+            container.insertAdjacentHTML('afterbegin', content);
 
             const itemFiles = document.querySelectorAll('.js-item-file');
 
             Array.prototype.forEach.call(itemFiles, (item) => {
                 item.addEventListener('change', showItemPicture);
-            });
+            }); 
         }
 
         if(itemsInput) {
@@ -516,14 +564,14 @@
             const list = document.querySelector('#itemsList');
             const realPictures = document.querySelector('.js-input-real-pictures');
             var arr = [];
-
+        
             itemsInput.addEventListener('change', function(e) {
                 const files = e.currentTarget.files;
 
                 for (var i = files.length - 1; i >= 0; i--) {
                     //var node = document.createElement("li");
-
-                    var item = `<span class="badge badge-pill green-color w-100 text-left">`+files[i].name+`
+                    
+                    var item = `<span class="badge badge-pill green-color w-100 text-left">`+files[i].name+`                                            
                         <i class="fas fa-times green-color float-right cursor-pointer js-delete-item" data-key="`+i+`" data-name="`+files[i].name+`"></i>
                         </span>`;
 
@@ -554,7 +602,7 @@
 
                 });
 
-            });
+            });  
         }
 
         if(addItems) {
@@ -571,8 +619,8 @@
                 btn ? btn.classList.remove('hidden') : '';
 
                 const items = document.querySelectorAll('.js-new-item');
-
-
+                
+                
                 if(items.length > 0) {
 
                     for (var i = items.length - 1; i >= 0; i--) {
@@ -624,7 +672,7 @@
 
             });
 
-        }
+        } 
 
 
     </script>

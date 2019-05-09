@@ -16,12 +16,14 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catálogos</a>
             <div class="dropdown-menu">
               <a class="dropdown-item text-left" href="{{ url('departments') }}">Departamentos</a>
-              <a class="dropdown-item text-left" href="{{ url('brands') }}">Marcas</a>
               <a class="dropdown-item text-left" href="{{ url('categories') }}">Categorías</a>
-              <a class="dropdown-item text-left" href="{{ url('types') }}">Condiciones</a>
-              <a class="dropdown-item text-left" href="{{ url('colors') }}">Colores</a>
+              <a class="dropdown-item text-left" href="{{ url('brands') }}">Marcas</a>
               <a class="dropdown-item text-left" href="{{ url('clothing-types') }}">Tipos de prendas</a>
               <a class="dropdown-item text-left" href="{{ url('sizes') }}">Tallas</a>
+              <a class="dropdown-item text-left" href="{{ url('styles') }}">Estilos</a>
+              <a class="dropdown-item text-left" href="{{ url('colors') }}">Colores</a>
+              <a class="dropdown-item text-left" href="{{ url('types') }}">Condiciones</a>
+              <div class="dropdown-divider"></div>
               <a class="dropdown-item text-left" href="{{ url('seasons') }}">Temporadas</a>
               <a class="dropdown-item text-left" href="{{ url('calendar-sales') }}">Calendario de ofertas</a>
             </div>

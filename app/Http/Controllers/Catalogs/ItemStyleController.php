@@ -10,9 +10,9 @@ use Auth;
 use Session;
 use Redirect;
 
-class BrandController extends Controller
+class ItemStyleController extends Controller
 {
-    protected $table = 'fashionrecovery.GR_017';
+    protected $table = 'fashionrecovery.GR_035';
 
     /**
      * Display a listing of the resource.
@@ -21,13 +21,9 @@ class BrandController extends Controller
      */
     public function index()
     {
+        $styles = DB::table($this->table)->get();
 
-        $brands = DB::table($this->table)
-                    ->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
-                    ->select('GR_017.BrandID','GR_017.BrandName', 'GR_017.Active',  'GR_025.DepName')
-                    ->get();
-
-        return view('catalogs.brand.list',compact('brands'));
+        return view('catalogs.style.list',compact('styles'));
     }
 
     /**
@@ -37,12 +33,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        $departments = DB::table('fashionrecovery.GR_025')
-                        ->where('Active',1)
-                        ->orderBy('DepName')
-                        ->get();
-
-        return view('catalogs.brand.create',compact('departments'));
+        return view('catalogs.style.create');
     }
 
     /**
@@ -66,16 +57,15 @@ class BrandController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
-            return Redirect::to('brands');
+            return Redirect::to('styles');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('brands/create');
+            return Redirect::to('styles/create');
         }
-
     }
 
     /**
@@ -97,15 +87,11 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        $brand = DB::table($this->table)
-                    ->where('BrandID',$id)
+        $style = DB::table($this->table)
+                    ->where('ClothingStyleID',$id)
                     ->first();
 
-        $departments = DB::table('fashionrecovery.GR_025')
-                        ->where('Active',1)
-                        ->get();
-
-        return view('catalogs.brand.edit',compact('brand','departments'));
+        return view('catalogs.style.edit',compact('style'));
     }
 
     /**
@@ -126,22 +112,20 @@ class BrandController extends Controller
             $data = $this->getData($request->toArray());
 
             DB::table($this->table)
-                ->where('BrandID',$id)
+                ->where('ClothingStyleID',$id)
                 ->update($data);
-
-            Session::flash('success','Se ha modificado correctamente');
 
             DB::commit();
 
-            return Redirect::to('brands');
+            Session::flash('success','Se ha modificado correctamente');
+            return Redirect::to('styles');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-
-            return Redirect::to('brands/'.$id.'/edit');
+            return Redirect::to('styles/'.$id.'/edit');
         }
     }
 
@@ -153,32 +137,33 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-         DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
 
             $explode     = explode('.', $this->table);
             $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            DB::delete('DELETE FROM '.$stringTable.' WHERE "BrandID"='.$id);
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "ClothingStyleID"='.$id);
+
+            Session::flash('success','Se ha eliminado correctamente el registro');
 
             DB::commit();
 
-            Session::flash('success','Se ha eliminado correctamente el registro');
-            return Redirect::to('brands');
+            return Redirect::to('styles');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('brands');
+
+            return Redirect::to('styles');
         }
     }
 
-
     /**
-     * Validate the brand request.
+     * Validate the department request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return void
@@ -188,8 +173,7 @@ class BrandController extends Controller
     public function validator($request)
     {
         return $request->validate([
-            'name'         => ['required'],
-            'departmentId' => ['required']
+            'name' => ['required']
         ]);
     }
 
@@ -197,11 +181,10 @@ class BrandController extends Controller
     public function getData($data) {
 
         return [
-             'BrandName'    => $data['name'],
-             'DepartmentID' => $data['departmentId'],
-             'Active'       => isset($data['active']) ? true : false,
-             'CreationDate' => date("Y-m-d H:i:s"),
-             'CreatedBy'    => Auth::User()->id
+                'ClothingStyleName' => $data['name'],
+                'Active'       => isset($data['active']) ? true : false,
+                'CreationDate' => date("Y-m-d H:i:s"),
+                'CreatedBy'    => Auth::User()->id
         ];
     }
 }
