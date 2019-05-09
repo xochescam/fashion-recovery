@@ -39,13 +39,10 @@ class SizeController extends Controller
     public function create()
     {
         $departments   = DB::table('fashionrecovery.GR_025')
-                             ->orderBy('DepName')
-                             ->get();
-
-        return view('catalogs.size.create',compact('departments'));
                             ->where('Active',1)       
                             ->orderBy('DepName')
                             ->get();
+
         $brands        = DB::table('fashionrecovery.GR_017')
                             ->where('Active',1)       
                             ->orderBy('BrandName')

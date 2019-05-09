@@ -523,9 +523,9 @@
             const label = e.currentTarget.nextElementSibling;
             const input = e.currentTarget.nextElementSibling.previousElementSibling;
 
-            parent.removeChild(label);
-            parent.removeChild(input);
-            
+            //parent.removeChild(label);
+            //parent.removeChild(input);
+            console.log(container);
             const content = `<img src="`+URL.createObjectURL(file[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
                 <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
 

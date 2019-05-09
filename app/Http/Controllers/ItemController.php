@@ -87,6 +87,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+        dd($request->all());
         //DB::beginTransaction();
 
         //try {
