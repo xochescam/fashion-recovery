@@ -509,23 +509,29 @@
         }
 
         if(itemFiles) {
-            Array.prototype.forEach.call(itemFiles, (file) => {
-                file.addEventListener('change', showItemPicture);    
+            Array.prototype.forEach.call(itemFiles, (file) => {     
+                if(file.files.length > 0){
+                    showItemPicture(file);
+
+                }
+                //file.addEventListener('change', showItemPicture);    
             });
         }
 
         function showItemPicture(e) {
-            const file = e.currentTarget.files;
-            const container = e.currentTarget.parentNode.querySelector('.container-item-img');
-            const type = e.currentTarget.getAttribute('data-type');
-            const name = e.currentTarget.getAttribute('data-name');
-            const parent = e.currentTarget.nextElementSibling.parentNode;
-            const label = e.currentTarget.nextElementSibling;
-            const input = e.currentTarget.nextElementSibling.previousElementSibling;
 
+            const el = e.currentTarget ?  e.currentTarget : e;
+            const file = el.files;
+            const container = el.parentNode.querySelector('.container-item-img');
+            const type = el.getAttribute('data-type');
+            const name = el.getAttribute('data-name');
+            const parent = el.nextElementSibling.parentNode;
+            const label = el.nextElementSibling;
+            const input = el.nextElementSibling.previousElementSibling;
+            container.previousElementSibling.style.display="none";
             //parent.removeChild(label);
             //parent.removeChild(input);
-            console.log(container);
+            
             const content = `<img src="`+URL.createObjectURL(file[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
                 <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
 
@@ -542,15 +548,19 @@
             const type = e.currentTarget.getAttribute('data-type');
             const name = e.currentTarget.getAttribute('data-name');
             const container = e.currentTarget.parentNode.parentNode;
+            const label = e.currentTarget.parentNode.previousElementSibling;
+            const input = e.currentTarget.parentNode.previousElementSibling.previousElementSibling;
+
             e.currentTarget.parentNode.innerHTML = '';
             
+            container.removeChild(label);
+            container.removeChild(input);
 
             const isRequired = (name !== 'in' || name !== 'selfie') ? 'required="true"' : '';
 
-
             const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label">
-                 <span><i class="far fa-image"></i> <br>`+type+`</span>
-               </label>`;
+                  <span><i class="far fa-image"></i> <br>`+type+`</span>
+                </label>`;
 
             container.insertAdjacentHTML('afterbegin', content);
 
