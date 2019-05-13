@@ -87,9 +87,9 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        //try {
+        try {
 
             $data = $this->itemData($request->toArray());
 
@@ -108,18 +108,18 @@ class ItemController extends Controller
                 ]);
             }
 
-            //DB::commit();
+            DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('items'); //cambiar
 
-        //} catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
             return Redirect::to('seller');
-        //}
+        }
     }
 
     protected function updateItemData($data) {
@@ -232,7 +232,6 @@ class ItemController extends Controller
         $thumbName = [];
         $items = [];
         $count     = 0;
-        //$realFiles = explode(',', $data['realPicturesUploaded']);
         
         foreach ($data as $key => $value) {
 
@@ -244,8 +243,10 @@ class ItemController extends Controller
                 $date   = date("Ymd-His");
                 $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
                 $name = $date.'-'.$count++.'.jpg';
+                ini_set('memory_limit', "2000M");
                 $img = Image::make($value->getRealPath())->fit(200);
                 $img->stream();
+                ini_set('memory_limit', "256M");
                 //eliminar carpeta al actualizar
                 \Storage::disk('public')->put($dir.$name,  \File::get($value));
                 \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
