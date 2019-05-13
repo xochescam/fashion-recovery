@@ -29,7 +29,7 @@ Route::get('confirm-account/{userID}/{beSeller}', 'AuthController@confirmAccount
 
 Route::get('logout', 'Auth\LoginController@logout')->name('logout');
 
-Route::get('login/{beSeller}','Auth\LoginController@getForm');
+Route::get('login/{beSeller}','Auth\LoginController@getForm')->name('login');
 Route::post('login/{beSeller}','Auth\LoginController@login');
 
 Route::get('register/{beSeller}','Auth\RegisterController@getForm');
