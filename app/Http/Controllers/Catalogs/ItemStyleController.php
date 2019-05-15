@@ -21,7 +21,9 @@ class ItemStyleController extends Controller
      */
     public function index()
     {
-        $styles = DB::table($this->table)->get();
+        $styles = DB::table($this->table)
+                    ->orderBy('ClothingStyleName')
+                    ->get();
 
         return view('catalogs.style.list',compact('styles'));
     }

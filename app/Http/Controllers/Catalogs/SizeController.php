@@ -26,6 +26,7 @@ class SizeController extends Controller
                     ->join('fashionrecovery.GR_017', 'GR_020.BrandID', '=', 'GR_017.BrandID')
                     ->join('fashionrecovery.GR_025', 'GR_020.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->select('GR_020.SizeID','GR_020.SizeName', 'GR_020.Active',  'GR_019.ClothingTypeName', 'GR_017.BrandName', 'GR_025.DepName')
+                    ->orderBy('SizeName')
                     ->get();
 
         return view('catalogs.size.list',compact('sizes'));

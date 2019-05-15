@@ -21,7 +21,9 @@ class CalendarSaleController extends Controller
      */
     public function index()
     {
-        $calendarSales = DB::table($this->table)->get();
+        $calendarSales = DB::table($this->table)
+                            ->orderBy('Holiday')
+                            ->get();
 
         return view('catalogs.calendar-sale.list',compact('calendarSales'));
     }

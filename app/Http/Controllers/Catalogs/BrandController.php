@@ -25,6 +25,7 @@ class BrandController extends Controller
         $brands = DB::table($this->table)
                     ->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->select('GR_017.BrandID','GR_017.BrandName', 'GR_017.Active',  'GR_025.DepName')
+                    ->orderBy('GR_017.BrandName')
                     ->get();
 
         return view('catalogs.brand.list',compact('brands'));

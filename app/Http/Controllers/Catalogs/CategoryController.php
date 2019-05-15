@@ -21,7 +21,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = DB::table($this->table)->get();
+        $categories = DB::table($this->table)
+                        ->orderBy('CategoryName')
+                        ->get();
 
         return view('catalogs.category.list',compact('categories'));
     }

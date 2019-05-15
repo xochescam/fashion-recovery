@@ -26,6 +26,7 @@ class ClothingTypeController extends Controller
                             ->join('fashionrecovery.GR_025', 'GR_019.DepartmentID', '=', 'GR_025.DepartmentID')
                             ->join('fashionrecovery.GR_026', 'GR_019.CategoryID', '=', 'GR_026.CategoryID')
                             ->select('GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active',  'GR_017.BrandName', 'GR_025.DepName', 'GR_026.CategoryName')
+                            ->orderBy('ClothingTypeName')
                             ->get();
 
         return view('catalogs.clothing-type.list',compact('clothingTypes'));

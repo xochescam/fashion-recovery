@@ -21,7 +21,9 @@ class ColorController extends Controller
      */
     public function index()
     {
-        $colors = DB::table($this->table)->get();
+        $colors = DB::table($this->table)
+                    ->orderBy('ColorName')
+                    ->get();
 
         return view('catalogs.color.list',compact('colors'));
     }

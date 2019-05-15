@@ -21,7 +21,9 @@ class TypeController extends Controller
      */
     public function index()
     {
-        $types = DB::table($this->table)->get();
+        $types = DB::table($this->table)
+                    ->orderBy('TypeName')
+                    ->get();
 
         return view('catalogs.type.list',compact('types'));
     }

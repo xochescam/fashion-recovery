@@ -21,7 +21,9 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $departments = DB::table($this->table)->get();
+        $departments = DB::table($this->table)
+                        ->orderBy('DepName')
+                        ->get();
 
         return view('catalogs.department.list',compact('departments'));
     }

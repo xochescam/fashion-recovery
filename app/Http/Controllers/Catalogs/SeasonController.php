@@ -21,7 +21,9 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        $seasons = DB::table($this->table)->get();
+        $seasons = DB::table($this->table)
+                    ->orderBy('SeasonName')
+                    ->get();
 
         return view('catalogs.season.list',compact('seasons'));
     }
