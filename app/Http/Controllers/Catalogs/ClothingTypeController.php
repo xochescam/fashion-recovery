@@ -42,11 +42,6 @@ class ClothingTypeController extends Controller
                         ->orderBy('BrandName')
                         ->get();
 
-        $departments = DB::table('fashionrecovery.GR_025')        
-                        ->where('Active',1)
-                        ->orderBy('BrandName')
-                        ->get();
-
         $departments = DB::table('fashionrecovery.GR_025') 
                         ->where('Active',1)       
                         ->orderBy('DepName')
