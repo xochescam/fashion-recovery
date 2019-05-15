@@ -120,7 +120,7 @@ class SellerController extends Controller
 
         try {
 
-            $IDP = isset($request->IdentityDocumentPath) ?
+            $IDP = isset($request->id_item_file) ?
                     $this->saveID($request->toArray(), false) :
                     DB::table($this->table)
                         ->where('UserID',$id)
@@ -174,7 +174,7 @@ class SellerController extends Controller
         $date         = date("Ymd-His");
         $IDName       = "sellers/".Auth::User()->id.'/'.$date.'_'.Auth::User()->id.'_ID.jpg';
 
-        if($data['IdentityDocumentPath'] && !$isNew) {
+        if($data['id_item_file'] && !$isNew) {
 
             $seller = DB::table($this->table)
                         ->where('UserID',Auth::User()->id)
@@ -184,7 +184,7 @@ class SellerController extends Controller
             File::delete($seller->IdentityDocumentPath);
         }
 
-        \Storage::disk('public')->put($IDName,  \File::get($data['IdentityDocumentPath']));
+        \Storage::disk('public')->put($IDName,  \File::get($data['id_item_file']));
 
         return 'storage/'.$IDName;
     }
@@ -199,7 +199,7 @@ class SellerController extends Controller
         $date         = date("Ymd-His");
         $dir          = "sellers/".Auth::User()->id.'/';
         $selfieName   = $date.'_'.Auth::User()->id.'_selfie.jpg';
-        $img          = Image::make($data['SelfiePath']->getRealPath())->fit(200);
+        $img          = Image::make($data['profile_item_file']->getRealPath())->fit(200);
         $img->stream();
 
         if($isUpdate) {
@@ -208,10 +208,10 @@ class SellerController extends Controller
                         ->where('UserID',Auth::User()->id)
                         ->first();
 
-            File::delete($seller->SelfiePath, $seller->SelfieThumbPath);
+            File::delete($seller->Selfie, $seller->SelfieThumbPath);
         }
 
-        \Storage::disk('public')->put($dir.$selfieName,  \File::get($data['SelfiePath']));
+        \Storage::disk('public')->put($dir.$selfieName,  \File::get($data['profile_item_file']));
         \Storage::disk('public')->put($dir.'thumb-'.$selfieName, $img, 'public');
 
         return [
@@ -235,7 +235,7 @@ class SellerController extends Controller
             'Phone'                => ['numeric'],
             'LiveIn'               => ['max:35'],
             //'WorkIn'               => ['max:35'],
-            'IdentityDocumentPath' => isset($request->IdentityDocumentPath) ? ['mimes:jpg,jpeg,png'] : [''],
+            //'IdentityDocumentPath' => isset($request->id_item_file) ? ['mimes:jpg,jpeg,png'] : [''],
             //'SelfiePath'           => ['mimes:jpg,jpeg,png']
         ]);
     }
@@ -258,9 +258,9 @@ class SellerController extends Controller
              'Ranking'              => 0,
              'VerifiedByFR'         => false,
              'Ranking'              => 0,
-             'IdentityDocument'     => isset($data['IdentityDocumentPath']) ? true : false,
+             'IdentityDocument'     => isset($data['id_item_file']) ? true : false,
              'IdentityDocumentPath' => $IDP,
-             'Selfie'               => isset($data['SelfiePath']) ? true : false,
+             'Selfie'               => isset($data['profile_item_file']) ? true : false,
              'SelfiePath'           => $selfie['mean'],
              'SelfieThumbPath'      => $selfie['thumb'],
              'VerifiedEmail'        => false,
@@ -276,13 +276,13 @@ class SellerController extends Controller
         
             $selfie = $this->saveSelfie($request->toArray(), true);
             
+
             DB::table($this->table)
                 ->where('UserID',$id)
                 ->update([
                     'SelfiePath' => $selfie['mean'],
                     'SelfieThumbPath' => $selfie['thumb'],
                 ]);
-
 
             DB::commit();
 

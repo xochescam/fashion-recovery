@@ -20,12 +20,12 @@
               <form method="POST" action="{{ url('update-selfie',Auth::User()->id) }}" class="mb-5" enctype="multipart/form-data">
                 @csrf
 
-                <label for="SelfiePath" class="mb-2">
+                <label for="profile_item_file" class="mb-2">
                   <div class="card card--selfie ">
                     <img src=" {{ url($seller->SelfieThumbPath) }} " class="card-img-top js-selfie-img" alt="">
                     <i class="far fa-edit" id="edit_icon"></i>
                   </div>
-                  <input type="file" class="selfieInput no-file js-selfie-input" id="SelfiePath" name="SelfiePath">
+                  <input type="file" class="selfieInput no-file js-selfie-input" id="profile_item_file" name="profile_item_file">
                 </label>
                 
                 <div class="text-center">
