@@ -4,10 +4,29 @@
 @include('alerts.warning')
 
 <div class="form-row">
-    <div class="form-group col-md-6">
-    <label>Foto de perfil *</label>
+    <div class="form-group col-md-6 mb-5 js-items-container text-center">
+      <label>Foto de perfil *</label>
 
-    <div class="custom-file">
+      <div class="thumb-size js-item-picture mx-auto">
+        <input type="file" name="profile_item_file" id="profile_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de perfil" data-name="selfie" accept=".png, .jpg, .jpeg"  required>
+        <label for="profile_item_file" class="card card--file-item custom-file-label" >
+          <span><i class="far fa-image"></i> <br>Foto de perfil</span>
+        </label>
+
+        <div class="container-item-img"></div>
+
+        @if ($errors->has('profile_item_file'))
+          <div class="invalid-validation mb-2">
+            {{ $errors->first('profile_item_file') }}
+          </div>
+        @else
+          <div class="invalid-feedback mb-2">
+            El campo foto de perfil es obligatorio.
+          </div>
+        @endif
+      </div>
+
+{{--     <div class="custom-file">
       <input type="file" class="custom-file-input" id="SelfiePath" name="SelfiePath" lang="es" required>
       <label class="custom-file-label" for="SelfiePath">
         {{ isset($seller->SelfiePath) ? $seller->SelfiePath : (old('SelfiePath') ? old('SelfiePath') : 'Seleccionar archivo') }}
@@ -23,9 +42,33 @@
           El campo foto de perfil es obligatorio.
         </div>
       @endif
-    </div>
+    </div> --}}
+
   </div>
-    <div class="form-group col-md-6">
+
+    <div class="form-group col-md-6 mb-5 js-items-container text-center">
+      <label>Documento de identificación *</label>
+
+      <div class="thumb-size js-item-picture mx-auto">
+        <input type="file" name="id_item_file" id="id_item_file" class="no-file js-item-file custom-file-input" data-type="Documento de identificación" data-name="selfie" accept=".png, .jpg, .jpeg"  required>
+        <label for="id_item_file" class="card card--file-item custom-file-label">
+          <span><i class="far fa-image"></i> <br>Documento de identificación</span>
+        </label>
+
+        <div class="container-item-img"></div>
+
+        @if ($errors->has('id_item_file'))
+          <div class="invalid-validation mb-2">
+            {{ $errors->first('id_item_file') }}
+          </div>
+        @else
+          <div class="invalid-feedback mb-2">
+            El campo Documento de identificación es obligatorio.
+          </div>
+        @endif
+      </div>
+
+{{--     <div class="form-group col-md-6">
     <label>Documento de identificación *</label>
 
     <div class="custom-file">
@@ -45,7 +88,10 @@
         </div>
       @endif
     </div>
+  </div> --}}
+
   </div>
+
 </div>
 
 <div class="form-row">
