@@ -53,6 +53,7 @@ class SellerController extends Controller
 
         try {
 
+            ini_set('memory_limit', "2000M");
             $IDP    = $this->saveID($request->toArray(), true);
             $selfie = $this->saveSelfie($request->toArray(), false);
 
@@ -180,7 +181,6 @@ class SellerController extends Controller
                         ->where('UserID',Auth::User()->id)
                         ->first();
 
-                        dd($seller);
             File::delete($seller->IdentityDocumentPath);
         }
 
