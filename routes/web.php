@@ -35,6 +35,9 @@ Route::post('login/{beSeller}','Auth\LoginController@login');
 Route::get('register/{beSeller}','Auth\RegisterController@getForm');
 Route::post('register/{beSeller}','Auth\RegisterController@register');
 
+Route::get('items/{itemId}/public', 'ItemController@publicShow');
+
+
 //Search
 Route::get('search', 'SearchController@search');
 

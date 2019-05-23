@@ -87,6 +87,8 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
+
+        
         DB::beginTransaction();
 
         try {
@@ -243,10 +245,10 @@ class ItemController extends Controller
                 $date   = date("Ymd-His");
                 $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
                 $name = $date.'-'.$count++.'.jpg';
-                ini_set('memory_limit', "2000M");
+                //ini_set('memory_limit', "2000M");
                 $img = Image::make($value->getRealPath())->fit(200);
                 $img->stream();
-                ini_set('memory_limit', "256M");
+                //ini_set('memory_limit', "256M");
                 //eliminar carpeta al actualizar
                 \Storage::disk('public')->put($dir.$name,  \File::get($value));
                 \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
@@ -262,6 +264,84 @@ class ItemController extends Controller
 
         return $itemsName;
     }
+
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function publicShow($id)
+    {
+        $db = 'fashionrecovery';
+        $ValidFrom = '';
+        $ValidUntil = '';
+
+        $item = DB::table($this->table) //Mostrar solo una imagen
+                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
+                    ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
+                    ->join('fashionrecovery.GR_026', 'GR_029.CategoryID', '=', 'GR_026.CategoryID')
+                    ->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
+                    ->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
+                    ->join('fashionrecovery.GR_035', 'GR_029.ClothingStyleID', '=', 'GR_035.ClothingStyleID')
+                    ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
+                    ->join('fashionrecovery.GR_027', 'GR_029.TypeID', '=', 'GR_027.TypeID')
+                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->where('GR_029.ItemID',$id)
+                    ->select('GR_029.ItemID',
+                             'GR_032.ItemPictureID',
+                             'GR_032.ThumbPath',
+                             'GR_032.PicturePath',
+                             'GR_029.OffSaleID',
+                             'GR_029.ItemDescription',
+                             'GR_029.OriginalPrice',
+                             'GR_029.ActualPrice',
+                             'GR_029.SizeID',
+                             'GR_018.ColorName',
+                             'GR_025.DepName',
+                             'GR_026.CategoryName',
+                             'GR_017.BrandName',
+                             'GR_019.ClothingTypeName',
+                             'GR_027.TypeName',
+                             'GR_001.Alias',
+                             'GR_035.ClothingStyleName',
+                             'GR_020.SizeName'
+                         )
+                    ->get()->groupBy('ItemID')->first();
+
+        $offers = DB::table('fashionrecovery.GR_031')
+                    ->get()
+                    ->groupBy('OfferID')->toArray();
+           
+        if(isset($item->first()->OffSaleID)) {
+
+            $offer = $offers[$item->first()->OffSaleID];
+            
+            $ValidFrom = date("d/m/Y", strtotime($offer[0]->ValidFrom));
+            $ValidUntil = date("d/m/Y", strtotime($offer[0]->ValidUntil));
+        }
+
+
+        return view('item.public-show',compact(
+            'ValidFrom',
+            'ValidUntil',
+            'brands',
+            'item',
+            'offers',
+            'colors',
+            'styles',
+            'sizes',
+            'clothingTypes',
+            'departments',
+            'categories',
+            'types',
+            'closets',
+            'offers'
+        ));
+    }
+
 
     /**
      * Display the specified resource.

@@ -25,7 +25,7 @@
 
                 @if(isset($items[$closet->ClosetID]))
                   
-                    <div id="carousel_{{ $closet->ClosetID }}" class="carousel slide mb-3">
+                    <div id="carousel_{{ $closet->ClosetID }}" class="carousel mb-3">
                       <div class="carousel-inner">
                         @foreach($items[$closet->ClosetID] as $item)
                           <div class="carousel-item {{ $item->ItemPictureID == $items[$closet->ClosetID][0]->ItemPictureID ? 'active' : ''  }}">
@@ -47,7 +47,7 @@
                   
                 @else
 
-                  <div id="carousel_{{ $closet->ClosetID }}" class="carousel slide mb-3">
+                  <div id="carousel_{{ $closet->ClosetID }}" class="carousel mb-3">
                     <div class="carousel-inner">
                       <div class="carousel-item active">
                         <img src="https://via.placeholder.com/200.png?text=Imagen" class="d-block w-100" alt="...">

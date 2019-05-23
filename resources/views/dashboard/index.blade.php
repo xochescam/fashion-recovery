@@ -49,7 +49,7 @@
 
 			              <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
 			                Talla: 5 <br />Color: {{ $item->ColorName }}</p>
-			              <a href="#" class="btn btn-fr">Comprar</a>
+			              <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="btn btn-fr">Comprar</a>
 			            </div>
 			          </div>
 			        </div>

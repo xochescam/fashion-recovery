@@ -69,6 +69,9 @@
         }, false);
         })();
 
+
+        const cardImg = document.querySelector('.js-card-image');
+        const thumbsImg = document.querySelectorAll('.js-thumb-image');
         const date = document.querySelector('.date_input');
 
         if (date && date.type != 'date' )
@@ -78,6 +81,17 @@
                 orientation: "bottom auto",
                 autoclose: true
             });
+
+        function changeCardImg(e) {
+            const image = e.currentTarget.getAttribute('data-name');
+            cardImg.src = window.location.origin+'/'+image;
+        }
+
+        if(thumbsImg){
+            Array.prototype.forEach.call(thumbsImg, (thumb) => {
+                thumb.addEventListener('click', changeCardImg);
+            });
+        }
     </script>
 
     <script>
