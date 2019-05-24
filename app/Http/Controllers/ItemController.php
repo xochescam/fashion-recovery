@@ -88,7 +88,7 @@ class ItemController extends Controller
     public function store(Request $request)
     {
 
-        
+
         DB::beginTransaction();
 
         try {
@@ -168,7 +168,7 @@ class ItemController extends Controller
         foreach ($data as $key => $value) {
             $name = explode('_', $key);
 
-            if(count($name) > 2 && 
+            if(count($name) > 2 &&
                 $name[1].'_'.$name[2] == 'item_file') {
                 $countImg++;
             }
@@ -234,12 +234,12 @@ class ItemController extends Controller
         $thumbName = [];
         $items = [];
         $count     = 0;
-        
+
         foreach ($data as $key => $value) {
 
             $name = explode('_', $key);
 
-            if(count($name) > 2 && 
+            if(count($name) > 2 &&
                 $name[1].'_'.$name[2] === "item_file") {
 
                 $date   = date("Ymd-His");
@@ -259,7 +259,7 @@ class ItemController extends Controller
                 ];
 
                 array_push($itemsName,$items);
-            }         
+            }
         }
 
         return $itemsName;
@@ -274,12 +274,9 @@ class ItemController extends Controller
      */
     public function publicShow($id)
     {
-        $db = 'fashionrecovery';
-        $ValidFrom = '';
-        $ValidUntil = '';
+        $priceOffer = null;
 
-        $item = DB::table($this->table) //Mostrar solo una imagen
-                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+        $itemInfo = DB::table($this->table)
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->join('fashionrecovery.GR_026', 'GR_029.CategoryID', '=', 'GR_026.CategoryID')
@@ -289,11 +286,9 @@ class ItemController extends Controller
                     ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_027', 'GR_029.TypeID', '=', 'GR_027.TypeID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    //->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
                     ->where('GR_029.ItemID',$id)
                     ->select('GR_029.ItemID',
-                             'GR_032.ItemPictureID',
-                             'GR_032.ThumbPath',
-                             'GR_032.PicturePath',
                              'GR_029.OffSaleID',
                              'GR_029.ItemDescription',
                              'GR_029.OriginalPrice',
@@ -309,26 +304,30 @@ class ItemController extends Controller
                              'GR_035.ClothingStyleName',
                              'GR_020.SizeName'
                          )
-                    ->get()->groupBy('ItemID')->first();
+                    ->get()->first();
 
-        $offers = DB::table('fashionrecovery.GR_031')
-                    ->get()
-                    ->groupBy('OfferID')->toArray();
-           
-        if(isset($item->first()->OffSaleID)) {
+        $items = DB::table('fashionrecovery.GR_032')
+                    ->where('ItemID',$id)
+                    ->get();
 
-            $offer = $offers[$item->first()->OffSaleID];
-            
-            $ValidFrom = date("d/m/Y", strtotime($offer[0]->ValidFrom));
-            $ValidUntil = date("d/m/Y", strtotime($offer[0]->ValidUntil));
+        if(isset($itemInfo->OffSaleID)) {
+            $offer = DB::table('fashionrecovery.GR_031')
+                        ->where('OfferID',$itemInfo->OffSaleID)
+                        ->first();
+
+            $discount = $offer->Discount;
+
+            $priceOffer = $itemInfo->ActualPrice - ($itemInfo->ActualPrice * ($offer->Discount / 100));
         }
-
 
         return view('item.public-show',compact(
             'ValidFrom',
             'ValidUntil',
+            'priceOffer',
             'brands',
-            'item',
+            'itemInfo',
+            'discount',
+            'items',
             'offers',
             'colors',
             'styles',
@@ -422,11 +421,11 @@ class ItemController extends Controller
                     ->where('UserID',Auth::User()->id)
                     ->get()
                     ->groupBy('OfferID')->toArray();
-           
+
         if(isset($item->first()->OffSaleID)) {
 
             $offer = $offers[$item->first()->OffSaleID];
-            
+
             $ValidFrom = date("d/m/Y", strtotime($offer[0]->ValidFrom));
             $ValidUntil = date("d/m/Y", strtotime($offer[0]->ValidUntil));
         }
@@ -557,11 +556,11 @@ class ItemController extends Controller
     }
 
     public function addItem(Request $request, $itemId) {
-        
+
         DB::beginTransaction();
 
         try {
-            
+
             $itemsName = $this->saveItems($request->toArray(), $itemId);
 
             foreach ($itemsName as $key => $value) { //change
