@@ -182,7 +182,13 @@ class SellerController extends Controller
             File::delete($seller->IdentityDocumentPath);
         }
 
-        \Storage::disk('public')->put($IDName,  \File::get($data['id_item_file']));
+        $realImg = Image::make($data['profile_item_file']->getRealPath())
+                                ->resize(300, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                });
+        $realImg->stream();
+
+        \Storage::disk('public')->put($IDName, $realImg, 'public');
 
         return 'storage/'.$IDName;
     }
@@ -209,7 +215,13 @@ class SellerController extends Controller
             File::delete($seller->Selfie, $seller->SelfieThumbPath);
         }
 
-        \Storage::disk('public')->put($dir.$selfieName,  \File::get($data['profile_item_file']));
+        $realImg = Image::make($data['profile_item_file']->getRealPath())
+                                ->resize(300, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                });
+        $realImg->stream();
+
+        \Storage::disk('public')->put($dir.$selfieName, $realImg, 'public');
         \Storage::disk('public')->put($dir.'thumb-'.$selfieName, $img, 'public');
 
         return [
