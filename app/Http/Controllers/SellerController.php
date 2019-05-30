@@ -53,7 +53,6 @@ class SellerController extends Controller
 
         try {
 
-            ini_set('memory_limit', "2000M");
             $IDP    = $this->saveID($request->toArray(), true);
             $selfie = $this->saveSelfie($request->toArray(), false);
 
@@ -67,8 +66,7 @@ class SellerController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha registrado correctamente');
-            return Redirect::to('item'); //cambiar
+            return view('welcome-seller'); //cambiar
 
         } catch (\Exception $ex) {
 
@@ -135,7 +133,7 @@ class SellerController extends Controller
                     'AboutMe'              => $request->AboutMe,
                     'Phone'                => $request->Phone,
                     'LiveIn'               => $request->LiveIn,
-                    'IdentityDocumentPath' => $IDP  
+                    'IdentityDocumentPath' => $IDP
                 ]);
 
 
@@ -228,7 +226,7 @@ class SellerController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(Request $request)
-    {        
+    {
         $request->validate([
             'Greeting'             => ['max:50'],
             'AboutMe'              => ['max:256'],
@@ -273,9 +271,9 @@ class SellerController extends Controller
         DB::beginTransaction();
 
         try {
-        
+
             $selfie = $this->saveSelfie($request->toArray(), true);
-            
+
 
             DB::table($this->table)
                 ->where('UserID',$id)
