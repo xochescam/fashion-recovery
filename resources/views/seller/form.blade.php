@@ -165,6 +165,9 @@
         <option value="Chiapas" {{ old('LiveIn') == "Chiapas" ? "selected" : '' }}>
           Chiapas
         </option>
+        <option value="Ciudad de México" {{ old('LiveIn') == "Ciudad de México" ? "selected" : '' }}>
+          Ciudad de México
+        </option>
         <option value="Coahuila" {{ old('LiveIn') == "Coahuila" ? "selected" : '' }}>
           Coahuila
         </option>
@@ -173,6 +176,9 @@
         </option>
         <option value="Durango" {{ old('LiveIn') == "Durango" ? "selected" : '' }}>
           Durango
+        </option>
+        <option value="Estado de México" {{ old('LiveIn') == "Estado de México" ? "selected" : '' }}>
+          Estado de México
         </option>
         <option value="Guanajuato" {{ old('LiveIn') == "Guanajuato" ? "selected" : '' }}>
           Guanajuato
@@ -185,12 +191,6 @@
         </option>
         <option value="Jalisco" {{ old('LiveIn') == "Jalisco" ? "selected" : '' }}>
           Jalisco
-        </option>
-        <option value="Ciudad de México" {{ old('LiveIn') == "Ciudad de México" ? "selected" : '' }}>
-          Ciudad de México
-        </option>
-        <option value="Estado de México" {{ old('LiveIn') == "Estado de México" ? "selected" : '' }}>
-          Estado de México
         </option>
         <option value="Michoacán" {{ old('LiveIn') == "Michoacán" ? "selected" : '' }}>
           Michoacán

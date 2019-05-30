@@ -58,7 +58,6 @@ class RegisterController extends Controller
     protected function validator(Request $request)
     {
         $request->validate([
-            'terms'      => ['required'],
             'name'       => isset($request->name) ? ['max:80'] : [''],
             'last_name'  => isset($request->last_name) ? ['max:80'] : [''],
             'email'      => ['email', 'max:100'],
@@ -106,7 +105,7 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Tu cuenta ha sido creada. Inicia sesión.');
+            Session::flash('success','Tu cuenta ha sido creada. Confirma tu cuenta antes de iniciar sesión.');
             return $this->registered($request, $user)
                             ?: redirect('login/'.$beSeller);
 
