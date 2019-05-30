@@ -87,8 +87,6 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-
-
         DB::beginTransaction();
 
         try {
@@ -120,7 +118,7 @@ class ItemController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
-            return Redirect::to('seller');
+            return Redirect::to('item');
         }
     }
 
