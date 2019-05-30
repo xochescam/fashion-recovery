@@ -123,7 +123,7 @@
 
  <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
-  <textarea name="ItemDescription" id="ItemDescription" class="form-control js-text-limit" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="50" data-limit="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
+  <textarea name="ItemDescription" id="ItemDescription" class="form-control js-text-limit" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="2" maxlength="50" data-limit="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
     <small class="counter-text">0 caracteres.</small>
 
   @if ($errors->has('ItemDescription'))

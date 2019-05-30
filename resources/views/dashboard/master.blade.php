@@ -40,7 +40,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
 
-    <script src="js/load-image.all.min.js"></script>
+    <script src="{{ url('js/load-image.all.min.js') }} "></script>
 
     <script>
         const dateTime          = document.querySelectorAll('.date_time_input');
@@ -708,12 +708,11 @@
 
                 input.addEventListener('keydown', function(e) {
                     const limit = input.getAttribute('data-limit');
-                    const small = document.querySelector('.counter-text');
                     const lenght = e.currentTarget.value.length;
 
-                    small.innerHTML = lenght == limit ?
-                     lenght + ' es el limite de caracteres permitidos.' :
-                     lenght + ' caracteres.';
+                    e.currentTarget.nextElementSibling.innerHTML = lenght == limit ?
+                         lenght + ' es el limite de caracteres permitidos.' :
+                         lenght + ' caracteres.';
                 })
             });
         }
