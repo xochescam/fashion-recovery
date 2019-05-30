@@ -5,10 +5,6 @@ body{
   font-family: "Roboto";
 }
 
-img {
-  image-orientation: from-image;
-}
-
 #header{
   background-image: url('../img/header/BoardGreen.jpg');
   /* background-color: #009c77; */
@@ -23,7 +19,14 @@ img {
 }
 
 .container-item-img {
+  width: 200px;
   max-width: 200px;
+  max-height: 200px;
+}
+
+.container-item-img img{
+  object-fit: cover;
+  height: 200px;
 }
 
 .no-file {
@@ -328,8 +331,12 @@ div a{
   height: 200px;
   text-align: center;
   display: table;
+  width: 200px;
+}
+
+.card--file-item img {
   width: 100%;
-  max-width: 200px;
+  height: 100%;
 }
 
 .card--file-item span {

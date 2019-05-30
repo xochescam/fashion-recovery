@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.15') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.16') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -527,44 +527,35 @@
 
         function showItemPicture(e) {
 
-            const el = e.currentTarget ?  e.currentTarget : e;
-
-
-            const file = el.files;
+            const el        = e.currentTarget ?  e.currentTarget : e;
+            const file      = el.files;
             const container = el.parentNode.querySelector('.container-item-img');
-            const type = el.getAttribute('data-type');
-            const name = el.getAttribute('data-name');
-            const parent = el.nextElementSibling.parentNode;
-            const label = el.nextElementSibling;
-            const input = el.nextElementSibling.previousElementSibling;
-            container.previousElementSibling.style.display="none";
-            //parent.removeChild(label);
-            //parent.removeChild(input);
+            const type      = el.getAttribute('data-type');
+            const name      = el.getAttribute('data-name');
+            const parent    = el.nextElementSibling.parentNode;
+            const label     = el.nextElementSibling;
+            const input     = el.nextElementSibling.previousElementSibling;
 
-            // const content = `<img src="" class="card-img-top" alt="..." height="200px" width="200px">
-            //     <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+            container.previousElementSibling.style.display = "none";
 
-            //     container.innerHTML = content;
+            const img = document.querySelector('.js-new-item img');
 
-                const img = document.querySelector('.js-new-item img');
+            loadImage(
+                file[0],
+                function (img) {
+                    const button = `<button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
 
-                loadImage(
-                    file[0],
-                    function (img) {
-                        const button = `<button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+                    container.appendChild(img);
+                    container.insertAdjacentHTML('beforeend', button);
 
-                        container.appendChild(img);
-                        container.insertAdjacentHTML('beforeend', button);
-                        console.log(container);
-                    },
-                    {maxWidth: 200} // Options
-                );
+                    const deleteButtons = document.querySelectorAll('.js-delete-item');
 
-            const deleteButtons = document.querySelectorAll('.js-delete-item');
-
-            Array.prototype.forEach.call(deleteButtons, (btn) => {
-                btn.addEventListener('click', deleteItem);
-            });
+                    Array.prototype.forEach.call(deleteButtons, (btn) => {
+                        btn.addEventListener('click', deleteItem);
+                    });
+                },
+                {maxWidth: 200, cover: true} // Options
+            );
         }
 
         function deleteItem(e) {
