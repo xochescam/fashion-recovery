@@ -58,6 +58,7 @@ class RegisterController extends Controller
     protected function validator(Request $request)
     {
         $request->validate([
+            'terms'      => ['required'],
             'name'       => isset($request->name) ? ['max:80'] : [''],
             'last_name'  => isset($request->last_name) ? ['max:80'] : [''],
             'email'      => ['email', 'max:100'],
