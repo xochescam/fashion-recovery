@@ -51,7 +51,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('sizes-by-clothing-type/{departmentId}/{brandId}/{clothingTypeId}', 'ItemApiController@getSizesbyClothingType');
 
-	//Billing Info
+	//Shipping
 	Route::post('shipping', 'ShippingAddController@store');
 	Route::post('shipping/{shippingAddId}', 'ShippingAddController@update');
 
@@ -62,6 +62,9 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Guardarropas
 	Route::get('guardarropa', 'ClosetController@ownClosets');
+
+	//Wishlist
+	Route::get('wishlist', 'WishlistController@index');
 
 	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');
