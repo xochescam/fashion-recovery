@@ -89,6 +89,15 @@ class LoginController extends Controller
         }
 
         if (Auth::attempt( ['email' => $request->email, 'password' => $request->password] ) ) {
+
+            if(!Auth::User()->Confirmed) {
+
+                Auth::logout();
+
+                Session::flash('warning','Confirma tu cuenta antes de iniciar sesión.');
+                return Redirect::to('login/'.$beSeller);
+            }
+
             return Redirect::to($route);
 
         } else {
