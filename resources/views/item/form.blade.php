@@ -9,43 +9,8 @@
 <div>
   <label>Fotos de la prenda *</label>
 
-   <div class="custom-file">
-    <input type="file" class="custom-file-input js-add-items" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value="{{ old('PicturesUploaded') }}" required>
-    <label class="custom-file-label" for="PicturesUploaded">
-      {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
-    </label>
-    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate veniam id molestiae, quasi repudiandae totam.</small>
-
-    <input type="hidden" name="realPicturesUploaded" class="js-input-real-pictures">
-
-    @if ($errors->has('PicturesUploaded'))
-
-      <div class="invalid-feedback">
-        {{ $errors->first('PicturesUploaded') }}
-      </div>
-
-    @elseif($errors->has('PicturesUploaded.*') && $errors->has('PicturesUploaded.*') > 0)
-
-      @foreach ($errors->get('PicturesUploaded.*') as $error => $value)
-
-        <div class="invalid-feedback">
-          {{ $errors->first($error) }}
-        </div>
-
-      @endforeach
-
-    @else
-
-      <div class="invalid-feedback">
-        El campo fotos de la prenda es obligatorio.
-      </div>
-    @endif
-  </div>
-
-  <div class="row js-items-container mt-2 text-center">
-
-
-<div class="col-sm-4 mb-5 thumb-size js-item-picture">
+<div class="row js-items-container mt-2 text-center">
+  <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" accept=".png, .jpg, .jpeg" required>
       <label for="cover_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Portada</span>
