@@ -246,11 +246,17 @@ class ItemController extends Controller
                 $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
                 $name = $date.'-'.$count++.'.jpg';
                 //ini_set('memory_limit', "2000M");
+
+                $realImg = Image::make($value->getRealPath())
+                                ->resize(300, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                });
+                $realImg->stream();
                 $img = Image::make($value->getRealPath())->fit(200);
                 $img->stream();
                 //ini_set('memory_limit', "256M");
                 //eliminar carpeta al actualizar
-                \Storage::disk('public')->put($dir.$name,  \File::get($value));
+                \Storage::disk('public')->put($dir.$name,  $realImg, 'public');
                 \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
 
                 $items = [
