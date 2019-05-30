@@ -137,7 +137,7 @@
   @endif
 </div>
 
-{{--<div class="form-row">
+<div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
     <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required data-size="false">
@@ -458,4 +458,4 @@
       </div>
     </div>
   </div>
-</div> --}}
+</div>
