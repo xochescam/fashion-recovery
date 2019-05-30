@@ -43,13 +43,14 @@
     <script src="js/load-image.all.min.js"></script>
 
     <script>
-        const dateTime = document.querySelectorAll('.date_time_input');
-        const offerCheck = document.querySelector('.js-check-offer');
-        const selfieInput = document.querySelector('.js-selfie-input');
+        const dateTime          = document.querySelectorAll('.date_time_input');
+        const offerCheck        = document.querySelector('.js-check-offer');
+        const selfieInput       = document.querySelector('.js-selfie-input');
         const departmentsSelect = document.querySelector('.js-departments-select');
-        const itemsInput = document.querySelector('.js-items-input');
-        const itemFiles = document.querySelectorAll('.js-item-file');
-        const addItems = document.querySelector('.js-add-items');
+        const itemsInput        = document.querySelector('.js-items-input');
+        const itemFiles         = document.querySelectorAll('.js-item-file');
+        const addItems          = document.querySelector('.js-add-items');
+        const textLimit          = document.querySelectorAll('.js-text-limit');
 
         const categoriesSelect    = document.querySelector('.js-categories-select');
 
@@ -702,6 +703,20 @@
 
         }
 
+        if(textLimit) {
+            Array.prototype.forEach.call(textLimit, (input) => {
+
+                input.addEventListener('keydown', function(e) {
+                    const limit = input.getAttribute('data-limit');
+                    const small = document.querySelector('.counter-text');
+                    const lenght = e.currentTarget.value.length;
+
+                    small.innerHTML = lenght == limit ?
+                     lenght + ' es el limite de caracteres permitidos.' :
+                     lenght + ' caracteres.';
+                })
+            });
+        }
 
     </script>
   </body>

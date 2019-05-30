@@ -97,8 +97,9 @@
 <div class="form-row">
   <div class="form-group col-md-6">
       <label for="Greeting">Deja un saludo *</label>
-      <textarea name="Greeting" id="Greeting" class="form-control" placeholder="Deja un saludo para que tú perfil sea confiable y amigable a tus posibles clientes" rows="3" maxlength="50" required>{{ isset($seller->Greeting) ? $seller->Greeting : old('Greeting') }}</textarea>
-      
+      <textarea name="Greeting" id="Greeting" class="form-control js-text-limit" placeholder="Deja un saludo para que tú perfil sea confiable y amigable a tus posibles clientes" rows="3" maxlength="50" data-limit="50" required>{{ isset($seller->Greeting) ? $seller->Greeting : old('Greeting') }}</textarea>
+      <small class="counter-text">0 caracteres.</small>
+
       @if ($errors->has('Greeting'))
         <div class="invalid-validation">
           {{ $errors->first('Greeting') }}
@@ -107,12 +108,13 @@
         <div class="invalid-feedback">
           El campo deja un saludo es obligatorio.
         </div>
-      @endif    
+      @endif
   </div>
-  
+
   <div class="form-group col-md-6">
       <label for="AboutMe">Acerca de mi *</label>
-      <textarea name="AboutMe" id="AboutMe" class="form-control" placeholder="Escribe una breve descripción sobre ti; por ejemplo: ¿Por qué decidiste vender en Fashion Recovery?" rows="3" maxlength="256" required>{{ isset($seller->AboutMe) ? $seller->AboutMe : old('AboutMe') }}</textarea>
+      <textarea name="AboutMe" id="AboutMe" class="form-control js-text-limit" placeholder="Escribe una breve descripción sobre ti; por ejemplo: ¿Por qué decidiste vender en Fashion Recovery?" rows="3" maxlength="256" data-limit="256" required>{{ isset($seller->AboutMe) ? $seller->AboutMe : old('AboutMe') }}</textarea>
+      <small class="counter-text">0 caracteres.</small>
 
       @if ($errors->has('AboutMe'))
         <div class="invalid-feedback">
@@ -184,8 +186,11 @@
         <option value="Jalisco" {{ old('LiveIn') == "Jalisco" ? "selected" : '' }}>
           Jalisco
         </option>
-        <option value="México" {{ old('LiveIn') == "México" ? "selected" : '' }}>
-          México
+        <option value="Ciudad de México" {{ old('LiveIn') == "Ciudad de México" ? "selected" : '' }}>
+          Ciudad de México
+        </option>
+        <option value="Estado de México" {{ old('LiveIn') == "Estado de México" ? "selected" : '' }}>
+          Estado de México
         </option>
         <option value="Michoacán" {{ old('LiveIn') == "Michoacán" ? "selected" : '' }}>
           Michoacán
@@ -238,7 +243,7 @@
         <option value="Zacatecas" {{ old('LiveIn') == "Zacatecas" ? "selected" : '' }}>
           Zacatecas
         </option>
-      </select> 
+      </select>
       <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit ducimus ex, quasi ipsam.</small>
 
       @if ($errors->has('LiveIn'))
@@ -249,7 +254,7 @@
         <div class="invalid-feedback">
           El campo lugar de residencia es obligatorio.
         </div>
-      @endif   
+      @endif
   </div>
 </div>
 

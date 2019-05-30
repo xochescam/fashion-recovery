@@ -9,7 +9,7 @@
 <div>
   <label>Fotos de la prenda *</label>
 
-{{--   <div class="custom-file">
+   <div class="custom-file">
     <input type="file" class="custom-file-input js-add-items" id="PicturesUploaded" name="PicturesUploaded[]" lang="es" multiple value="{{ old('PicturesUploaded') }}" required>
     <label class="custom-file-label" for="PicturesUploaded">
       {{ isset($seller->PicturesUploaded) ? $seller->PicturesUploaded : (old('PicturesUploaded') ? old('PicturesUploaded') : 'Seleccionar archivos') }}
@@ -39,15 +39,13 @@
       <div class="invalid-feedback">
         El campo fotos de la prenda es obligatorio.
       </div>
-
     @endif
-    
-  </div> --}}
-
+  </div>
 
   <div class="row js-items-container mt-2 text-center">
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+
+<div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" accept=".png, .jpg, .jpeg" required>
       <label for="cover_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Portada</span>
@@ -126,7 +124,7 @@
     <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" accept=".png, .jpg, .jpeg"  data-name="selfie">
       <label for="selfie_item_file" class="card card--file-item custom-file-label">
-        <span><i class="far fa-image"></i> <br>Selfie</span> 
+        <span><i class="far fa-image"></i> <br>Selfie</span>
       </label>
 
       <div class="container-item-img"></div>
@@ -155,14 +153,14 @@
 
   </div>
 
-   
 </div>
 @endif
 
-<div class="form-group">
+ <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
-  <textarea name="ItemDescription" id="ItemDescription" class="form-control" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
-      
+  <textarea name="ItemDescription" id="ItemDescription" class="form-control js-text-limit" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="50" data-limit="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
+    <small class="counter-text">0 caracteres.</small>
+
   @if ($errors->has('ItemDescription'))
     <div class="invalid-validation">
       {{ $errors->first('ItemDescription') }}
@@ -171,10 +169,10 @@
     <div class="invalid-feedback">
       El campo de descripción corta es obligatorio.
     </div>
-  @endif    
+  @endif
 </div>
 
-<div class="form-row">
+{{--<div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
     <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required data-size="false">
@@ -246,7 +244,7 @@
       <div class="invalid-feedback">
         El campo marca es obligatorio.
       </div>
-    @endif    
+    @endif
   </div>
 
   <div class="form-group col-md-6">
@@ -282,7 +280,7 @@
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
-      
+
       @if(isset($sizes))
         @foreach($sizes as $size)
           <option value="{{ $size->SizeID }}"  {{ ($item && ($size->SizeID == $item->first()->SizeID) || old('SizeID'))  ? 'selected' : '' }} >
@@ -290,7 +288,7 @@
           </option>
         @endforeach
       @endif
-      
+
 
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
@@ -373,7 +371,7 @@
         El campo condición de la prenda es obligatorio.
       </div>
     @endif
-  </div> 
+  </div>
 </div>
 
 <div class="form-group">
@@ -495,4 +493,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
