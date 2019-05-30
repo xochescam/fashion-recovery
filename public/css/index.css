@@ -5,6 +5,10 @@ body{
   font-family: "Roboto";
 }
 
+img {
+  image-orientation: from-image;
+}
+
 #header{
   background-image: url('../img/header/BoardGreen.jpg');
   /* background-color: #009c77; */
