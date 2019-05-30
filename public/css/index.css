@@ -22,6 +22,10 @@ img {
   display: flex !important;
 }
 
+.container-item-img {
+  max-width: 200px;
+}
+
 .no-file {
   cursor:pointer;
   border: 0;

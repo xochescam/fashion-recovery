@@ -40,6 +40,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
 
+    <script src="js/load-image.all.min.js"></script>
+
     <script>
         const dateTime = document.querySelectorAll('.date_time_input');
         const offerCheck = document.querySelector('.js-check-offer');
@@ -48,7 +50,7 @@
         const itemsInput = document.querySelector('.js-items-input');
         const itemFiles = document.querySelectorAll('.js-item-file');
         const addItems = document.querySelector('.js-add-items');
-        
+
         const categoriesSelect    = document.querySelector('.js-categories-select');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
@@ -113,15 +115,20 @@
             });
         }
 
-        if(selfieInput) {    
+        if(selfieInput) {
             const btn = document.querySelector('.js-selfie-btn');
             const img = document.querySelector('.js-selfie-img');
 
             selfieInput.addEventListener('change', function(e) {
-                
+
                 btn.classList.remove('hidden');
 
-                $('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
+                var scaledImage = loadImage.scale(
+                    img, // img or canvas element
+                    {maxWidth: 600}
+                );
+
+                //$('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
                 img.style.width = "200px";
             });
         }
@@ -150,7 +157,7 @@
                 request.onload = function() {
 
                    if (request.status >= 200 && request.status < 400) {
-                       
+
                         const response = JSON.parse(request.response);
 
                         if(response.length > 0){
@@ -165,9 +172,9 @@
                                 clothingTypesSelect.insertAdjacentHTML('beforeend', size);
                             }
 
-                            clothingTypesSelect.removeAttribute('disabled');  
+                            clothingTypesSelect.removeAttribute('disabled');
 
-                            clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
+                            clothingTypesSelect.addEventListener('change', sizesByClothingType);
 
                         } else {
                             clothingTypesSelect.setAttribute('disabled',true);
@@ -226,13 +233,13 @@
                     clothingTypesSelect.setAttribute('required',false);
                     sizesSelect.setAttribute('required',false);
                 }
-                
+
                 request.open('GET', url+'/brands-by-department/'+this.value, true);
                 request.send(null);
                 request.onload = function() {
 
                    if (request.status >= 200 && request.status < 400) {
-                       
+
                        const response = JSON.parse(request.response);
 
                      if(response.length > 0){
@@ -251,7 +258,7 @@
 
                         brandsSelect.setAttribute('required',true);
                         brandsSelect.addEventListener('change', clothingTypesByBrand);
-                        
+
 
                      } else {
                         brandsSelect.setAttribute('disabled',true);
@@ -288,7 +295,7 @@
                 request.onerror = function() {
                     brandsSelect.setAttribute('disabled',true);
                     brandsSelect.setAttribute('required',false);
-                    
+
                     if((clothingTypesSelect || sizesSelect) && !size){
                         sizesSelect.setAttribute('disabled',true);
                         clothingTypesSelect.setAttribute('disabled',true);
@@ -301,7 +308,7 @@
                     console.log('Ocurrió un error de conexión, por favor intente de nuevo.');
 
                 };
-            });     
+            });
         }
 
         function clothingTypesOnlyByBrand(e) {
@@ -320,7 +327,7 @@
             request.onload = function() {
 
                if (request.status >= 200 && request.status < 400) {
-                   
+
                     const response = JSON.parse(request.response);
 
                     if(response.length > 0){
@@ -336,10 +343,10 @@
                             clothingTypesSelect.insertAdjacentHTML('beforeend', size);
                         }
 
-                        clothingTypesSelect.removeAttribute('disabled'); 
-                        clothingTypesSelect.setAttribute('required',true); 
+                        clothingTypesSelect.removeAttribute('disabled');
+                        clothingTypesSelect.setAttribute('required',true);
 
-                        //clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
+                        //clothingTypesSelect.addEventListener('change', sizesByClothingType);
 
                     } else {
                         clothingTypesSelect.setAttribute('disabled',true);
@@ -394,14 +401,14 @@
             sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
             clothingTypesSelect.setAttribute('disabled',true);
             sizesSelect.setAttribute('disabled',true);
-            clothingTypesSelect.setAttribute('required',false); 
+            clothingTypesSelect.setAttribute('required',false);
 
             request.open('GET', url+'/clothing-type-by-brand/'+department+'/'+this.value+'/'+categoriesSelect.value, true);
             request.send(null);
             request.onload = function() {
 
                if (request.status >= 200 && request.status < 400) {
-                   
+
                     const response = JSON.parse(request.response);
 
                     if(response.length > 0){
@@ -417,10 +424,10 @@
                             clothingTypesSelect.insertAdjacentHTML('beforeend', size);
                         }
 
-                        clothingTypesSelect.removeAttribute('disabled'); 
-                        clothingTypesSelect.setAttribute('required',true); 
+                        clothingTypesSelect.removeAttribute('disabled');
+                        clothingTypesSelect.setAttribute('required',true);
 
-                        clothingTypesSelect.addEventListener('change', sizesByClothingType);                 
+                        clothingTypesSelect.addEventListener('change', sizesByClothingType);
 
                     } else {
                         clothingTypesSelect.setAttribute('disabled',true);
@@ -467,7 +474,7 @@
             request.onload = function() {
 
                if (request.status >= 200 && request.status < 400) {
-                   
+
                     const response = JSON.parse(request.response);
 
                     if(response.length > 0){
@@ -479,8 +486,8 @@
                             sizesSelect.insertAdjacentHTML('beforeend', size);
                         }
 
-                        sizesSelect.removeAttribute('disabled'); 
-                        sizesSelect.setAttribute('required',true);                  
+                        sizesSelect.removeAttribute('disabled');
+                        sizesSelect.setAttribute('required',true);
 
                     } else {
                         sizesSelect.setAttribute('disabled',true);
@@ -509,12 +516,12 @@
         }
 
         if(itemFiles) {
-            Array.prototype.forEach.call(itemFiles, (file) => {     
+            Array.prototype.forEach.call(itemFiles, (file) => {
                 if(file.files.length > 0){
                     showItemPicture(file);
 
                 }
-                file.addEventListener('change', showItemPicture);    
+                file.addEventListener('change', showItemPicture);
             });
         }
 
@@ -533,17 +540,31 @@
             container.previousElementSibling.style.display="none";
             //parent.removeChild(label);
             //parent.removeChild(input);
-            
-            const content = `<img src="`+URL.createObjectURL(file[0])+`" class="card-img-top" alt="..." height="200px" width="200px">
-                <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
 
-                container.innerHTML = content;
+            // const content = `<img src="" class="card-img-top" alt="..." height="200px" width="200px">
+            //     <button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+
+            //     container.innerHTML = content;
+
+                const img = document.querySelector('.js-new-item img');
+
+                loadImage(
+                    file[0],
+                    function (img) {
+                        const button = `<button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+
+                        container.appendChild(img);
+                        container.insertAdjacentHTML('beforeend', button);
+                        console.log(container);
+                    },
+                    {maxWidth: 200} // Options
+                );
 
             const deleteButtons = document.querySelectorAll('.js-delete-item');
 
             Array.prototype.forEach.call(deleteButtons, (btn) => {
                 btn.addEventListener('click', deleteItem);
-            }); 
+            });
         }
 
         function deleteItem(e) {
@@ -554,7 +575,7 @@
             const input = e.currentTarget.parentNode.previousElementSibling.previousElementSibling;
 
             e.currentTarget.parentNode.innerHTML = '';
-            
+
             container.removeChild(label);
             container.removeChild(input);
 
@@ -570,7 +591,7 @@
 
             Array.prototype.forEach.call(itemFiles, (item) => {
                 item.addEventListener('change', showItemPicture);
-            }); 
+            });
         }
 
         if(itemsInput) {
@@ -578,14 +599,14 @@
             const list = document.querySelector('#itemsList');
             const realPictures = document.querySelector('.js-input-real-pictures');
             var arr = [];
-        
+
             itemsInput.addEventListener('change', function(e) {
                 const files = e.currentTarget.files;
 
                 for (var i = files.length - 1; i >= 0; i--) {
                     //var node = document.createElement("li");
-                    
-                    var item = `<span class="badge badge-pill green-color w-100 text-left">`+files[i].name+`                                            
+
+                    var item = `<span class="badge badge-pill green-color w-100 text-left">`+files[i].name+`
                         <i class="fas fa-times green-color float-right cursor-pointer js-delete-item" data-key="`+i+`" data-name="`+files[i].name+`"></i>
                         </span>`;
 
@@ -616,7 +637,7 @@
 
                 });
 
-            });  
+            });
         }
 
         if(addItems) {
@@ -633,8 +654,8 @@
                 btn ? btn.classList.remove('hidden') : '';
 
                 const items = document.querySelectorAll('.js-new-item');
-                
-                
+
+
                 if(items.length > 0) {
 
                     for (var i = items.length - 1; i >= 0; i--) {
@@ -655,6 +676,8 @@
                               <img src="`+URL.createObjectURL(files[i])+`" class="card-img-top" alt="..." height="200px" width="200px">
                               <button class="btn btn-danger btn-sm js-delete-img">Eliminar</button>
                             </div></div>`;
+
+
 
                     container.insertAdjacentHTML('beforeend', content);
 
@@ -686,7 +709,7 @@
 
             });
 
-        } 
+        }
 
 
     </script>
