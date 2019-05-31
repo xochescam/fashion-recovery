@@ -18,6 +18,15 @@ body{
   display: flex !important;
 }
 
+.link-card {
+  color: #212529;
+}
+
+.link-card:hover {
+  color: initial;
+  text-decoration: none;
+}
+
 .container-item-img {
   width: 200px;
   max-width: 200px;
