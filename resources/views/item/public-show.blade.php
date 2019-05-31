@@ -52,7 +52,7 @@
 
 					<hr>
 
-					<p>Precio original: <small class="line-through">{{ $itemInfo->OriginalPrice }}</small> </p>
+					<p>Precio original: <small class="line-through">${{ $itemInfo->OriginalPrice }}</small> </p>
 
 					@if($itemInfo->OffSaleID !== null)
 						<p>Oferta: <span class="badge badge-pill badge-danger">{{ $discount }}%</span></p>
@@ -127,7 +127,7 @@
 					<div class="card w-100">
 		          		<div class="card-body">
 		          			<button class="btn btn-fr mb-3 w-100 ">
-		          				COMPRAR
+		          				Comprar
 		          			</button>
 		          			<button class="btn btn-fr mb-3 w-100 ">
 		          				<i class="fas fa-shopping-cart mr-1"></i>

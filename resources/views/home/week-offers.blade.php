@@ -138,12 +138,12 @@
       @foreach($items as $item)
 
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
-          <a href="{{ url('items/'.$item->ItemID.'/public') }}">
+          <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
             <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
               <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">{{ $item->ActualPrice }} </span></h5>
+                  <h5><span class="badge badge-pill badge-success">${{ $item->ActualPrice }} </span></h5>
                   @if(isset($item->offer))
                     <span class="badge badge-pill badge-danger">{{ $item->offer }}</span>
                   @endif

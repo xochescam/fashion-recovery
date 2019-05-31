@@ -21,8 +21,8 @@
                 <a href="{{ url('item',$item->first()->ItemID) }}"><img src="{{ url('storage/'.$item->first()->ThumbPath) }}" class="card-img-top" alt="..."></a>
                 <div class="card-body">
                   <h5 class="card-title">{{$item->first()->ItemDescription}}</h5>
-                  <p class="card-text">{{ $item->first()->ActualPrice }}
-                    <small class="line-through">{{ $item->first()->OriginalPrice }}</small>
+                  <p class="card-text">${{ $item->first()->ActualPrice }}
+                    <small class="line-through">${{ $item->first()->OriginalPrice }}</small>
                   </p>
                 </div>
               </div>
