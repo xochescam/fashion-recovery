@@ -555,8 +555,16 @@
                         btn.addEventListener('click', deleteItem);
                     });
                 },
-                {maxWidth: 200, cover: true} // Options
+                {
+                    maxWidth: 200
+                    canvas: true,
+                    pixelRatio: window.devicePixelRatio,
+                    downsamplingRatio: 0.5,
+                    orientation: true
+                } // Options
             );
+
+            console.log('ok');
         }
 
         function deleteItem(e) {
