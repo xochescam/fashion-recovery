@@ -19,7 +19,7 @@ body{
 }
 
 .link-card {
-  text-align: left;
+  text-align: left !important;
   color: #212529;
 }
 
