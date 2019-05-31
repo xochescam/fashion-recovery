@@ -89,7 +89,7 @@
           <label for="birth_date" class="col-sm-3 col-form-label text-right">Fecha de nacimiento</label>
 
         <div class="form-group col-md-9">
-          <input type="text" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("Y-m-d") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') || Auth::User()->Birthdate ? $birthDateUser : old('birth_date') }}"  onblur="(this.type='text')" onfocus="(this.type='date')">
+          <input type="text" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("d/m/Y") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') || Auth::User()->Birthdate ? $birthDateUser : old('birth_date') }}"  >
 
           @if ($errors->has('birth_date'))
             <div class="invalid-feedback">

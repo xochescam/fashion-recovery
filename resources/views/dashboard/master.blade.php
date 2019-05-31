@@ -43,7 +43,8 @@
     <script src="{{ url('js/load-image.all.min.js') }} "></script>
 
     <script>
-        const dateTime          = document.querySelectorAll('.date_time_input');
+        //const dateTime          = document.querySelectorAll('.date_time_input');
+        const dateTime          = document.querySelectorAll('.date_input');
         const offerCheck        = document.querySelector('.js-check-offer');
         const selfieInput       = document.querySelector('.js-selfie-input');
         const departmentsSelect = document.querySelector('.js-departments-select');
@@ -56,8 +57,8 @@
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
 
-            $(".date_time_input").datepicker({
-                format: "yyyy-mm-dd",
+            $(".date_input").datepicker({
+                format: "dd/mm/yyyy",
                 language: "es",
                 orientation: "bottom auto",
                 autoclose: true,
@@ -82,16 +83,6 @@
             });
           }, false);
         })();
-
-        const date = document.querySelector('.date_input');
-
-        if (date && date.type != 'date' )
-            $('.date_input').datepicker({
-                format: "yyyy-mm-dd",
-                language: "es",
-                orientation: "bottom auto",
-                autoclose: true
-            })
 
         if(offerCheck) {
 
