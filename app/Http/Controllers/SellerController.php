@@ -66,7 +66,7 @@ class SellerController extends Controller
 
             DB::commit();
 
-            return view('welcome-seller'); //cambiar
+            return view('seller.welcome'); //cambiar
 
         } catch (\Exception $ex) {
 
@@ -173,6 +173,7 @@ class SellerController extends Controller
         $date         = date("Ymd-His");
         $IDName       = "sellers/".Auth::User()->id.'/'.$date.'_'.Auth::User()->id.'_ID.jpg';
 
+        ini_set('memory_limit', "2000M");
         if($data['id_item_file'] && !$isNew) {
 
             $seller = DB::table($this->table)
@@ -182,7 +183,7 @@ class SellerController extends Controller
             File::delete($seller->IdentityDocumentPath);
         }
 
-        $realImg = Image::make($data['profile_item_file']->getRealPath())
+        $realImg = Image::make($data['id_item_file']->getRealPath())
                                 ->resize(300, null, function ($constraint) {
                             $constraint->aspectRatio();
                 });
@@ -203,6 +204,7 @@ class SellerController extends Controller
         $date         = date("Ymd-His");
         $dir          = "sellers/".Auth::User()->id.'/';
         $selfieName   = $date.'_'.Auth::User()->id.'_selfie.jpg';
+        ini_set('memory_limit', "2000M");
         $img          = Image::make($data['profile_item_file']->getRealPath())->fit(200);
         $img->stream();
 
