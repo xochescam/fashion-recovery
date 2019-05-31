@@ -73,14 +73,14 @@
           <option value="Campeche" {{ $seller->LiveIn == "Campeche" ? "selected" : '' }}>
             Campeche
           </option>
-          <option value="Ciudad de México" {{ $seller->LiveIn == "Ciudad de México" ? "selected" : '' }}>
-            Ciudad de México
-          </option>
           <option value="Chihuahua" {{ $seller->LiveIn == "Chihuahua" ? "selected" : '' }}>
             Chihuahua
           </option>
           <option value="Chiapas" {{ $seller->LiveIn == "Chiapas" ? "selected" : '' }}>
             Chiapas
+          </option>
+          <option value="Ciudad de México" {{ $seller->LiveIn == "Ciudad de México" ? "selected" : '' }}>
+            Ciudad de México
           </option>
           <option value="Coahuila" {{ $seller->LiveIn == "Coahuila" ? "selected" : '' }}>
             Coahuila
