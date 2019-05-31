@@ -126,6 +126,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $date = false;
+
+        if(isset($data['birth_date'])) {
+
+            $item = str_replace('/', '-', $data['birth_date']);
+            $date = date("Y-m-d", strtotime($item));             
+        }
+        
         return DB::table('fashionrecovery.GR_001')->insert([
              'email'         => $data['email'],
              'password'      => Hash::make($data['password']),
@@ -133,7 +141,7 @@ class RegisterController extends Controller
              'Name'          => $data['name'],
              'Lastname'      => $data['last_name'],
              'Gender'        => $data['gender'],
-             'Birthdate'     => $data['birth_date'],
+             'Birthdate'     => $date,
              'ProfileID'     => 1,
              'StatusID'      => 1,
              'CreatedFromID' => 3,
