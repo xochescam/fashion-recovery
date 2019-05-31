@@ -551,8 +551,6 @@
                     maxWidth: 200,
                 } // Options
             );
-
-            console.log('ok');
         }
 
         function deleteItem(e) {
