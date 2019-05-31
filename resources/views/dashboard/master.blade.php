@@ -557,10 +557,6 @@
                 },
                 {
                     maxWidth: 200,
-                    canvas: true,
-                    pixelRatio: window.devicePixelRatio,
-                    downsamplingRatio: 0.5,
-                    orientation: true
                 } // Options
             );
 
