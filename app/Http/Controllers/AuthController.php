@@ -155,12 +155,12 @@ class AuthController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd('ok');
+
         $this->validator($request);
 
-        //DB::beginTransaction();
+        DB::beginTransaction();
 
-        //try {
+        try {
 
             $data = $this->authData($request->toArray());
 
@@ -168,18 +168,18 @@ class AuthController extends Controller
                 ->where('id',$id)
                 ->update($data);
 
-            //DB::commit();
+            DB::commit();
 
             Session::flash('success','Se han actualizado los datos correctamente.');
             return Redirect::to('auth/'.$id);
 
-        //} catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
-            //DB::rollback();
+            DB::rollback();
 
-            //Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            //return Redirect::to('auth/'.$id);
-        //}
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('auth/'.$id);
+        }
     }
 
     /**
@@ -202,6 +202,14 @@ class AuthController extends Controller
 
     protected function authData($data) {
 
+        $date = false;
+
+        if(isset($data['birth_date'])) {
+
+            $item = str_replace('/', '-', $data['birth_date']);
+            $date = date("Y-m-d", strtotime($item));             
+        }
+        
         return [
              'email'         => $data['email'],
              'Alias'         => $data['Alias'],
@@ -209,7 +217,7 @@ class AuthController extends Controller
              'Lastname'      => $data['last_name'],
              'Notifications' => isset($data['notifications']) ? true : false,
              'Gender'        => isset($data['gender']) ? $data['gender'] : false,
-             'Birthdate'     => isset($data['birth_date']) ? $data['birth_date'] : false
+             'Birthdate'     => $date
         ];
     }
 
