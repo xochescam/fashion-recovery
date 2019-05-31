@@ -1,12 +1,7 @@
-<li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+  <a class="nav-link " href="#" role="button" aria-haspopup="true" aria-expanded="false">
     <i class="fas fa-shopping-cart"></i>
   </a>
-  <div class="dropdown-menu dropdown-menu--notifications">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-  </div>
-</li>
+
 
 <li class="nav-item dropdown ">
   <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
