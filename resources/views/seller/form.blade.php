@@ -98,7 +98,7 @@
   <div class="form-group col-md-6">
       <label for="Greeting">Deja un saludo *</label>
       <textarea name="Greeting" id="Greeting" class="form-control js-text-limit" placeholder="Deja un saludo para que tú perfil sea confiable y amigable a tus posibles clientes" rows="3" maxlength="50" data-limit="50" required>{{ isset($seller->Greeting) ? $seller->Greeting : old('Greeting') }}</textarea>
-      <small class="counter-text">0 caracteres.</small>
+      <small class="counter-text">50 caracteres.</small>
 
       @if ($errors->has('Greeting'))
         <div class="invalid-validation">
@@ -114,7 +114,7 @@
   <div class="form-group col-md-6">
       <label for="AboutMe">Acerca de mi *</label>
       <textarea name="AboutMe" id="AboutMe" class="form-control js-text-limit" placeholder="Escribe una breve descripción sobre ti; por ejemplo: ¿Por qué decidiste vender en Fashion Recovery?" rows="3" maxlength="256" data-limit="256" required>{{ isset($seller->AboutMe) ? $seller->AboutMe : old('AboutMe') }}</textarea>
-      <small class="counter-text">0 caracteres.</small>
+      <small class="counter-text">256 caracteres.</small>
 
       @if ($errors->has('AboutMe'))
         <div class="invalid-feedback">
