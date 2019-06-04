@@ -123,8 +123,8 @@
 
  <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
-  <textarea name="ItemDescription" id="ItemDescription" class="form-control js-text-limit" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="2" maxlength="50" data-limit="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
-    <small class="counter-text">0 caracteres.</small>
+  <textarea name="ItemDescription" id="ItemDescription" class="form-control js-text-limit" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="256" data-limit="256" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
+    <small class="counter-text">256 caracteres.</small>
 
   @if ($errors->has('ItemDescription'))
     <div class="invalid-validation">
@@ -140,7 +140,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
-    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required data-size="false">
+    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID"  data-size="false" required>
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $department)
@@ -189,7 +189,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" {{ $item ? '' : 'disabled'}} value="{{ $item ? $item->first()->BrandID : '' }}" required data-size="false">
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}"  data-size="false" required>
         <option value="" selected>- Seleccionar -</option>
 
         @if(isset($brands))
@@ -197,6 +197,8 @@
             <option value="{{ $brand->BrandID }}" {{ $item && $item->first()->BrandID == $brand->BrandID || old('BrandID') ? 'selected' : '' }} >{{ $brand->BrandName }}</option>
           @endforeach
         @endif
+
+        <option value="other"> Otra marca</option>
 
     </select>
     <small>¿De qué marca es está prenda?</small>
@@ -212,25 +214,25 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6 js-other {{ isset($OtherBrand) ? '' : 'hidden' }}">
-    <label for="OtherBrand">Otra marca *</label>
-    <input type="text" class="form-control" name="OtherBrand" id="OtherBrand" value="{{ isset($OtherBrand->OtherBrand) ? $OtherBrand->OtherBrand : '' }}" required>
+  <div class="form-group col-md-6 js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+    <label for="otherBrand">Ingresa la marca *</label>
+    <input type="text" class="form-control" name="otherBrand" id="otherBrand" value="{{ isset($otherBrand->OtherBrand) ? $otherBrand->OtherBrand : '' }}">
     <small>Lorem ipsum dolor sit amet</small>
 
-    @if ($errors->has('OtherBrand'))
+    @if ($errors->has('otherBrand'))
       <div class="invalid-validation">
-        {{ $errors->first('OtherBrand') }}
+        {{ $errors->first('otherBrand') }}
       </div>
     @else
       <div class="invalid-feedback">
-        El campo otra marca corta es obligatorio.
+        El campo ingresa la marca es obligatorio.
       </div>
     @endif
   </div>
 
-  <div class="form-group col-md-6 js-mean {{ isset($OtherBrand) ? 'hidden' : '' }}">
+  <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required data-size="false">
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}  data-size="false" required>
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($clothingTypes))
@@ -255,10 +257,10 @@
   </div>
 </div>
 
-<div class="form-row js-other {{ isset($OtherBrand) ? '' : 'hidden' }}">
-  {{-- <div class="form-group col-md-4"> --}}
-    <label for="OtherClothingType">Otro tipo de ropa *</label>
-    <input type="text" class="form-control" name="OtherClothingType" id="OtherClothingType" value="{{ isset($OtherBrand->OtherClothingType) ? $OtherBrand->OtherClothingType : '' }}" required>
+<div class="form-row js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+  <div class="form-group w-100">
+    <label for="OtherClothingType">Ingresa el tipo de ropa *</label>
+    <input type="text" class="form-control" name="OtherClothingType" id="OtherClothingType" value="{{ isset($otherBrand->OtherClothingType) ? $otherBrand->OtherClothingType : '' }}">
     <small>Lorem ipsum dolor sit amet</small>
 
     @if ($errors->has('OtherClothingType'))
@@ -267,15 +269,15 @@
       </div>
     @else
       <div class="invalid-feedback">
-        El campo otro tipo de ropa es obligatorio.
+        El campo ingresa el tipo de ropa es obligatorio.
       </div>
     @endif
-  {{-- </div> --}}
+  </div>
 </div>
 
 
 <div class="form-row">
-  <div class="form-group col-md-6 {{ isset($OtherBrand) ? 'hidden' : '' }}">
+  <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
@@ -301,9 +303,9 @@
       @endif
   </div>
 
-  <div class="form-group col-md-4 js-other {{ isset($OtherBrand) ? '' : 'hidden' }}">
-    <label for="OtherSize">Otra talla *</label>
-    <input type="text" class="form-control" name="OtherSize" id="OtherSize" value="{{ isset($OtherBrand->OtherSize) ? $OtherBrand->OtherSize : '' }}" required>
+  <div class="form-group col-md-6 js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+    <label for="OtherSize">Ingresa la talla *</label>
+    <input type="text" class="form-control" name="OtherSize" id="OtherSize" value="{{ isset($otherBrand->OtherSize) ? $otherBrand->OtherSize : '' }}" >
     <small>Lorem ipsum dolor sit amet</small>
 
     @if ($errors->has('OtherSize'))
@@ -312,7 +314,7 @@
       </div>
     @else
       <div class="invalid-feedback">
-        El campo otra talla es obligatorio.
+        El campo ingresa la talla es obligatorio.
       </div>
     @endif
   </div>
@@ -390,7 +392,7 @@
 
 <div class="form-group">
     <label for="ClosetID">Colección</label>
-    <select id="ClosetID" class="form-control" name="ClosetID">
+    <select id="ClosetID" class="form-control" name="ClosetID" >
       <option value="" selected>- Seleccionar -</option>
 
       @if($closets->count() == 0)

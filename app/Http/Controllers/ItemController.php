@@ -95,23 +95,23 @@ class ItemController extends Controller
 
             DB::table($this->table)->insert($data);
 
-            $id = DB::getPdo()->lastInsertId(); //change
+            $last = DB::table($this->table)->where('OwnerID',Auth::User()->id)->get()->last()->ItemID;
 
             if($request->BrandID == 'other') {
                DB::table('fashionrecovery.GR_036')->insert([
-                    'item_id'           => $id,
+                    'ItemID'           => $last,
                     'OtherBrand'        => $request->OtherBrand,
                     'OtherClothingType' => $request->OtherClothingType,
                     'OtherSize'         => $request->OtherSize
                 ]);
             }
 
-            $itemsName = $this->saveItems($request->toArray(), $id);
+            $itemsName = $this->saveItems($request->toArray(), $last);
 
             foreach ($itemsName as $key => $value) { //change
 
                 DB::table('fashionrecovery.GR_032')->insert([
-                    'ItemID' => $id,
+                    'ItemID' => $last,
                     'PicturePath' => $value['name'],
                     'ThumbPath' => $value['thumb'],
                     'CreationDate' => date("Y-m-d H:i:s")
@@ -182,7 +182,7 @@ class ItemController extends Controller
             }
         }
 
-        //$brand        = $data['BrandID'] == 'other' ? Null : $data['BrandID'];
+        $brand        = $data['BrandID'] == 'other' ? Null : $data['BrandID'];
         $clothingType = $data['BrandID'] == 'other' ? Null : $data['ClothingTypeID'];
         $size         = $data['BrandID'] == 'other' ? Null : $data['SizeID'];
 
@@ -199,7 +199,7 @@ class ItemController extends Controller
              'CategoryID'       => $data['CategoryID'],
              'ClothingStyleID'  => $data['ClothingStyleID'],
              'TypeID'           => $data['TypeID'],
-             'BrandID'          => $data['BrandID'],
+             'BrandID'          => $brand,
              'ClosetID'         => $closet,
              'OffSaleID'        => $OffSaleID,
              'CreationDate'     => date("Y-m-d H:i:s")
@@ -292,16 +292,20 @@ class ItemController extends Controller
      */
     public function publicShow($id)
     {
-        $priceOffer = null;
+        $priceOffer   = null;
+        $clothingType = null;
+        $size         = null;
+        $brand        = null;
+        $otherBrand   = null;
 
         $itemInfo = DB::table($this->table)
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->join('fashionrecovery.GR_026', 'GR_029.CategoryID', '=', 'GR_026.CategoryID')
-                    ->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
-                    ->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
+                    //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
+                    //->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
                     ->join('fashionrecovery.GR_035', 'GR_029.ClothingStyleID', '=', 'GR_035.ClothingStyleID')
-                    ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
+                    //->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_027', 'GR_029.TypeID', '=', 'GR_027.TypeID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     //->join('fashionrecovery.GR_031', 'GR_029.OffSaleID', '=', 'GR_031.OfferID')
@@ -315,14 +319,37 @@ class ItemController extends Controller
                              'GR_018.ColorName',
                              'GR_025.DepName',
                              'GR_026.CategoryName',
-                             'GR_017.BrandName',
-                             'GR_019.ClothingTypeName',
+                             'GR_029.BrandID',
+                             'GR_029.ClothingTypeID',
+                             //'GR_017.BrandName',
+                             //'GR_019.ClothingTypeName',
                              'GR_027.TypeName',
                              'GR_001.Alias',
-                             'GR_035.ClothingStyleName',
-                             'GR_020.SizeName'
+                             'GR_035.ClothingStyleName'
+                             //'GR_020.SizeName'
                          )
                     ->get()->first();
+
+        if(isset($itemInfo->BrandID)) {
+
+            $clothingType = DB::table('fashionrecovery.GR_019')
+                                ->where('ClothingTypeID',$itemInfo->ClothingTypeID)
+                                ->first()->ClothingTypeName;
+
+            $size         = DB::table('fashionrecovery.GR_020')
+                                ->where('SizeID',$itemInfo->SizeID)
+                                ->first()->SizeName;
+
+            $brand         = DB::table('fashionrecovery.GR_017')
+                                ->where('BrandID',$itemInfo->BrandID)
+                                ->first()->BrandName;
+        } else {
+
+           $otherBrand = DB::table('fashionrecovery.GR_036')
+                            ->where('ItemID',$itemInfo->ItemID)
+                            ->first();
+        }
+
 
         $items = DB::table('fashionrecovery.GR_032')
                     ->where('ItemID',$id)
@@ -355,7 +382,11 @@ class ItemController extends Controller
             'categories',
             'types',
             'closets',
-            'offers'
+            'offers',
+            'size',
+            'brand',
+            'clothingType',
+            'otherBrand'
         ));
     }
 
@@ -368,10 +399,12 @@ class ItemController extends Controller
      */
     public function show($id)
     {
-        $db = 'fashionrecovery';
-        $ValidFrom = '';
-        $ValidUntil = '';
-        $otherBrand = Null;
+        $db            = 'fashionrecovery';
+        $ValidFrom     = '';
+        $ValidUntil    = '';
+        $otherBrand    = Null;
+        $clothingTypes = Null;
+        $sizes         = Null;
 
         $item = DB::table($this->table) //Mostrar solo una imagen
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
@@ -414,23 +447,9 @@ class ItemController extends Controller
                             ->where('Active',1)->get();
 
         $brands        = DB::table('fashionrecovery.GR_017')
-                            ->where('Active',1)
-                            ->where('DepartmentID',$item->first()->DepartmentID)
-                            ->get();
-
-        $clothingTypes = DB::table('fashionrecovery.GR_019')
-                            ->where('Active',1)
-                            ->where('DepartmentID',$item->first()->DepartmentID)
-                            ->where('BrandID',$item->first()->BrandID)
-                            ->where('CategoryID',$item->first()->CategoryID)
-                            ->get();
-
-        $sizes         = DB::table('fashionrecovery.GR_020')
-                            ->where('Active',1)
-                            ->where('DepartmentID',$item->first()->DepartmentID)
-                            ->where('BrandID',$item->first()->BrandID)
-                            ->where('ClothingTypeID',$item->first()->ClothingTypeID)
-                            ->get();
+                                ->where('Active',1)
+                                ->where('DepartmentID',$item->first()->DepartmentID)
+                                ->get();
 
         $closets       = DB::table('fashionrecovery.GR_030')
                             ->where('UserID',Auth::User()->id)
@@ -441,10 +460,25 @@ class ItemController extends Controller
                     ->get()
                     ->groupBy('OfferID')->toArray();
 
-        if($item->BrandID == 'other') {
+        if(isset($item->first()->BrandID)) {
+
+            $clothingTypes = DB::table('fashionrecovery.GR_019')
+                                ->where('Active',1)
+                                ->where('DepartmentID',$item->first()->DepartmentID)
+                                ->where('BrandID',$item->first()->BrandID)
+                                ->where('CategoryID',$item->first()->CategoryID)
+                                ->get();
+
+            $sizes         = DB::table('fashionrecovery.GR_020')
+                                ->where('Active',1)
+                                ->where('DepartmentID',$item->first()->DepartmentID)
+                                ->where('BrandID',$item->first()->BrandID)
+                                ->where('ClothingTypeID',$item->first()->ClothingTypeID)
+                                ->get();
+        } else {
            $otherBrand = DB::table('fashionrecovery.GR_036')
                             ->where('ItemID',$id)
-                            ->get();
+                            ->first();
         }
 
         if(isset($item->first()->OffSaleID)) {
