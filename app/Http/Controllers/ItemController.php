@@ -94,7 +94,17 @@ class ItemController extends Controller
             $data = $this->itemData($request->toArray());
 
             DB::table($this->table)->insert($data);
+
             $id = DB::getPdo()->lastInsertId(); //change
+
+            if($request->BrandID == 'other') {
+               DB::table('fashionrecovery.GR_036')->insert([
+                    'item_id'           => $id,
+                    'OtherBrand'        => $request->OtherBrand,
+                    'OtherClothingType' => $request->OtherClothingType,
+                    'OtherSize'         => $request->OtherSize
+                ]);
+            }
 
             $itemsName = $this->saveItems($request->toArray(), $id);
 
@@ -172,6 +182,10 @@ class ItemController extends Controller
             }
         }
 
+        //$brand        = $data['BrandID'] == 'other' ? Null : $data['BrandID'];
+        $clothingType = $data['BrandID'] == 'other' ? Null : $data['ClothingTypeID'];
+        $size         = $data['BrandID'] == 'other' ? Null : $data['SizeID'];
+
         return [
              'ItemDescription'  => $data['ItemDescription'],
              'OwnerID'          => Auth::User()->id,
@@ -179,8 +193,8 @@ class ItemController extends Controller
              'OriginalPrice'    => $data['OriginalPrice'],
              'ActualPrice'      => $data['ActualPrice'],
              'ColorID'          => $data['ColorID'],
-             'SizeID'           => $data['SizeID'],
-             'ClothingTypeID'   => $data['ClothingTypeID'],
+             'SizeID'           => $size,
+             'ClothingTypeID'   => $clothingType,
              'DepartmentID'     => $data['DepartmentID'],
              'CategoryID'       => $data['CategoryID'],
              'ClothingStyleID'  => $data['ClothingStyleID'],
@@ -357,6 +371,7 @@ class ItemController extends Controller
         $db = 'fashionrecovery';
         $ValidFrom = '';
         $ValidUntil = '';
+        $otherBrand = Null;
 
         $item = DB::table($this->table) //Mostrar solo una imagen
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
@@ -426,6 +441,12 @@ class ItemController extends Controller
                     ->get()
                     ->groupBy('OfferID')->toArray();
 
+        if($item->BrandID == 'other') {
+           $otherBrand = DB::table('fashionrecovery.GR_036')
+                            ->where('ItemID',$id)
+                            ->get();
+        }
+
         if(isset($item->first()->OffSaleID)) {
 
             $offer = $offers[$item->first()->OffSaleID];
@@ -448,7 +469,8 @@ class ItemController extends Controller
             'categories',
             'types',
             'closets',
-            'offers'
+            'offers',
+            'otherBrand'
         ));
     }
 

@@ -87,7 +87,7 @@
                     const spin = button.querySelector('span');
 
                     button.setAttribute('disabled','true');
-                    spin.classList.remove('hidden');                                    
+                    spin.classList.remove('hidden');
                 }
                 form.classList.add('was-validated');
               }, false);
@@ -382,7 +382,30 @@
 
             const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
             const categoriesSelect    = document.querySelector('.js-categories-select');
-            const size = e.currentTarget.getAttribute('data-size');
+            const size                = e.currentTarget.getAttribute('data-size');
+            const otherInputs         = document.querySelectorAll('.js-other');
+            const inputs              = document.querySelectorAll('.js-mean');
+
+            if(e.currentTarget.value = "other") {
+                for (var i = otherInputs.length - 1; i >= 0; i--) {
+                    otherInputs[i].classList.remove('hidden');
+                }
+
+                for (var i = inputs.length - 1; i >= 0; i--) {
+                    inputs[i].classList.add('hidden');
+                }
+                return;
+
+            } else {
+
+                for (var i = otherInputs.length - 1; i >= 0; i--) {
+                    otherInputs[i].classList.add('hidden');
+                }
+
+                for (var i = inputs.length - 1; i >= 0; i--) {
+                    inputs[i].classList.remove('hidden');
+                }
+            }
 
             if(size == 'true') {
                 clothingTypesOnlyByBrand(e);

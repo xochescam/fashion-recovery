@@ -212,7 +212,23 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6">
+  <div class="form-group col-md-6 js-other {{ isset($OtherBrand) ? '' : 'hidden' }}">
+    <label for="OtherBrand">Otra marca *</label>
+    <input type="text" class="form-control" name="OtherBrand" id="OtherBrand" value="{{ isset($OtherBrand->OtherBrand) ? $OtherBrand->OtherBrand : '' }}" required>
+    <small>Lorem ipsum dolor sit amet</small>
+
+    @if ($errors->has('OtherBrand'))
+      <div class="invalid-validation">
+        {{ $errors->first('OtherBrand') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo otra marca corta es obligatorio.
+      </div>
+    @endif
+  </div>
+
+  <div class="form-group col-md-6 js-mean {{ isset($OtherBrand) ? 'hidden' : '' }}">
     <label for="ClothingTypeID">Tipo de prenda *</label>
     <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required data-size="false">
       <option value="" selected>- Seleccionar -</option>
@@ -239,9 +255,27 @@
   </div>
 </div>
 
+<div class="form-row js-other {{ isset($OtherBrand) ? '' : 'hidden' }}">
+  {{-- <div class="form-group col-md-4"> --}}
+    <label for="OtherClothingType">Otro tipo de ropa *</label>
+    <input type="text" class="form-control" name="OtherClothingType" id="OtherClothingType" value="{{ isset($OtherBrand->OtherClothingType) ? $OtherBrand->OtherClothingType : '' }}" required>
+    <small>Lorem ipsum dolor sit amet</small>
+
+    @if ($errors->has('OtherClothingType'))
+      <div class="invalid-validation">
+        {{ $errors->first('OtherClothingType') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo otro tipo de ropa es obligatorio.
+      </div>
+    @endif
+  {{-- </div> --}}
+</div>
+
 
 <div class="form-row">
-  <div class="form-group col-md-6">
+  <div class="form-group col-md-6 {{ isset($OtherBrand) ? 'hidden' : '' }}">
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
@@ -253,8 +287,6 @@
           </option>
         @endforeach
       @endif
-
-
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
 
@@ -268,6 +300,23 @@
         </div>
       @endif
   </div>
+
+  <div class="form-group col-md-4 js-other {{ isset($OtherBrand) ? '' : 'hidden' }}">
+    <label for="OtherSize">Otra talla *</label>
+    <input type="text" class="form-control" name="OtherSize" id="OtherSize" value="{{ isset($OtherBrand->OtherSize) ? $OtherBrand->OtherSize : '' }}" required>
+    <small>Lorem ipsum dolor sit amet</small>
+
+    @if ($errors->has('OtherSize'))
+      <div class="invalid-validation">
+        {{ $errors->first('OtherSize') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo otra talla es obligatorio.
+      </div>
+    @endif
+  </div>
+
   <div class="form-group col-md-6">
     <label for="ClothingStyleID">Estilo *</label>
     <select id="ClothingStyleID" class="form-control" name="ClothingStyleID" required>
