@@ -217,8 +217,8 @@
                 const url     = window.location.origin;
                 const size = e.currentTarget.getAttribute('data-size');
                 brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
-                brandsSelect.setAttribute('disabled',true);
-                brandsSelect.setAttribute('required',false);
+                //brandsSelect.setAttribute('disabled',true);
+                //brandsSelect.setAttribute('required',false);
 
                 if(size == true) {
 
@@ -254,18 +254,20 @@
                             var brand = `<option value="`+response[i].BrandID+`" data-department=`+response[i].DepartmentID+`>`+response[i].BrandName+`</option>`;
 
                             brandsSelect.insertAdjacentHTML('beforeend', brand);
+                            
 
-                            brandsSelect.removeAttribute('disabled');
 
+                            //brandsSelect.removeAttribute('disabled');
                         }
+                        brandsSelect.insertAdjacentHTML('beforeend', '<option value="other-brand">Otra marca</option>');
 
-                        brandsSelect.setAttribute('required',true);
+                        //brandsSelect.setAttribute('required',true);
                         brandsSelect.addEventListener('change', clothingTypesByBrand);
 
 
                      } else {
-                        brandsSelect.setAttribute('disabled',true);
-                        brandsSelect.setAttribute('required',false);
+                        //brandsSelect.setAttribute('disabled',true);
+                        //brandsSelect.setAttribute('required',false);
 
                         if((clothingTypesSelect || sizesSelect) && !size){
                             sizesSelect.setAttribute('disabled',true);
@@ -275,12 +277,12 @@
                             sizesSelect.setAttribute('required',false);
                         }
 
-                        brandsSelect.innerHTML = `<option value="" selected>- No se encontraron marcas -</option>`;
+                        brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option><option value="other-brand">Otra marca</option>`;
                      }
 
                    } else {
-                        brandsSelect.setAttribute('disabled',true);
-                        brandsSelect.setAttribute('required',false);
+                        //brandsSelect.setAttribute('disabled',true);
+                        //brandsSelect.setAttribute('required',false);
 
                         if((clothingTypesSelect || sizesSelect) && !size){
                             sizesSelect.setAttribute('disabled',true);
@@ -296,8 +298,8 @@
                 };
 
                 request.onerror = function() {
-                    brandsSelect.setAttribute('disabled',true);
-                    brandsSelect.setAttribute('required',false);
+                    //brandsSelect.setAttribute('disabled',true);
+                    //brandsSelect.setAttribute('required',false);
 
                     if((clothingTypesSelect || sizesSelect) && !size){
                         sizesSelect.setAttribute('disabled',true);
@@ -379,6 +381,8 @@
         }
 
         function clothingTypesByBrand(e) {
+
+            console.log(e.currentTarget)
 
             const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
             const categoriesSelect    = document.querySelector('.js-categories-select');
