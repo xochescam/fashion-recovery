@@ -8,7 +8,7 @@
           <div class="col-md-6 offset-md-3">
             <h2 class="text-center TituloFR my-4">Crear categoría</h2>
 
-            <form method="POST" action="{{ url('categories') }}" class="was-validated">
+            <form method="POST" action="{{ url('categories') }}" class="needs-validation" novalidate>
               @include('catalogs.category.form')
             </form>
           </div>

@@ -151,7 +151,10 @@
 
               </div>
               <div class="text-center mt-5">
-                <button type="submit" class="btn btn-fr w-50">Crear cuenta</button>
+                <button type="submit" class="btn btn-fr w-50">
+                  <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                  Crear cuenta
+                </button>
               </div>
             </form>
           </div>

@@ -73,7 +73,10 @@
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-fr btn-block">Guardar</button>
+              <button type="submit" class="btn btn-fr btn-block">
+                <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                Guardar
+              </button>
             </form>
           </div>
         </div>

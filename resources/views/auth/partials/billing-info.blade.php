@@ -155,7 +155,10 @@
       </div>
 
       <div class="w-auto float-right">
-        <button class="btn btn-fr">Guardar</button>
+        <button class="btn btn-fr">
+          <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+          Guardar
+        </button>
       </div>
     </form>
   </div>

@@ -259,5 +259,8 @@
 </div>
 
 <div class="text-center mt-5">
-  <button type="submit" class="btn btn-fr w-50">Comenzar a vender</button>
+  <button type="submit" class="btn btn-fr w-50">
+    <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+    Comenzar a vender
+  </button>
 </div>

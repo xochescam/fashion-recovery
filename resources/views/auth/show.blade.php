@@ -29,7 +29,10 @@
                 </label>
                 
                 <div class="text-center">
-                  <button class="btn btn-fr hidden js-selfie-btn">Actualizar</button>
+                  <button class="btn btn-fr hidden js-selfie-btn">
+                    <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                    Actualizar
+                  </button>
                 </div>
               </form>
 

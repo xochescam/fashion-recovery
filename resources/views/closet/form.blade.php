@@ -22,4 +22,8 @@
       </div>
   </div>
 
-  <button type="submit" class="btn btn-fr btn-block">Guardar</button>
+<button class="btn btn-fr btn-block" type="submit">
+  <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+  Guardar
+</button>
+

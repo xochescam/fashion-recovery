@@ -8,7 +8,7 @@
           <div class="col-md-6 offset-md-3">
             <h2 class="text-center TituloFR my-4">Crear estilo de prenda</h2>
 
-            <form method="POST" action="{{ url('styles') }}" class="was-validated">
+            <form method="POST" action="{{ url('styles') }}" class="needs-validation" novalidate>
               @include('catalogs.style.form')
             </form>
           </div>
