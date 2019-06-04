@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-{{--     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> --}}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
 
     <!-- Bootstrap Datepicker CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.min.css" />
@@ -35,13 +35,9 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-{{--     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script> --}}
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
@@ -59,6 +55,7 @@
         const addItems          = document.querySelector('.js-add-items');
         const textLimit         = document.querySelectorAll('.js-text-limit');
         const categoriesSelect  = document.querySelector('.js-categories-select');
+        const brandsSelect = document.querySelector('.js-brands-select');
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
 
@@ -83,16 +80,18 @@
                   event.preventDefault();
                   event.stopPropagation();
                 } else {
-                    const button = form.querySelector('button');
+                    const button = form.querySelector('.btn-fr');
                     const spin = button.querySelector('span');
 
                     button.setAttribute('disabled','true');
                     spin.classList.remove('hidden');
+                    spin.classList.add('spinner-border-block');
                 }
                 form.classList.add('was-validated');
               }, false);
             });
           }, false);
+
         })();
 
         if(offerCheck) {
@@ -217,8 +216,8 @@
                 const url     = window.location.origin;
                 const size = e.currentTarget.getAttribute('data-size');
                 brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
-                brandsSelect.setAttribute('disabled',true);
-                brandsSelect.setAttribute('required',false);
+                //brandsSelect.setAttribute('disabled',true);
+                //brandsSelect.setAttribute('required',false);
 
                 if(size == true) {
 
@@ -259,13 +258,15 @@
 
                         }
 
+                         brandsSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra marca</option>`);
+
                         brandsSelect.setAttribute('required',true);
-                        brandsSelect.addEventListener('change', clothingTypesByBrand);
+
 
 
                      } else {
-                        brandsSelect.setAttribute('disabled',true);
-                        brandsSelect.setAttribute('required',false);
+                        //brandsSelect.setAttribute('disabled',true);
+                        //brandsSelect.setAttribute('required',false);
 
                         if((clothingTypesSelect || sizesSelect) && !size){
                             sizesSelect.setAttribute('disabled',true);
@@ -275,12 +276,13 @@
                             sizesSelect.setAttribute('required',false);
                         }
 
-                        brandsSelect.innerHTML = `<option value="" selected>- No se encontraron marcas -</option>`;
+                        brandsSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra marca</option>`);
+                        //brandsSelect.innerHTML = `<option value="" selected>- No se encontraron marcas -</option>`;
                      }
 
                    } else {
-                        brandsSelect.setAttribute('disabled',true);
-                        brandsSelect.setAttribute('required',false);
+                        //brandsSelect.setAttribute('disabled',true);
+                        //brandsSelect.setAttribute('required',false);
 
                         if((clothingTypesSelect || sizesSelect) && !size){
                             sizesSelect.setAttribute('disabled',true);
@@ -296,8 +298,8 @@
                 };
 
                 request.onerror = function() {
-                    brandsSelect.setAttribute('disabled',true);
-                    brandsSelect.setAttribute('required',false);
+                    //brandsSelect.setAttribute('disabled',true);
+                    //brandsSelect.setAttribute('required',false);
 
                     if((clothingTypesSelect || sizesSelect) && !size){
                         sizesSelect.setAttribute('disabled',true);
@@ -312,6 +314,8 @@
 
                 };
             });
+
+            brandsSelect.addEventListener('change', clothingTypesByBrand);
         }
 
         function clothingTypesOnlyByBrand(e) {
@@ -386,9 +390,10 @@
             const otherInputs         = document.querySelectorAll('.js-other');
             const inputs              = document.querySelectorAll('.js-mean');
 
-            if(e.currentTarget.value = "other") {
+            if(e.currentTarget.value == "other") {
                 for (var i = otherInputs.length - 1; i >= 0; i--) {
                     otherInputs[i].classList.remove('hidden');
+                    otherInputs[i].setAttribute('required','true');
                 }
 
                 for (var i = inputs.length - 1; i >= 0; i--) {
@@ -400,6 +405,7 @@
 
                 for (var i = otherInputs.length - 1; i >= 0; i--) {
                     otherInputs[i].classList.add('hidden');
+                    otherInputs[i].setAttribute('required','false');
                 }
 
                 for (var i = inputs.length - 1; i >= 0; i--) {
@@ -737,11 +743,13 @@
                     const limit = input.getAttribute('data-limit');
                     const lenght = e.currentTarget.value.length;
 
-                    e.currentTarget.nextElementSibling.innerHTML = lenght == limit ?
-                         lenght + ' es el limite de caracteres permitidos.' :
-                         lenght + ' caracteres.';
+                    e.currentTarget.nextElementSibling.innerHTML = limit -  lenght + ' caracteres.';
                 })
             });
+        }
+
+        if(brandsSelect) {
+            brandsSelect.addEventListener('change', clothingTypesByBrand);
         }
 
     </script>
