@@ -83,20 +83,20 @@
 						      	<small>Marca:</small>
 						      </th>
 						      <td colspan="2" class="px-0 py-1">
-						      	<a href="#" class="green-link">{{ $itemInfo->BrandName }}</a>
+						      	<a href="#" class="green-link">{{ isset($otherBrand->OtherBrand) ? $otherBrand->OtherBrand : $brand }}</a>
 						      </td>
 					    	</tr>
 					    	<tr>
 						      <th scope="row" class="px-0 py-1">
 						      	<small>Tipo de ropa:</small>
 						      </th>
-						      <td class="px-0 py-1">{{ $itemInfo->ClothingTypeName}}</td>
+						      <td class="px-0 py-1">{{ isset($otherBrand->OtherClothingType) ? $otherBrand->OtherClothingType : $clothingType}}</td>
 					    	</tr>
 					    	<tr>
 						      <th scope="row" class="px-0 py-1">
 						      	<small>Talla:</small>
 						      </th>
-						      <td class="px-0 py-1">{{ $itemInfo->SizeName}}</td>
+						      <td class="px-0 py-1">{{ isset($otherBrand->OtherSize) ? $otherBrand->OtherSize : $size}}</td>
 					    	</tr>
 					    	<tr>
 						      	<th scope="row" class="px-0 py-1">

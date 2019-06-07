@@ -7,7 +7,7 @@
         <div class="row">
           <h2 class="text-center TituloFR my-4 mb-5 w-100">Subir prenda</h2>
 
-          <p class="text-center mb-5 w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p> 
+          <p class="text-center mb-5 w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 
           <div class="col-md-8 offset-md-2">
             <form method="POST" action="{{ url('item') }}" class="needs-validation" enctype="multipart/form-data" novalidate>

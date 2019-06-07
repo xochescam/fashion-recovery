@@ -77,23 +77,28 @@
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-              form.addEventListener('submit', function(event) {
-                if (form.checkValidity() === false) {
-                  event.preventDefault();
-                  event.stopPropagation();
-                } else {
-                    const button = form.querySelector('button');
-                    const spin = button.querySelector('span');
-
-                    button.setAttribute('disabled','true');
-                    spin.classList.remove('hidden');                                    
-                }
-                form.classList.add('was-validated');
-              }, false);
-            });
+            var validation = Array.prototype.filter.call(forms, validate, false);
+        
           }, false);
         })();
+
+
+        function validate(form) {
+            console.log(form);
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            } else {
+                const button = form.querySelector('button');
+                const spin = button.querySelector('span');
+
+                button.setAttribute('disabled','true');
+                spin.classList.remove('hidden');                                    
+            }
+            form.classList.add('was-validated');
+                });
+        }
 
         if(offerCheck) {
 

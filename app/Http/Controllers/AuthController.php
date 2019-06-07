@@ -207,9 +207,9 @@ class AuthController extends Controller
         if(isset($data['birth_date'])) {
 
             $item = str_replace('/', '-', $data['birth_date']);
-            $date = date("Y-m-d", strtotime($item));             
+            $date = date("Y-m-d", strtotime($item));
         }
-        
+
         return [
              'email'         => $data['email'],
              'Alias'         => $data['Alias'],
@@ -267,7 +267,8 @@ class AuthController extends Controller
         $user  = DB::table($table)->where('id',$userId)->first();
 
         if($user->Confirmed) {
-            abort(403);
+            Session::flash('warning','La cuenta ya ha sido confirmada. Puedes iniciar sesión.');
+            return Redirect::to('login/'.$beSeller);
         }
 
         DB::beginTransaction();

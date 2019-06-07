@@ -123,8 +123,8 @@
 
  <div class="form-group">
   <label for="ItemDescription">Descripción corta *</label>
-  <textarea name="ItemDescription" id="ItemDescription" class="form-control js-text-limit" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="2" maxlength="50" data-limit="50" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
-    <small class="counter-text">0 caracteres.</small>
+  <textarea name="ItemDescription" id="ItemDescription" class="form-control js-text-limit" placeholder="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod..." rows="3" maxlength="256" data-limit="256" required>{{ $item ? $item->first()->ItemDescription : old('ItemDescription') }}</textarea>
+    <small class="counter-text">256 caracteres.</small>
 
   @if ($errors->has('ItemDescription'))
     <div class="invalid-validation">
@@ -140,7 +140,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="DepartmentID">Departamento *</label>
-    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required data-size="false">
+    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID"  data-size="false" required>
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $department)
@@ -189,7 +189,11 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
+<<<<<<< HEAD
     <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}" required data-size="false">
+=======
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}"  data-size="false" required>
+>>>>>>> 29aaf15e46a0bc2e60fa6f3d3b079be5b2cb43ed
         <option value="" selected>- Seleccionar -</option>
 
         @if(isset($brands))
@@ -198,6 +202,8 @@
           @endforeach
         @endif
         <option value="other-brand">Otra marca</option>
+
+        <option value="other"> Otra marca</option>
 
     </select>
     <small>¿De qué marca es está prenda?</small>
@@ -213,9 +219,25 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6">
+  <div class="form-group col-md-6 js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+    <label for="otherBrand">Ingresa la marca *</label>
+    <input type="text" class="form-control" name="otherBrand" id="otherBrand" value="{{ isset($otherBrand->OtherBrand) ? $otherBrand->OtherBrand : '' }}">
+    <small>Lorem ipsum dolor sit amet</small>
+
+    @if ($errors->has('otherBrand'))
+      <div class="invalid-validation">
+        {{ $errors->first('otherBrand') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo ingresa la marca es obligatorio.
+      </div>
+    @endif
+  </div>
+
+  <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}} required data-size="false">
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}  data-size="false" required>
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($clothingTypes))
@@ -240,9 +262,27 @@
   </div>
 </div>
 
+<div class="form-row js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+  <div class="form-group w-100">
+    <label for="OtherClothingType">Ingresa el tipo de ropa *</label>
+    <input type="text" class="form-control" name="OtherClothingType" id="OtherClothingType" value="{{ isset($otherBrand->OtherClothingType) ? $otherBrand->OtherClothingType : '' }}">
+    <small>Lorem ipsum dolor sit amet</small>
+
+    @if ($errors->has('OtherClothingType'))
+      <div class="invalid-validation">
+        {{ $errors->first('OtherClothingType') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo ingresa el tipo de ropa es obligatorio.
+      </div>
+    @endif
+  </div>
+</div>
+
 
 <div class="form-row">
-  <div class="form-group col-md-6">
+  <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
       <option value="" selected>- Seleccionar -</option>
@@ -254,8 +294,6 @@
           </option>
         @endforeach
       @endif
-
-
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
 
@@ -269,6 +307,23 @@
         </div>
       @endif
   </div>
+
+  <div class="form-group col-md-6 js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+    <label for="OtherSize">Ingresa la talla *</label>
+    <input type="text" class="form-control" name="OtherSize" id="OtherSize" value="{{ isset($otherBrand->OtherSize) ? $otherBrand->OtherSize : '' }}" >
+    <small>Lorem ipsum dolor sit amet</small>
+
+    @if ($errors->has('OtherSize'))
+      <div class="invalid-validation">
+        {{ $errors->first('OtherSize') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo ingresa la talla es obligatorio.
+      </div>
+    @endif
+  </div>
+
   <div class="form-group col-md-6">
     <label for="ClothingStyleID">Estilo *</label>
     <select id="ClothingStyleID" class="form-control" name="ClothingStyleID" required>
@@ -342,7 +397,7 @@
 
 <div class="form-group">
     <label for="ClosetID">Colección</label>
-    <select id="ClosetID" class="form-control" name="ClosetID">
+    <select id="ClosetID" class="form-control" name="ClosetID" >
       <option value="" selected>- Seleccionar -</option>
 
       @if($closets->count() == 0)

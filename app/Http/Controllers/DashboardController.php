@@ -69,12 +69,41 @@ class DashboardController extends Controller
 
     public function getAllItems() {
 
-		return DB::table('fashionrecovery.GR_029')
-                    ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
+        $items = DB::table('fashionrecovery.GR_029')
+                    //->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
-                    ->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
-                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.OriginalPrice','GR_029.CreationDate','GR_029.ActualPrice','GR_029.ItemDescription','GR_020.SizeName','GR_018.ColorName','GR_017.BrandName')
+                    //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
+                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
                     ->get();
+
+        return $items->map(function ($item, $key) {
+
+            $size       = '';
+            $brand      = '';
+            $otherBrand = '';
+
+           if(isset($item->BrandID)) {
+
+                $size         = DB::table('fashionrecovery.GR_020')
+                                    ->where('SizeID',$item->SizeID)
+                                    ->first()->SizeName;
+
+                $brand         = DB::table('fashionrecovery.GR_017')
+                                    ->where('BrandID',$item->BrandID)
+                                    ->first()->BrandName;
+            } else {
+
+               $otherBrand = DB::table('fashionrecovery.GR_036')
+                                ->where('ItemID',$item->ItemID)
+                                ->first();
+            }
+
+            $item->size       = $size;
+            $item->brand      = $brand;
+            $item->otherBrand      = $otherBrand;
+
+            return $item;
+        });
     }
 
     public function getItemThumbs($all) {

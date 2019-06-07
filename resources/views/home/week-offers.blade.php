@@ -148,7 +148,8 @@
                     <span class="badge badge-pill badge-danger">{{ $item->offer }}</span>
                   @endif
                 </div>
-                <h4 class="card-title">{{ $item->BrandName }}</h4>
+                <h4 class="card-title">{{ isset($item->otherBrand->OtherBrand) ? $item->otherBrand->OtherBrand : $item->brand   }}</h4>
+
                 <h6>{{ $item->ItemDescription }}</h6>
                 <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
                   Talla: 5 <br />Color: {{ $item->ColorName }}</p>

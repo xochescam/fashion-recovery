@@ -27,7 +27,11 @@ class PasswordController extends Controller
 
 	        Session::flash('success','Se ha cambiado la contraseña exitosamente');
 	        return Redirect::to('update-password');
-		}
+		} else {
+
+            Session::flash('warning','La contraseña actual es incorrecta.');
+            return Redirect::to('update-password');
+        }
     }
 
     /**
