@@ -46,8 +46,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
 
-    <script src="{{ url('js/load-image.all.min.js') }} "></script>
-
+{{--     <script src="{{ url('js/load-image.all.min.js') }} "></script>
+ --}}
     <script>
         //const dateTime          = document.querySelectorAll('.date_time_input');
         const dateTime          = document.querySelectorAll('.date_input');
@@ -94,10 +94,10 @@
                 const spin = button.querySelector('span');
 
                 button.setAttribute('disabled','true');
-                spin.classList.remove('hidden');                                    
+                spin.classList.remove('hidden'); 
             }
             form.classList.add('was-validated');
-                });
+            });
         }
 
         if(offerCheck) {
@@ -131,10 +131,10 @@
 
                 btn.classList.remove('hidden');
 
-                var scaledImage = loadImage.scale(
-                    img, // img or canvas element
-                    {maxWidth: 600}
-                );
+                // var scaledImage = loadImage.scale(
+                //     img, // img or canvas element
+                //     {maxWidth: 600}
+                // );
 
                 //$('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
                 img.style.width = "200px";
@@ -552,24 +552,55 @@
 
             const img = document.querySelector('.js-new-item img');
 
-            loadImage(
-                file[0],
-                function (img) {
-                    const button = `<button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+            var reader = new FileReader();
 
-                    container.appendChild(img);
-                    container.insertAdjacentHTML('beforeend', button);
+            reader.onload = function(e) {
+                container.innerHTML = "";
 
-                    const deleteButtons = document.querySelectorAll('.js-delete-item');
+                // Create a new image.
+                var img = new Image();
 
-                    Array.prototype.forEach.call(deleteButtons, (btn) => {
-                        btn.addEventListener('click', deleteItem);
-                    });
-                },
-                {
-                    maxWidth: 200,
-                } // Options
-            );
+                img.src = reader.result;
+                container.appendChild(img);
+                img.style.width = "200px";
+
+                const button = `<button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+
+                container.insertAdjacentHTML('beforeend', button);
+
+                const deleteButtons = document.querySelectorAll('.js-delete-item');
+
+                Array.prototype.forEach.call(deleteButtons, (btn) => {
+                    btn.addEventListener('click', deleteItem);
+                });
+            }
+
+              reader.readAsDataURL(file[0]); 
+
+            //reader.readAsText(file[0]); 
+
+            console.log(file[0]);   
+           
+
+
+            // loadImage(
+            //     file[0],
+            //     function (img) {
+            //         const button = `<button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+
+            //         container.appendChild(img);
+            //         container.insertAdjacentHTML('beforeend', button);
+
+            //         const deleteButtons = document.querySelectorAll('.js-delete-item');
+
+            //         Array.prototype.forEach.call(deleteButtons, (btn) => {
+            //             btn.addEventListener('click', deleteItem);
+            //         });
+            //     },
+            //     {
+            //         maxWidth: 200,
+            //     } // Options
+            // );
         }
 
         function deleteItem(e) {
