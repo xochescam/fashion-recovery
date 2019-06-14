@@ -366,9 +366,7 @@ div a{
 }
 
 .spinner-border {
-  width: 15px;
-  height: 15px;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .spinner-border:after {
   content: " ";
