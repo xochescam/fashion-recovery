@@ -48,7 +48,7 @@
 						{{ $itemInfo->ItemDescription }} ({{ $itemInfo->TypeName }})
 					</h5>
 
- 					<p>por <a href="#" class="green-link">{{ $itemInfo->Alias }}</a></p>
+ 					<p>por <a href=" {{ url('seller',$itemInfo->Alias) }} " class="green-link">{{ $itemInfo->Alias }}</a></p>
 
 					<hr>
 
