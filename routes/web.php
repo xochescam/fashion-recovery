@@ -37,6 +37,8 @@ Route::post('register/{beSeller}','Auth\RegisterController@register');
 
 Route::get('items/{itemId}/public', 'ItemController@publicShow');
 
+Route::get('seller/{alias}', 'SellerController@show');
+
 
 //Search
 Route::get('search', 'SearchController@search');

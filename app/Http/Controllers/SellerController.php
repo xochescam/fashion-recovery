@@ -83,9 +83,29 @@ class SellerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($alias)
     {
-        //
+        $seller = DB::table('fashionrecovery.GR_001')
+                    ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
+                    ->where('GR_001.Alias',$alias)
+                    ->where('GR_001.Confirmed',1)
+                    ->where('GR_001.ProfileID',2)
+                    ->select('GR_001.Alias','GR_001.Name','GR_001.Lastname','GR_033.Greeting','GR_033.AboutMe','GR_033.LiveIn','GR_033.WorkIn','GR_033.TotalEvaluations','GR_033.ItemsSold','GR_033.ItemsReturned','GR_033.Ranking','GR_033.SelfiePath','GR_033.SelfieThumbPath','GR_001.id')
+                    ->first();
+
+        $closets = DB::table('fashionrecovery.GR_030')
+                    ->where('UserID',$seller->id)
+                    ->select('GR_030.ClosetID','GR_030.ClosetName','GR_030.CreationDate','GR_030.ClosetDescription')
+                    ->get();
+
+        $items = DB::table('fashionrecovery.GR_032')
+                    ->join('fashionrecovery.GR_029', 'GR_032.ItemID', '=', 'GR_029.ItemID')
+                    ->whereIn('GR_029.ClosetID',$closets->groupBy('ClosetID')->keys())
+                    ->select('GR_032.ItemID','GR_032.ThumbPath','GR_032.ItemPictureID')
+                    ->get()
+                    ->groupBy('ItemID');
+
+        return view('seller.show',compact('seller','closets','items'));
     }
 
 
