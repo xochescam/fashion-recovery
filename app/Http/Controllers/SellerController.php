@@ -90,7 +90,7 @@ class SellerController extends Controller
                     ->where('GR_001.Alias',$alias)
                     ->where('GR_001.Confirmed',1)
                     ->where('GR_001.ProfileID',2)
-                    ->select('GR_001.Alias','GR_001.Name','GR_001.Lastname','GR_033.Greeting','GR_033.AboutMe','GR_033.LiveIn','GR_033.WorkIn','GR_033.TotalEvaluations','GR_033.ItemsSold','GR_033.ItemsReturned','GR_033.Ranking','GR_033.SelfiePath','GR_033.SelfieThumbPath','GR_001.id')
+                    ->select('GR_001.Alias','GR_001.Name','GR_001.Lastname','GR_033.Greeting','GR_033.AboutMe','GR_033.LiveIn','GR_033.WorkIn','GR_033.TotalEvaluations','GR_033.ItemsSold','GR_033.ItemsReturned','GR_033.Ranking','GR_033.SelfiePath','GR_033.SelfieThumbPath','GR_001.id','GR_033.SellerSince')
                     ->first();
 
         $closets = DB::table('fashionrecovery.GR_030')
@@ -105,7 +105,33 @@ class SellerController extends Controller
                     ->get()
                     ->groupBy('ItemID');
 
-        return view('seller.show',compact('seller','closets','items'));
+        $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
+
+        return view('seller.show',compact('seller','closets','items','sellerSince'));
+    }
+
+    protected function formatDate($format, $date) {
+
+        $date    = date($format, strtotime($date));
+        $explode = explode(" ", $date);
+        $format = [];
+
+        $months = [
+                'January'   =>'enero',
+                'February'  =>'febrero',
+                'March'     =>'marzo',
+                'April'     =>'abril',
+                'May'       =>'Mayo',
+                'June'      =>'junio',
+                'July'      =>'julio',
+                'August'    =>'agosto',
+                'September' =>'septiembre',
+                'October'   =>'octubre',
+                'November'  =>'noviembre',
+                'December'  =>'diciembre',
+            ];
+
+        return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
     }
 
 
