@@ -77,15 +77,34 @@
             // Fetch all the forms we want to apply custom Bootstrap validation styles to
             var forms = document.getElementsByClassName('needs-validation');
             // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, validate, false);
-        
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+
+                if (form.checkValidity() === false) {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                } else if(form.checkValidity() ) {
+
+                    const button = form.querySelector('.btn');
+                    const spin = button.querySelector('span');
+
+                    button.setAttribute('disabled','true');
+                    spin.classList.remove('hidden');
+                    spin.style.display = 'inline-flex';
+                }
+
+                form.classList.add('was-validated');
+
+              }, false);
+            });
           }, false);
         })();
 
 
-        function validate(form) {
-            console.log(form);
-          form.addEventListener('submit', function(event) {
+        function validate(form, event) {
+           
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
@@ -96,8 +115,6 @@
                 button.setAttribute('disabled','true');
                 spin.classList.remove('hidden'); 
             }
-            form.classList.add('was-validated');
-            });
         }
 
         if(offerCheck) {
@@ -575,13 +592,7 @@
                 });
             }
 
-              reader.readAsDataURL(file[0]); 
-
-            //reader.readAsText(file[0]); 
-
-            console.log(file[0]);   
-           
-
+            reader.readAsDataURL(file[0]); 
 
             // loadImage(
             //     file[0],

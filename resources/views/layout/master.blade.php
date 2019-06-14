@@ -37,7 +37,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS, then  bootstrap-datepicker JS-->
-     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -50,30 +50,54 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script> --}}
 
     <script>
-        // Example starter JavaScript for disabling form submissions if there are invalid fields
-        (function() {
-            'use strict';
-            window.addEventListener('load', function() {
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.getElementsByClassName('needs-validation');
-                // Loop over them and prevent submission
-                var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }   else {
-                        const button = form.querySelector('button');
-                        const spin = button.querySelector('span');
 
-                        button.setAttribute('disabled','true');
-                        spin.classList.remove('hidden');
-                        spin.classList.add('spinner-border-block');
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-                });
-            }, false);
+
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+
+                if (form.checkValidity() === false) {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                } else if(form.checkValidity() ) {
+
+                    const button = form.querySelector('.btn');
+                    const spin = button.querySelector('span');
+
+                    button.setAttribute('disabled','true');
+                    spin.classList.remove('hidden');
+                    spin.style.display = 'inline-flex';
+ 
+                }
+
+                form.classList.add('was-validated');
+
+              }, false);
+            });
+          }, false);
+        })();
+
+
+        function validate(form, event) {
+           
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            } else {
+                const button = form.querySelector('button');
+                const spin = button.querySelector('span');
+
+                button.setAttribute('disabled','true');
+                spin.classList.remove('hidden'); 
+            }
+        }
 
         const cardImg = document.querySelector('.js-card-image');
         const thumbsImg = document.querySelectorAll('.js-thumb-image');
@@ -112,7 +136,7 @@
         //     prefix: "$"
         // });
 
-        })();
+
     </script>
   </body>
 </html>
