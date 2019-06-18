@@ -66,8 +66,7 @@
 
               <hr class="my-5">
 
-              <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis, autem fugiat consectetur nisi et tempore doloremque ipsa earum fuga soluta! Suscipit eius, aperiam ad facilis expedita neque aspernatur alias sequi. </p>
-
+              <p> {{ $seller->AboutMe }} </p>
 
               <p>Vive en {{ $seller->LiveIn }}</p>
 
