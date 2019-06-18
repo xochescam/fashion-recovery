@@ -117,21 +117,45 @@
             });
         }
 
+        
+
         if(selfieInput) {
             const btn = document.querySelector('.js-selfie-btn');
-            const img = document.querySelector('.js-selfie-img');
+            
 
             selfieInput.addEventListener('change', function(e) {
 
                 btn.classList.remove('hidden');
+                const img = document.querySelector('.js-selfie-img');
+                const file = e.currentTarget.files;
+                const container = img.parentNode;
+                
+                var reader = new FileReader();
 
-                var scaledImage = loadImage.scale(
-                    img, // img or canvas element
-                    {maxWidth: 600}
-                );
+                reader.onload = function(e) {
+                    
+                    container.innerHTML = "";
+
+                    // Create a new image.
+                    var img = new Image();
+
+                    img.src = reader.result;
+                    container.appendChild(img);
+                    img.style.width = "100%";
+                    //img.style.height = "200px";
+
+                }
+
+                reader.readAsDataURL(file[0]); 
+
+
+                //var scaledImage = loadImage.scale(
+                   // img, // img or canvas element
+                 //   {maxWidth: 600}
+                //);
 
                 //$('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
-                img.style.width = "200px";
+                //img.style.width = "200px";
             });
         }
 
