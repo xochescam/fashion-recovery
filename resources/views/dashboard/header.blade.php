@@ -1,4 +1,4 @@
-<nav id="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav id="header" class="navbar navbar-expand-lg navbar-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="{{ url('/') }}">
           <img src="{{ url('img/header/transparent_logo.png') }}" alt="Fashion Recovery"/>
