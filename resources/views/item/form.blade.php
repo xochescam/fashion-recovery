@@ -189,11 +189,7 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
-<<<<<<< HEAD
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}" required data-size="false">
-=======
     <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}"  data-size="false" required>
->>>>>>> 29aaf15e46a0bc2e60fa6f3d3b079be5b2cb43ed
         <option value="" selected>- Seleccionar -</option>
 
         @if(isset($brands))
@@ -201,7 +197,6 @@
             <option value="{{ $brand->BrandID }}" {{ $item && $item->first()->BrandID == $brand->BrandID || old('BrandID') ? 'selected' : '' }} >{{ $brand->BrandName }}</option>
           @endforeach
         @endif
-        <option value="other-brand">Otra marca</option>
 
         <option value="other"> Otra marca</option>
 
