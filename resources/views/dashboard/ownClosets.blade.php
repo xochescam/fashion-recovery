@@ -11,7 +11,7 @@
 					<p class="mb-5">Conviertete socialmente responsable cuidando al planeta a través de las prendas verdes. </p>
 
 					<div class="row">
-						<div class="col-sm-6">
+						<div class="col-sm-6 mb-5">
 						    <div class="card card--public card--item">
                                 <img class="card-img-top" src="{{ url('img/cards/closets.jpg') }}" alt="closets-img" />
 						        <div class="card-body">
@@ -21,7 +21,7 @@
 						        </div>
 						    </div>
 						</div>
-						<div class="col-sm-6">
+						<div class="col-sm-6 mb-5">
 						    <div class="card card--public card--item">
                                 <img class="card-img-top" src="{{ url('img/cards/prendas.jpg') }}" alt="prendas-img" />
                                 <div class="card-body">
