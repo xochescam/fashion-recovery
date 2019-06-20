@@ -372,6 +372,10 @@ div a{
   display: inline-block !important;
 }
 
+.container-item-img .btn {
+  color: #fff !important;
+}
+
 .spinner-border {
   margin-right: 5px;
 }
