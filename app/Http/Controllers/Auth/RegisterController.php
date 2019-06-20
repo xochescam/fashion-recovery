@@ -63,7 +63,7 @@ class RegisterController extends Controller
             'email'      => ['email', 'max:100'],
             'password'   => ['confirmed','min:6'],
             'alias'      => ['max:30'],
-            'birth_date' => isset($request->birth_date) ? ['date','before:'.date("Y-m-d")] : [''],
+            'birth_date' => isset($request->birth_date) ? ['date','before:'.date("Y/m/d")] : [''],
         ]);
     }
 
@@ -131,9 +131,9 @@ class RegisterController extends Controller
         if(isset($data['birth_date'])) {
 
             $item = str_replace('/', '-', $data['birth_date']);
-            $date = date("Y-m-d", strtotime($item));             
+            $date = date("Y-m-d", strtotime($item));
         }
-        
+
         return DB::table('fashionrecovery.GR_001')->insert([
              'email'         => $data['email'],
              'password'      => Hash::make($data['password']),
