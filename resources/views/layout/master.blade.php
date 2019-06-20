@@ -74,7 +74,7 @@
                     button.setAttribute('disabled','true');
                     spin.classList.remove('hidden');
                     spin.style.display = 'inline-flex';
- 
+
                 }
 
                 form.classList.add('was-validated');
@@ -86,7 +86,7 @@
 
 
         function validate(form, event) {
-           
+
             if (form.checkValidity() === false) {
               event.preventDefault();
               event.stopPropagation();
@@ -95,7 +95,7 @@
                 const spin = button.querySelector('span');
 
                 button.setAttribute('disabled','true');
-                spin.classList.remove('hidden'); 
+                spin.classList.remove('hidden');
             }
         }
 

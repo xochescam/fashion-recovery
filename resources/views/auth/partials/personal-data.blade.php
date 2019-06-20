@@ -5,7 +5,7 @@
 
     <form method="POST" action="{{ url('auth',Auth::User()->id) }}" class="needs-validation" novalidate>
        @csrf
-        
+
       <div class="form-group row">
         <label for="Alias" class="col-sm-3 col-form-label text-right">Alias</label>
         <div class="col-sm-9">
@@ -20,7 +20,7 @@
               El campo Alias es obligatorio.
             </div>
           @endif
-        </div>                      
+        </div>
       </div>
 
       <div class="form-group row">
