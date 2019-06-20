@@ -76,10 +76,13 @@
             // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function(form) {
               form.addEventListener('submit', function(event) {
+                                    console.log(form.checkValidity());
+
                 if (form.checkValidity() === false) {
                   event.preventDefault();
                   event.stopPropagation();
                 } else {
+
                     const button = form.querySelector('.btn-fr');
                     const spin = button.querySelector('span');
 
@@ -117,12 +120,9 @@
             });
         }
 
-        
-
         if(selfieInput) {
             const btn = document.querySelector('.js-selfie-btn');
             
-
             selfieInput.addEventListener('change', function(e) {
 
                 btn.classList.remove('hidden');
@@ -247,7 +247,7 @@
 
                     clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                     clothingTypesSelect.setAttribute('disabled',true);
-                    clothingTypesSelect.setAttribute('required',false);
+                    //clothingTypesSelect.setAttribute('required',false);
 
                 } else if ((clothingTypesSelect || sizesSelect) && !size) {
                     clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
@@ -257,7 +257,7 @@
                     sizesSelect.setAttribute('disabled',true);
 
                     clothingTypesSelect.setAttribute('required',false);
-                    sizesSelect.setAttribute('required',false);
+                    //sizesSelect.setAttribute('required',false);
                 }
 
                 request.open('GET', url+'/brands-by-department/'+this.value, true);
@@ -608,7 +608,7 @@ function showItemPicture(e) {
                 container.appendChild(img);
                 img.style.width = "100%";
 
-                const button = `<button class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</button>`;
+                const button = `<a class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</a>`;
 
                 container.insertAdjacentHTML('beforeend', button);
 

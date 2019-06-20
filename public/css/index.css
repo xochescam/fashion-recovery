@@ -39,6 +39,10 @@ body{
   height: 200px;
 }
 
+.container-item-img .btn{
+  color: #fff !important;
+}
+
 .no-file {
   cursor:pointer;
   border: 0;
