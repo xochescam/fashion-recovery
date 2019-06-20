@@ -124,9 +124,11 @@
             selfieInput.addEventListener('change', function(e) {
 
                 btn.classList.remove('hidden');
-                const img = document.querySelector('.js-selfie-img');
+                const currentImg = document.querySelector('.js-selfie-img');
                 const file = e.currentTarget.files;
-                const container = img.parentNode;
+                const container = currentImg.parentNode;
+
+                console.log(container);
 
                 var reader = new FileReader();
 
@@ -134,26 +136,18 @@
 
                     container.innerHTML = "";
 
-                    // Create a new image.
                     var img = new Image();
-
                     img.src = reader.result;
                     container.appendChild(img);
-                    img.style.width = "100%";
-                    //img.style.height = "200px";
 
+                    img.style.width = "100%";
+                    img.classList.add('card-img-top');
+                    img.classList.add('js-selfie-img');
+
+                    container.insertAdjacentHTML('beforeend', '<i class="far fa-edit" id="edit_icon"></i>');
                 }
 
                 reader.readAsDataURL(file[0]);
-
-
-                //var scaledImage = loadImage.scale(
-                   // img, // img or canvas element
-                 //   {maxWidth: 600}
-                //);
-
-                //$('.js-selfie-img').attr('src',URL.createObjectURL(e.currentTarget.files[0]));
-                //img.style.width = "200px";
             });
         }
 

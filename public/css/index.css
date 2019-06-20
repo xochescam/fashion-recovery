@@ -78,6 +78,7 @@ body{
 }
 
 .card--selfie {
+  width: 200px;
   cursor: pointer;
 }
 
