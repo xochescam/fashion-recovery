@@ -76,8 +76,6 @@
             // Loop over them and prevent submission
             var validation = Array.prototype.filter.call(forms, function(form) {
               form.addEventListener('submit', function(event) {
-                                    console.log(form.checkValidity());
-
                 if (form.checkValidity() === false) {
                   event.preventDefault();
                   event.stopPropagation();
@@ -122,18 +120,18 @@
 
         if(selfieInput) {
             const btn = document.querySelector('.js-selfie-btn');
-            
+
             selfieInput.addEventListener('change', function(e) {
 
                 btn.classList.remove('hidden');
                 const img = document.querySelector('.js-selfie-img');
                 const file = e.currentTarget.files;
                 const container = img.parentNode;
-                
+
                 var reader = new FileReader();
 
                 reader.onload = function(e) {
-                    
+
                     container.innerHTML = "";
 
                     // Create a new image.
@@ -146,7 +144,7 @@
 
                 }
 
-                reader.readAsDataURL(file[0]); 
+                reader.readAsDataURL(file[0]);
 
 
                 //var scaledImage = loadImage.scale(
@@ -240,14 +238,11 @@
                 const url     = window.location.origin;
                 const size = e.currentTarget.getAttribute('data-size');
                 brandsSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
-                //brandsSelect.setAttribute('disabled',true);
-                //brandsSelect.setAttribute('required',false);
 
                 if(size == true) {
 
                     clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
                     clothingTypesSelect.setAttribute('disabled',true);
-                    //clothingTypesSelect.setAttribute('required',false);
 
                 } else if ((clothingTypesSelect || sizesSelect) && !size) {
                     clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
@@ -257,7 +252,6 @@
                     sizesSelect.setAttribute('disabled',true);
 
                     clothingTypesSelect.setAttribute('required',false);
-                    //sizesSelect.setAttribute('required',false);
                 }
 
                 request.open('GET', url+'/brands-by-department/'+this.value, true);
@@ -409,12 +403,19 @@
         function clothingTypesByBrand(e) {
 
             const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
+            const sizesSelect         = document.querySelector('.js-sizes-select');
             const categoriesSelect    = document.querySelector('.js-categories-select');
             const size                = e.currentTarget.getAttribute('data-size');
             const otherInputs         = document.querySelectorAll('.js-other');
             const inputs              = document.querySelectorAll('.js-mean');
 
             if(e.currentTarget.value == "other") {
+
+                clothingTypesSelect.removeAttribute('required');
+                sizesSelect.removeAttribute('required');
+
+
+
                 for (var i = otherInputs.length - 1; i >= 0; i--) {
                     otherInputs[i].classList.remove('hidden');
                     otherInputs[i].querySelector('.form-control').setAttribute('required','required');
@@ -427,9 +428,13 @@
 
             } else {
 
+                clothingTypesSelect.setAttribute('required','required');
+                sizesSelect.setAttribute('required','required');
+
                 for (var i = otherInputs.length - 1; i >= 0; i--) {
                     otherInputs[i].classList.add('hidden');
-                    otherInputs[i].querySelector('.form-control').setAttribute('required','required');
+                    otherInputs[i].querySelector('.form-control').removeAttribute('required');
+
                 }
 
                 for (var i = inputs.length - 1; i >= 0; i--) {
@@ -448,7 +453,7 @@
                 return;
             }
 
-            const sizesSelect = document.querySelector('.js-sizes-select');
+            //const newizesSelect = document.querySelector('.js-sizes-select');
 
             const request = new XMLHttpRequest();
             const url     = window.location.origin;
@@ -581,7 +586,7 @@
             });
         }
 
-function showItemPicture(e) {
+        function showItemPicture(e) {
 
             const el        = e.currentTarget ?  e.currentTarget : e;
             const file      = el.files;
@@ -619,7 +624,7 @@ function showItemPicture(e) {
                 });
             }
 
-            reader.readAsDataURL(file[0]); 
+            reader.readAsDataURL(file[0]);
 
             // loadImage(
             //     file[0],
