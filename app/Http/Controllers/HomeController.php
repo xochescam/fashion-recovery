@@ -160,7 +160,7 @@ class HomeController extends Controller
             } else {
 
                $otherBrand = DB::table('fashionrecovery.GR_036')
-                                ->where('OtherInfoItemID',$item->ItemID)
+                                ->where('ItemID',$item->ItemID)
                                 ->first();
             }
 
