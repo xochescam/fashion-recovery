@@ -27,11 +27,11 @@
   </head>
   <body>
 
-    {{-- @include('dashboard.header') --}}
+    @include('dashboard.header')
 
     @yield('content')
 
-    {{-- @include('layout.footer') --}}
+    {@include('layout.footer')
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -127,8 +127,6 @@
                 const currentImg = document.querySelector('.js-selfie-img');
                 const file = e.currentTarget.files;
                 const container = currentImg.parentNode;
-
-                console.log(container);
 
                 var reader = new FileReader();
 
@@ -403,6 +401,8 @@
             const otherInputs         = document.querySelectorAll('.js-other');
             const inputs              = document.querySelectorAll('.js-mean');
 
+
+
             if(e.currentTarget.value == "other") {
 
                 clothingTypesSelect.removeAttribute('required');
@@ -436,6 +436,7 @@
                 }
             }
 
+
             if(size == 'true') {
                 clothingTypesOnlyByBrand(e);
                 return;
@@ -449,16 +450,17 @@
 
             //const newizesSelect = document.querySelector('.js-sizes-select');
 
-            const request = new XMLHttpRequest();
-            const url     = window.location.origin;
-            const department = e.currentTarget.getAttribute('data-department');
+            const request                 = new XMLHttpRequest();
+            const url                     = window.location.origin;
+            //const department              = e.currentTarget.getAttribute('data-department');
+            const department              = document.querySelector('.js-departments-select');
             clothingTypesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
-            sizesSelect.innerHTML = `<option value="" selected>- Seleccionar -</option>`;
+            sizesSelect.innerHTML         = `<option value="" selected>- Seleccionar -</option>`;
             clothingTypesSelect.setAttribute('disabled',true);
             sizesSelect.setAttribute('disabled',true);
             clothingTypesSelect.setAttribute('required',false);
 
-            request.open('GET', url+'/clothing-type-by-brand/'+department+'/'+this.value+'/'+categoriesSelect.value, true);
+            request.open('GET', url+'/clothing-type-by-brand/'+department.value+'/'+this.value+'/'+categoriesSelect.value, true);
             request.send(null);
             request.onload = function() {
 

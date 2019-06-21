@@ -189,8 +189,9 @@
 <div class="form-row">
   <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
+
     <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}"  data-size="false" required>
-        <option value="" selected>- Seleccionar -</option>
+        <option value="" {{ !isset($otherBrand->OtherBrand) && !isset($item) ? 'selected' : '' }}>- Seleccionar -</option>
 
         @if(isset($brands))
           @foreach($brands as $brand)
@@ -198,9 +199,10 @@
           @endforeach
         @endif
 
-        <option value="other"> Otra marca</option>
+        <option value="other" {{ isset($otherBrand->OtherBrand) ? 'selected' : '' }}> Otra marca</option>
 
     </select>
+
     <small>¿De qué marca es está prenda?</small>
 
     @if ($errors->has('BrandID'))
@@ -232,7 +234,7 @@
 
   <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}  data-size="false" required>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}  data-size="false" {{ !isset($otherBrand) ? 'required' : '' }}>
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($clothingTypes))
@@ -279,7 +281,7 @@
 <div class="form-row">
   <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="SizeID">Talla *</label>
-    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} required>
+    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} {{ !isset($otherBrand) ? 'required' : '' }}>
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($sizes))
