@@ -50,7 +50,7 @@ class BillingInfoController extends Controller
             $data = $this->data($request->toArray());
 
             DB::table($this->table)->insert($data);
-        
+
             DB::commit();
 
             Session::flash('success','Se han guardado correctamente los datos de facturación.');
@@ -91,16 +91,16 @@ class BillingInfoController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(Request $request)
-    {        
+    {
         $request->validate([
              'Alias'           => ['max:30'],
              'RFC'             => ['max:13'],
              'Street'          => ['max:50'],
              'Suburb'          => ['max:50'],
-             'ZipCode'         => ['numberic','max:6'],
+             'ZipCode'         => ['numeric'],
              'City'            => ['max:25'],
              'State'           => ['max:25'],
-             'Mail'            => ['email','max:80'],
+             'Mail'            => ['email'],
         ]);
     }
 
@@ -146,7 +146,7 @@ class BillingInfoController extends Controller
             DB::table($this->table)
                 ->where('BillingInfoID',$id)
                 ->update($data);
-        
+
             DB::commit();
 
             Session::flash('success','Se han modificado correctamente los datos de facturación.');
