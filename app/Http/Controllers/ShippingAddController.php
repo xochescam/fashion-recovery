@@ -49,7 +49,7 @@ class ShippingAddController extends Controller
             $data = $this->data($request->toArray());
 
             DB::table($this->table)->insert($data);
-        
+
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente la dirección de envio.');
@@ -89,15 +89,15 @@ class ShippingAddController extends Controller
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(Request $request)
-    {        
+    {
         $request->validate([
              'Alias'           => ['max:30'],
              'Street'          => ['max:50'],
              'Suburb'          => ['max:50'],
-             'ZipCode'         => ['numeric','max:6'],
+             'ZipCode'         => ['numeric'],
              'State'           => ['max:25'],
              'City'            => ['max:25'],
-             'PhoneContact'    => ['numeric','max:13'],
+             'PhoneContact'    => ['numeric'],
              'References'      => ['max:100'],
         ]);
     }
@@ -144,10 +144,10 @@ class ShippingAddController extends Controller
             DB::table($this->table)
                 ->where('ShippingAddID',$id)
                 ->update($data);
-        
+
             DB::commit();
 
-            Session::flash('success','Se han modificado correctamente los datos de facturación.');
+            Session::flash('success','Se han modificado correctamente los datos de dirección de envío.');
             return Redirect::to('auth/'.Auth::User()->id); //cambiar
 
         } catch (\Exception $ex) {
