@@ -99,8 +99,8 @@ class ItemController extends Controller
 
             if($request->BrandID == 'other') {
                DB::table('fashionrecovery.GR_036')->insert([
-                    'ItemID'           => $last,
-                    'OtherBrand'        => $request->OtherBrand,
+                    'OtherInfoItemID'   => $last,
+                    'OtherBrand'        => $request->otherBrand,
                     'OtherClothingType' => $request->OtherClothingType,
                     'OtherSize'         => $request->OtherSize
                 ]);
@@ -208,15 +208,25 @@ class ItemController extends Controller
 
     public function saveOffer($data) {
 
+        $remplaceValidFrom = str_replace('/', '-', $data['ValidFrom']);
+        $ValidFrom = date("Y-m-d", strtotime($remplaceValidFrom));
+
+        $remplaceValidUntil = str_replace('/', '-', $data['ValidUntil']);
+        $ValidUntil = date("Y-m-d", strtotime($remplaceValidUntil));
+
+        $userId = Auth::User()->id;
+
         $offer = DB::table('fashionrecovery.GR_031')
                     ->insert([
                         'Discount'   => $data['Discount'],
-                        'ValidFrom'  => $data['ValidFrom'],
-                        'ValidUntil' => $data['ValidUntil'],
-                        'UserID'     => Auth::User()->id
+                        'ValidFrom'  => $ValidFrom,
+                        'ValidUntil' => $ValidUntil,
+                        'UserID'     =>  $userId
                     ]);
 
-        return $id = DB::getPdo()->lastInsertId();
+        return $id = DB::table('fashionrecovery.GR_031')
+                ->where('UserID', $userId)
+                ->get()->last()->OfferID;
     }
 
     protected function saveDefaultCloset() {

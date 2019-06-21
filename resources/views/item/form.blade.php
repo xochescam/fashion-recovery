@@ -478,7 +478,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="ValidFrom">Desde *</label>
-        <input type="text" class="form-control" name="ValidFrom" id="ValidFrom" value="{{ isset($ValidFrom) && $ValidFrom !== '' ? $ValidFrom : '' }}" onblur="(this.type='text')" onfocus="(this.type='date')" placeholder="dd/mm/yyyy">
+        <input type="text" class="form-control date_input" name="ValidFrom" id="ValidFrom" value="{{ isset($ValidFrom) && $ValidFrom !== '' ? $ValidFrom : '' }}" placeholder="dd/mm/aaaa" autocomplete="off">
         <small>Selecciona la fecha inicial de la oferta.</small>
 
         @if ($errors->has('ValidFrom'))
@@ -494,7 +494,8 @@
 
       <div class="form-group col-md-6">
         <label for="ValidUntil">Hasta *</label>
-        <input type="text" class="form-control" name="ValidUntil" id="ValidUntil" value="{{ isset($ValidUntil) && $ValidUntil !== '' ? $ValidUntil : '' }}" onblur="(this.type='text')" onfocus="(this.type='date')" placeholder="dd/mm/yyyy">
+        <input type="text" class="form-control date_input" name="ValidUntil" id="ValidUntil" value="{{ isset($ValidUntil) && $ValidUntil !== '' ? $ValidUntil : '' }}" placeholder="dd/mm/aaaa" autocomplete="off">
+
         <small>Selecciona la fecha final de la oferta.</small>
 
         @if ($errors->has('ValidUntil'))

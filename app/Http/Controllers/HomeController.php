@@ -19,9 +19,6 @@ class HomeController extends Controller
         $allItems  = $this->getAllItems();
         $hasOffers = $this->getItemOffer($allItems);
 
-
-
-
         $items = $hasOffers->count() > 0 ?
                  $hasOffers->merge($this->getItemWithoutOffer($allItems)) :
                  $this->getItemWithoutOffer($allItems);
@@ -35,7 +32,7 @@ class HomeController extends Controller
             return $item;
 
         })->take(16);
-//dd($items->first()->otherBrand->OtherBrand);
+
         return view('home',compact('items'));
     }
 
@@ -163,7 +160,7 @@ class HomeController extends Controller
             } else {
 
                $otherBrand = DB::table('fashionrecovery.GR_036')
-                                ->where('ItemID',$item->ItemID)
+                                ->where('OtherInfoItemID',$item->ItemID)
                                 ->first();
             }
 
