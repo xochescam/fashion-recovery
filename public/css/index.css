@@ -34,6 +34,13 @@ body{
   max-height: 200px;
 }
 
+@media (min-width: 575px) {
+  .col-form-label {
+    text-align: right;
+  }
+}
+
+
 .container-item-img img{
   object-fit: cover;
   height: 200px;

@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.17') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.18') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -27,11 +27,11 @@
   </head>
   <body>
 
-    @include('dashboard.header')
+    {{-- @include('dashboard.header') --}}
 
     @yield('content')
 
-    @include('layout.footer')
+    {{-- @include('layout.footer') --}}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
