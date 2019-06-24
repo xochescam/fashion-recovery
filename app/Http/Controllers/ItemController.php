@@ -99,8 +99,8 @@ class ItemController extends Controller
 
             if($request->BrandID == 'other') {
                DB::table('fashionrecovery.GR_036')->insert([
-                    'ItemID'           => $last,
-                    'OtherBrand'        => $request->OtherBrand,
+                    'ItemID'   => $last,
+                    'OtherBrand'        => $request->otherBrand,
                     'OtherClothingType' => $request->OtherClothingType,
                     'OtherSize'         => $request->OtherSize
                 ]);
@@ -143,6 +143,11 @@ class ItemController extends Controller
 
         $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
 
+        $brand        = $data['BrandID'] == 'other' ? Null : $data['BrandID'];
+        $clothingType = $data['BrandID'] == 'other' ? Null : $data['ClothingTypeID'];
+        $size         = $data['BrandID'] == 'other' ? Null : $data['SizeID'];
+
+
         return [
              'ItemDescription'  => $data['ItemDescription'],
              'OwnerID'          => Auth::User()->id,
@@ -150,13 +155,13 @@ class ItemController extends Controller
              //'OriginalPrice'    => $data['OriginalPrice'],
              //'ActualPrice'      => $data['ActualPrice'],
              'ColorID'          => $data['ColorID'],
-             'SizeID'           => $data['SizeID'],
-             'ClothingTypeID'   => $data['ClothingTypeID'],
+             'SizeID'           => $size,
+             'ClothingTypeID'   => $clothingType,
              'DepartmentID'     => $data['DepartmentID'],
              'CategoryID'       => $data['CategoryID'],
              'ClothingStyleID'  => $data['ClothingStyleID'],
              'TypeID'           => $data['TypeID'],
-             'BrandID'          => $data['BrandID'],
+             'BrandID'          => $brand,
              'ClosetID'         => $closet,
              'OffSaleID'        => $OffSaleID,
              //'CreationDate'     => date("Y-m-d H:i:s")
@@ -208,15 +213,25 @@ class ItemController extends Controller
 
     public function saveOffer($data) {
 
+        $remplaceValidFrom = str_replace('/', '-', $data['ValidFrom']);
+        $ValidFrom = date("Y-m-d", strtotime($remplaceValidFrom));
+
+        $remplaceValidUntil = str_replace('/', '-', $data['ValidUntil']);
+        $ValidUntil = date("Y-m-d", strtotime($remplaceValidUntil));
+
+        $userId = Auth::User()->id;
+
         $offer = DB::table('fashionrecovery.GR_031')
                     ->insert([
                         'Discount'   => $data['Discount'],
-                        'ValidFrom'  => $data['ValidFrom'],
-                        'ValidUntil' => $data['ValidUntil'],
-                        'UserID'     => Auth::User()->id
+                        'ValidFrom'  => $ValidFrom,
+                        'ValidUntil' => $ValidUntil,
+                        'UserID'     =>  $userId
                     ]);
 
-        return $id = DB::getPdo()->lastInsertId();
+        return $id = DB::table('fashionrecovery.GR_031')
+                ->where('UserID', $userId)
+                ->get()->last()->OfferID;
     }
 
     protected function saveDefaultCloset() {
@@ -364,6 +379,7 @@ class ItemController extends Controller
 
             $priceOffer = $itemInfo->ActualPrice - ($itemInfo->ActualPrice * ($offer->Discount / 100));
         }
+
 
         return view('item.public-show',compact(
             'ValidFrom',
@@ -554,21 +570,29 @@ class ItemController extends Controller
 
         try {
 
+            $OffSaleID = DB::table($this->table)->where('ItemID',$id)->first()->OffSaleID;
+
+            DB::table('fashionrecovery.GR_031')
+                            ->where('OfferID',$OffSaleID)
+                            ->delete();
+
             $data = $this->updateItemData($request->toArray());
 
             DB::table($this->table)->where('ItemID',$id)->update($data);
 
-            // $itemsName = $this->saveItems($request->toArray(), $id);
+            DB::table('fashionrecovery.GR_036')
+                ->where('ItemID',$id)
+                ->delete();
 
-            // DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
+            if($request->BrandID == 'other') {
+                 DB::table('fashionrecovery.GR_036')->insert([
+                    'ItemID'   => $id,
+                    'OtherBrand'        => $request->otherBrand,
+                    'OtherClothingType' => $request->OtherClothingType,
+                    'OtherSize'         => $request->OtherSize
+                ]);
+            }
 
-            // foreach ($itemsName as $key => $value) { //change
-            //      DB::table('fashionrecovery.GR_032')->insert([
-            //          'ItemID' => $id,
-            //          'PicturePath' => $value,
-            //          'CreationDate' => date("Y-m-d H:i:s")
-            //      ]);
-            // }
 
             DB::commit();
 

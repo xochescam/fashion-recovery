@@ -5,9 +5,9 @@
 
     <form method="POST" action="{{ url('auth',Auth::User()->id) }}" class="needs-validation" novalidate>
        @csrf
-        
+
       <div class="form-group row">
-        <label for="Alias" class="col-sm-3 col-form-label text-right">Alias</label>
+        <label for="Alias" class="col-sm-3 col-form-label">Alias</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="Alias" id="Alias" value="{{ Auth::User()->Alias }}" required>
 
@@ -20,11 +20,11 @@
               El campo Alias es obligatorio.
             </div>
           @endif
-        </div>                      
+        </div>
       </div>
 
       <div class="form-group row">
-        <label for="Name" class="col-sm-3 col-form-label text-right">Nombre</label>
+        <label for="Name" class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="Name" id="Name" value="{{ Auth::User()->Name }}">
 
@@ -37,7 +37,7 @@
       </div>
 
        <div class="form-group row">
-        <label for="last_name" class="col-sm-3 col-form-label text-right">Apellidos</label>
+        <label for="last_name" class="col-sm-3 col-form-label">Apellidos</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="last_name" id="last_name" value="{{ Auth::User()->Lastname }}">
 
@@ -50,7 +50,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="email" class="col-sm-3 col-form-label text-right">Correo electrónico</label>
+        <label for="email" class="col-sm-3 col-form-label">Correo electrónico</label>
         <div class="col-sm-9">
           <input type="email" class="form-control" name="email" id="email" value="{{ Auth::User()->email }}" required>
 
@@ -68,7 +68,7 @@
       </div>
 
       <div class="form-group row">
-          <label class="col-sm-3 col-form-label text-right" for="gender">Género</label>
+          <label class="col-sm-3 col-form-label" for="gender">Género</label>
           <div class="col-sm-9">
             <select id="gender" class="form-control" name="gender" >
               <option value="" selected>- Seleccionar -</option>
@@ -86,10 +86,10 @@
       </div>
 
       <div class="form-group row">
-          <label for="birth_date" class="col-sm-3 col-form-label text-right">Fecha de nacimiento</label>
+          <label for="birth_date" class="col-sm-3 col-form-label">Fecha de nacimiento</label>
 
         <div class="form-group col-md-9">
-          <input type="text" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("d/m/Y") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') || Auth::User()->Birthdate ? $birthDateUser : old('birth_date') }}"  >
+          <input type="text" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("d/m/Y") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') || Auth::User()->Birthdate ? $birthDateUser : old('birth_date') }}" autocomplete="off" >
 
           @if ($errors->has('birth_date'))
             <div class="invalid-feedback">
@@ -101,7 +101,7 @@
       </div>
 
        <div class="form-group row">
-        <label class="col-sm-3 col-form-label text-right">Miembro desde</label>
+        <label class="col-sm-3 col-form-label">Miembro desde</label>
         <label class="col-sm-9 col-form-label text-left">{{ $creationDateUser }}</label>
       </div>
 

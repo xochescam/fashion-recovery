@@ -8,7 +8,7 @@
           <div class="col col-sm-12 col-md-6 offset-md-3">
             <h2 class="text-center TituloFR my-4">Cambiar contraseña</h2>
 
-            <form method="POST" action="{{ url('update-password') }}" class="needs-validation"novalidate>
+            <form method="POST" action="{{ url('update-password') }}" class="needs-validation" novalidate>
               @csrf
 
               @include('alerts.success')

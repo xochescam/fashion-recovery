@@ -7,7 +7,7 @@
      @csrf
 
      <div class="form-group row">
-      <label for="Greeting" class="col-sm-3 col-form-label text-right">Deja un saludo</label>
+      <label for="Greeting" class="col-sm-3 col-form-label">Deja un saludo</label>
       <div class="col-sm-9">
         <textarea class="form-control" name="Greeting" id="Greeting"  cols="30" rows="3" max="50" required>{{ $seller->Greeting }}</textarea>
 
@@ -24,7 +24,7 @@
     </div>
 
     <div class="form-group row">
-      <label for="AboutMe" class="col-sm-3 col-form-label text-right">Acerca de mi</label>
+      <label for="AboutMe" class="col-sm-3 col-form-label">Acerca de mi</label>
       <div class="col-sm-9">
         <textarea class="form-control" name="AboutMe" id="AboutMe"  cols="30" rows="3" max="256" required>{{ $seller->AboutMe }}</textarea>
         @if ($errors->has('AboutMe'))
@@ -40,10 +40,10 @@
     </div>
 
     <div class="form-group row">
-      <label for="Phone" class="col-sm-3 col-form-label text-right">Teléfono</label>
+      <label for="Phone" class="col-sm-3 col-form-label">Teléfono</label>
       <div class="col-sm-9">
-        <input type="tel" class="form-control" name="Phone" id="Phone"  maxlength="10" value="{{ $seller->Phone }}" required> 
-        
+        <input type="tel" class="form-control" name="Phone" id="Phone"  maxlength="10" value="{{ $seller->Phone }}" required>
+
         @if ($errors->has('Phone'))
         <div class="invalid-validation">
           {{ $errors->first('Phone') }}
@@ -57,7 +57,7 @@
     </div>
 
     <div class="form-group row">
-      <label for="LiveIn" class="col-sm-3 col-form-label text-right">Lugar de residencia</label>
+      <label for="LiveIn" class="col-sm-3 col-form-label">Lugar de residencia</label>
       <div class="col-sm-9">
         <select name="LiveIn" id="LiveIn" class="form-control" required>
           <option value="" selected>- Seleccionar -</option>
@@ -175,21 +175,21 @@
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label text-right">Documento de identificación</label>
+      <label class="col-sm-3 col-form-label">Documento de identificación</label>
 
       <div class="col-sm-9 col-form-label text-left">
         <div class="custom-file">
           <input type="file" class="custom-file-input" id="IdentityDocumentPath" name="IdentityDocumentPath" lang="es" value="{{ url($seller->IdentityDocumentPath) }}">
           <label class="custom-file-label" for="IdentityDocumentPath">
             @if(isset($seller->IdentityDocumentPath) || old('IdentityDocumentPath'))
-            <i class="fas fa-check green-color mr-1"></i> 
+            <i class="fas fa-check green-color mr-1"></i>
             <span class="green-color">Verificado</span>
             @else
             Seleccionar archivo
             @endif
           </label>
 
-          
+
 
           @if ($errors->has('IdentityDocumentPath'))
           <div class="invalid-validation">
@@ -205,27 +205,27 @@
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label text-right">Evaluaciones</label>
+      <label class="col-sm-3 col-form-label">Evaluaciones</label>
       <label class="col-sm-9 col-form-label text-left">{{ $seller->TotalEvaluations > 0 ? $seller->TotalEvaluations." evaluaciones." : "No cuenta con evaluaciones." }}</label>
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label text-right">Ventas</label>
+      <label class="col-sm-3 col-form-label">Ventas</label>
       <label class="col-sm-9 col-form-label text-left">{{ $seller->ItemsSold > 0 ? $seller->ItemsSold." ventas." : "No cuenta con ventas." }}</label>
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label text-right">Prendas</label>
+      <label class="col-sm-3 col-form-label">Prendas</label>
       <label class="col-sm-9 col-form-label text-left">{{ $items > 0 ? ($items == 1 ? $items." prenda subida." : $items." prendas subidas." ) : "No cuenta con prendas subidas." }}</label>
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label text-right">Devoluciones</label>
+      <label class="col-sm-3 col-form-label">Devoluciones</label>
       <label class="col-sm-9 col-form-label text-left">{{ $seller->ItemsReturned > 0 ? $seller->ItemsReturned." devoluciones." : "No cuenta con devoluciones." }}</label>
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label text-right">Ranking</label>
+      <label class="col-sm-3 col-form-label">Ranking</label>
       <div class="col-sm-9 col-form-label text-left">
         <i class="fas fa-star yellow"></i>
         <i class="fas fa-star yellow"></i>
@@ -236,7 +236,7 @@
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label text-right">Vendedor desde</label>
+      <label class="col-sm-3 col-form-label">Vendedor desde</label>
       <label class="col-sm-9 col-form-label text-left">{{ $sellerSince }}</label>
     </div>
 
@@ -246,7 +246,7 @@
         Guardar
       </button>
     </div>
-    
+
   </form>
 
 </div>

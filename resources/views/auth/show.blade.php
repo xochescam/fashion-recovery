@@ -21,13 +21,13 @@
                 @csrf
 
                 <label for="profile_item_file" class="mb-2">
-                  <div class="card card--selfie ">
+                  <div class="card card--selfie container-item-img">
                     <img src=" {{ url($seller->SelfieThumbPath) }} " class="card-img-top js-selfie-img" alt="">
                     <i class="far fa-edit" id="edit_icon"></i>
                   </div>
-                  <input type="file" class="selfieInput no-file js-selfie-input" id="profile_item_file" name="profile_item_file">
+                  <input type="file" class="selfieInput no-file js-selfie-input" id="profile_item_file" name="profile_item_file" accept=".png, .jpg, .jpeg">
                 </label>
-                
+
                 <div class="text-center">
                   <button class="btn btn-fr hidden js-selfie-btn">
                     <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
@@ -69,7 +69,7 @@
               @include('auth.partials.seller-data')
             @endif
           </div>
-          
+
         </div>
       </div>
     </main>

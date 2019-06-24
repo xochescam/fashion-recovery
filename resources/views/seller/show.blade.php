@@ -10,7 +10,7 @@
               <div class="card mb-5">
                 <div class="card-body">
 
-                  <div class="card card--selfie">
+                  <div class="card card--selfie mx-auto">
                     <img src="{{ url($seller->SelfieThumbPath) }}" class="card-img-top js-selfie-img" alt="">
                   </div>
 

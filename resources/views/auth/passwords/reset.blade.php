@@ -8,7 +8,7 @@
           <div class="col col-sm-12 col-md-6 offset-md-3">
             <h2 class="text-center TituloFR my-4 mb-5">Cambiar contraseña</h2>
 
-            <form method="POST" action="{{ route('password.update') }}" class="was-validated">
+            <form method="POST" action="{{ route('password.update') }}" class="needs-validation" novalidate>
               @csrf
 
               <input type="hidden" name="token" value="{{ $token }}">
@@ -20,33 +20,45 @@
 
                 <div class="form-group col-md-12">
                   <label for="email">Correo electrónico</label>
-                  <input type="text" name="email" class="form-control is-invalid" id="email" placeholder="Ingresa tu correo">
+                  <input type="text" name="email" class="form-control" id="email" placeholder="Ingresa tu correo">
 
                   @if ($errors->has('email'))
-                    <div class="invalid-feedback">
+                    <div class="invalid-validation">
                       {{ $errors->first('email') }}
+                    </div>
+                  @else
+                    <div class="invalid-feedback">
+                      Ingresa un correo electrónico válido.
                     </div>
                   @endif
                 </div>
 
                 <div class="form-group col-md-12">
                   <label for="password">Contraseña</label>
-                  <input type="password" name="password" class="form-control is-invalid" id="password" placeholder="Escribe tu nueva contraseña">
+                  <input type="password" name="password" class="form-control" id="password" placeholder="Escribe tu nueva contraseña">
 
                   @if ($errors->has('password'))
-                    <div class="invalid-feedback">
+                    <div class="invalid-validation">
                       {{ $errors->first('password') }}
+                    </div>
+                  @else
+                    <div class="invalid-feedback">
+                      Ingresa una contraseña válida.
                     </div>
                   @endif
                 </div>
 
                 <div class="form-group col-md-12">
                   <label for="password_confirmation">Confirmar contraseña</label>
-                  <input type="password" name="password_confirmation" class="form-control is-invalid" id="password_confirmation" placeholder="Vuelve a escribir tu nueva contraseña">
+                  <input type="password" name="password_confirmation" class="form-control" id="password_confirmation" placeholder="Vuelve a escribir tu nueva contraseña">
 
                   @if ($errors->has('password_confirmation'))
-                    <div class="invalid-feedback">
+                    <div class="invalid-validation">
                       {{ $errors->first('password_confirmation') }}
+                    </div>
+                  @else
+                    <div class="invalid-feedback">
+                      Confirma la nueva contraseña.
                     </div>
                   @endif
                 </div>
