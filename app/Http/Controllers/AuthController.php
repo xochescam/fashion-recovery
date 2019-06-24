@@ -162,7 +162,7 @@ class AuthController extends Controller
 
         try {
 
-            $data = $this->authData($request->toArray());
+            $data = $this->authData($request->toArray(), $id);
 
             DB::table($this->table)
                 ->where('id',$id)
@@ -200,9 +200,13 @@ class AuthController extends Controller
         ]);
     }
 
-    protected function authData($data) {
+    protected function authData($data, $id) {
 
-        $date = null;
+        $user = DB::table($this->table)
+                ->where('id',$id)
+                ->get(['Birthdate','Gender'])->first();
+
+        $date = $user->Birthdate;
 
         if(isset($data['birth_date'])) {
 
@@ -210,13 +214,15 @@ class AuthController extends Controller
             $date = date("Y-m-d", strtotime($item));
         }
 
+        $gender = isset($data['gender']) ? $data['gender']: $user->Gender;
+
         return [
              'email'         => $data['email'],
              'Alias'         => $data['Alias'],
              'Name'          => $data['Name'],
              'Lastname'      => $data['last_name'],
              'Notifications' => isset($data['notifications']) ? true : false,
-             'Gender'        => isset($data['gender']) ? $data['gender'] : false,
+             'Gender'        => $gender,
              'Birthdate'     => $date
         ];
     }
