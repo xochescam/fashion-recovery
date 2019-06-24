@@ -125,7 +125,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $date = false;
+        $date = null;
 
         if(isset($data['birth_date'])) {
 
