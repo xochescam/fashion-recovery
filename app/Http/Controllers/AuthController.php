@@ -158,11 +158,29 @@ class AuthController extends Controller
 
         $this->validator($request);
 
+        $user = DB::table($this->table)
+                ->where('id',$id)
+                ->get(['Birthdate','Gender'])->first();
+
+        $birthDate = $user->Birthdate;
+        $gender    = $user->Gender;
+
+        if($birthDate != null && !isset($request->birth_date)) {
+
+            Session::flash('warning','Selecciona tu fecha de nacimiento.');
+            return Redirect::to('auth/'.$id);
+
+        } else if($gender != null && !isset($request->gender)) {
+            
+            Session::flash('warning','Selecciona tu género.');
+            return Redirect::to('auth/'.$id);
+        }
+
         DB::beginTransaction();
 
         try {
 
-            $data = $this->authData($request->toArray(), $id);
+            $data = $this->authData($request->toArray(), $user);
 
             DB::table($this->table)
                 ->where('id',$id)
@@ -200,11 +218,7 @@ class AuthController extends Controller
         ]);
     }
 
-    protected function authData($data, $id) {
-
-        $user = DB::table($this->table)
-                ->where('id',$id)
-                ->get(['Birthdate','Gender'])->first();
+    protected function authData($data, $user) {
 
         $date = $user->Birthdate;
 
