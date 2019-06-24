@@ -222,8 +222,8 @@ class AuthController extends Controller
              'Name'          => $data['Name'],
              'Lastname'      => $data['last_name'],
              'Notifications' => isset($data['notifications']) ? true : false,
-             'Gender'        => $gender,
-             'Birthdate'     => $date
+             'Gender'        => $gender == Null ? Null : $gender,
+             'Birthdate'     => $date == Null ? Null : $date
         ];
     }
 
