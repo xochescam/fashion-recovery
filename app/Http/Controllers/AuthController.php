@@ -202,7 +202,7 @@ class AuthController extends Controller
 
     protected function authData($data) {
 
-        $date = false;
+        $date = null;
 
         if(isset($data['birth_date'])) {
 
