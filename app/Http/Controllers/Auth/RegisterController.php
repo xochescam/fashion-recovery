@@ -101,7 +101,7 @@ class RegisterController extends Controller
                         ->first();
 
             Mail::to($user->email)
-                 ->send(new ConfirmAccount($user, $beSeller));
+                ->send(new ConfirmAccount($user, $beSeller));
 
             DB::commit();
 
@@ -126,7 +126,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $date = null;
+        $date = false;
 
         if(isset($data['birth_date'])) {
 
