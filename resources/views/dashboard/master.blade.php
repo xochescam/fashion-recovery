@@ -195,7 +195,7 @@
                         } else {
                             clothingTypesSelect.setAttribute('disabled',true);
 
-                            clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de ropa -</option>`;
+                            clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de prendas -</option>`;
                         }
 
                    } else {
@@ -369,7 +369,7 @@
                         clothingTypesSelect.setAttribute('disabled',true);
                         clothingTypesSelect.setAttribute('required',false);
 
-                        clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de ropa -</option>`;
+                        clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de prendas -</option>`;
                     }
 
                } else {
@@ -490,7 +490,7 @@
                         clothingTypesSelect.setAttribute('disabled',true);
                         clothingTypesSelect.setAttribute('required',false);
 
-                        clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de ropa -</option>`;
+                        clothingTypesSelect.innerHTML = `<option value="" selected>- No se encontraron tipos de prendas -</option>`;
                     }
 
                } else {
