@@ -166,7 +166,7 @@ class HomeController extends Controller
 
             $item->size       = $size;
             $item->brand      = $brand;
-            $item->otherBrand      = $otherBrand;
+            $item->otherBrand = $otherBrand;
 
             return $item;
         });

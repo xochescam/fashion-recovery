@@ -152,7 +152,7 @@
 
                 <h6>{{ $item->ItemDescription }}</h6>
                 <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                  Talla: 5 <br />Color: {{ $item->ColorName }}</p>
+                  Talla: {{ isset($item->size) ? $item->size : $item->otherBrand->OtherSize }} <br />Color: {{ $item->ColorName }}</p>
                 {{-- <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="btn btn-fr">Comprar</a> --}}
               </div>
             </div>
