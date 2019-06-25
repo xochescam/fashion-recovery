@@ -49,6 +49,13 @@
                           <small>Devoluciones:</small>
                         </th>
                         <td class="px-0 py-1">{{ $seller->ItemsReturned  }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" class="px-0 py-1">
+                          <small>Prendas en el guardarropa:</small>
+                        </th>
+                        <td class="px-0 py-1">{{ count($items)  }}</td>
+                      </tr>
                     </tbody>
                 </table>
 
