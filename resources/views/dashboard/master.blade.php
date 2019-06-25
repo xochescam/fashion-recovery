@@ -31,7 +31,7 @@
 
     @yield('content')
 
-    {@include('layout.footer')
+    @include('layout.footer')
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

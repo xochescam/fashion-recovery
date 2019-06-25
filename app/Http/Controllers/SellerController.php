@@ -66,7 +66,7 @@ class SellerController extends Controller
 
             DB::commit();
 
-            return view('seller.welcome'); //cambiar
+            return Redirect::to('welcome/seller');
 
         } catch (\Exception $ex) {
 
@@ -75,6 +75,10 @@ class SellerController extends Controller
             Session::flash('warning','Ha ocurrido un error');
             return Redirect::to('seller');
         }
+    }
+
+    public function sellerWelcome() {
+        return view('seller.welcome');
     }
 
     /**
@@ -290,11 +294,10 @@ class SellerController extends Controller
         $request->validate([
             'Greeting'             => ['max:50'],
             'AboutMe'              => ['max:256'],
-            'Phone'                => ['numeric'],
+            'Phone'                => ['numeric','digits:10'],
             'LiveIn'               => ['max:35'],
-            //'WorkIn'               => ['max:35'],
-            //'IdentityDocumentPath' => isset($request->id_item_file) ? ['mimes:jpg,jpeg,png'] : [''],
-            //'SelfiePath'           => ['mimes:jpg,jpeg,png']
+            'IdentityDocumentPath' => ['mimes:jpg,jpeg,png'],
+            'SelfiePath'           => ['mimes:jpg,jpeg,png']
         ]);
     }
 
