@@ -43,9 +43,6 @@ class ItemController extends Controller
         $item = false;
         $colors        = DB::table('fashionrecovery.GR_018')
                             ->where('Active',1)->get();
-        //$sizes         = DB::table('fashionrecovery.GR_020')->get();
-        $clothingTypes = DB::table('fashionrecovery.GR_019')
-                            ->where('Active',1)->get();
 
         $departments   = DB::table('fashionrecovery.GR_025')
                             ->where('Active',1)->get();
@@ -95,7 +92,11 @@ class ItemController extends Controller
 
             DB::table($this->table)->insert($data);
 
-            $last = DB::table($this->table)->where('OwnerID',Auth::User()->id)->get()->last()->ItemID;
+            $last = DB::table($this->table)
+                    ->where('OwnerID',Auth::User()->id)
+                    ->orderBy('CreationDate', 'desc')
+                    ->first()
+                    ->ItemID;
 
             if($request->BrandID == 'other') {
                DB::table('fashionrecovery.GR_036')->insert([
@@ -109,7 +110,6 @@ class ItemController extends Controller
             $itemsName = $this->saveItems($request->toArray(), $last);
 
             foreach ($itemsName as $key => $value) { //change
-
                 DB::table('fashionrecovery.GR_032')->insert([
                     'ItemID' => $last,
                     'PicturePath' => $value['name'],
@@ -141,11 +141,15 @@ class ItemController extends Controller
                     $this->saveDefaultCloset()->ClosetID :
                     $data['ClosetID'];
 
-        $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
+        $OffSaleID           = isset($data['offer']) ? $this->saveOffer($data) : null;
+        $isOtherBrand        = $data['BrandID'] == 'other' ? true : false;
+        $isOtherClothingType = $data['ClothingTypeID'] == 'other' ? true : false;
+        $ClothingTypeID      = !$isOtherBrand && $isOtherClothingType ? $this->saveClothingType($data) : $data['ClothingTypeID'];
+        $SizeID              = !$isOtherBrand && !$isOtherClothingType && $data['SizeID'] == 'other'? $this->saveSize($data, $ClothingTypeID) : $data['SizeID'];
 
-        $brand        = $data['BrandID'] == 'other' ? Null : $data['BrandID'];
-        $clothingType = $data['BrandID'] == 'other' ? Null : $data['ClothingTypeID'];
-        $size         = $data['BrandID'] == 'other' ? Null : $data['SizeID'];
+        $brand        = $isOtherBrand ? Null : $data['BrandID'];
+        $clothingType = $isOtherBrand ? Null : isset($ClothingTypeID['ClothingTypeID']) ? $ClothingTypeID['ClothingTypeID'] : $ClothingTypeID;
+        $size         = $isOtherBrand ? Null : isset($ClothingTypeID['SizeID']) ? $ClothingTypeID['SizeID'] : $SizeID;
 
 
         return [
@@ -174,7 +178,11 @@ class ItemController extends Controller
                     $this->saveDefaultCloset()->ClosetID :
                     $data['ClosetID'];
 
-        $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
+        $OffSaleID           = isset($data['offer']) ? $this->saveOffer($data) : null;
+        $isOtherBrand        = $data['BrandID'] == 'other' ? true : false;
+        $isOtherClothingType = $data['ClothingTypeID'] == 'other' ? true : false;
+        $ClothingTypeID      = !$isOtherBrand && $isOtherClothingType ? $this->saveClothingType($data) : $data['ClothingTypeID'];
+        $SizeID              = !$isOtherBrand && !$isOtherClothingType && $data['SizeID'] == 'other'? $this->saveSize($data, $ClothingTypeID) : $data['SizeID'];
 
         $countImg = 0;
 
@@ -187,9 +195,9 @@ class ItemController extends Controller
             }
         }
 
-        $brand        = $data['BrandID'] == 'other' ? Null : $data['BrandID'];
-        $clothingType = $data['BrandID'] == 'other' ? Null : $data['ClothingTypeID'];
-        $size         = $data['BrandID'] == 'other' ? Null : $data['SizeID'];
+        $brand        = $isOtherBrand ? Null : $data['BrandID'];
+        $clothingType = $isOtherBrand ? Null : isset($ClothingTypeID['ClothingTypeID']) ? $ClothingTypeID['ClothingTypeID'] : $ClothingTypeID;
+        $size         = $isOtherBrand ? Null : isset($ClothingTypeID['SizeID']) ? $ClothingTypeID['SizeID'] : $SizeID;
 
         return [
              'ItemDescription'  => $data['ItemDescription'],
@@ -211,6 +219,49 @@ class ItemController extends Controller
         ];
     }
 
+    public function saveClothingType($data) {
+
+        DB::table('fashionrecovery.GR_019')
+            ->insert([
+                'ClothingTypeName' => $data['OtherClothingType'],
+                'BrandID'          => $data['BrandID'],
+                'DepartmentID'     => $data['DepartmentID'],
+                'CategoryID'       => $data['CategoryID'],
+                'Active'           => true,
+                'CreationDate'     => date("Y-m-d H:i:s"),
+                'CreatedBy'        => Auth::User()->id
+            ]);
+
+        $ClothingTypeID = DB::table('fashionrecovery.GR_019')
+                    ->where('CreatedBy', Auth::User()->id)
+                    ->get()->last()->ClothingTypeID;
+
+        $SizeID = $this->saveSize($data, $ClothingTypeID);
+
+        return [
+            'SizeID'         => $SizeID,
+            'ClothingTypeID' => $ClothingTypeID
+        ];
+    }
+
+    public function saveSize($data, $ClothingTypeID) {
+
+        DB::table('fashionrecovery.GR_020')
+            ->insert([
+                'SizeName'       => $data['OtherSize'],
+                'ClothingTypeID' => $ClothingTypeID,
+                'BrandID'        => $data['BrandID'],
+                'DepartmentID'   => $data['DepartmentID'],
+                'Active'         => true,
+                'CreationDate'   => date("Y-m-d H:i:s"),
+                'CreatedBy'      => Auth::User()->id
+            ]);
+
+         return DB::table('fashionrecovery.GR_020')
+                    ->where('CreatedBy', Auth::User()->id)
+                    ->get()->last()->SizeID;
+    }
+
     public function saveOffer($data) {
 
         $remplaceValidFrom = str_replace('/', '-', $data['ValidFrom']);
@@ -230,8 +281,8 @@ class ItemController extends Controller
                     ]);
 
         return $id = DB::table('fashionrecovery.GR_031')
-                ->where('UserID', $userId)
-                ->get()->last()->OfferID;
+                        ->where('UserID', $userId)
+                        ->get()->last()->OfferID;
     }
 
     protected function saveDefaultCloset() {

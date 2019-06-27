@@ -6,8 +6,8 @@
 @endif
 
 @if(!$item)
-<div>
-  <label>Fotos de la prenda *</label>
+ <div>
+<label>Fotos de la prenda *</label>
 
 <div class="row js-items-container mt-2 text-center">
   <div class="col-sm-4 mb-5 thumb-size js-item-picture">
@@ -232,9 +232,9 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
+  <div class="form-group col-md-6 js-mean js-mean-clothing-type {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID"  {{ $item ? '' : 'disabled'}}  data-size="false" {{ !isset($otherBrand) ? 'required' : '' }}>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID" data-size="false" {{ !isset($otherBrand) ? 'required' : '' }}>
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($clothingTypes))
@@ -244,6 +244,8 @@
           </option>
         @endforeach
       @endif
+      <option value="other"> Otro tipo de prenda</option>
+
     </select>
     <small>Ejemplo: Blazer, Playera, Jeans...</small>
 
@@ -259,9 +261,9 @@
   </div>
 </div>
 
-<div class="form-row js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+<div class="form-row js-other js-other-clothing-type {{ isset($otherBrand) ? '' : 'hidden' }}">
   <div class="form-group w-100">
-    <label for="OtherClothingType">Ingresa el tipo de ropa *</label>
+    <label for="OtherClothingType">Ingresa el tipo de prenda *</label>
     <input type="text" class="form-control" name="OtherClothingType" id="OtherClothingType" value="{{ isset($otherBrand->OtherClothingType) ? $otherBrand->OtherClothingType : '' }}">
     <small>Lorem ipsum dolor sit amet</small>
 
@@ -271,7 +273,7 @@
       </div>
     @else
       <div class="invalid-feedback">
-        El campo ingresa el tipo de ropa es obligatorio.
+        El campo ingresa el tipo de prenda es obligatorio.
       </div>
     @endif
   </div>
@@ -279,9 +281,9 @@
 
 
 <div class="form-row">
-  <div class="form-group col-md-6 js-mean {{ isset($otherBrand) ? 'hidden' : '' }}">
+  <div class="form-group col-md-6 js-mean js-mean-size {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="SizeID">Talla *</label>
-    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ $item ? '' : 'disabled'}} {{ !isset($otherBrand) ? 'required' : '' }}>
+    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ !isset($otherBrand) ? 'required' : '' }}>
       <option value="" selected>- Seleccionar -</option>
 
       @if(isset($sizes))
@@ -291,6 +293,8 @@
           </option>
         @endforeach
       @endif
+
+      <option value="other"> Otro tipo de talla</option>
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
 
@@ -305,9 +309,9 @@
       @endif
   </div>
 
-  <div class="form-group col-md-6 js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+  <div class="form-group col-md-6 js-other js-other-size {{ isset($otherBrand) ? '' : 'hidden' }}">
     <label for="OtherSize">Ingresa la talla *</label>
-    <input type="text" class="form-control" name="OtherSize" id="OtherSize" value="{{ isset($otherBrand->OtherSize) ? $otherBrand->OtherSize : '' }}" >
+    <input type="text" class="form-control" name="OtherSize" maxlength="8" id="OtherSize" value="{{ isset($otherBrand->OtherSize) ? $otherBrand->OtherSize : '' }}" >
     <small>Lorem ipsum dolor sit amet</small>
 
     @if ($errors->has('OtherSize'))
@@ -420,7 +424,7 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="OriginalPrice">Precio original *</label>
-      <input type="money" class="form-control" name="OriginalPrice" id="OriginalPrice" value="" required>
+      <input type="number" class="form-control" name="OriginalPrice" id="OriginalPrice" value="" required>
       <small>¿Cuánto te costo la prenda?</small>
 
       @if ($errors->has('OriginalPrice'))
@@ -437,7 +441,7 @@
     <div class="form-group col-md-6">
       <label for="ActualPrice">Precio actual *</label>
 
-      <input type="money" class="form-control" name="ActualPrice" id="ActualPrice" value="" required>
+      <input type="number" class="form-control" name="ActualPrice" id="ActualPrice" value="" required>
       <small>¿En cuánto venderás la prenda?</small>
 
       @if ($errors->has('ActualPrice'))
