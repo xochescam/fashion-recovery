@@ -48,56 +48,68 @@
                     </div>
                 </div>
                 <div class="col-sm-8">
-                    <table class="">
-                        <tr>
-                            <td>
-                                <div class="media">
-                                    <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                                    <div class="media-body">
-                                        <h5 class="mt-0">Audifonos Skullcandy</h5>
-                                        Nulla vel metus scelerisque ante sollicitudin.
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <button  type="button" class="btn btn-danger float-right">Eliminar</button>
-                            </td>
-                        </tr>
-                    </table>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
-                            <div class="media">
-                                <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Audifonos Skullcandy</h5>
-                                    Nulla vel metus scelerisque ante sollicitudin.
+                            <div class="row">
+                                <div class="col-sm-11 col-11">
+                                    <div class="media">
+                                        <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">Audifonos Skullcandy</h5>
+                                            Nulla vel metus scelerisque ante sollicitudin.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-1 p-0">
+                                    <button class="btn btn-danger float-right"><i class="fas fa-minus-circle"></i></button>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <div class="media">
-                                <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Mouse inalámbrico</h5>
-                                    Donec lacinia congue felis in faucibus.
+                            <div class="row">
+                                <div class="col-sm-11 col-11">
+                                    <div class="media">
+                                        <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">Mouse inalámbrico</h5>
+                                            Donec lacinia congue felis in faucibus.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-1 p-0">
+                                    <button class="btn btn-danger float-right"><i class="fas fa-eraser"></i></button>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <div class="media">
-                                <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Pantalla UHD 50"</h5>
-                                    Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            <div class="row">
+                                <div class="col-sm-11 col-11">
+                                    <div class="media">
+                                        <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">Pantalla UHD 50"</h5>
+                                            Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-1 p-0">
+                                    <button class="btn btn-danger float-right"><i class="fas fa-times-circle"></i></button>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item">
-                            <div class="media">
-                                <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                                <div class="media-body">
-                                    <h5 class="mt-0">Playstation5</h5>
-                                    Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                            <div class="row">
+                                <div class="col-sm-11 col-11">
+                                    <div class="media">
+                                        <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
+                                        <div class="media-body">
+                                            <h5 class="mt-0">Playstation5</h5>
+                                            Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1 col-1 p-0">
+                                    <button class="btn btn-danger float-right"><i class="fas fa-times"></i></button>
                                 </div>
                             </div>
                         </li>
