@@ -74,7 +74,7 @@
                 
                 <div class="card-body">
                   <h5 class="card-title"> {{ $closet->ClosetName }} </h5>
-                  <a href="{{ route('closet.edit',$closet->ClosetID) }}" class="card-link">Configurar</a>
+                  <a href="{{ route('closet.edit',$closet->ClosetID) }}" class="card-link">Editar</a>
                   <a href="{{ route('closet.destroy',$closet->ClosetID) }}" class="card-link text-danger">Eliminar</a>
                 </div>
               </div>

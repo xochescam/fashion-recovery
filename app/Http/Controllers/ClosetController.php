@@ -161,16 +161,26 @@ class ClosetController extends Controller
      */
     public function destroy($id)
     {
+        $name = DB::table($this->table)
+                    ->where('ClosetID',$id)
+                    ->first()
+                    ->ClosetName;
+
         DB::beginTransaction();
 
         try {
 
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
+
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "ClosetID"='.$id);
+            
             $default = DB::table($this->table)
                         ->where('UserID',Auth::User()->id)
                         ->where('ClosetName','Closet por defecto')
-                        ->get();
+                        ->first();
 
-            if(!isset($exists->ClosetName)) {
+            if(!isset($default)) {
                 $closet = DB::table($this->table)->insert([
                     'UserID'            => Auth::User()->id,
                     'ClosetName'        => 'Closet por defecto',
@@ -181,23 +191,19 @@ class ClosetController extends Controller
                 $default = DB::table($this->table)
                         ->where('UserID',Auth::User()->id)
                         ->where('ClosetName','Closet por defecto')
-                        ->get();
+                        ->first();
             }
 
             $items = DB::table('fashionrecovery.GR_029')
                         ->where('OwnerID',Auth::User()->id)
                         ->where('ClosetID',$id)
+                        ->get();
+
+            foreach ($items as $key => $item) {
+                DB::table('fashionrecovery.GR_029')
+                        ->where('ItemID',$item->ItemID)
                         ->update(['ClosetID' => $default->ClosetID]);
-
-            $name = DB::table($this->table)
-                    ->where('ClosetID',$id)
-                    ->first()
-                    ->ClosetName;
-
-            $explode     = explode('.', $this->table);
-            $stringTable = $explode[0].'."'.$explode[1].'"';
-
-            DB::delete('DELETE FROM '.$stringTable.' WHERE "ClosetID"='.$id);
+            }
 
             DB::commit();
 
