@@ -41,7 +41,7 @@
 
   <div class="form-group">
     <label for="brandId">Marca</label>
-    <select id="brandId" class="form-control js-brands-select" name="brandId" data-size="true" {{ isset($size->BrandID) ? '' : 'disabled'  }}>
+    <select id="brandId" class="form-control js-brands-select" name="brandId" data-size="true">
       <option value="" selected>- Seleccionar -</option>
 
       @foreach($brands as $item)
@@ -63,7 +63,7 @@
 
   <div class="form-group">
     <label for="clothingTypeId">Tipo de prenda</label>
-    <select id="clothingTypeId" class="form-control js-clothing-type-select" name="clothingTypeId" data-size="true" {{ isset($size->ClothingTypeID) ? '' : 'disabled'  }}>
+    <select id="clothingTypeId" class="form-control js-clothing-type-select" name="clothingTypeId" data-size="true">
       <option value="" selected>- Seleccionar -</option>
 
       @foreach($clothingTypes as $item)

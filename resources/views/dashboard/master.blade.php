@@ -213,6 +213,7 @@
         }
 
         function changeDepartament(e) {
+
             const clothingTypesSelect      = document.querySelector('.js-clothing-type-select');
             const brandsSelect             = document.querySelector('.js-brands-select');
             const sizesSelect              = document.querySelector('.js-sizes-select');
@@ -222,10 +223,21 @@
             const request                  = new XMLHttpRequest();
             const url                      = window.location.origin;
             const size                     = e.currentTarget.getAttribute('data-size');
+
             brandsSelect.innerHTML         = `<option value="" selected>- Seleccionar -</option>`;
-            clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`;
-            sizesSelect.innerHTML          = `<option value="" selected>- Seleccionar -</option>`;
-            categoriesSelect.selectedIndex = 0;
+        
+            if(clothingTypesSelect) {
+               clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`; 
+            }
+
+            if(sizesSelect) {
+                sizesSelect.innerHTML          = `<option value="" selected>- Seleccionar -</option>`;                
+            }
+            
+            if(categoriesSelect) {
+                categoriesSelect.selectedIndex = 0;
+            }
+            
 
             for (var i = otherInputs.length - 1; i >= 0; i--) {
                 otherInputs[i].classList.add('hidden');
@@ -268,8 +280,13 @@
                     console.log('Ocurrio un error, inténtalo de nuevo.');
                 }
 
-                sizesSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra talla </option>`);
-                brandsSelect.insertAdjacentHTML('beforeend', `<option value="other">Otra marca</option>`);
+                if(sizesSelect) {
+                    sizesSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra talla </option>`);
+                    brandsSelect.insertAdjacentHTML('beforeend', `<option value="other">Otra marca</option>`);
+                }
+
+                
+                
             };
 
             request.onerror = function() {
@@ -435,6 +452,10 @@
             const inputSize          = document.querySelector('.js-other-size');
             const inputClothingType  = document.querySelector('.js-other-clothing-type');
             const selectSize         = document.querySelector('.js-mean-size');
+
+            if(!inputSize) {
+                return;
+            }
 
             if(e.currentTarget.value == 'other') {
 
