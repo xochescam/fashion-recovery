@@ -96,6 +96,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('item/{itemId}/edit', 'ItemController@edit');
 	Route::post('item/{itemId}', 'ItemController@update')->name('item.update');
 	Route::get('item/{itemId}/delete', 'ItemController@destroy')->name('item.destroy');
+	Route::get('item/{itemId}/full-delete', 'ItemController@fullDestroy')->name('item.fullDestroy');
 	Route::post('add-items/{itemId}', 'ItemController@addItem');
 
 	//Closet

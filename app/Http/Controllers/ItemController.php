@@ -690,6 +690,35 @@ class ItemController extends Controller
         }
     }
 
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function fullDestroy($id)
+    {
+       DB::beginTransaction();
+
+        try {
+
+            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
+            DB::delete('DELETE FROM fashionrecovery."GR_029" WHERE "ItemID"='.$id);
+
+            DB::commit();
+
+            Session::flash('success','Se ha eliminado correctamente la prenda.');
+            return Redirect::to('items');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('item/'.$id);
+        }
+    }
+
     public function addItem(Request $request, $itemId) {
 
         DB::beginTransaction();
