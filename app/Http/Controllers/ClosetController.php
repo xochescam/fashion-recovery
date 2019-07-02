@@ -58,7 +58,7 @@ class ClosetController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         DB::beginTransaction();
 
         try {
@@ -161,15 +161,39 @@ class ClosetController extends Controller
      */
     public function destroy($id)
     {
-                    
-         DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
+
+            $default = DB::table($this->table)
+                        ->where('UserID',Auth::User()->id)
+                        ->where('ClosetName','Closet por defecto')
+                        ->get();
+
+            if(!isset($exists->ClosetName)) {
+                $closet = DB::table($this->table)->insert([
+                    'UserID'            => Auth::User()->id,
+                    'ClosetName'        => 'Closet por defecto',
+                    'ClosetDescription' => 'Closet por defecto',
+                    'CreationDate'      => date("Y-m-d H:i:s")
+                ]);
+
+                $default = DB::table($this->table)
+                        ->where('UserID',Auth::User()->id)
+                        ->where('ClosetName','Closet por defecto')
+                        ->get();
+            }
+
+            $items = DB::table('fashionrecovery.GR_029')
+                        ->where('OwnerID',Auth::User()->id)
+                        ->where('ClosetID',$id)
+                        ->update(['ClosetID' => $default->ClosetID]);
 
             $name = DB::table($this->table)
                     ->where('ClosetID',$id)
                     ->first()
                     ->ClosetName;
+
             $explode     = explode('.', $this->table);
             $stringTable = $explode[0].'."'.$explode[1].'"';
 
