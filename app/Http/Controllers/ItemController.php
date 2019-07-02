@@ -698,6 +698,7 @@ class ItemController extends Controller
      */
     public function fullDestroy($id)
     {
+
        DB::beginTransaction();
 
         try {

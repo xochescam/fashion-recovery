@@ -52,12 +52,17 @@
 
                 </form>
 
-                <a type="button" class="btn btn-danger" href="{{ url('item/'.$item->first()->ItemID.'/full-delete') }}">
+                
+              </div>
+              
+            </div>
+
+            <div class="text-center mt-3">
+                <a href="{{ url('item/'.$item->first()->ItemID.'/full-delete') }}" class="btn btn-danger w-50" >
                   <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
-                    Eliminar
+                    Eliminar prenda
                 </a>
               </div>
-            </div>
           </div>
 
           <div class="col-sm-8">
