@@ -656,10 +656,10 @@
 
         if(addItems) {
 
-            const container = document.querySelector('.js-items-container');
+            const container    = document.querySelector('.js-items-container');
             const realPictures = document.querySelector('.js-input-real-pictures');
-            const btn = document.querySelector('.js-add-items-btn');
-            const isNewItem = container.getAttribute('data-item');
+            const btn          = document.querySelector('.js-add-items-btn');
+            const isNewItem    = container.getAttribute('data-item');
 
             var arr = [];
 
