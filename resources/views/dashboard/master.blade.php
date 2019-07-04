@@ -42,6 +42,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
 
+    <script src="{{ url('js/exif.js') }} "></script>
     <script src="{{ url('js/load-image.all.min.js') }} "></script>
 
     <script>
@@ -57,6 +58,106 @@
         const brandsSelect        = document.querySelector('.js-brands-select');
         const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
         const sizesSelect         = document.querySelector('.js-sizes-select');
+        const itemFiles1           = document.querySelector('.js-item-file-opt1');
+        const itemFiles2           = document.querySelector('.js-item-file-opt2');
+
+        if(itemFiles1) {
+            itemFiles1.addEventListener('change', option1);
+        }
+
+        function option1(e) { //stackoverflow
+
+            var input = e.currentTarget;
+
+            // If file is loaded, create new FileReader
+            if (input.files && input.files[0]) {
+
+                // Create a FileReader
+                var reader = new FileReader();
+                // Set onloadend function on reader
+                reader.onloadend = function (e) {
+
+                    // Update an image tag with loaded image source
+                    var img         = new Image();
+                    img.setAttribute('src', e.currentTarget.result);
+                    img.style.width = "100%";
+
+                    const container = input.parentNode;
+                    container.appendChild(img);
+
+                    // Use EXIF library to handle the loaded image exif orientation
+                    EXIF.getData(input.files[0], function() {
+
+                        // run orientation on img in canvas
+                        orientation(img, document.createElement('canvas'));
+                    });
+                };
+
+                // Trigger reader to read the file input
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+        // Function to check orientation of image from EXIF metadatas and draw canvas
+        function orientation(img, canvas) {
+
+            // Set variables
+            var ctx = canvas.getContext("2d");
+            var exifOrientation = '';
+            var width = img.width,
+                height = img.height;
+
+                console.log(width);
+                console.log(height);
+
+            // Check orientation in EXIF metadatas
+            EXIF.getData(img, function() {
+                var allMetaData = EXIF.getAllTags(this);
+                exifOrientation = allMetaData.Orientation;
+                console.log('Exif orientation: ' + exifOrientation);
+            });
+
+            // set proper canvas dimensions before transform & export
+            if (jQuery.inArray(exifOrientation, [5, 6, 7, 8]) > -1) {
+                canvas.width = height;
+                canvas.height = width;
+            } else {
+                canvas.width = width;
+                canvas.height = height;
+            }
+
+            // transform context before drawing image
+            switch (exifOrientation) {
+                case 2:
+                    ctx.transform(-1, 0, 0, 1, width, 0);
+                    break;
+                case 3:
+                    ctx.transform(-1, 0, 0, -1, width, height);
+                    break;
+                case 4:
+                    ctx.transform(1, 0, 0, -1, 0, height);
+                    break;
+                case 5:
+                    ctx.transform(0, 1, 1, 0, 0, 0);
+                    break;
+                case 6:
+                    ctx.transform(0, 1, -1, 0, height, 0);
+                    break;
+                case 7:
+                    ctx.transform(0, -1, -1, 0, height, width);
+                    break;
+                case 8:
+                    ctx.transform(0, -1, 1, 0, 0, width);
+                    break;
+                default:
+                    ctx.transform(1, 0, 0, 1, 0, 0);
+            }
+
+            // Draw img into canvas
+            ctx.drawImage(img, 0, 0, width, height);
+        }
+
 
 
         if (dateTime[0] && dateTime[0].type != 'date' ) {
@@ -213,7 +314,6 @@
         }
 
         function changeDepartament(e) {
-
             const clothingTypesSelect      = document.querySelector('.js-clothing-type-select');
             const brandsSelect             = document.querySelector('.js-brands-select');
             const sizesSelect              = document.querySelector('.js-sizes-select');
@@ -223,21 +323,10 @@
             const request                  = new XMLHttpRequest();
             const url                      = window.location.origin;
             const size                     = e.currentTarget.getAttribute('data-size');
-
             brandsSelect.innerHTML         = `<option value="" selected>- Seleccionar -</option>`;
-        
-            if(clothingTypesSelect) {
-               clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`; 
-            }
-
-            if(sizesSelect) {
-                sizesSelect.innerHTML          = `<option value="" selected>- Seleccionar -</option>`;                
-            }
-            
-            if(categoriesSelect) {
-                categoriesSelect.selectedIndex = 0;
-            }
-            
+            clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`;
+            sizesSelect.innerHTML          = `<option value="" selected>- Seleccionar -</option>`;
+            categoriesSelect.selectedIndex = 0;
 
             for (var i = otherInputs.length - 1; i >= 0; i--) {
                 otherInputs[i].classList.add('hidden');
@@ -280,13 +369,8 @@
                     console.log('Ocurrio un error, inténtalo de nuevo.');
                 }
 
-                if(sizesSelect) {
-                    sizesSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra talla </option>`);
-                    brandsSelect.insertAdjacentHTML('beforeend', `<option value="other">Otra marca</option>`);
-                }
-
-                
-                
+                sizesSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra talla </option>`);
+                brandsSelect.insertAdjacentHTML('beforeend', `<option value="other">Otra marca</option>`);
             };
 
             request.onerror = function() {
@@ -453,10 +537,6 @@
             const inputClothingType  = document.querySelector('.js-other-clothing-type');
             const selectSize         = document.querySelector('.js-mean-size');
 
-            if(!inputSize) {
-                return;
-            }
-
             if(e.currentTarget.value == 'other') {
 
                 inputSize.classList.remove('hidden');
@@ -575,19 +655,23 @@
 
             container.previousElementSibling.style.display = "none";
 
-            const img = document.querySelector('.js-new-item img');
-
+            // Create a FileReader
             var reader = new FileReader();
-
-            reader.onload = function(e) {
+            // Set onloadend function on reader
+            reader.onloadend = function (e) {
                 container.innerHTML = "";
 
-                // Create a new image.
-                var img = new Image();
-
-                img.src = reader.result;
-                container.appendChild(img);
+                // Update an image tag with loaded image source
+                var img         = new Image();
                 img.style.width = "100%";
+                img.setAttribute('src', e.currentTarget.result);
+                container.appendChild(img);
+
+                // Use EXIF library to handle the loaded image exif orientation
+                EXIF.getData(file[0], function() {
+                    // run orientation on img in canvas
+                    orientation(img, document.createElement('canvas'));
+                });
 
                 const button = `<a class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</a>`;
 
@@ -598,8 +682,9 @@
                 Array.prototype.forEach.call(deleteButtons, (btn) => {
                     btn.addEventListener('click', deleteItem);
                 });
-            }
+            };
 
+            // Trigger reader to read the file input
             reader.readAsDataURL(file[0]);
         }
 
