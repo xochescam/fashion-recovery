@@ -363,6 +363,13 @@ class ItemController extends Controller
         $size         = null;
         $brand        = null;
         $otherBrand   = null;
+        $wishlists    = null;
+
+        if(Auth::User()) {
+            $wishlists    = DB::table('fashionrecovery.GR_024')
+                                ->where('UserID',Auth::User()->id)
+                                ->get();
+        }
 
         $itemInfo = DB::table($this->table)
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
@@ -433,6 +440,8 @@ class ItemController extends Controller
 
 
         return view('item.public-show',compact(
+            'id',
+            'wishlists',
             'ValidFrom',
             'ValidUntil',
             'priceOffer',

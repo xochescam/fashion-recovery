@@ -66,7 +66,13 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('guardarropa', 'ClosetController@ownClosets');
 
 	//Wishlist
-	Route::get('wishlist', 'WishlistController@index');
+	Route::get('wishlists', 'WishlistController@index');
+	Route::get('wishlist/{WishlistID}', 'WishlistController@show')->name('wishlists.show');
+	Route::post('wishlist', 'WishlistController@store')->name('wishlists.store');
+	Route::get('wishlist/{WishlistID}/{ItemID}/exists', 'WishlistController@existingWishlist');
+	Route::get('wishlist/{WishlistID}/edit', 'WishlistController@edit')->name('wishlists.edit');
+	Route::post('wishlist/{WishlistID}', 'WishlistController@update')->name('wishlists.update');
+	Route::get('wishlist/{WishlistID}/delete', 'WishlistController@destroy')->name('wishlists.destroy');
 
 	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');

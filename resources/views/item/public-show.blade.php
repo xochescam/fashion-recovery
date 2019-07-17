@@ -2,9 +2,14 @@
 
 @section('content')
 
-	 <main id="main">
+	<main id="main">
       	<div class="container py-5">
+
+      		@include('alerts.success')
+  			@include('alerts.warning')
+
 	        <div class="row">
+
 	          <div class="col-sm-8 d-flex">
 
 	          	<div class="col-sm-2 p-0 mb-4 container-img-thumbs">
@@ -133,10 +138,25 @@
 		          				<i class="fas fa-shopping-cart mr-1"></i>
 		          				 Agregar al carrito
 		          			</button>
-		          			<button class="btn w-100 green-border-button  btn-outline-light my-2 my-sm-0" type="submit">
-		          				<i class="fas fa-heart mr-1"></i>
+
+		          			<div class="dropdown">
+							  <button class="btn green-border-button w-100 btn-outline-light my-2 my-sm-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							  	<i class="fas fa-heart mr-1"></i>
 								 Agregar a wishlist
-							</button>
+							  </button>
+							  <div class="dropdown-menu w-100 " aria-labelledby="dropdownMenuButton">
+
+							  	@if(Auth::User())
+							  		@foreach($wishlists as $wishlist)
+							    		<a class="dropdown-item text-left" href="{{ url('wishlist/'.$wishlist->WishListID.'/'.$id.'/exists') }}"> {{ $wishlist->NameList }} </a>
+							    	@endforeach
+							    @endif
+							    <a class="dropdown-item dropdown-item--green text-left green-color" href="#" data-toggle="modal" data-target="#addWishlist">
+							    	<i class="fas fa-plus"></i>
+									<b class="ml-1" >Nueva wishlist</b>
+								</a>
+							  </div>
+							</div>
 		          		</div>
 		          	</div>
 	          	</div>
@@ -146,5 +166,8 @@
 	        </div>
       	</div>
     </main>
+
+    <!-- Modal -->
+    @include('wishlist.create')
 
 @endsection
