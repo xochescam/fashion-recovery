@@ -65,99 +65,39 @@
             itemFiles1.addEventListener('change', option1);
         }
 
-        function option1(e) { //stackoverflow
-
-            var input = e.currentTarget;
-
-            // If file is loaded, create new FileReader
-            if (input.files && input.files[0]) {
-
-                // Create a FileReader
-                var reader = new FileReader();
-                // Set onloadend function on reader
-                reader.onloadend = function (e) {
-
-                    // Update an image tag with loaded image source
-                    var img         = new Image();
-                    img.setAttribute('src', e.currentTarget.result);
-                    img.style.width = "100%";
-
-                    const container = input.parentNode;
-                    container.appendChild(img);
-
-                    // Use EXIF library to handle the loaded image exif orientation
-                    EXIF.getData(input.files[0], function() {
-
-                        // run orientation on img in canvas
-                        orientation(img, document.createElement('canvas'));
-                    });
-                };
-
-                // Trigger reader to read the file input
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-
         // Function to check orientation of image from EXIF metadatas and draw canvas
-        function orientation(img, canvas) {
+        function orientation(img) {
 
             // Set variables
-            var ctx = canvas.getContext("2d");
             var exifOrientation = '';
             var width = img.width,
                 height = img.height;
 
             // Check orientation in EXIF metadatas
             EXIF.getData(img, function() {
-                
-                var allMetaData = EXIF.getAllTags(this);
-                alert(allMetaData);
-                
-
-                exifOrientation = allMetaData.Orientation;
-                alert('Exif orientation: ' + exifOrientation);
-                return;
+                exifOrientation = EXIF.getTag(this, "Orientation");
+                console.log('Exif orientation: ' + exifOrientation);
             });
-
-            // set proper canvas dimensions before transform & export
-            if (jQuery.inArray(exifOrientation, [5, 6, 7, 8]) > -1) {
-                canvas.width = height;
-                canvas.height = width;
-            } else {
-                canvas.width = width;
-                canvas.height = height;
-            }
 
             // transform context before drawing image
             switch (exifOrientation) {
                 case 2:
-                    ctx.transform(-1, 0, 0, 1, width, 0);
-                    break;
+                    img.classList.add('flip'); break;
                 case 3:
-                    ctx.transform(-1, 0, 0, -1, width, height);
-                    break;
+                    img.classList.add('rotate-180'); break;
                 case 4:
-                    ctx.transform(1, 0, 0, -1, 0, height);
-                    break;
+                    img.classList.add('flip-and-rotate-180'); break;
                 case 5:
-                    ctx.transform(0, 1, 1, 0, 0, 0);
-                    break;
+                    img.classList.add('flip-and-rotate-270'); break;
                 case 6:
-                    ctx.transform(0, 1, -1, 0, height, 0);
-                    break;
+                    img.classList.add('rotate-90'); break;
                 case 7:
-                    ctx.transform(0, -1, -1, 0, height, width);
-                    break;
+                    img.classList.add('flip-and-rotate-90'); break;
                 case 8:
-                    ctx.transform(0, -1, 1, 0, 0, width);
-                    break;
-                default:
-                    ctx.transform(1, 0, 0, 1, 0, 0);
+                    img.classList.add('rotate-270'); break;
+                // default:
+                //     ctx.transform(1, 0, 0, 1, 0, 0);
             }
-
-            // Draw img into canvas
-            ctx.drawImage(img, 0, 0, width, height);
         }
 
 
@@ -246,6 +186,12 @@
                     img.style.width = "100%";
                     img.classList.add('card-img-top');
                     img.classList.add('js-selfie-img');
+
+                    // Use EXIF library to handle the loaded image exif orientation
+                    EXIF.getData(file[0], function() {
+                        // run orientation on img in canvas
+                        orientation(img);
+                    });
 
                     container.insertAdjacentHTML('beforeend', '<i class="far fa-edit" id="edit_icon"></i>');
                 }
@@ -656,23 +602,22 @@
             const input     = el.nextElementSibling.previousElementSibling;
 
             container.previousElementSibling.style.display = "none";
+            container.innerHTML = "";
 
             // Create a FileReader
             var reader = new FileReader();
             // Set onloadend function on reader
             reader.onloadend = function (e) {
-                container.innerHTML = "";
 
-                // Update an image tag with loaded image source
-                var img         = new Image();
-                img.style.width = "100%";
-                img.setAttribute('src', e.currentTarget.result);
-                container.appendChild(img);
+                var imagen         = new Image();
+                imagen.style.width = "100%";
+                imagen.setAttribute('src', e.currentTarget.result);
+                container.appendChild(imagen);
 
                 // Use EXIF library to handle the loaded image exif orientation
                 EXIF.getData(file[0], function() {
                     // run orientation on img in canvas
-                    orientation(img, document.createElement('canvas'));
+                    orientation(imagen);
                 });
 
                 const button = `<a class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</a>`;
