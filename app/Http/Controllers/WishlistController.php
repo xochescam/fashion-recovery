@@ -145,7 +145,25 @@ class WishlistController extends Controller
      */
     public function show($id)
     {
-        //
+        $wishlist = DB::table($this->table)
+                    ->where('WishListID',$id)
+                    ->first();
+
+        $itemsIds = DB::table('fashionrecovery.GR_037')
+                        ->where('WishlistID',$wishlist->WishListID)
+                        ->get()
+                        ->groupBy('ItemID')
+                        ->keys()
+                        ->toArray();
+
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->whereIn('GR_029.ItemID',$itemsIds)
+                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_032.ThumbPath','GR_029.OriginalPrice','GR_029.ActualPrice')
+                    ->get()
+                    ->groupBy('ItemID');
+                    
+        return view('wishlist.show',compact('wishlist','items'));
     }
 
     /**
