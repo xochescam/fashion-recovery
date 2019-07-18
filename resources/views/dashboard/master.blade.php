@@ -108,14 +108,16 @@
             var width = img.width,
                 height = img.height;
 
-                console.log(width);
-                console.log(height);
-
             // Check orientation in EXIF metadatas
             EXIF.getData(img, function() {
+                
                 var allMetaData = EXIF.getAllTags(this);
+                alert(allMetaData);
+                
+
                 exifOrientation = allMetaData.Orientation;
-                console.log('Exif orientation: ' + exifOrientation);
+                alert('Exif orientation: ' + exifOrientation);
+                return;
             });
 
             // set proper canvas dimensions before transform & export
