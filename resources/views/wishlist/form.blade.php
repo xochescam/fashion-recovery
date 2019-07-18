@@ -16,9 +16,9 @@
 
 	<div class="form-group">
 	<div class="form-check">
-    <input class="form-check-input" type="checkbox" id="IsPublic" name="IsPublic"  value="1" {{ isset($Wishlist->IsPublic) ? ($Wishlist->IsPublic == true ? 'checked' : '' ) : ''}}>
+    <input class="form-check-input" type="checkbox" id="IsPublic" name="IsPublic"  value="1" {{ isset($Wishlist->IsPublic) ? ($Wishlist->IsPublic == true ? 'checked' : '' ) : 'checked'}}>
     <label class="form-check-label" for="IsPublic">
-    	Mantenerla secreta
+    	¿Es pública?
     </label>
 		</div>
 </div>

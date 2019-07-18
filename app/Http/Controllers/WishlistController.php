@@ -75,24 +75,32 @@ class WishlistController extends Controller
 
         try {
 
+            $message = 'Wishlist creada correctamente';
+            $url     = 'wishlists';
+
             $data = $this->getData($request->toArray());
 
             DB::table($this->table)->insert($data);
 
-            $lastWishlist = DB::table($this->table)
+            if(isset($request->ItemID)) {
+                $lastWishlist = DB::table($this->table)
                                 ->where('UserID',Auth::User()->id)
                                 ->orderBy('CreationDate', 'desc')
                                 ->first();          
 
-            DB::table('fashionrecovery.GR_037')->insert([
-                'ItemID'     => $request->ItemID,
-                'WishlistID' => $lastWishlist->WishListID
-            ]);
+                DB::table('fashionrecovery.GR_037')->insert([
+                    'ItemID'     => $request->ItemID,
+                    'WishlistID' => $lastWishlist->WishListID
+                ]); 
+
+                $message = 'Prenda agregada correctamente a '.$lastWishlist->NameList; 
+                $url     = 'items/'.$request->ItemID.'/public';
+            }
 
             DB::commit();
 
-            Session::flash('success','Prenda agregada correctamente a '.$lastWishlist->NameList);
-            return Redirect::to('items/'.$request->ItemID.'/public');
+            Session::flash('success',$message);
+            return Redirect::to($url);
 
         } catch (\Exception $ex) {
 
@@ -229,7 +237,7 @@ class WishlistController extends Controller
         return [
              'UserID'       => Auth::User()->id,
              'NameList'     => $data['NameList'],
-             'IsPublic'     => isset($data['IsPublic'])  ? 1 : 0,
+             'IsPublic'     => isset($data['IsPublic']) ? 1 : 0,
              'Active'       => 1,
              'CreationDate' => date("Y-m-d H:i:s")
         ];
