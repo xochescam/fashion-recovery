@@ -14,7 +14,7 @@
                     </button>
                 </div>
 
-                <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia eligendi sint, officiis fugit optio ullam quod eveniet, unde quibusdam nostrum e quibusdam nostrum..</p>
+                <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia eligendi sint, officiis fugit optio ullam quod even..</p>
             </div>
 
             @include('alerts.success')
