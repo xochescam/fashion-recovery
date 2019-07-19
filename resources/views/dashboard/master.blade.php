@@ -76,7 +76,7 @@
             // Check orientation in EXIF metadatas
             EXIF.getData(img, function() {
                 exifOrientation = EXIF.getTag(this, "Orientation");
-                console.log('Exif orientation: ' + exifOrientation);
+                alert('Exif orientation: ' + exifOrientation);
             });
 
             // transform context before drawing image
