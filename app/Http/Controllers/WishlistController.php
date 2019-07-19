@@ -28,27 +28,40 @@ class WishlistController extends Controller
                         ->whereIn('WishlistID',$wishlist->groupBy('WishListID')->keys()->toArray())
                         ->get();
 
-        $wishlists = $wishlist->map(function ($item, $key) use($itemsWishlist){
+        if(count($itemsWishlist) > 0) {
+            $wishlists = $wishlist->map(function ($item, $key) use($itemsWishlist){
 
-            $itemsIds = $itemsWishlist->where('WishlistID',$item->WishListID)
-                                      ->groupBy('ItemID')
-                                      ->keys()
-                                      ->toArray();
+                $itemsIds = $itemsWishlist->where('WishlistID',$item->WishListID)
+                                          ->groupBy('ItemID')
+                                          ->keys()
+                                          ->toArray();
 
-            $items = DB::table('fashionrecovery.GR_032')
-                    ->whereIn('ItemID',$itemsIds)
-                    ->get()
-                    ->groupBy('ItemID');
+                $items = DB::table('fashionrecovery.GR_032')
+                        ->whereIn('ItemID',$itemsIds)
+                        ->get()
+                        ->groupBy('ItemID');
 
-            return [
-                'WishListID' => $item->WishListID,
-                'NameList'   => $item->NameList,
-                'IsPublic'   => $item->IsPublic,
-                'Active'     => $item->Active,
-                'Items'      => count($items) == 0 ? null : $items 
-            ];
-        });
+                return [
+                    'WishListID' => $item->WishListID,
+                    'NameList'   => $item->NameList,
+                    'IsPublic'   => $item->IsPublic,
+                    'Active'     => $item->Active,
+                    'Items'      => count($items) == 0 ? null : $items 
+                ];
+            });            
+        } else {
 
+            $wishlists = $wishlist->map(function ($item, $key) {
+
+                return [
+                    'WishListID' => $item->WishListID,
+                    'NameList'   => $item->NameList,
+                    'IsPublic'   => $item->IsPublic,
+                    'Active'     => $item->Active,
+                    'Items'      => null  
+                ];
+            });
+        }
 
         return view('wishlist.list',compact('wishlists'));
     }
@@ -71,6 +84,7 @@ class WishlistController extends Controller
      */
     public function store(Request $request)
     {
+
         DB::beginTransaction();
 
         try {
