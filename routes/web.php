@@ -39,6 +39,8 @@ Route::get('items/{itemId}/public', 'ItemController@publicShow');
 
 Route::get('seller/{alias}', 'SellerController@show');
 
+//Search
+Route::post('filter', 'SearchController@filter');
 
 //Search
 Route::get('search', 'SearchController@search');

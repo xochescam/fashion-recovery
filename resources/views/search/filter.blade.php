@@ -1,10 +1,15 @@
-<form method="GET" class="needs-validation" novalidate>
+<form method="POST" action="{{ url('filter') }}"  class="needs-validation" novalidate>
     <div class="row mb-3">
         <div class="col-12 col-md-3">
+
+            @csrf
+
+            <input type="hidden" name="search" value="{{ $search }}">
+
             <h6 class="font-weight-bold mt-3">DEPARTAMENTO</h6>
             @foreach($departments as $key => $department)
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ $department->first()->DepartmentID }}" id="DepartmentID-{{ $department->first()->DepartmentID }}" name="DepartmentID">
+                    <input class="form-check-input" type="checkbox" value="{{ $department->first()->DepartmentID }}" id="DepartmentID-{{ $department->first()->DepartmentID }}" name="DepartmentID[]" {{ isset($department->first()->isChecked) ? 'checked' : '' }}>
                     <label class="form-check-label" for="DepartmentID-{{ $department->first()->DepartmentID }}">
                         {{ $key  }}
                     </label>
@@ -15,8 +20,8 @@
             <h6 class="font-weight-bold mt-3">MARCA</h6>
             @foreach($brands  as $key => $brand)
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ $brand->first()->BrandID }}" id="BrandID-{{ $brand->first()->BrandID }}" name="BrandID">
-                    <label class="form-check-label" for="BrandID-{{ $brand->first()->BrandID }}">
+                    <input class="form-check-input" type="checkbox" value="{{ $brand->first()->BrandID }}" id="BrandID-{{ $brand->first()->BrandID }}" name="BrandID[]" {{ isset($brand->first()->isChecked) ? 'checked' : '' }}>
+                    <label class="form-check-label" for="BrandID-{{ $brand->first()->BrandID }}" >
                         {{ $key  }}
                     </label>
                     <span class="badge badge-fr"> {{ $brand->count() }} </span>
@@ -27,7 +32,7 @@
             <h6 class="font-weight-bold mt-3">TIPO DE PRENDA</h6>
             @foreach($clothingTypes as $key => $clothingType)
                 <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="{{ $clothingType->first()->ClothingTypeID }}" id="ClothingTypeID-{{ $clothingType->first()->ClothingTypeID }}" name="ClothingTypeID">
+                    <input class="form-check-input" type="checkbox" value="{{ $clothingType->first()->ClothingTypeID }}" id="ClothingTypeID-{{ $clothingType->first()->ClothingTypeID }}" name="ClothingTypeID[]" {{ isset($clothingType->first()->isChecked) ? 'checked' : '' }}>
                     <label class="form-check-label" for="ClothingTypeID-{{ $clothingType->first()->ClothingTypeID }}">
                         {{ $key  }}
                     </label>
@@ -42,7 +47,7 @@
             <a href="#"><span class="dot dot-yellow"></span></a>
 
             <h6 class="font-weight-bold mt-3">PRECIO</h6>
-            <input type="number" name="ActualPrice" class="form-control" id="ActualPrice" >
+            <input type="number" name="ActualPrice" class="form-control" value="{{ isset($actualPrice) ? $actualPrice : '' }}" id="ActualPrice">
         </div>
     </div>
 
