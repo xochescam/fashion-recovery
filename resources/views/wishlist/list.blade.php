@@ -25,12 +25,10 @@
               @foreach($wishlists as $wishlist)
 
                 <div class="col-sm-4 mb-4">
-                  <a href="{{ isset($wishlist['Items']) && count($wishlist['Items']) > 0 ? route('wishlists.show',$wishlist['WishListID']) : '#' }}">
+                  <a href="{{ isset($wishlist['Items']) && $wishlist['Items'] !== null ? route('wishlists.show',$wishlist['WishListID']) : '#' }}">
                   <div class="card card--public card--public card--item">
 
-                    {{ $wishlist['Items'] !== null ? 'not' : 'is null' }}
-
-{{--                     @if($wishlist['Items'] !== null)
+                     @if($wishlist['Items'] !== null)
 
                         <div id="carousel_{{ $wishlist['WishListID'] }}" class="carousel mb-3">
                           <div class="carousel-inner">
@@ -76,8 +74,7 @@
                         </a>
                       </div>
 
-                    @endif --}}
-
+                    @endif
 
                     <div class="card-body">
                       <h5 class="card-title">
