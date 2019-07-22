@@ -53,7 +53,7 @@ class WishlistController extends Controller
             });
         } else {
 
-            return 'no';
+
 
             $wishlists = $wishlist->map(function ($item, $key) {
 
@@ -65,6 +65,8 @@ class WishlistController extends Controller
                     'Items'      => null
                 ];
             });
+
+            return $wishlists;
         }
 
         //return view('wishlist.list',compact('wishlists'));
