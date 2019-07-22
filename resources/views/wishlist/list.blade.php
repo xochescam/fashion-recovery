@@ -4,7 +4,7 @@
 
 	 <main id="main">
 	    <div class="container py-5">
-	      	<div class="row mb-1">
+ 	      	<div class="row mb-1">
 	        	<div class="col-sm-10 col-8">
                     <h2 class="left-center TituloFR my-4 mb-5">Mis wishlists</h2>
                 </div>
@@ -21,15 +21,17 @@
             @include('alerts.warning')
 
             <div class="row">
-              
+
               @foreach($wishlists as $wishlist)
 
                 <div class="col-sm-4 mb-4">
                   <a href="{{ isset($wishlist['Items']) && count($wishlist['Items']) > 0 ? route('wishlists.show',$wishlist['WishListID']) : '#' }}">
                   <div class="card card--public card--public card--item">
 
-                    @if(count($wishlist['Items']) > 0)
-                      
+                    {{ $wishlist['Items'] !== null ? 'not' : 'is null' }}
+
+{{--                     @if($wishlist['Items'] !== null)
+
                         <div id="carousel_{{ $wishlist['WishListID'] }}" class="carousel mb-3">
                           <div class="carousel-inner">
                             @foreach($wishlist['Items'] as $item)
@@ -49,7 +51,7 @@
                             <span class="sr-only">Next</span>
                           </a>
                         </div>
-                      
+
                     @else
 
                       <div id="carousel_{{ $wishlist['WishListID'] }}" class="carousel mb-3">
@@ -73,17 +75,17 @@
                           <span class="sr-only">Next</span>
                         </a>
                       </div>
-                    
-                    @endif
 
-                    
+                    @endif --}}
+
+
                     <div class="card-body">
-                      <h5 class="card-title"> 
+                      <h5 class="card-title">
                         @if(!$wishlist['IsPublic'])
-                          <i class="fas fa-user-lock"></i> 
+                          <i class="fas fa-user-lock"></i>
                         @endif
-                        
-                        {{ $wishlist['NameList'] }} 
+
+                        {{ $wishlist['NameList'] }}
                       </h5>
                       <a href="{{ route('wishlists.edit',$wishlist['WishListID']) }}" class="card-link">Editar</a>
                       <a href="{{ route('wishlists.destroy',$wishlist['WishListID']) }}" class="card-link text-danger">Eliminar</a>
