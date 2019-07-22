@@ -28,27 +28,27 @@
                   <a href="{{ isset($wishlist['Items']) && $wishlist['Items'] !== null ? route('wishlists.show',$wishlist['WishListID']) : '#' }}">
                   <div class="card card--public card--public card--item">
 
-                     @if($wishlist['Items'] !== null)
+                    @if($wishlist['Items'] !== null)
 
-                        <div id="carousel_{{ $wishlist['WishListID'] }}" class="carousel mb-3">
-                          <div class="carousel-inner">
-                            @foreach($wishlist['Items'] as $item)
-                              <div class="carousel-item {{ $item->first()->ItemPictureID == $wishlist['Items']->first()->first()->ItemPictureID ? 'active' : ''  }}">
+                      <div id="carousel_{{ $wishlist['WishListID'] }}" class="carousel mb-3">
+                        <div class="carousel-inner">
+                          @foreach($wishlist['Items'] as $item)
+                            <div class="carousel-item {{ $item->first()->ItemPictureID == $wishlist['Items']->first()->first()->ItemPictureID ? 'active' : ''  }}">
 
-                                <img src="{{ url('storage/'.$item->first()->ThumbPath) }}" class="d-block w-100" alt="...">
-                              </div>
-                            @endforeach
+                              <img src="{{ url('storage/'.$item->first()->ThumbPath) }}" class="d-block w-100" alt="...">
+                            </div>
+                          @endforeach
 
-                          </div>
-                          <a class="carousel-control-prev" href="#carousel_{{ $wishlist['WishListID'] }}" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                          </a>
-                          <a class="carousel-control-next" href="#carousel_{{ $wishlist['WishListID'] }}" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                          </a>
                         </div>
+                        <a class="carousel-control-prev" href="#carousel_{{ $wishlist['WishListID'] }}" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carousel_{{ $wishlist['WishListID'] }}" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </div>
 
                     @else
 
