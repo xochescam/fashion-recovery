@@ -30,7 +30,6 @@ class WishlistController extends Controller
 
         if(count($itemsWishlist) > 0) {
 
-            return 'si';
             $wishlists = $wishlist->map(function ($item, $key) use($itemsWishlist){
 
                 $itemsIds = $itemsWishlist->where('WishlistID',$item->WishListID)
