@@ -28,44 +28,46 @@ class WishlistController extends Controller
                         ->whereIn('WishlistID',$wishlist->groupBy('WishListID')->keys()->toArray())
                         ->get();
 
-        return $itemsWishlist;
+        if(count($itemsWishlist) > 0) {
 
-        // if(count($itemsWishlist) > 0) {
-        //     $wishlists = $wishlist->map(function ($item, $key) use($itemsWishlist){
+            return 'si';
+            $wishlists = $wishlist->map(function ($item, $key) use($itemsWishlist){
 
-        //         $itemsIds = $itemsWishlist->where('WishlistID',$item->WishListID)
-        //                                   ->groupBy('ItemID')
-        //                                   ->keys()
-        //                                   ->toArray();
+                $itemsIds = $itemsWishlist->where('WishlistID',$item->WishListID)
+                                          ->groupBy('ItemID')
+                                          ->keys()
+                                          ->toArray();
 
-        //         $items = DB::table('fashionrecovery.GR_032')
-        //                 ->whereIn('ItemID',$itemsIds)
-        //                 ->get()
-        //                 ->groupBy('ItemID');
+                $items = DB::table('fashionrecovery.GR_032')
+                        ->whereIn('ItemID',$itemsIds)
+                        ->get()
+                        ->groupBy('ItemID');
 
-        //         return [
-        //             'WishListID' => $item->WishListID,
-        //             'NameList'   => $item->NameList,
-        //             'IsPublic'   => $item->IsPublic,
-        //             'Active'     => $item->Active,
-        //             'Items'      => count($items) == 0 ? null : $items
-        //         ];
-        //     });
-        // } else {
+                return [
+                    'WishListID' => $item->WishListID,
+                    'NameList'   => $item->NameList,
+                    'IsPublic'   => $item->IsPublic,
+                    'Active'     => $item->Active,
+                    'Items'      => count($items) == 0 ? null : $items
+                ];
+            });
+        } else {
 
-        //     $wishlists = $wishlist->map(function ($item, $key) {
+            return 'no';
 
-        //         return [
-        //             'WishListID' => $item->WishListID,
-        //             'NameList'   => $item->NameList,
-        //             'IsPublic'   => $item->IsPublic,
-        //             'Active'     => $item->Active,
-        //             'Items'      => null
-        //         ];
-        //     });
-        // }
+            $wishlists = $wishlist->map(function ($item, $key) {
 
-        // return view('wishlist.list',compact('wishlists'));
+                return [
+                    'WishListID' => $item->WishListID,
+                    'NameList'   => $item->NameList,
+                    'IsPublic'   => $item->IsPublic,
+                    'Active'     => $item->Active,
+                    'Items'      => null
+                ];
+            });
+        }
+
+        //return view('wishlist.list',compact('wishlists'));
     }
 
     /**
