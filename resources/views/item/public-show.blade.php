@@ -88,7 +88,13 @@
 						      	<small>Marca:</small>
 						      </th>
 						      <td colspan="2" class="px-0 py-1">
-						      	<a href="#" class="green-link">{{ isset($otherBrand->OtherBrand) ? $otherBrand->OtherBrand : $brand }}</a>
+
+						      	@if(isset($otherBrand->OtherBrand))
+									<a href="{{ url('/search?criteria='.$otherBrand->OtherBrand) }}" class="green-link">{{ $otherBrand->OtherBrand }}</a>
+						      	@else
+						      		<a href="{{ url('search/brand/'.$brand->BrandID) }}" class="green-link">{{ $brand->BrandName }}</a>
+						      	@endif
+
 						      </td>
 					    	</tr>
 					    	<tr>
@@ -108,7 +114,7 @@
 						      		<small>Estilo:</small>
 						      	</th>
 						      	<td class="px-0 py-1">
-							      	<a href="#" class="green-link">
+							      	<a href="{{ url('search/style/'.$itemInfo->ClothingStyleID) }}" class="green-link">
 										{{ $itemInfo->ClothingStyleName }}
 									</a>
 								</td>

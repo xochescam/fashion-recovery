@@ -1,5 +1,5 @@
 <p>
-    <span class="font-weight-bold">{{ $items->count() }}</span> de resultados para <span class="font-weight-bold">"{{ app('request')->input('criteria') !== null ? app('request')->input('criteria') : $search  }}"</span>
+  <span class="font-weight-bold">{{ $items->count() }}</span> de resultados para <span class="font-weight-bold">"{{ app('request')->input('criteria') !== null ? app('request')->input('criteria') : isset($search->DepName) ? $search->DepName : (isset($search->BrandName) ? $search->BrandName : ( isset($search->ClothingStyleName) ? $search->ClothingStyleName : $search))  }}"</span> 
 </p>
 
 <div class="mb-5">
@@ -43,7 +43,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
                         <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
                             <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded">
-                                {{-- <img class="card-img-top" src="{{ url('storage',$itemsInfo[$item->ItemID]->first()->ThumbPath) }}" alt="Card image cap" height="200px;"> --}}
+                                <img class="card-img-top" src="{{ url('storage',$itemsInfo[$item->ItemID]->first()->ThumbPath) }}" alt="{{ $item->BrandName }}" height="200px;">
                                 <div class="card-body">
                                     <div class="badges float-right">
                                         <h5>

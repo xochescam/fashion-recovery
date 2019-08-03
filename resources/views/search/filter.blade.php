@@ -4,10 +4,13 @@
 
             @csrf
 
-            <input type="hidden" name="search" value="{{ $search }}">
+            <input type="hidden" name="search" value="{{ isset($search->DepName) ? $search->DepName : (isset($search->BrandName) ? $search->BrandName : (isset($search->ClothingStyleName) ? $search->ClothingStyleName : $search) ) }}">
+
+            <input type="hidden" name="filterType" value="{{ $filterType }}">
+
 
             <h6 class="font-weight-bold mt-3">DEPARTAMENTO</h6>
-            @foreach($departments as $key => $department)
+            @foreach($filters['departments'] as $key => $department)
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="{{ $department->first()->DepartmentID }}" id="DepartmentID-{{ $department->first()->DepartmentID }}" name="DepartmentID[]" {{ isset($department->first()->isChecked) ? 'checked' : '' }}>
                     <label class="form-check-label" for="DepartmentID-{{ $department->first()->DepartmentID }}">
@@ -18,7 +21,7 @@
             @endforeach
 
             <h6 class="font-weight-bold mt-3">MARCA</h6>
-            @foreach($brands  as $key => $brand)
+            @foreach($filters['brands']  as $key => $brand)
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="{{ $brand->first()->BrandID }}" id="BrandID-{{ $brand->first()->BrandID }}" name="BrandID[]" {{ isset($brand->first()->isChecked) ? 'checked' : '' }}>
                     <label class="form-check-label" for="BrandID-{{ $brand->first()->BrandID }}" >
@@ -30,7 +33,7 @@
 
 
             <h6 class="font-weight-bold mt-3">TIPO DE PRENDA</h6>
-            @foreach($clothingTypes as $key => $clothingType)
+            @foreach($filters['clothingTypes'] as $key => $clothingType)
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="{{ $clothingType->first()->ClothingTypeID }}" id="ClothingTypeID-{{ $clothingType->first()->ClothingTypeID }}" name="ClothingTypeID[]" {{ isset($clothingType->first()->isChecked) ? 'checked' : '' }}>
                     <label class="form-check-label" for="ClothingTypeID-{{ $clothingType->first()->ClothingTypeID }}">

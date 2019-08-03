@@ -12,7 +12,15 @@
 
                   <div class="card card--selfie mx-auto">
                     <img src="{{ url($seller->SelfieThumbPath) }}" class="card-img-top js-selfie-img" alt="">
+
                   </div>
+                  <div class="text-center mt-3 w-100">
+                     <button class="btn btn-fr mb-3">
+                        <i class="fas fa-plus"></i>
+                        Seguir
+                    </button>
+                  </div>
+
 
                   <hr class="my-5">
 
@@ -68,7 +76,9 @@
             </div>
 
             <div class="col-sm-8">
-              <h2> {{ $seller->Greeting }} </h2>
+              <h2 class="mb-3"> {{ $seller->Alias }} </h2>
+
+              <h4> {{ $seller->Greeting }} </h4>
               <small>Miembro desde {{ $sellerSince }}</small>
 
               <hr class="my-5">

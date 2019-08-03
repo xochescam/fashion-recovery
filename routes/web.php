@@ -39,8 +39,14 @@ Route::get('items/{itemId}/public', 'ItemController@publicShow');
 
 Route::get('seller/{alias}', 'SellerController@show');
 
-//Search
+//Filter
 Route::post('filter', 'SearchController@filter');
+
+//Department
+Route::get('search/{type}/{id}', 'SearchController@searchByLink');
+
+//Clothing filters
+Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');
 
 //Search
 Route::get('search', 'SearchController@search');

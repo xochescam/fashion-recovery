@@ -394,6 +394,7 @@ class ItemController extends Controller
                              'GR_026.CategoryName',
                              'GR_029.BrandID',
                              'GR_029.ClothingTypeID',
+                             'GR_029.ClothingStyleID',
                              //'GR_017.BrandName',
                              //'GR_019.ClothingTypeName',
                              'GR_027.TypeName',
@@ -415,7 +416,7 @@ class ItemController extends Controller
 
             $brand         = DB::table('fashionrecovery.GR_017')
                                 ->where('BrandID',$itemInfo->BrandID)
-                                ->first()->BrandName;
+                                ->first();
         } else {
 
            $otherBrand = DB::table('fashionrecovery.GR_036')
@@ -712,8 +713,8 @@ class ItemController extends Controller
 
         try {
 
-            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
-            DB::delete('DELETE FROM fashionrecovery."GR_029" WHERE "ItemID"='.$id);
+            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"=191');
+            DB::delete('DELETE FROM fashionrecovery."GR_029" WHERE "ItemID"=191');
 
             DB::commit();
 
