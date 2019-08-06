@@ -98,8 +98,8 @@ class RegisterController extends Controller
                         ->where('email',$request->email)
                         ->first();
 
-            Mail::to($user->email)
-                 ->send(new ConfirmAccount($user, $beSeller));
+            // Mail::to($user->email)
+            //      ->send(new ConfirmAccount($user, $beSeller));
 
             DB::commit();
 
