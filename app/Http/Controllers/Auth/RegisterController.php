@@ -92,7 +92,6 @@ class RegisterController extends Controller
         DB::beginTransaction();
 
         try {
-
             event(new Registered($user = $this->create($request->all())));
 
             $user = DB::table('fashionrecovery.GR_001')
@@ -100,7 +99,7 @@ class RegisterController extends Controller
                         ->first();
 
             Mail::to($user->email)
-                ->send(new ConfirmAccount($user, $beSeller));
+                 ->send(new ConfirmAccount($user, $beSeller));
 
             DB::commit();
 
@@ -110,10 +109,10 @@ class RegisterController extends Controller
 
         } catch (\Exception $ex) {
 
-            DB::rollback();
+             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('register/'.$beSeller);
+             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente2');
+             return Redirect::to('register/'.$beSeller);
         }
     }
 
