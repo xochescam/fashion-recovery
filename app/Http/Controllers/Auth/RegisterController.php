@@ -98,8 +98,8 @@ class RegisterController extends Controller
                         ->where('email',$request->email)
                         ->first();
 
-            // Mail::to($user->email)
-            //      ->send(new ConfirmAccount($user, $beSeller));
+            Mail::to($user->email)
+                 ->send(new ConfirmAccount($user, $beSeller));
 
             DB::commit();
 
@@ -111,7 +111,7 @@ class RegisterController extends Controller
 
              DB::rollback();
 
-             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente2');
+             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
              return Redirect::to('register/'.$beSeller);
         }
     }
