@@ -42,7 +42,8 @@ class ItemController extends Controller
     {
         $item = false;
         $colors        = DB::table('fashionrecovery.GR_018')
-                            ->where('Active',1)->get();
+                            ->where('Active',1)
+                            ->orderBy('ColorName')->get();
 
         $departments   = DB::table('fashionrecovery.GR_025')
                             ->where('Active',1)->get();
@@ -310,9 +311,8 @@ class ItemController extends Controller
 
         $itemsName = [];
         $thumbName = [];
-        $items = [];
         $count     = 0;
-
+              
         foreach ($data as $key => $value) {
 
             $name = explode('_', $key);
@@ -320,31 +320,41 @@ class ItemController extends Controller
             if(count($name) > 2 &&
                 $name[1].'_'.$name[2] === "item_file") {
 
-                $date   = date("Ymd-His");
-                $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
-                $name = $date.'-'.$count++.'.jpg';
-                //ini_set('memory_limit', "2000M");
-
-                $realImg = Image::make($value->getRealPath())
-                                ->resize(300, null, function ($constraint) {
-                            $constraint->aspectRatio();
-                });
-                $realImg->stream();
-                $img = Image::make($value->getRealPath())->fit(200);
-                $img->stream();
-                //ini_set('memory_limit', "256M");
-                //eliminar carpeta al actualizar
-                \Storage::disk('public')->put($dir.$name,  $realImg, 'public');
-                \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
-
-                $items = [
-                    'name' => $dir.$name,
-                    'thumb' => $dir.'thumb-'.$name
-                ];
-
-                array_push($itemsName,$items);
+                $itemsName = $this->saveImg($value, $item, $count, $itemsName);
             }
         }
+
+        return $itemsName;
+    }
+
+    public function saveImg($value, $item, $count, $itemsName) {
+
+
+        $date   = date("Ymd-His");
+        $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
+        $name = $date.'-'.$count++.'.jpg';
+        //ini_set('memory_limit', "2000M");
+
+
+        $realImg = Image::make($value->getRealPath())
+                        ->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+        })->orientate();
+
+        $realImg->stream();
+        $img = Image::make($value->getRealPath())->orientate()->fit(200);
+        $img->stream();
+        //ini_set('memory_limit', "256M");
+        //eliminar carpeta al actualizar
+        \Storage::disk('public')->put($dir.$name,  $realImg, 'public');
+        \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
+
+        $items = [
+            'name' => $dir.$name,
+            'thumb' => $dir.'thumb-'.$name
+        ];
+
+        array_push($itemsName,$items);
 
         return $itemsName;
     }
@@ -675,7 +685,7 @@ class ItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $itemId)
     {
        DB::beginTransaction();
 
@@ -688,15 +698,15 @@ class ItemController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha eliminado correctamente la prenda.');
-            return Redirect::to('items');
+            Session::flash('success','Se ha eliminado correctamente la imagen.');
+            return Redirect::to('item/'.$itemId);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('item/'.$id);
+            return Redirect::to('item/'.$itemId);
         }
     }
 
@@ -708,13 +718,12 @@ class ItemController extends Controller
      */
     public function fullDestroy($id)
     {
-
        DB::beginTransaction();
 
         try {
 
-            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"=191');
-            DB::delete('DELETE FROM fashionrecovery."GR_029" WHERE "ItemID"=191');
+            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
+            DB::delete('DELETE FROM fashionrecovery."GR_029" WHERE "ItemID"='.$id);
 
             DB::commit();
 
@@ -732,11 +741,24 @@ class ItemController extends Controller
 
     public function addItem(Request $request, $itemId) {
 
+
         DB::beginTransaction();
 
         try {
 
-            $itemsName = $this->saveItems($request->toArray(), $itemId);
+            $realFiles = explode(',', $request->add_item_file);
+            $itemsName = [];
+            $count = 0;
+
+            foreach ($request->PicturesUploaded as $key => $value) {
+
+                if(in_array($value->getClientOriginalName(), $realFiles)) {
+
+                    $itemsName = $this->saveNewItems($itemsName, $count, $value, $itemId);
+
+                }
+                
+            }
 
             foreach ($itemsName as $key => $value) { //change
 
@@ -760,5 +782,35 @@ class ItemController extends Controller
             Session::flash('warning','Ha ocurrido un error');
             return Redirect::to('item/'.$itemId);
         }
+    }
+
+    public function saveNewItems($itemsName, $count, $value, $itemId) {
+        $date   = date("Ymd-His");
+        $dir = 'items/user_'.Auth::User()->id.'/item_'.$itemId.'/';
+        $name = $date.'-'.$count++.'.jpg';
+        //ini_set('memory_limit', "2000M");
+
+
+        $realImg = Image::make($value->getRealPath())
+                        ->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+        })->orientate();
+
+        $realImg->stream();
+        $img = Image::make($value->getRealPath())->orientate()->fit(200);
+        $img->stream();
+        //ini_set('memory_limit', "256M");
+        //eliminar carpeta al actualizar
+        \Storage::disk('public')->put($dir.$name,  $realImg, 'public');
+        \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
+
+        $items = [
+            'name' => $dir.$name,
+            'thumb' => $dir.'thumb-'.$name
+        ];
+
+        array_push($itemsName,$items);
+
+        return $itemsName;
     }
 }

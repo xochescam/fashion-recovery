@@ -255,7 +255,8 @@ class SellerController extends Controller
         $dir          = "sellers/".Auth::User()->id.'/';
         $selfieName   = $date.'_'.Auth::User()->id.'_selfie.jpg';
         ini_set('memory_limit', "2000M");
-        $img          = Image::make($data['profile_item_file']->getRealPath())->fit(200);
+        $img          = Image::make($data['profile_item_file']->getRealPath())
+                            ->orientate()->fit(200);
         $img->stream();
 
         if($isUpdate) {

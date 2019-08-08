@@ -19,7 +19,7 @@
           </label>
           </div>
 
-          <input type="hidden" name="realPicturesUploaded" class="js-input-real-pictures">
+          <input type="hidden" name="add_item_file" class="js-input-real-pictures">
 
           <div class="text-right ml-2">
             <button class="btn btn-fr js-add-items-btn">Guardar</button>
@@ -72,7 +72,7 @@
 
                   <div class="card">
                     <img src="{{ url('storage/'.$picture->ThumbPath) }}" class="card-img-top" alt="...">
-                    <a href="{{ route('item.destroy',$picture->ItemPictureID) }}" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="{{ url('item/'.$picture->ItemPictureID.'/'.$item->first()->ItemID.'/delete') }}" class="btn btn-danger btn-sm">Eliminar</a>
                   </div>
 
                 </div>

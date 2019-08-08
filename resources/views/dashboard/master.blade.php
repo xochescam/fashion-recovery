@@ -736,17 +736,39 @@
 
                 const files = e.currentTarget.files;
 
-                for (var i = files.length - 1; i >= 0; i--) {
+                for (var i = 0; i < files.length; i++) {
 
-                    const content = `<div class="col-sm-4 mb-5 thumb-size js-new-item" data-name="`+files[i].name+`">
+                    var file = files[i];
+
+                    const content = `<div class="col-sm-4 mb-5 thumb-size js-new-item" data-name="`+file.name+`">
                             <div class="card">
-                              <img src="`+URL.createObjectURL(files[i])+`" class="card-img-top" alt="..." height="200px" width="200px">
+                              <img src="" class="card-img-top card-img-top-`+i+`" alt="..." height="200px" width="200px">
                               <button class="btn btn-danger btn-sm js-delete-img">Eliminar</button>
                             </div></div>`;
 
+                    arr.push(file.name);
+
                     container.insertAdjacentHTML('beforeend', content);
 
-                    arr.push(files[i].name);
+                    const imagen = document.querySelector('.card-img-top-'+i);
+
+                    var reader = new FileReader();
+                    // Set onloadend function on reader
+                    reader.onloadend = function (e) {
+
+                        imagen.setAttribute('src', e.currentTarget.result);
+
+                        // Use EXIF library to handle the loaded image exif orientation
+                        EXIF.getData(file, function() {
+                            // run orientation on img in canvas
+                            orientation(imagen);
+                        });
+
+                    };
+
+                    // Trigger reader to read the file input
+                    reader.readAsDataURL(file);
+
                 }
 
                 realPictures.value = arr;
