@@ -27,7 +27,7 @@
         </form>
 
         <div class="row">
-          <div class=" col-sm-4 ">
+          <div class=" col-sm-4 order-sm-1 order-2">
             <div class="card mb-4">
               <h5 class="card-header">${{ $item->first()->ActualPrice }}
                 <small class="line-through">${{ $item->first()->OriginalPrice }}</small>
@@ -58,14 +58,14 @@
             </div>
 
             <div class="text-center mt-3">
-                <a href="{{ url('item/'.$item->first()->ItemID.'/full-delete') }}" class="btn btn-danger w-50" >
-                  <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                <a href="{{ url('item/'.$item->first()->ItemID.'/full-delete') }}" class="btn btn-danger btn-sm w-50" >
+                  <span class="spinner-border spinner-border-sm hidden " role="status" aria-hidden="true"></span>
                     Eliminar prenda
                 </a>
               </div>
           </div>
 
-          <div class="col-sm-8">
+          <div class="col-sm-8 order-sm-2 order-1">
             <div class="row js-items-container" data-item="false">
               @foreach($item as $picture)
                 <div class="col-sm-4 mb-5 thumb-size">
@@ -77,6 +77,25 @@
 
                 </div>
               @endforeach
+
+{{--               <form action="" class="col-sm-4 mb-5 thumb-size">
+                  @csrf
+
+                  <div class="card no-border">
+                    <input type="file" name="PicturesUploaded[]" id="Items" class="no-file js-add-items no-file custom-file-input" data-type="Foto frontal" data-name="front" accept=".png, .jpg, .jpeg"  multiple>
+                    <label for="Items" class="card--file-item-add custom-file-label">
+                      <span><i class="far fa-image"></i> <br>Agregar fotos</span>
+                    </label>
+                  </div>
+
+
+                  <div class="text-right ml-2">
+                    <button class="btn btn-fr js-add-items-btn">Guardar</button>
+                  </div>
+
+              </form> --}}
+
+                
             </div>
           </div>
 

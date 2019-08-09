@@ -138,9 +138,9 @@
 </div>
 
 <div class="form-row">
-  <div class="form-group col-md-6">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
     <label for="DepartmentID">Departamento *</label>
-    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID"  data-size="false" required>
+    <select id="DepartmentID" class="form-control js-departments-select " name="DepartmentID"  data-size="false" required>
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $department)
@@ -161,7 +161,7 @@
       </div>
     @endif
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
     <label for="CategoryID">Categoría *</label>
     <select id="CategoryID" class="form-control js-categories-select" name="CategoryID" required>
       <option value="" selected>- Seleccionar -</option>
@@ -187,7 +187,7 @@
 </div>
 
 <div class="form-row">
-  <div class="form-group col-md-6">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
     <label for="BrandID">Marca *</label>
 
     <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}"  data-size="false" required>
@@ -216,7 +216,7 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6 js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }} js-other {{ isset($otherBrand) ? '' : 'hidden' }}">
     <label for="otherBrand">Ingresa la marca *</label>
     <input type="text" class="form-control" name="otherBrand" id="otherBrand" value="{{ isset($otherBrand->OtherBrand) ? $otherBrand->OtherBrand : '' }}">
     <small>Lorem ipsum dolor sit amet</small>
@@ -232,7 +232,7 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6 js-mean js-mean-clothing-type {{ isset($otherBrand) ? 'hidden' : '' }}">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }} js-mean js-mean-clothing-type {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="ClothingTypeID">Tipo de prenda *</label>
     <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID" data-size="false" {{ !isset($otherBrand) ? 'required' : '' }}>
       <option value="" selected>- Seleccionar -</option>
@@ -281,7 +281,7 @@
 
 
 <div class="form-row">
-  <div class="form-group col-md-6 js-mean js-mean-size {{ isset($otherBrand) ? 'hidden' : '' }}">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }} js-mean js-mean-size {{ isset($otherBrand) ? 'hidden' : '' }}">
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" {{ !isset($otherBrand) ? 'required' : '' }}>
       <option value="" selected>- Seleccionar -</option>
@@ -309,7 +309,7 @@
       @endif
   </div>
 
-  <div class="form-group col-md-6 js-other js-other-size {{ isset($otherBrand) ? '' : 'hidden' }}">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }} js-other js-other-size {{ isset($otherBrand) ? '' : 'hidden' }}">
     <label for="OtherSize">Ingresa la talla *</label>
     <input type="text" class="form-control" name="OtherSize" maxlength="8" id="OtherSize" value="{{ isset($otherBrand->OtherSize) ? $otherBrand->OtherSize : '' }}" >
     <small>Lorem ipsum dolor sit amet</small>
@@ -325,7 +325,7 @@
     @endif
   </div>
 
-  <div class="form-group col-md-6">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
     <label for="ClothingStyleID">Estilo *</label>
     <select id="ClothingStyleID" class="form-control" name="ClothingStyleID" required>
       <option value="" selected >- Seleccionar -</option>
@@ -350,7 +350,7 @@
 </div>
 
 <div class="form-row">
-  <div class="form-group col-md-6">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
     <label for="ColorID">Color *</label>
     <select id="ColorID" class="form-control" name="ColorID" required>
       <option value="" selected >- Seleccionar -</option>
@@ -371,7 +371,7 @@
       </div>
     @endif
   </div>
-  <div class="form-group col-md-6">
+  <div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
     <label for="TypeID">Condición de la prenda *</label>
     <select id="TypeID" class="form-control" name="TypeID" required>
       <option value="" selected>- Seleccionar -</option>

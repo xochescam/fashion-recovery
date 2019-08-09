@@ -8,6 +8,9 @@
 
             <div class="col-sm-4">
               <div class="card mb-5">
+                
+                <h2 class="mt-4 text-center"> {{ $seller->Alias }} </h2>
+
                 <div class="card-body">
 
                   <div class="card card--selfie mx-auto">
@@ -15,14 +18,14 @@
 
                   </div>
                   <div class="text-center mt-3 w-100">
-                     <button class="btn btn-fr mb-3">
+                     <a href="" class="btn btn-fr btn-sm">
                         <i class="fas fa-plus"></i>
-                        Seguir
-                    </button>
+                         Seguir
+                    </a>
                   </div>
 
 
-                  <hr class="my-5">
+                  <hr class="my-4">
 
                   <table class="table table-borderless ">
                     <tbody>
@@ -67,7 +70,7 @@
                     </tbody>
                 </table>
 
-                <hr class="my-5">
+                <hr class="my-4">
 
                 <p><i class="fas fa-check green-color mr-1"></i>  Documento de identificación </p>
                 </div>
@@ -76,18 +79,17 @@
             </div>
 
             <div class="col-sm-8">
-              <h2 class="mb-3"> {{ $seller->Alias }} </h2>
 
-              <h4> {{ $seller->Greeting }} </h4>
+              <h3> {{ $seller->Greeting }} </h3>
               <small>Miembro desde {{ $sellerSince }}</small>
 
-              <hr class="my-5">
+              <hr class="my-4">
 
               <p> {{ $seller->AboutMe }} </p>
 
               <p>Vive en {{ $seller->LiveIn }}</p>
 
-              <hr class="my-5">
+              <hr class="my-4">
 
               <h5 class="mb-5">{{ $seller->TotalEvaluations  }} evaluaciones</h5>
 

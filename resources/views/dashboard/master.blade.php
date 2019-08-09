@@ -611,14 +611,15 @@
 
                 var imagen         = new Image();
                 imagen.style.width = "100%";
-                imagen.setAttribute('src', e.currentTarget.result);
-                container.appendChild(imagen);
-
+                
                 // Use EXIF library to handle the loaded image exif orientation
                 EXIF.getData(file[0], function() {
                     // run orientation on img in canvas
                     orientation(imagen);
                 });
+
+                imagen.setAttribute('src', e.currentTarget.result);
+                container.appendChild(imagen);
 
                 const button = `<a class="btn btn-danger btn-sm btn-block js-delete-item" data-type="`+type+`" data-name="`+name+`">Eliminar</a>`;
 
