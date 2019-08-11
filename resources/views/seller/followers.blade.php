@@ -8,6 +8,9 @@
           <div class="col-md-10 offset-md-1">
             <h2 class="text-center TituloFR my-4 mb-5">Mis seguidores</h2>
 
+            @include('alerts.success')
+            @include('alerts.warning')
+
             <nav>
               <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="green-link nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Seguidores</a>

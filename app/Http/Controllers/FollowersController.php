@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Mail\NewFollower;
+
 use DB;
 use Auth;
 use Session;
 use Redirect;
+use Mail;
 
 class FollowersController extends Controller
 {
@@ -44,6 +47,12 @@ class FollowersController extends Controller
     						'UserID'   => Auth::User()->id,
     						'SellerID' => $sellerID
     					]);
+
+        $user = DB::table('fashionrecovery.GR_001')
+                    ->where('id',$sellerID)->first();
+
+        Mail::to($user->email)
+                 ->send(new NewFollower($user, Auth::User()));
 
     	Session::flash('warning','Siguiendo.');
         return Redirect::back();		

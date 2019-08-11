@@ -89,6 +89,7 @@ class SellerController extends Controller
      */
     public function show($alias)
     {
+        $isFollower = false;
         $seller = DB::table('fashionrecovery.GR_001')
                     ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
                     ->where('GR_001.Alias',$alias)
@@ -109,12 +110,16 @@ class SellerController extends Controller
                     ->get()
                     ->groupBy('ItemID');
 
-        $follower = DB::table('fashionrecovery.GR_038')
+
+        if(isset(Auth::User()->id)) {
+
+           $follower = DB::table('fashionrecovery.GR_038')
                         ->where('GR_038.UserID',Auth::User()->id)
                         ->where('GR_038.SellerID',$seller->id)
-                        ->get();
+                        ->get(); 
 
-        $isFollower = $follower->count() > 0 ? true : false;
+            $isFollower = $follower->count() > 0 ? true : false;
+        }
 
         $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
 
