@@ -28,6 +28,10 @@ body{
   text-decoration: none;
 }
 
+.no-text-decoration {
+  text-decoration: none !important;
+}
+
 .container-item-img {
   width: 100%;
   max-width: 200px;

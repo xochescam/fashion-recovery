@@ -41,7 +41,7 @@
 
   <div class="form-group">
     <label for="brandId">Marca</label>
-    <select id="brandId" class="form-control js-brands-select" name="brandId"  data-size="false">
+    <select id="brandId" class="form-control js-brands-select" name="brandId"  data-size="false" required>
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($brands as $item)

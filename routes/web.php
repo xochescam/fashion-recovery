@@ -53,6 +53,11 @@ Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//Followers
+	Route::get('follow/{sellerID}', 'FollowersController@follow');
+	Route::get('unfollow/{sellerID}', 'FollowersController@unfollow');
+	Route::get('followers', 'FollowersController@getFollowers');
+
 	//Item API
 	Route::get('brands-by-department/{departmentId}', 'ItemApiController@getBrandsbyDepartment');
 	Route::get('clothing-type-by-brand/{departmentId}/{brandId}/{categoryId}', 'ItemApiController@getClothingTypebyBrand');

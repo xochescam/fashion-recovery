@@ -109,9 +109,16 @@ class SellerController extends Controller
                     ->get()
                     ->groupBy('ItemID');
 
+        $follower = DB::table('fashionrecovery.GR_038')
+                        ->where('GR_038.UserID',Auth::User()->id)
+                        ->where('GR_038.SellerID',$seller->id)
+                        ->get();
+
+        $isFollower = $follower->count() > 0 ? true : false;
+
         $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
 
-        return view('seller.show',compact('seller','closets','items','sellerSince'));
+        return view('seller.show',compact('seller','closets','items','sellerSince','isFollower'));
     }
 
     protected function formatDate($format, $date) {

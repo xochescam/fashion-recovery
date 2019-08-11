@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.19') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.20') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -272,9 +272,19 @@
             const url                      = window.location.origin;
             const size                     = e.currentTarget.getAttribute('data-size');
             brandsSelect.innerHTML         = `<option value="" selected>- Seleccionar -</option>`;
-            clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`;
-            sizesSelect.innerHTML          = `<option value="" selected>- Seleccionar -</option>`;
-            categoriesSelect.selectedIndex = 0;
+
+            if(clothingTypesSelect) {
+                clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`;    
+            }
+
+            if(sizesSelect) {
+                sizesSelect.innerHTML          = `<option value="" selected>- Seleccionar -</option>`;
+            }
+
+            if(categoriesSelect) {
+                categoriesSelect.selectedIndex = 0;
+            }
+            
 
             for (var i = otherInputs.length - 1; i >= 0; i--) {
                 otherInputs[i].classList.add('hidden');
@@ -317,8 +327,12 @@
                     console.log('Ocurrio un error, inténtalo de nuevo.');
                 }
 
-                sizesSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra talla </option>`);
-                brandsSelect.insertAdjacentHTML('beforeend', `<option value="other">Otra marca</option>`);
+                if(sizesSelect) {
+                    sizesSelect.insertAdjacentHTML('beforeend', `<option value="other"> Otra talla </option>`);
+                    brandsSelect.insertAdjacentHTML('beforeend', `<option value="other">Otra marca</option>`);
+
+                }
+
             };
 
             request.onerror = function() {

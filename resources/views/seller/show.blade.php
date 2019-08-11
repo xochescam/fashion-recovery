@@ -2,8 +2,14 @@
 
 @section('content')
 
+
+
    <main id="main">
         <div class="container py-5">
+          
+          @include('alerts.success')
+          @include('alerts.warning')
+
           <div class="row">
 
             <div class="col-sm-4">
@@ -18,10 +24,18 @@
 
                   </div>
                   <div class="text-center mt-3 w-100">
-                     <a href="" class="btn btn-fr btn-sm">
-                        <i class="fas fa-plus"></i>
-                         Seguir
+                     <a href="{{ url('follow',$seller->id) }}" class="btn btn-fr btn-sm {{ $isFollower ? 'hidden' : '' }}">
+                        <i class="fas fa-plus pr-1"></i> Seguir  
                     </a>
+
+                    <div class="btn-group {{ $isFollower ? '' : 'hidden' }} " role="group">
+                      <button id="btnGroupDrop1" type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-check pr-1"></i> Siguiendo
+                      </button>
+                      <div class="dropdown-menu btn-sm p-0" aria-labelledby="btnGroupDrop1">
+                        <a class="dropdown-item btn-sm" href="{{ url('unfollow',$seller->id) }}">Dejar de seguir</a>
+                      </div>
+                    </div>
                   </div>
 
 
