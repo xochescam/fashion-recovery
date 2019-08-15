@@ -170,27 +170,122 @@
 	          	<div class="col-sm-8 col-12 mt-5">
 					<h5>Preguntas y respuestas</h5>
 
-					<form class="my-5">
+            		<form method="POST" action="{{ url('question') }}" class="needs-validation my-5" novalidate>
+            			@csrf
+
+            			<input type="hidden" name="id" value="{{ $id }}">
+
 						<div class="form-group">
 						    <label for="question">¿Tienes una pregunta?</label>
-						    <textarea class="form-control" id="question" rows="2"></textarea>
+						    <textarea class="form-control" name="question" id="question" rows="2"></textarea>
 						</div>
 					  	<button type="submit" class="btn btn-fr">Preguntar</button>		
 					</form>
 
-					<div class="">
+					@foreach($questions as $question)
+
 						<div class="mb-4">
 							<p class="border-left pl-3">
-								Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in.<br>
-								<small>Por Eladio el 23 de julio 2019</small>
+								{{ $question->Question }}<br>
+								<small>Por
+
+									@if($question->ProfileID === 2)
+										<a class="green-link" href="{{ url('seller',$question->Alias) }}">{{ $question->Name }}</a>
+									@else
+										{{ $question->Name }}
+									@endif
+
+									el {{ $question->date }}</small>
 							</p>
 
+							@if(count($question->answers) > 1)
+								<div class="mt-3 ml-5">
+									 <div class="mr-5">
+							      	<p>
+							      		{{ $question->answers->first()->Question }}<br>
+							        	<small>Por 
+											@if( $question->answers->first()->ProfileID === 2)
+												<a class="green-link" href="{{ url('seller',$question->answers->first()->Alias) }}">{{ $question->answers->first()->Name }}</a>
+											@else
+												{{ $question->answers->first()->Name }}
+											@endif
+
+											el {{ $question->answers->first()->date }}
+							        	</small>
+							        	<small>
+											<a href="#collapseExample"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="green-link"><br>
+												<i class="fas fa-chevron-down"></i>
+												<b>Ver mas respuestas ({{ count($question->answers) - 1 }})</b>
+											</a>
+										</small>
+							      	</p>
+							      </div>
+							    </div>
+							    <div class="collapse" id="collapseExample">
+
+							    	@foreach($question->answers as $asnwer)
+										<div class="ml-5">
+									      <div class="mr-5">
+									      	<p>
+									      		{{ $asnwer->Question }}<br>
+									        	<small>Por 
+													@if($asnwer->ProfileID === 2)
+														<a class="green-link" href="{{ url('seller',$asnwer->Alias) }}">{{ $asnwer->Name }}</a>
+													@else
+														{{ $asnwer->Name }}
+													@endif
+
+													el {{ $asnwer->date }}
+									        	</small>
+									      	</p>
+									      </div>
+									    </div>
+									@endforeach
+								</div> 
+							@else
+								<div class="mt-3 ml-5">
+							      <div class="mr-5">
+							      	<p>
+							      		{{ $question->answers->first()->Question }}<br>
+							        	<small>Por 
+											@if( $question->answers->first()->ProfileID === 2)
+												<a class="green-link" href="{{ url('seller',$question->answers->first()->Alias) }}">{{ $question->answers->first()->Name }}</a>
+											@else
+												{{ $question->answers->first()->Name }}
+											@endif
+
+											el {{ $question->answers->first()->date }}
+							        	</small>
+							      	</p>
+							      </div>
+							    </div>
+							@endif
+
+{{-- 							@foreach($question->answers as $asnwer)
+								<div class="mt-3 ml-5">
+							      <div class="mr-5">
+							      	<p>
+							      		{{ $asnwer->Question }}<br>
+							        	<small>Por 
+											@if($asnwer->ProfileID === 2)
+												<a class="green-link" href="{{ url('seller',$asnwer->Alias) }}">{{ $asnwer->Name }}</a>
+											@else
+												{{ $asnwer->Name }}
+											@endif
+
+											el {{ $asnwer->date }}
+							        	</small>
+							      	</p>
+							      </div>
+							    </div>
+							@endforeach --}}
+
+{{-- 
 						    <div class="mt-3 ml-5">
 						      <div class="mr-5">
 						      	<p>
 									Cras sit amet nibh libero.<br>
-									<small>Por <a class="green-link" href="">xochescam</a> el 22 de julio 2019</small>
-									Cras sit amet nibh libero.<br>
+									<small>Por <a class="green-link" href="">xochescam</a> el 22 de julio 2019</small><br>
 									<small>
 										<a href="#collapseExample"  data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" class="green-link">
 											<i class="fas fa-chevron-down"></i>
@@ -218,8 +313,12 @@
 
 							      </div>
 							    </div>
-							</div>
+							</div> --}}
 						</div>
+						
+					@endforeach
+
+
 
 						<div class="mb-4 ml-1">
 							<p class="border-left pl-3">
@@ -239,7 +338,6 @@
 						</div>
 
 
-					</div>
 
 				</div>
 

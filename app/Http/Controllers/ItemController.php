@@ -449,8 +449,11 @@ class ItemController extends Controller
             $priceOffer = $itemInfo->ActualPrice - ($itemInfo->ActualPrice * ($offer->Discount / 100));
         }
 
+        $questions = $this->getQuestions($id);
+
 
         return view('item.public-show',compact(
+            'questions',
             'id',
             'wishlists',
             'ValidFrom',
@@ -475,6 +478,44 @@ class ItemController extends Controller
             'clothingType',
             'otherBrand'
         ));
+    }
+
+    public function getQuestions($ItemID) {
+
+        $all = DB::table( 'fashionrecovery.GR_039')
+                        ->join('fashionrecovery.GR_001', 'GR_039.UserID', '=', 'GR_001.id')
+                        ->where('GR_039.ItemID',$ItemID)
+                        ->select('GR_039.*','GR_001.Name','GR_001.ProfileID','GR_001.Alias')
+                        ->get();
+
+        $addDate = $all->map(function ($item, $key) {
+
+            $item->date = $this->getDate($item->CreationDate);
+
+            return $item;
+        });
+
+        $parents = $addDate->where('IsParent',true);
+        $sons    = $addDate->where('IsParent',false)->sortBy('CreationDate')->groupBy('ParentID');
+
+        $questions = $parents->map(function ($item, $key) use($sons) {
+
+            $item->answers = isset($sons[$item->QuestionID]) ? 
+                             $sons[$item->QuestionID] : 
+                             [];
+
+            return $item;
+        })->sortBy('CreationDate');
+
+        return $questions;
+    }
+
+    public function getDate($date) {
+        $year  = date('Y', strtotime($date));
+        $month = date('m', strtotime($date));
+        $day   = date('j', strtotime($date));
+
+        return $day.'/'.$month.'/'.$year;
     }
 
 

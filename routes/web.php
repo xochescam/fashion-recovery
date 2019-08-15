@@ -53,6 +53,9 @@ Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//Questions
+	Route::post('question', 'QuestionController@question');
+
 	//Followers
 	Route::get('follow/{sellerID}', 'FollowersController@follow');
 	Route::get('unfollow/{sellerID}', 'FollowersController@unfollow');
