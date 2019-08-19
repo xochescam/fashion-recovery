@@ -34,6 +34,8 @@ class QuestionController extends Controller
 
             $user = $this->getUser($request->id);
 
+            $this->saveNotifications($user, $question, 'question');
+
             Mail::to($user)
                  ->send(new NewQuestion($user, Auth::User(), $question));
 
@@ -85,6 +87,8 @@ class QuestionController extends Controller
                         ->select('GR_001.email','GR_001.Alias')
                         ->first() : $this->getUser($request->id);
 
+            $this->saveNotifications($user, $answer, 'answer');
+
             Mail::to($user)
                 ->send(new AnswerQuestion($user, Auth::User(), $answer, $type));
 
@@ -103,7 +107,21 @@ class QuestionController extends Controller
 
     }
 
+    public function saveNotifications($user, $answer, $type) {
 
+        DB::table('fashionrecovery.GR_040')->insert([
+            'Type'      => $type,
+            'UserID'    => $user->id,
+            'TableID'   => $type == 'answer' ? $answer->ParentID : $answer->QuestionID,
+            'TableName' => 'GR_039'
+        ]);
+
+        DB::table('fashionrecovery.GR_001')
+            ->where('id', $user->id)
+            ->update(['Notifications' => True]);
+
+        return true;
+    }
 
     public function getQuestion($QuestionID, $type) {
 
@@ -155,7 +173,7 @@ class QuestionController extends Controller
         return DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->where('GR_029.ItemID',$id)
-                    ->select('GR_001.email','GR_001.Alias')
+                    ->select('GR_001.email','GR_001.Alias','GR_001.id')
                     ->first();
     }
 

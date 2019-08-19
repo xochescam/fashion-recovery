@@ -312,7 +312,7 @@ class ItemController extends Controller
         $itemsName = [];
         $thumbName = [];
         $count     = 0;
-              
+
         foreach ($data as $key => $value) {
 
             $name = explode('_', $key);
@@ -499,15 +499,15 @@ class ItemController extends Controller
 
         $questions = $parents->map(function ($item, $key) use($sons) {
 
-            $item->answers = isset($sons[$item->QuestionID]) ? 
-                             $sons[$item->QuestionID] : 
+            $item->answers = isset($sons[$item->QuestionID]) ?
+                             $sons[$item->QuestionID] :
                              [];
 
-            $item->filterAnsw = $item->answers !== [] ? 
+            $item->filterAnsw = $item->answers !== [] ?
                             $item->answers->filter(function ($value, $key) {
                 return $key > 0;
             }) : [];
-            
+
             return $item;
 
         })->sortByDesc('CreationDate');
@@ -803,7 +803,7 @@ class ItemController extends Controller
                     $itemsName = $this->saveNewItems($itemsName, $count, $value, $itemId);
 
                 }
-                
+
             }
 
             foreach ($itemsName as $key => $value) { //change
