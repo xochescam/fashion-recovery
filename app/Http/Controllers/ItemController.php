@@ -451,7 +451,6 @@ class ItemController extends Controller
 
         $questions = $this->getQuestions($id);
 
-
         return view('item.public-show',compact(
             'questions',
             'id',
@@ -504,8 +503,14 @@ class ItemController extends Controller
                              $sons[$item->QuestionID] : 
                              [];
 
+            $item->filterAnsw = $item->answers !== [] ? 
+                            $item->answers->filter(function ($value, $key) {
+                return $key > 0;
+            }) : [];
+            
             return $item;
-        })->sortBy('CreationDate');
+
+        })->sortByDesc('CreationDate');
 
         return $questions;
     }

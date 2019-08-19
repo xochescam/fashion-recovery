@@ -55,6 +55,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Questions
 	Route::post('question', 'QuestionController@question');
+	Route::get('question/{questionID}/{type}', 'QuestionController@answer');
+	Route::get('question/answer', 'QuestionController@storeAnswer');
 
 	//Followers
 	Route::get('follow/{sellerID}', 'FollowersController@follow');
