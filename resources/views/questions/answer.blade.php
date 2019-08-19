@@ -10,13 +10,13 @@
           <p class="text-center mb-5 w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 
           <div class="col-md-8 offset-md-2">
-            <form method="GET" action="{{ url('question/answer') }}" class="needs-validation" enctype="multipart/form-data" novalidate>
+            <form method="GET" action="{{ url('question',$type) }}" class="needs-validation" novalidate>
 
             @include('alerts.success')
             @include('alerts.warning')
 
               @include('item.partials.question-parent')
-              
+
               <input type="hidden" name="QuestionID" value="{{ $question->QuestionID }}">
               <input type="hidden" name="id" value="{{ $question->ItemID }}">
               <input type="hidden" name="questionUser" value="{{ $question->UserID }}">

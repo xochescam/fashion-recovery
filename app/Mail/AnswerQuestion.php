@@ -21,17 +21,19 @@ class AnswerQuestion extends Mailable
     protected $user;
     protected $answerUser;
     protected $answer;
+    protected $type;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user, $answerUser, $answer)
+    public function __construct($user, $answerUser, $answer, $type)
     {
         $this->user       = $user;
         $this->answerUser = $answerUser;
         $this->answer     = $answer;
+        $this->type       = $type;
     }
 
     /**
@@ -41,14 +43,18 @@ class AnswerQuestion extends Mailable
      */
     public function build()
     {
-        return $this->subject('El vendedor ha contestado tu pregunta.')
+        $subject = $this->type == 'answer' ?
+                    'El vendedor ha contestado tu pregunta.' :
+                    'El usuario te contestado.';
+
+        return $this->subject($subject)
                     ->view('emails.question.answer')
                     ->with([
                         'AliasSeller' => $this->user->Alias,
                         'AliasAnswer' => $this->answerUser->Alias,
                         'Answer'      => $this->answer->Question,
-                        'AnswerID'    => $this->answer->ParentID,
+                        'AnswerID'    => $this->answer->QuestionID,
+                        'Type'        => $this->type
                     ]);
-
     }
 }

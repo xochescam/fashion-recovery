@@ -8,7 +8,7 @@
 	                <td width="700" valign="top">
 
 	                	<p style="color: #444; font: 400 20px sans-serif; line-height: 1.6em; margin-top: 1.5em;padding: 0; text-align: left; margin-left: 50px;">
-	                        El vendedor ha contestado tu pregunta.
+	                		{{ $Type == 'answer' ? 'El vendedor ha contestado tu pregunta.' : 'El usuario te contestado.' }}
 	                    </p>
 
 	                    <p style="color: #444;font: 300 15px sans-serif;margin-left: 50px;text-align: left; margin-bottom: 30px; margin-top: 20px;">
@@ -16,9 +16,9 @@
 	                    </p>
 
 	                    <div style="margin:50px;text-align:left;margin-top: 0px;display: inline-flex;">
-	                        <a href="{{ url('question/'.$AnswerID.'/question') }}" target="_blank" style="background-color: #009c77;
+	                        <a href="{{ url('question/'.$AnswerID.'/'.($Type == 'answer' ? 'question' : 'answer')) }}" target="_blank" style="background-color: #009c77;
     color: #fff;display: inline-block;font: 400 14px/1 &quot;Open Sans&quot;, sans-serif;font-size: 0.875rem;padding: 1.2em 1.3em; transition: background-color 200ms ease-out;text-decoration: none;cursor: pointer;">
-								Hacer otra pregunta
+    							{{ $Type == 'answer' ? 'Hacer otra pregunta' : 'Contestar' }}
 							</a>
 		                </div>
 	                </td>

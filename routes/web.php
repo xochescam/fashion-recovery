@@ -56,7 +56,7 @@ Route::group(['middleware' => ['auth']], function () {
 	//Questions
 	Route::post('question', 'QuestionController@question');
 	Route::get('question/{questionID}/{type}', 'QuestionController@answer');
-	Route::get('question/answer', 'QuestionController@storeAnswer');
+	Route::get('question/{type}', 'QuestionController@storeAnswer');
 
 	//Followers
 	Route::get('follow/{sellerID}', 'FollowersController@follow');
@@ -66,9 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
 	//Item API
 	Route::get('brands-by-department/{departmentId}', 'ItemApiController@getBrandsbyDepartment');
 	Route::get('clothing-type-by-brand/{departmentId}/{brandId}/{categoryId}', 'ItemApiController@getClothingTypebyBrand');
-
 	Route::get('clothing-type-only-by-brand/{departmentId}/{brandId}', 'ItemApiController@getClothingTypeOnlybyBrand');
-
 	Route::get('sizes-by-clothing-type/{departmentId}/{brandId}/{clothingTypeId}', 'ItemApiController@getSizesbyClothingType');
 
 	//Shipping
@@ -78,7 +76,6 @@ Route::group(['middleware' => ['auth']], function () {
 	//Billing Info
 	Route::post('billing-info', 'BillingInfoController@store');
 	Route::post('billing-info/{billingInfoId}', 'BillingInfoController@update');
-
 
 	//Guardarropas
 	Route::get('guardarropa', 'ClosetController@ownClosets');
