@@ -68,12 +68,12 @@ class QuestionController extends Controller
     }
 
     public function storeAnswer(Request $request, $type) {
-
+/*
         $this->validator($request, false);
 
         DB::beginTransaction();
 
-        try {
+        try {*/
 
             $data = $this->getData($request->toArray(), false);
 
@@ -84,7 +84,7 @@ class QuestionController extends Controller
             $user = $type == 'answer' ?
                     DB::table('fashionrecovery.GR_001')
                         ->where('GR_001.id',$request->questionUser)
-                        ->select('GR_001.email','GR_001.Alias')
+                        ->select('GR_001.email','GR_001.Alias','GR_001.id')
                         ->first() : $this->getUser($request->id);
 
             $this->saveNotifications($user, $answer, 'answer');
@@ -97,13 +97,13 @@ class QuestionController extends Controller
             Session::flash('success','Se ha enviado tu respuesta.');
             return Redirect::to('/question/'.$answer->ParentID.'/'.$type);
 
-        } catch (\Exception $ex) {
+       /* } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
             return Redirect::to('/question/'.$answer->ParentID.'/'.$type);
-        }
+        }*/
 
     }
 
