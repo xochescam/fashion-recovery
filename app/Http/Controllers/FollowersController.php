@@ -60,7 +60,7 @@ class FollowersController extends Controller
         Mail::to($user->email)
                  ->send(new NewFollower($user, Auth::User()));
 
-    	Session::flash('warning','Siguiendo.');
+    	Session::flash('success','Siguiendo.');
         return Redirect::back();
     }
 
