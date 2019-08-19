@@ -110,10 +110,11 @@ class QuestionController extends Controller
     public function saveNotifications($user, $answer, $type) {
 
         DB::table('fashionrecovery.GR_040')->insert([
-            'Type'      => $type,
-            'UserID'    => $user->id,
-            'TableID'   => $type == 'answer' ? $answer->ParentID : $answer->QuestionID,
-            'TableName' => 'GR_039'
+            'Type'        => $type,
+            'UserID'      => $user->id,
+            'TableID'     => $type == 'answer' ? $answer->ParentID : $answer->QuestionID,
+            'TableNameID' => 'QuestionID',
+            'TableName'   => 'GR_039'
         ]);
 
         DB::table('fashionrecovery.GR_001')

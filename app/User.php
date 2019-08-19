@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\MailResetPasswordNotification;
 
 use Auth;
+use DB;
 
 class User extends Authenticatable
 {
@@ -51,5 +52,31 @@ class User extends Authenticatable
         $profile = Auth::User()->ProfileID;
 
         return $profile == 2 ? true : false;
+    }
+
+    public function getNotifications() {
+
+        $notifications = DB::table('fashionrecovery.GR_040')
+                    ->where('UserID',Auth::User()->id)
+                    ->get();
+
+        // $notifications = $all->map(function ($item, $key){
+
+        //     dd($data);
+
+        //     if() {
+
+        //     }
+
+        //     $data = DB::table('fashionrecovery.'.$item->TableName)
+        //                 ->where($item->TableNameID,$item->TableID)
+        //                 ->first();
+
+        //     dd($data);
+
+        //     return $item;
+        // });
+
+        return $notifications;
     }
 }

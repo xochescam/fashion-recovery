@@ -134,10 +134,11 @@ class FollowersController extends Controller
     public function saveNotifications($user, $follower) {
 
         DB::table('fashionrecovery.GR_040')->insert([
-            'Type'      => 'follower',
-            'UserID'    => $user->id,
-            'TableID'   => $follower->UserID,
-            'TableName' => 'GR_038'
+            'Type'        => 'follower',
+            'UserID'      => $user->id,
+            'TableID'     => $follower->UserID,
+            'TableNameID' => 'UserID',
+            'TableName'   => 'GR_038'
         ]);
 
         DB::table('fashionrecovery.GR_001')

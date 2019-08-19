@@ -145,7 +145,7 @@ class RegisterController extends Controller
              'CreatedFromID' => 3,
              'CreationDate'  => date("Y-m-d H:i:s"),
              'Confirmed'     => false,
-             'Notifications' => isset($data['notifications']) ? true : false
+             'Notifications' => false
         ]);
     }
 
