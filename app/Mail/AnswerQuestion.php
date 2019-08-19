@@ -53,7 +53,7 @@ class AnswerQuestion extends Mailable
                         'AliasSeller' => $this->user->Alias,
                         'AliasAnswer' => $this->answerUser->Alias,
                         'Answer'      => $this->answer->Question,
-                        'AnswerID'    => $this->answer->QuestionID,
+                        'AnswerID'    => $this->answer->ParentID,
                         'Type'        => $this->type
                     ]);
     }
