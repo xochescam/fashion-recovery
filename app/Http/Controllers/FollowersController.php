@@ -39,7 +39,7 @@ class FollowersController extends Controller
 
     	if($this->isFollowing($sellerID)) {
     		Session::flash('warning','Ya estás siguiendo a este usuario.');
-            return Redirect::back(); 
+            return Redirect::back();
     	}
 
     	$follower = DB::table($this->table)
@@ -48,14 +48,18 @@ class FollowersController extends Controller
     						'SellerID' => $sellerID
     					]);
 
+        $follower = $this->getLast();
+
         $user = DB::table('fashionrecovery.GR_001')
                     ->where('id',$sellerID)->first();
+
+        $this->saveNotifications($user, $follower);
 
         Mail::to($user->email)
                  ->send(new NewFollower($user, Auth::User()));
 
     	Session::flash('warning','Siguiendo.');
-        return Redirect::back();		
+        return Redirect::back();
     }
 
     public function unfollow($sellerID) {
@@ -117,5 +121,29 @@ class FollowersController extends Controller
                     ->get();
 
         return !$exists->count() ? false : true;
+    }
+
+    public function getLast() {
+
+        return DB::table($this->table)
+                    ->where('UserID',Auth::User()->id)
+                    ->orderBy('CreationDate', 'desc')
+                    ->first();
+    }
+
+    public function saveNotifications($user, $follower) {
+
+        DB::table('fashionrecovery.GR_040')->insert([
+            'Type'      => 'follower',
+            'UserID'    => $user->id,
+            'TableID'   => $follower->UserID,
+            'TableName' => 'GR_038'
+        ]);
+
+        DB::table('fashionrecovery.GR_001')
+            ->where('id', $user->id)
+            ->update(['Notifications' => True]);
+
+        return true;
     }
 }
