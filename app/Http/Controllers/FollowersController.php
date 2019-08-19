@@ -45,8 +45,10 @@ class FollowersController extends Controller
     	$follower = DB::table($this->table)
     					->insert([
     						'UserID'   => Auth::User()->id,
-    						'SellerID' => $sellerID
+    						'SellerID' => $sellerID,
+                            'CreationDate' => date("Y-m-d H:i:s")
     					]);
+
 
         $follower = $this->getLast();
 

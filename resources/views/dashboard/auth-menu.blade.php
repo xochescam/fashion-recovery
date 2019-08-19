@@ -33,7 +33,7 @@
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
-    @if(Auth::User()->Notifications)
+    @if(Auth::User()->Notifications  && count(Auth::User()->getNotifications()) > 0)
       <i class="fas fa-bell"></i><span class="badge badge-pill badge-light badge-notifications">{{ count(Auth::User()->getNotifications())}}</span>
 
     @else
@@ -44,7 +44,7 @@
   </a>
   <div class="dropdown-menu dropdown-menu--notifications">
 
-    @if(Auth::User()->Notifications)
+    @if(Auth::User()->Notifications && count(Auth::User()->getNotifications()) > 0)
       @foreach(Auth::User()->getNotifications() as $notification)
         
           @if($notification->Type == 'follower')
@@ -74,6 +74,6 @@
     @else
       <a href="#" class="dropdown-item text-left">No tienes notificaciones</a>
     @endif
-    
+
   </div>
 </li>
