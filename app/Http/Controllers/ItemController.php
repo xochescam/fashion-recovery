@@ -335,14 +335,13 @@ class ItemController extends Controller
         $name = $date.'-'.$count++.'.jpg';
         //ini_set('memory_limit', "2000M");
 
-
         $realImg = Image::make($value->getRealPath())
-                        ->resize(300, null, function ($constraint) {
+                        ->resize(1200, null, function ($constraint) {
                     $constraint->aspectRatio();
         })->orientate();
 
         $realImg->stream();
-        $img = Image::make($value->getRealPath())->orientate()->fit(200);
+        $img = Image::make($value->getRealPath())->orientate()->fit(300, 300);
         $img->stream();
         //ini_set('memory_limit', "256M");
         //eliminar carpeta al actualizar

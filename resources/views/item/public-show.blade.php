@@ -20,8 +20,8 @@
 			              @endforeach
 		          	</div>
 		            <div class="col-sm-10 container-img">
-		            	<div class="card h-100">
-		            		<img class="js-card-image h-100" src="{{ url('storage/'.$items->first()->PicturePath) }}" alt="...">
+		            	<div class="card">
+		            		<img class="js-card-image w-100" src="{{ url('storage/'.$items->first()->PicturePath) }}" alt="...">
 		            	</div>
 		            </div>
 
