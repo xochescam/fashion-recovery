@@ -31,10 +31,29 @@
 </li>
 
 <li class="nav-item dropdown">
-  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="far fa-bell"></i> </a>
+  <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+
+    @if(Auth::User()->Notifications)
+      <i class="fas fa-bell"></i><span class="badge badge-pill badge-light badge-notifications">9</span>
+
+    @else
+      <i class="far fa-bell"></i>
+
+    @endif
+
+  </a>
   <div class="dropdown-menu dropdown-menu--notifications">
-    <a class="dropdown-item" href="#">Action</a>
-    <a class="dropdown-item" href="#">Another action</a>
-    <a class="dropdown-item" href="#">Something else here</a>
+    <a class="dropdown-item text-left" href="#">
+      <i class="far fa-user pr-1"></i>
+      xochescam ahora te sigue.
+    </a>
+    <a class="dropdown-item text-left" href="#">
+      <i class="far fa-comment pr-1"></i>
+      Tienes una nueva pregunta.
+    </a>
+    <a class="dropdown-item text-left" href="#">
+      <i class="far fa-comments pr-1"></i>
+      Tienes respuestas por leer.
+    </a>
   </div>
 </li>

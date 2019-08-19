@@ -410,6 +410,10 @@ div a{
   color: #fff !important;
 }
 
+.badge-notifications {
+  font-size: 50% !important;
+}
+
 .spinner-border {
   margin-right: 5px;
 }

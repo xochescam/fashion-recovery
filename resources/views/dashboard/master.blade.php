@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.20') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.21') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -274,7 +274,7 @@
             brandsSelect.innerHTML         = `<option value="" selected>- Seleccionar -</option>`;
 
             if(clothingTypesSelect) {
-                clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`;    
+                clothingTypesSelect.innerHTML  = `<option value="" selected>- Seleccionar -</option><option value="">Otro tipo de prenda</option>`;
             }
 
             if(sizesSelect) {
@@ -284,7 +284,7 @@
             if(categoriesSelect) {
                 categoriesSelect.selectedIndex = 0;
             }
-            
+
 
             for (var i = otherInputs.length - 1; i >= 0; i--) {
                 otherInputs[i].classList.add('hidden');
@@ -625,7 +625,7 @@
 
                 var imagen         = new Image();
                 imagen.style.width = "100%";
-                
+
                 // Use EXIF library to handle the loaded image exif orientation
                 EXIF.getData(file[0], function() {
                     // run orientation on img in canvas
