@@ -1,5 +1,5 @@
 <p>
-  <span class="font-weight-bold">{{ $items->count() }}</span> de resultados para <span class="font-weight-bold">"{{ app('request')->input('criteria') !== null ? app('request')->input('criteria') : isset($search->DepName) ? $search->DepName : (isset($search->BrandName) ? $search->BrandName : ( isset($search->ClothingStyleName) ? $search->ClothingStyleName : $search))  }}"</span> 
+  <span class="font-weight-bold">{{ $items->count() }}</span> de resultados para <span class="font-weight-bold">"{{ app('request')->input('criteria') !== null ? app('request')->input('criteria') : ((isset($search->DepName) ? $search->DepName : (isset($search->BrandName)) ? $search->BrandName : ( isset($search->ClothingStyleName) ? $search->ClothingStyleName : $search)))  }}"</span> 
 </p>
 
 <div class="mb-5">
