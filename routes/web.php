@@ -48,10 +48,15 @@ Route::get('search/{type}/{id}', 'SearchController@searchByLink');
 //Clothing filters
 Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');
 
+	Route::get('add-to-cart/{ItemID}', 'ShoppingCartController@addItem');
+
 //Search
 Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
+
+	//Shopping cart
+	//Route::get('add-to-cart/{ItemID}', 'ShoppingCartController@addItem');
 
 	//Questions
 	Route::post('question', 'QuestionController@question');

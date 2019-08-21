@@ -125,12 +125,6 @@
 						      </th>
 						      <td class="px-0 py-2">{{ $itemInfo->ColorName}}</td>
 					    	</tr>
-{{-- 					    	<tr>
-						      <th scope="row" class="px-0 py-2">
-						      	<small>Publicado hace</small>
-						      </th>
-						      <td class="px-0 py-2"></td>
-					    	</tr> --}}
 					  	</tbody>
 					</table>
 
@@ -140,10 +134,10 @@
 		          			<button class="btn btn-fr mb-3 w-100 ">
 		          				Comprar
 		          			</button>
-		          			<button class="btn btn-fr mb-3 w-100 ">
+		          			<a href="{{ url('add-to-cart',$itemInfo->ItemID) }}" class="btn btn-fr mb-3 w-100 ">
 		          				<i class="fas fa-shopping-cart mr-1"></i>
 		          				 Agregar al carrito
-		          			</button>
+		          			</a>
 
 		          			<div class="dropdown">
 							  <button class="btn green-border-button w-100 btn-outline-light my-2 my-sm-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -190,7 +184,7 @@
 			                @endif
 
 						</div>
-					  	<button type="submit" class="btn btn-fr">Preguntar</button>		
+					  	<button type="submit" class="btn btn-fr">Preguntar</button>
 					</form>
 
 					@include('item.partials.question-parent')
