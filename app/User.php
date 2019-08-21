@@ -60,23 +60,72 @@ class User extends Authenticatable
                     ->where('UserID',Auth::User()->id)
                     ->get();
 
-        // $notifications = $all->map(function ($item, $key){
-
-        //     dd($data);
-
-        //     if() {
-
-        //     }
-
-        //     $data = DB::table('fashionrecovery.'.$item->TableName)
-        //                 ->where($item->TableNameID,$item->TableID)
-        //                 ->first();
-
-        //     dd($data);
-
-        //     return $item;
-        // });
-
         return $notifications;
+    }
+
+    public function  getItems() {
+
+        $itemIds = DB::table('fashionrecovery.GR_041')
+                    ->where('GR_041.UserID',Auth::User()->id)
+                    ->get()->groupBy('ItemID')->keys();
+
+
+        $items = DB::table('fashionrecovery.GR_029')
+                        ->join('fashionrecovery.GR_041', 'GR_029.ItemID', '=', 'GR_041.ItemID')
+                        ->whereIn('GR_029.ItemID',$itemIds)
+                        ->select('GR_029.ItemID',
+                                 'GR_029.OffSaleID',
+                                 'GR_029.ItemDescription',
+                                 'GR_029.OriginalPrice',
+                                 'GR_029.ActualPrice',
+                                 'GR_029.SizeID',
+                                 'GR_029.BrandID',
+                                 'GR_041.ShoppingCartID'
+                             )->get();
+
+        $sub = 0;
+
+        foreach ($items as $key => $item) {
+            $sub += $item->ActualPrice;
+        }
+
+        return $items->map(function ($item, $key) use ($sub){
+
+            $item->ThumbPath = $this->getThumbPath($item);
+            $item->BrandID   = $this->getBrand($item);
+            $item->SizeID    = $this->getSize($item);
+            $item->sub       = $sub;
+
+            return $item;
+        });
+    }
+
+    public function getThumbPath($item) {
+
+        return DB::table('fashionrecovery.GR_032')
+            ->where('ItemID',$item->ItemID)
+            ->get()->first()->ThumbPath;
+    }
+
+    public function getBrand($item) {
+
+        return isset($item->BrandID) ? 
+                DB::table('fashionrecovery.GR_017')
+                    ->where('BrandID',$item->BrandID)
+                    ->first()->BrandName : 
+                DB::table('fashionrecovery.GR_036')
+                    ->where('ItemID',$item->ItemID)
+                    ->first()->OtherBrand;
+    }
+
+    public function getSize($item) {
+
+        return isset($item->BrandID) ? 
+                DB::table('fashionrecovery.GR_020')
+                    ->where('SizeID',$item->SizeID)
+                    ->first()->SizeName : 
+                DB::table('fashionrecovery.GR_036')
+                    ->where('ItemID',$item->ItemID)
+                    ->first()->OtherSize;
     }
 }

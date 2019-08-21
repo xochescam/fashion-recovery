@@ -1,5 +1,14 @@
-  <a class="nav-link " href="#" role="button" aria-haspopup="true" aria-expanded="false">
-    <i class="fas fa-shopping-cart"></i>
+  <a class="nav-link " href="{{ url('cart') }}" role="button" aria-haspopup="true" aria-expanded="false">
+
+    @if( count(Auth::User()->getItems()) > 0)
+      <i class="fas fa-shopping-cart"></i>
+      <span class="badge badge-pill badge-light badge-notifications">{{ count(Auth::User()->getItems()) }}</span>
+
+    @else
+      <i class="fas fa-shopping-cart"></i>
+
+    @endif
+    
   </a>
 
 
@@ -33,11 +42,11 @@
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
 
-    @if(Auth::User()->Notifications  && count(Auth::User()->getNotifications()) > 0)
+    @if(count(Auth::User()->getNotifications()) > 0)
       <i class="fas fa-bell"></i><span class="badge badge-pill badge-light badge-notifications">{{ count(Auth::User()->getNotifications())}}</span>
 
     @else
-      <i class="far fa-bell"></i>
+      <i class="fas fa-bell"></i>
 
     @endif
 
