@@ -664,7 +664,7 @@
 
             const isRequired = (name !== 'in' || name !== 'selfie') ? 'required="true"' : '';
 
-            const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label">
+            const content = `<input type="file" name="`+name+`_item_file" id="`+name+`_item_file" class="no-file js-item-file custom-file-input" data-type="`+type+`" data-name="`+name+`" `+isRequired+`><label for="`+name+`_item_file" class="card card--file-item custom-file-label m-auto">
                   <span><i class="far fa-image"></i> <br>`+type+`</span>
                 </label>`;
 

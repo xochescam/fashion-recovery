@@ -8,12 +8,12 @@
       <label>Foto de perfil *</label>
 
       <div class="thumb-size js-item-picture mx-auto">
-        <input type="file" name="profile_item_file" id="profile_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de perfil" data-name="selfie" accept=".png, .jpg, .jpeg"  required>
-        <label for="profile_item_file" class="card card--file-item custom-file-label" >
+        <input type="file" name="profile_item_file" id="profile_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de perfil" data-name="profile" accept=".png, .jpg, .jpeg"  required>
+        <label for="profile_item_file" class="card card--file-item custom-file-label m-auto" >
           <span><i class="far fa-image"></i> <br>Foto de perfil</span>
         </label>
 
-        <div class="container-item-img"></div>
+        <div class="container-item-img m-auto"></div>
 
         @if ($errors->has('profile_item_file'))
           <div class="invalid-validation mb-2">
@@ -50,12 +50,12 @@
       <label>Documento de identificación *</label>
 
       <div class="thumb-size js-item-picture mx-auto">
-        <input type="file" name="id_item_file" id="id_item_file" class="no-file js-item-file custom-file-input" data-type="Documento de identificación" data-name="selfie" accept=".png, .jpg, .jpeg"  required>
-        <label for="id_item_file" class="card card--file-item custom-file-label">
+        <input type="file" name="id_item_file" id="id_item_file" class="no-file js-item-file custom-file-input" data-type="Documento de identificación" data-name="id" accept=".png, .jpg, .jpeg"  required>
+        <label for="id_item_file" class="card card--file-item custom-file-label m-auto">
           <span><i class="far fa-image"></i> <br>Documento de identificación</span>
         </label>
 
-        <div class="container-item-img"></div>
+        <div class="container-item-img m-auto"></div>
 
         @if ($errors->has('id_item_file'))
           <div class="invalid-validation mb-2">

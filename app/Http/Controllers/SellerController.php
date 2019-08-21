@@ -236,6 +236,7 @@ class SellerController extends Controller
         $IDName       = "sellers/".Auth::User()->id.'/'.$date.'_'.Auth::User()->id.'_ID.jpg';
 
         ini_set('memory_limit', "2000M");
+
         if($data['id_item_file'] && !$isNew) {
 
             $seller = DB::table($this->table)
