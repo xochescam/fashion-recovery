@@ -10,9 +10,9 @@
 
       @foreach($items as $item)
 
-        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 d-flex">
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
           <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
-            <div class="card card--public card--item shadow p-3 bg-white rounded">
+            <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
               <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
               <div class="card-body">
                 <div class="badges float-right">
