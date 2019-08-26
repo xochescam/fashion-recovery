@@ -56,6 +56,11 @@ Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//payment
+	Route::get('payment/{ShippingAddID}', 'PaymentController@payment');
+	Route::get('confirmation/{ShippingAddID}', 'PaymentController@confirmation');
+
+
 	//Shopping cart
 	Route::get('add-to-cart/{ItemID}', 'ShoppingCartController@addItem');
 	Route::get('delete-to-cart/{ItemID}', 'ShoppingCartController@deleteItem');
@@ -79,8 +84,13 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('sizes-by-clothing-type/{departmentId}/{brandId}/{clothingTypeId}', 'ItemApiController@getSizesbyClothingType');
 
 	//Shipping
-	Route::post('shipping', 'ShippingAddController@store');
-	Route::post('shipping/{shippingAddId}', 'ShippingAddController@update');
+	Route::get('add-address', 'ShippingAddressController@create');
+	Route::get('address/{ShippingAddID}', 'ShippingAddressController@edit');
+	Route::get('address', 'ShippingAddressController@index');
+	Route::post('shipping', 'ShippingAddressController@store');
+	Route::post('shipping/{shippingAddId}', 'ShippingAddressController@update');
+	Route::get('shipping/{shippingAddId}/delete', 'ShippingAddressController@destroy')->name('shippings.destroy');
+
 
 	//Billing Info
 	Route::post('billing-info', 'BillingInfoController@store');

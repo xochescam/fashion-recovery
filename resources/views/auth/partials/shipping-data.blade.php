@@ -6,7 +6,10 @@
     <form method="POST" action="{{ url('shipping',$shipping == null ? '' : $shipping->ShippingAddID)  }}" class="needs-validation" novalidate>
        @csrf
 
-      @if($shipping == null)
+      <input type="hidden" value="false" name="is_payment_process">
+
+
+      @if($shipping == null && !$isPayment)
 
         <div class="alert alert-warning w-100" role="alert">
           No has actualizado tu dirección de envío.

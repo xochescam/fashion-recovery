@@ -54,6 +54,13 @@ class User extends Authenticatable
         return $profile == 2 ? true : false;
     }
 
+    public function getShippingAddress() {
+
+        return DB::table('fashionrecovery.GR_002')
+                    ->where('UserID',Auth::User()->id)
+                    ->get();
+    }
+
     public function getNotifications() {
 
         $notifications = DB::table('fashionrecovery.GR_040')
@@ -128,4 +135,6 @@ class User extends Authenticatable
                     ->where('ItemID',$item->ItemID)
                     ->first()->OtherSize;
     }
+
+
 }

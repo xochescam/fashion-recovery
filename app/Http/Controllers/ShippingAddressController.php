@@ -9,7 +9,7 @@ use DB;
 use Session;
 use Redirect;
 
-class ShippingAddController extends Controller
+class ShippingAddressController extends Controller
 {
     protected $table = 'fashionrecovery.GR_002';
     /**
@@ -19,7 +19,12 @@ class ShippingAddController extends Controller
      */
     public function index()
     {
-        //
+        $addresses = Auth::User()->getShippingAddress();
+        $isNew     = count($addresses) > 0 ? false : true;
+        $url       = $isNew ? 'address.create' : 'address.index';
+        $data      = $isNew ? compact('isNew') : compact('addresses','isNew');
+
+        return view($url,$data);
     }
 
     /**
@@ -29,7 +34,9 @@ class ShippingAddController extends Controller
      */
     public function create()
     {
-        //
+        $isNew = true;
+
+        return view('address.create',compact('isNew'));
     }
 
     /**
@@ -42,6 +49,10 @@ class ShippingAddController extends Controller
     {
         $this->validator($request);
 
+        $url = $request->is_payment_process ?
+                'address' :
+                'auth/'.Auth::User()->id;
+
         DB::beginTransaction();
 
         try {
@@ -53,14 +64,15 @@ class ShippingAddController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente la dirección de envio.');
-            return Redirect::to('auth/'.Auth::User()->id); //cambiar
+            return Redirect::to($url); //cambiar
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::to('auth/'.Auth::User()->id);
+            return Redirect::to($url); //cambiar
+
         }
     }
 
@@ -121,7 +133,12 @@ class ShippingAddController extends Controller
      */
     public function edit($id)
     {
-        //
+        $isNew    = false;
+        $address = DB::table('fashionrecovery.GR_002')
+                        ->where('ShippingAddID',$id)
+                        ->get()->first();
+
+        return view('address.edit',compact('address','isNew'));
     }
 
     /**
@@ -134,6 +151,9 @@ class ShippingAddController extends Controller
     public function update(Request $request, $id)
     {
         $this->validator($request);
+
+        $url = $request->is_payment_process ?
+                'address' : 'auth/'.Auth::User()->id ;
 
         DB::beginTransaction();
 
@@ -148,14 +168,15 @@ class ShippingAddController extends Controller
             DB::commit();
 
             Session::flash('success','Se han modificado correctamente los datos de dirección de envío.');
-            return Redirect::to('auth/'.Auth::User()->id); //cambiar
+            return Redirect::to($url); //cambiar
+
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::to('auth/'.Auth::User()->id);
+            return Redirect::to($url); //cambiar
         }
     }
 
@@ -167,6 +188,29 @@ class ShippingAddController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+
+        try {
+
+            $explode     = explode('.', $this->table);
+            $stringTable = $explode[0].'."'.$explode[1].'"';
+
+            DB::delete('DELETE FROM '.$stringTable.' WHERE "ShippingAddID"='.$id);
+
+            DB::delete('DELETE FROM fashionrecovery."GR_002" WHERE "ShippingAddID"='.$id);
+
+
+            DB::commit();
+
+            Session::flash('success','Se ha eliminado correctamente la dirección.');
+            return Redirect::back();
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::back();
+        }
     }
 }
