@@ -75,7 +75,7 @@
 				<div class="col-md-3 order-sm-2 order-1">
 					<div class="card bg-light fit-height mb-4">
 						<div class="card-body w-full">
-							<a href="#" class="btn btn-fr btn-lg w-100 mb-4">Comprar ahora</a>
+							<a href="{{ url('confirmation/'.$address->ShippingAddID) }}" class="btn btn-fr btn-lg w-100 mb-4">Comprar ahora</a>
 
 							<p class="m-0"><b>Confirmación del pedido</b></p>
 

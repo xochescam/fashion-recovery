@@ -56,8 +56,13 @@ Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//orders
+	Route::get('orders', 'OrderController@index');
+
+
 	//payment
 	Route::get('payment/{ShippingAddID}', 'PaymentController@payment');
+	Route::get('summary/{ShippingAddID}', 'PaymentController@summary');
 	Route::get('confirmation/{ShippingAddID}', 'PaymentController@confirmation');
 
 

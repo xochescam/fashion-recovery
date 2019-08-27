@@ -14,7 +14,7 @@
 			</div>
 
 			<div class="row">
-				<a href="{{ url('confirmation',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Continuar</a>
+				<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Continuar</a>
 			</div>
       </div>
     </main>
