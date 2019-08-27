@@ -88,7 +88,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('address/{ShippingAddID}/{type_url}', 'ShippingAddressController@edit');
 	Route::get('address', 'ShippingAddressController@index');
 	Route::post('shipping', 'ShippingAddressController@store');
-	Route::post('shipping/{shippingAddId}/{ShippingAddURL}', 'ShippingAddressController@update');
+	Route::post('shipping/{shippingAddId}', 'ShippingAddressController@update');
 	Route::get('shipping/{shippingAddId}/delete', 'ShippingAddressController@destroy')->name('shippings.destroy');
 
 
