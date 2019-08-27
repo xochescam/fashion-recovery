@@ -4,14 +4,12 @@
 
 	<p>Tienes {{ count($orders) }} pedido{{ count($orders) > 1 ? 's' : '' }} realizado{{ count($orders) > 1 ? 's.' : '.' }}</p>
 
-	@foreach($orders as $order)
+	<div class="card">
+  		<ul class="list-group list-group-flush w-100">
+			@foreach($orders as $order)
+	      		@foreach($items[$order->OrderID] as $item)
 
-		<div class="card">
-      		<ul class="list-group list-group-flush w-100">
-
-          		@foreach($items[$order->OrderID] as $item)
-
-          			<li class="list-group-item">
+	      			<li class="list-group-item">
 				  		<div class="row no-gutters">
 						    <div class="col-md-3">
 						      <img src="{{ url('storage/'.$item->ThumbPath) }}" class="card-img" alt="{{ $item->ItemDescription }}">
@@ -29,10 +27,9 @@
 						</div>
 			  		</li>
 
-          		@endforeach
-			</ul>
-
-		</div>			
-
-	@endforeach
+	      		@endforeach
+      		@endforeach
+		</ul>
+	</div>	
+			
 @endif

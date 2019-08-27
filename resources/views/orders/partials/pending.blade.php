@@ -3,11 +3,9 @@
 @else
 	<p>Tienes {{ count($pending) }} pedido{{ count($pending) > 1 ? 's' : '' }} realizado{{ count($pending) > 1 ? 's.' : '.' }}</p>
 
-	@foreach($pending as $order)
-
-		<div class="card">
-      		<ul class="list-group list-group-flush w-100">
-
+	<div class="card">
+  		<ul class="list-group list-group-flush w-100">
+			@foreach($pending as $order)
           		@foreach($items[$order->OrderID] as $item)
 
           			<li class="list-group-item">
@@ -29,9 +27,8 @@
 			  		</li>
 
           		@endforeach
-			</ul>
-
-		</div>			
-
-	@endforeach
+          	@endforeach
+		</ul>
+	</div>	
+			
 @endif

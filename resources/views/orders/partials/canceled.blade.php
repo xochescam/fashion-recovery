@@ -4,14 +4,12 @@
 
 	<p>Tienes {{ count($canceled) }} pedido{{ count($canceled) > 1 ? 's' : '' }} cancelado{{ count($canceled) > 1 ? 's.' : '.' }}</p>
 
-	@foreach($canceled as $order)
+	<div class="card">
+  		<ul class="list-group list-group-flush w-100">
+			@foreach($canceled as $order)
+	      		@foreach($items[$order->OrderID] as $item)
 
-		<div class="card">
-      		<ul class="list-group list-group-flush w-100">
-
-          		@foreach($items[$order->OrderID] as $item)
-
-          			<li class="list-group-item">
+	      			<li class="list-group-item">
 				  		<div class="row no-gutters">
 						    <div class="col-md-3">
 						      <img src="{{ url('storage/'.$item->ThumbPath) }}" class="card-img" alt="{{ $item->ItemDescription }}">
@@ -28,11 +26,9 @@
 						    </div>
 						</div>
 			  		</li>
-          		@endforeach
-			</ul>
-
-		</div>			
-
-	@endforeach
+	      		@endforeach
+      		@endforeach
+		</ul>
+	</div>			
 
 @endif
