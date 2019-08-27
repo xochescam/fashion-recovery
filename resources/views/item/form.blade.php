@@ -10,7 +10,7 @@
 <label>Fotos de la prenda *</label>
 
 <div class="row js-items-container mt-2 text-center">
-  <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+{{--   <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" accept=".png, .jpg, .jpeg" required>
       <label for="cover_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Portada</span>
@@ -27,7 +27,7 @@
           Selecciona la foto de la portada de la prenda.
         </div>
       @endif
-    </div>
+    </div> --}}
 
     <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" accept=".png, .jpg, .jpeg"  required>
