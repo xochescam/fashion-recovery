@@ -131,14 +131,14 @@ class ShippingAddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $type_url)
     {
         $isNew    = false;
-        $address = DB::table('fashionrecovery.GR_002')
+        $address  = DB::table('fashionrecovery.GR_002')
                         ->where('ShippingAddID',$id)
                         ->get()->first();
 
-        return view('address.edit',compact('address','isNew'));
+        return view('address.edit',compact('address','isNew','type_url'));
     }
 
     /**
@@ -152,8 +152,13 @@ class ShippingAddressController extends Controller
     {
         $this->validator($request);
 
-        $url = $request->is_payment_process ?
-                'address' : 'auth/'.Auth::User()->id ;
+        $urltype = [
+            'address'      => 'address',
+            'auth'         => 'auth/'.Auth::User()->id,
+            'confirmation' => 'confirmation/'.$id
+        ];
+
+        $url = $urltype[$request->type_url];
 
         DB::beginTransaction();
 

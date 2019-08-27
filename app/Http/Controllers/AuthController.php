@@ -61,8 +61,9 @@ class AuthController extends Controller
         $shipping         = null;
         $sellerSince      = '';
         $items            = 0;
+        $type_url         = 'auth';
         $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
-        $birthDateUser = date("d/m/Y", strtotime($user->Birthdate));
+        $birthDateUser    = date("d/m/Y", strtotime($user->Birthdate));
 
 
         if($user->ProfileID == 2) {
@@ -98,6 +99,7 @@ class AuthController extends Controller
 
         return view('auth.show',
             compact('seller',
+                    'type_url',
                     'creationDateUser',
                     'birthDateUser',
                     'sellerSince',
@@ -171,7 +173,7 @@ class AuthController extends Controller
             return Redirect::to('auth/'.$id);
 
         } else if($gender != null && !isset($request->gender)) {
-            
+
             Session::flash('warning','Selecciona tu género.');
             return Redirect::to('auth/'.$id);
         }

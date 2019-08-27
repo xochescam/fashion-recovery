@@ -1,7 +1,7 @@
 <form method="POST" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
    @csrf
 
-   <input type="hidden" value="true" name="is_payment_process">
+   <input type="hidden" value="{{ $type_url }}" name="type_url">
 
   <div class="form-group">
     <label for="Alias" class="col-form-label">Alias:</label>

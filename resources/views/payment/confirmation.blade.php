@@ -18,19 +18,19 @@
 					<div class="card mb-4">
 						<div class="card-body row">
 							<div class="col-md-6">
-								
+
 								<p>
-									<b>Dirección de envío</b> 
-									<small><a href="{{ url('address',$address->ShippingAddID) }}" class="green-link">Editar</a></small>
+									<b>Dirección de envío</b>
+									<small><a href="{{ url('address/'.$address->ShippingAddID.'/confirmation') }}" class="green-link">Editar</a></small>
 								</p>
 
 								<p> {{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }}</p>
 
-							</div>	
+							</div>
 							<div class="col-md-6">
 								<p>
-									<b>Método de pago</b> 
-									<small><a href="{{ url('payment') }}" class="green-link">Editar</a></small>
+									<b>Método de pago</b>
+									<small><a href="#" class="green-link">Editar</a></small>
 								</p>
 
 								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam.</p>
@@ -39,7 +39,7 @@
 					</div>
 
 					<div class="card">
-						
+
 		          		<ul class="list-group list-group-flush w-100">
 
 			          		@foreach($items as $item)
@@ -102,7 +102,7 @@
 								</tr>
 							</table>
 
-						</div>							
+						</div>
 					</div>
 
 				</div>

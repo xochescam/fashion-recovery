@@ -6,7 +6,7 @@
     <form method="POST" action="{{ url('shipping',$shipping == null ? '' : $shipping->ShippingAddID)  }}" class="needs-validation" novalidate>
        @csrf
 
-      <input type="hidden" value="false" name="is_payment_process">
+      <input type="hidden" value="{{ $type_url }}" name="type_url">
 
 
       @if($shipping == null && !$isPayment)

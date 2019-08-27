@@ -49,7 +49,7 @@ Route::get('search/{type}/{id}', 'SearchController@searchByLink');
 Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');
 
 
-	
+
 
 //Search
 Route::get('search', 'SearchController@search');
@@ -85,10 +85,10 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Shipping
 	Route::get('add-address', 'ShippingAddressController@create');
-	Route::get('address/{ShippingAddID}', 'ShippingAddressController@edit');
+	Route::get('address/{ShippingAddID}/{type_url}', 'ShippingAddressController@edit');
 	Route::get('address', 'ShippingAddressController@index');
 	Route::post('shipping', 'ShippingAddressController@store');
-	Route::post('shipping/{shippingAddId}', 'ShippingAddressController@update');
+	Route::post('shipping/{shippingAddId}/{ShippingAddURL}', 'ShippingAddressController@update');
 	Route::get('shipping/{shippingAddId}/delete', 'ShippingAddressController@destroy')->name('shippings.destroy');
 
 
