@@ -14,7 +14,7 @@
 			</div>
 
 			<div class="row">
-				<div class="col-md-9">
+				<div class="col-md-9 order-sm-1 order-2">
 					<div class="card mb-4">
 						<div class="card-body row">
 							<div class="col-md-6">
@@ -72,8 +72,8 @@
 					</div>
 				</div>
 
-				<div class="col-md-3">
-					<div class="card bg-light fit-height">
+				<div class="col-md-3 order-sm-2 order-1">
+					<div class="card bg-light fit-height mb-4">
 						<div class="card-body w-full">
 							<a href="#" class="btn btn-fr btn-lg w-100 mb-4">Comprar ahora</a>
 
