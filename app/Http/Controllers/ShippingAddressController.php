@@ -22,7 +22,8 @@ class ShippingAddressController extends Controller
         $addresses = Auth::User()->getShippingAddress();
         $isNew     = count($addresses) > 0 ? false : true;
         $url       = $isNew ? 'address.create' : 'address.index';
-        $data      = $isNew ? compact('isNew') : compact('addresses','isNew');
+        $type_url  = 'confirmation';
+        $data      = $isNew ? compact('isNew','type_url') : compact('addresses','isNew','type_url');
 
         return view($url,$data);
     }
