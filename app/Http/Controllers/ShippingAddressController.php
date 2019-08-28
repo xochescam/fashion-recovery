@@ -22,7 +22,7 @@ class ShippingAddressController extends Controller
         $addresses = Auth::User()->getShippingAddress();
         $isNew     = count($addresses) > 0 ? false : true;
         $url       = $isNew ? 'address.create' : 'address.index';
-        $type_url  = 'confirmation';
+        $type_url  = 'address';
         $data      = $isNew ? compact('isNew','type_url') : compact('addresses','isNew','type_url');
 
         return view($url,$data);
@@ -50,9 +50,7 @@ class ShippingAddressController extends Controller
     {
         $this->validator($request);
 
-        $url = $request->is_payment_process ?
-                'address' :
-                'auth/'.Auth::User()->id;
+        $url = $request->type_url;
 
         DB::beginTransaction();
 
