@@ -84,7 +84,7 @@ class AuthController extends Controller
 
             $shipping = DB::table('fashionrecovery.GR_002')
                         ->where('UserID',$id)
-                        ->first();
+                        ->get();
 
         } else if($user->ProfileID == 1) {
 
@@ -94,7 +94,7 @@ class AuthController extends Controller
 
             $shipping = DB::table('fashionrecovery.GR_002')
                         ->where('UserID',$id)
-                        ->first();
+                        ->get();
         }
 
         return view('auth.show',

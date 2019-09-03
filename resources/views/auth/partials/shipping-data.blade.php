@@ -3,13 +3,7 @@
 
   <div class="card-body">
 
-    <form method="POST" action="{{ url('shipping',$shipping == null ? '' : $shipping->ShippingAddID)  }}" class="needs-validation" novalidate>
-       @csrf
-
-      <input type="hidden" value="{{ $type_url }}" name="type_url">
-
-
-      @if($shipping == null && !$isPayment)
+      @if(count($shipping) == 0 && !$isPayment)
 
         <div class="alert alert-warning w-100" role="alert">
           No has actualizado tu dirección de envío.
@@ -19,9 +13,36 @@
           </button>
 
         </div>
+
+        @include('address.form')
+      
+      @else
+  
+        <div class="card">
+          <ul class="list-group list-group-flush">
+
+            @foreach($shipping as $address)
+
+              <li class="list-group-item">
+
+                {{ $address->Alias }} 
+                <small>{{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }}</small>
+
+                <div class="float-right">
+                  <a href="{{ url('address/'.$address->ShippingAddID.'/auth') }}" class="btn btn-sm btn-fr">Editar</a>
+                  <a href="{{ url('shipping/'.$address->ShippingAddID.'/delete') }}" class="btn btn-sm btn-danger">Eliminar</a>                
+                </div>
+              </li>
+            @endforeach
+
+          </ul>
+        </div>
+
       @endif
 
-      <div class="form-group row">
+
+
+{{--       <div class="form-group row">
         <label for="Alias" class="col-sm-3 col-form-label">Alias</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="Alias" id="Alias" value="{{ $shipping !== null ? $shipping->Alias : old('Alias') }}" maxlength="30" required>
@@ -163,7 +184,6 @@
           <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
           Guardar
         </button>
-      </div>
-    </form>
+      </div> --}}
   </div>
 </div>

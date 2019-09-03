@@ -132,12 +132,14 @@ class ShippingAddressController extends Controller
      */
     public function edit($id, $type_url)
     {
+        $title    = $type_url == 'address' ? 'Selecciona una dirección de envío' : 'Dirección de envío';
+        //$subtitle
         $isNew    = false;
         $address  = DB::table('fashionrecovery.GR_002')
                         ->where('ShippingAddID',$id)
                         ->get()->first();
 
-        return view('address.edit',compact('address','isNew','type_url'));
+        return view('address.edit',compact('address','isNew','type_url','title'));
     }
 
     /**
