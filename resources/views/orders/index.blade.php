@@ -15,17 +15,17 @@
 
 			<div class="row">
 				
-				<ul class="nav nav-tabs col-md-9 m-auto" id="myTab" role="tablist">
-				  	<li class="nav-item">
+				<ul class="nav nav-tabs flex-md-row flex-column p-0 col-md-9 m-auto orders-list" id="myTab" role="tablist">
+				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link active" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Pedidos</a>
 				  	</li>
-				  	<li class="nav-item">
+				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="false">Pedidos en curso</a>
 				  	</li>
-				  	<li class="nav-item">
+				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link" id="finalized-tab" data-toggle="tab" href="#finalized" role="tab" aria-controls="finalized" aria-selected="false">Pedidos finalizados</a>
 				  	</li>
-				  	<li class="nav-item">
+				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link" id="canceled-tab" data-toggle="tab" href="#canceled" role="tab" aria-controls="canceled" aria-selected="false">Pedidos cancelados</a>
 				  	</li>
 				</ul>

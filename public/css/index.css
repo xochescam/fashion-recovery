@@ -190,6 +190,17 @@ content:"";
   border-radius: .25rem!important;
 }
 
+@media (max-width: 768px) {
+    .orders-list {
+      border: none;
+    }
+
+    .orders-list .nav-link.active {
+      border-color: #dee2e6 #dee2e6 #fff;
+      background: #009c77;
+      color: #fff;
+    }
+}
 
 .custom-file-label::after {
   content: "Elegir";
