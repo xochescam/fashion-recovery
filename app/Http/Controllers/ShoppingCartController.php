@@ -52,7 +52,16 @@ class ShoppingCartController extends Controller
         }
     }
 
-    public function deleteItem($ShoppingCartID) {
+    public function deleteItem($ShoppingCartID, $url) {
+
+        $explode = explode('-',$url);
+
+        if($explode[0] == 'summary') {
+
+            $items = Auth::User()->getItems();
+
+            $url = count($items) == 1 ? 'cart' : $explode[0].'/'.$explode[1];
+        }
 
         DB::beginTransaction();
 
@@ -63,14 +72,15 @@ class ShoppingCartController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha eliminado correctamente la prenda del carrito.');
-            return Redirect::back();
+
+            return Redirect::to($url);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::back();
+            return Redirect::to($url);
         }
     }
 

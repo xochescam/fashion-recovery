@@ -14,9 +14,14 @@
 
         </div>
 
-        @include('address.form')
-      
+        <a class="btn btn-fr w-50" href="">
+          Agregar nueva dirección de envío
+        </a>       
       @else
+
+        <a class="btn btn-fr mb-4" href="{{ url('add-address/auth') }}">
+          Nueva dirección
+        </a> 
   
         <div class="card">
           <ul class="list-group list-group-flush">

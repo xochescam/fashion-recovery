@@ -68,7 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Shopping cart
 	Route::get('add-to-cart/{ItemID}', 'ShoppingCartController@addItem');
-	Route::get('delete-to-cart/{ItemID}', 'ShoppingCartController@deleteItem');
+	Route::get('delete-to-cart/{ItemID}/{url}', 'ShoppingCartController@deleteItem');
 	Route::get('cart', 'ShoppingCartController@items');
 
 
@@ -89,7 +89,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('sizes-by-clothing-type/{departmentId}/{brandId}/{clothingTypeId}', 'ItemApiController@getSizesbyClothingType');
 
 	//Shipping
-	Route::get('add-address', 'ShippingAddressController@create');
+	Route::get('add-address/{type_url}', 'ShippingAddressController@create');
 	Route::get('address/{ShippingAddID}/{type_url}', 'ShippingAddressController@edit');
 	Route::get('address', 'ShippingAddressController@index');
 	Route::post('shipping', 'ShippingAddressController@store');

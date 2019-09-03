@@ -11,7 +11,7 @@
 			<div class="row">
 
 				<div class="col-10 m-auto mb-4">
-					<a href="{{ url('add-address') }}" class="btn btn-fr mb-4 float-right">Nueva dirección</a>
+					<a href="{{ url('add-address/address') }}" class="btn btn-fr mb-4 float-right">Nueva dirección</a>
 
 					@include('alerts.success')
 					@include('alerts.warning')

@@ -60,7 +60,7 @@
 									      		<small>Marca: {{ $item->BrandID }}</small>
 									      	</p>
 
-									        <p class="card-text"><small class="text-muted"><a href="{{ url('delete-to-cart',$item->ShoppingCartID) }}" class="text-danger">Eliminar</a></small></p>
+									        <p class="card-text"><small class="text-muted"><a href="{{ url('delete-to-cart/'.$item->ShoppingCartID.'/summary-'.$address->ShippingAddID) }}" class="text-danger">Eliminar</a></small></p>
 									      </div>
 									    </div>
 									</div>

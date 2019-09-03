@@ -14,7 +14,7 @@
 			</div>
 
 			<div class="row">
-				<div class=" {{ count($items) > 0 ? 'col-md-9 mb-4' : '' }}">
+				<div class=" {{ count($items) > 0 ? 'col-md-9 mb-4' : 'w-100' }}">
 		  			@if(count($items) > 0)
 
 		          		<p class="font-weight-bold w-100 text-right px-4">Precio</p>
@@ -39,7 +39,7 @@
 									      		<small>Marca: {{ $item->BrandID }}</small>
 									      	</p>
 
-									        <p class="card-text"><small class="text-muted"><a href="{{ url('delete-to-cart',$item->ShoppingCartID) }}" class="text-danger">Eliminar</a></small></p>
+									        <p class="card-text"><small class="text-muted"><a href="{{ url('delete-to-cart/'.$item->ShoppingCartID.'/cart') }}" class="text-danger">Eliminar</a></small></p>
 									      </div>
 									    </div>
 									</div>
@@ -52,7 +52,7 @@
 						<span class="font-weight-bold green-color">${{ $items->first()->sub }} </span></p>
 					@else
 
-						<p class="w-100 text-center green-color">No tienes productos en el carrito.</p>
+						<p class="text-center green-color">No tienes productos en el carrito.</p>
 		          	@endif				
 				</div>
 

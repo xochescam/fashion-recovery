@@ -33,11 +33,12 @@ class ShippingAddressController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($type_url)
     {
         $isNew = true;
+        $title    = $type_url == 'address' ? 'Selecciona una dirección de envío' : 'Dirección de envío';
 
-        return view('address.create',compact('isNew'));
+        return view('address.create',compact('isNew','type_url','title'));
     }
 
     /**
@@ -50,7 +51,12 @@ class ShippingAddressController extends Controller
     {
         $this->validator($request);
 
-        $url = $request->type_url;
+        $urltype = [
+            'address'      => 'address',
+            'auth'         => 'auth/'.Auth::User()->id,
+        ];
+
+        $url = $urltype[$request->type_url];
 
         DB::beginTransaction();
 
