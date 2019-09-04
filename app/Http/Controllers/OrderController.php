@@ -59,6 +59,7 @@ class OrderController extends Controller
 
         })->groupBy('OrderID');
 
+
     	return view('orders.index',
             compact('orders',
                     'pending',

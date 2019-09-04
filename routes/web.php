@@ -56,6 +56,10 @@ Route::get('search', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//sells
+	Route::get('sells', 'SellController@index');
+	Route::get('sell/{SellID}/update', 'SellController@update');
+
 	//orders
 	Route::get('orders', 'OrderController@index');
 

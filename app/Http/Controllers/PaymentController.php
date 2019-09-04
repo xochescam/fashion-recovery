@@ -64,6 +64,10 @@ class PaymentController extends Controller
         DB::table('fashionrecovery.GR_022')
             ->insert($arrayIt);
 
+        DB::table('fashionrecovery.GR_029')
+                ->where('ItemID',$items->first()->ItemID)
+                ->update(['IsSold' => true]);
+
         DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
 
         return Redirect::to('orders');

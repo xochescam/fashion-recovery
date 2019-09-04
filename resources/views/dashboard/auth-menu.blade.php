@@ -20,6 +20,7 @@
   <div class="dropdown-menu btn-fr" aria-labelledby="navbarDropdown">
     <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mi cuenta</a>
     <a class="dropdown-item text-left" href="{{ url('orders') }}">Mis pedidos</a>
+    <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
 
     @if(Auth::User()->ProfileID == 2)
       <div class="dropdown-divider"></div>
