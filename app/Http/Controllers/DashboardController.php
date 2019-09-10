@@ -52,10 +52,13 @@ class DashboardController extends Controller
 
 		return $items->map(function ($item, $key) use ($offers) {
 
-			$item->offer = $offers[$item->OffSaleID][0]->Discount.'%';
+            $discount = $offers[$item->OffSaleID][0]->Discount;
 
-		    return $item;
-		});
+            $item->offer = $discount.'%';
+            $item->PriceOffer = $item->ActualPrice - ($item->ActualPrice * $discount)/100;
+
+            return $item;
+        });
     }
 
     public function getItemWithoutOffer($items) {

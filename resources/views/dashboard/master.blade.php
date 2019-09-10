@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.22') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.23') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -61,8 +61,18 @@
         const itemFiles1           = document.querySelector('.js-item-file-opt1');
         const itemFiles2           = document.querySelector('.js-item-file-opt2');
 
-        if(itemFiles1) {
-            itemFiles1.addEventListener('change', option1);
+
+        const fade = document.querySelectorAll('.container-fade p');     
+
+        for (var i = 0; i < fade.length; i++) {
+
+            if(fade[i].innerText.length >= 22){
+
+                fade[i].parentNode.classList.add('txt-fade');
+            } else {
+                fade[i].parentNode.classList.remove('txt-fade');
+
+            }
         }
 
         // Function to check orientation of image from EXIF metadatas and draw canvas

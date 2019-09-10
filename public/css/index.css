@@ -9,6 +9,31 @@ body{
   background-image: url('../img/header/BoardGreen.jpg');
   /* background-color: #009c77; */
 }
+
+.container-fade {
+  width: 100%;
+  overflow: hidden;
+}
+
+.container-fade  p {
+    margin: 0;
+}
+
+.txt-fade {
+  position: relative;
+  max-height: 3em; /* exactly three lines */
+}
+.txt-fade:after {
+  content: "";
+  text-align: right;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 65%;
+  height: 1.2em;
+  background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
+}
+
 .thumb-size {
   height: 200px;
 }

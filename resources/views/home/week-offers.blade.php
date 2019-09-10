@@ -14,16 +14,28 @@
           <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
             <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
               <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
-              <div class="card-body">
-                <div class="badges float-right">
-                  <h5><span class="badge badge-pill badge-success">${{ $item->ActualPrice }} </span></h5>
-                  @if(isset($item->offer))
-                    <span class="badge badge-pill badge-danger">{{ $item->offer }}</span>
-                  @endif
-                </div>
-                <h4 class="card-title">{{ isset($item->otherBrand->OtherBrand) ? $item->otherBrand->OtherBrand : $item->brand   }}</h4>
+              <div class="card-body px-0 p-lg-3">
+                
+                  <h4 class="card-title mb-0">{{ isset($item->otherBrand->OtherBrand) ? $item->otherBrand->OtherBrand : $item->brand   }}</h4>
 
-                <h6>{{ $item->ItemDescription }}</h6>
+                  @if(isset($item->offer))
+                    <div class="badges float-right mb-2">
+                      <span class="badge badge-pill badge-danger">{{ $item->offer }}</span>
+                      <span class="badge badge-pill badge-success">
+                        ${{ $item->PriceOffer }}
+                      </span>
+                    </div>
+                  @else
+                    <div class="badges float-right mb-2">
+                      <span class="badge badge-pill badge-success">
+                        ${{ $item->ActualPrice }} 
+                      </span>
+                    </div>
+                  @endif
+
+                <div class="container-fade">
+                  <p>{{ $item->ItemDescription }}</p>
+                </div>
                 <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
                   Talla: {{ isset($item->otherBrand->OtherSize) ? $item->otherBrand->OtherSize : $item->size }} <br />Color: {{ $item->ColorName }}</p>
               </div>

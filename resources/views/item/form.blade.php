@@ -468,7 +468,7 @@
   <div class="card-body">
     <div class="form-group">
       <label for="Discount">Descuento *</label>
-      <input type="number" class="form-control" name="Discount" id="Discount" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->Discount : old('Discount') }}">
+      <input type="number" class="form-control" name="Discount" id="Discount" max="75" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->Discount : old('Discount') }}">
       <small>Escribe el porcentaje de descuento que le deseas aplicar a la prenda.</small>
 
       @if ($errors->has('Discount'))

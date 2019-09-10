@@ -20,7 +20,7 @@
 
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.21') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.22') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -83,6 +83,20 @@
             });
           }, false);
         })();
+
+        const fade = document.querySelectorAll('.container-fade p');     
+
+        for (var i = 0; i < fade.length; i++) {
+
+            if(fade[i].innerText.length >= 22){
+
+                fade[i].parentNode.classList.add('txt-fade');
+            } else {
+                fade[i].parentNode.classList.remove('txt-fade');
+
+            }
+        }
+        
 
 
         function validate(form, event) {
