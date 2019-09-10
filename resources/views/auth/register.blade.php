@@ -5,7 +5,7 @@
     <main id="main">
       <div class="container py-5">
         <div class="row">
-          <div class="col">
+          <div class="col-md-10 m-auto">
             <h2 class="text-center mb-5">Crear cuenta</h2>
 
             <form method="POST" action="{{ url('register/'.$beSeller) }}" class="needs-validation mb-4" novalidate>
@@ -111,15 +111,11 @@
                   @endif
                 </div>
 
-                <div class="form-group col-md-6">
-                  <label for="birth_date">Fecha de nacimiento</label>
-                  <input type="text" class="form-control date_input" id="birth_date" name="birth_date" max="{{ date("d/m/Y") }}" placeholder="dd/mm/aaaa" value="{{ old('birth_date') }}"  onblur="(this.type='text')" onfocus="(this.type='date')">
+                <div class="form-group col-md-6"  {{ old('birth_date[2]') == 'Masculino' ? 'selected' : ''}}>
+                <label for="birth_date"  {{ old('birth_date[2]') == 'Masculino' ? 'selected' : ''}}>Fecha de nacimiento</label>
 
-                  @if ($errors->has('birth_date'))
-                    <div class="invalid-feedback">
-                      {{ $errors->first('birth_date') }}
-                    </div>
-                  @endif
+                @include('auth.partials.birthdate')
+
                 </div>
               </div>
 

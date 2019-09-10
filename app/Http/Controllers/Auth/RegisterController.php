@@ -74,7 +74,6 @@ class RegisterController extends Controller
      */
     public function register(Request $request, $beSeller)
     {
-
         $this->validator($request);
 
         if($this->existsEmail($request->email)) {
@@ -128,8 +127,9 @@ class RegisterController extends Controller
 
         if(isset($data['birth_date'])) {
 
-            $item = str_replace('/', '-', $data['birth_date']);
-            $date = date("Y-m-d", strtotime($item));
+            $date = $data['birth_date'][2].'-'.
+                    $data['birth_date'][1].'-'.
+                    $data['birth_date'][0];
         }
 
         return DB::table('fashionrecovery.GR_001')->insert([

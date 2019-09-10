@@ -48,9 +48,7 @@ Route::get('search/{type}/{id}', 'SearchController@searchByLink');
 //Clothing filters
 Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');
 
-
-
-
+	
 //Search
 Route::get('search', 'SearchController@search');
 

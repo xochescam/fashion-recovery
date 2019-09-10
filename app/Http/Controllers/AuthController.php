@@ -55,6 +55,7 @@ class AuthController extends Controller
      */
     public function show($id)
     {
+
         $user             = Auth::User();
         $seller           = null;
         $invoice          = null;
@@ -63,8 +64,9 @@ class AuthController extends Controller
         $items            = 0;
         $type_url         = 'auth';
         $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
-        $birthDateUser    = date("d/m/Y", strtotime($user->Birthdate));
-
+        $birthMonth       = $user->Birthdate ? date("m", strtotime($user->Birthdate)) : null;
+        $birthDay         = $user->Birthdate ? date("d", strtotime($user->Birthdate)) : null;
+        $birthYear        = $user->Birthdate ? date("Y", strtotime($user->Birthdate)) : null;
 
         if($user->ProfileID == 2) {
 
@@ -97,8 +99,14 @@ class AuthController extends Controller
                         ->get();
         }
 
+        $isPayment = count($shipping) == 0 ? false : true;
+
         return view('auth.show',
-            compact('seller',
+            compact('birthMonth',
+                    'birthDay',
+                    'birthYear',
+                    'isPayment',
+                    'seller',
                     'type_url',
                     'creationDateUser',
                     'birthDateUser',
@@ -222,12 +230,21 @@ class AuthController extends Controller
 
     protected function authData($data, $user) {
 
+        // $date = $user->Birthdate;
+
+        // if(isset($data['birth_date'])) {
+
+        //     $item = str_replace('/', '-', $data['birth_date']);
+        //     $date = date("Y-m-d", strtotime($item));
+        // }
+
         $date = $user->Birthdate;
 
         if(isset($data['birth_date'])) {
 
-            $item = str_replace('/', '-', $data['birth_date']);
-            $date = date("Y-m-d", strtotime($item));
+            $date = $data['birth_date'][2].'-'.
+                    $data['birth_date'][1].'-'.
+                    $data['birth_date'][0];
         }
 
         $gender = isset($data['gender']) ? $data['gender']: $user->Gender;

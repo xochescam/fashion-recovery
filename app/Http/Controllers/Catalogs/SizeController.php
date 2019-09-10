@@ -72,7 +72,6 @@ class SizeController extends Controller
                 ->where('ClothingTypeID',$request->clothingTypeId)
                 ->first();
 
-                //dd($exist);
         if(isset($exist)) {
             Session::flash('warning','La talla de la prenda ya existe. Ingresa otra diferente.');
             return Redirect::to('sizes/create');

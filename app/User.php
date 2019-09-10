@@ -128,12 +128,12 @@ class User extends Authenticatable
     public function getSize($item) {
 
         return isset($item->BrandID) ? 
-                DB::table('fashionrecovery.GR_020')
-                    ->where('SizeID',$item->SizeID)
-                    ->first()->SizeName : 
-                DB::table('fashionrecovery.GR_036')
-                    ->where('ItemID',$item->ItemID)
-                    ->first()->OtherSize;
+                 DB::table('fashionrecovery.GR_020')
+                     ->where('SizeID',$item->SizeID)
+                     ->first()->SizeName : 
+                 DB::table('fashionrecovery.GR_036')
+                     ->where('ItemID',$item->ItemID)
+                     ->first()->OtherSize;
     }
 
 
