@@ -324,8 +324,9 @@ div a{
 }
 
 .card-img-top {
-    max-height: 12rem;
-    object-fit: cover;
+  max-height: 250px;
+  object-fit: cover;
+  height: auto;    object-fit: cover;
 }
 
 .yellow {
