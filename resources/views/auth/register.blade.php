@@ -152,6 +152,12 @@
                   Crear cuenta
                 </button>
               </div>
+              <div class="row mb-5">
+                <div class="col col-md-6 offset-md-3 mb-5 mt-4">
+                  <p class="mb-1 text-center">¿Ya tienes una cuenta? 
+                    <a href="{{ url('login',0) }}" class="text-center">Inicia sesión</a></p>
+                </div>
+              </div>
             </form>
           </div>
         </div>
