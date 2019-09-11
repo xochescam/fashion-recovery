@@ -9,7 +9,7 @@
  <div>
 <label>Fotos de la prenda *</label>
 
-<div class="row js-items-container mt-2 text-center">
+ <div class="row js-items-container mt-2 text-center">
    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
       <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" accept=".png, .jpg, .jpeg" required>
       <label for="cover_item_file" class="card card--file-item custom-file-label">
@@ -420,11 +420,11 @@
     @endif
   </div>
 
-@if(!$item)
+{{-- @if(!$item) --}}
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="OriginalPrice">Precio original *</label>
-      <input type="number" class="form-control" name="OriginalPrice" id="OriginalPrice" value="" required>
+      <input type="number" class="form-control" name="OriginalPrice" id="OriginalPrice" value="{{ ($item) ? $item->first()->OriginalPrice : '' }}" required>
       <small>¿Cuánto te costo la prenda?</small>
 
       @if ($errors->has('OriginalPrice'))
@@ -441,11 +441,12 @@
     <div class="form-group col-md-6">
       <label for="ActualPrice">Precio actual *</label>
 
-      <input type="number" class="form-control" name="ActualPrice" id="ActualPrice" value="" required>
+      <input type="number" class="form-control" name="ActualPrice" id="ActualPrice" value="{{ ($item) ? $item->first()->ActualPrice : '' }}" required>
       <small>¿En cuánto venderás la prenda?</small>
 
-      @if ($errors->has('ActualPrice'))
-        <div class="invalid-feedback">
+      @if($errors->first('ActualPrice'))
+        <div class="invalid-feedback d-block">
+
           {{ $errors->first('ActualPrice') }}
         </div>
       @else
@@ -455,24 +456,24 @@
       @endif
     </div>
   </div>
-@endif
+{{-- @endif  --}}
 <div class="form-group">
   <div class="form-check mt-2">
-    <input class="form-check-input js-check-offer" type="checkbox" id="offer" name="offer"  value="true" {{ $item && $item->first()->OffSaleID !== null ? 'checked' : '' }} >
+    <input class="form-check-input js-check-offer" type="checkbox" id="offer" name="offer"  value="true" {{ $item && $item->first()->OffSaleID !== null || old('offer') ? 'checked' : '' }} >
     <label class="form-check-label" for="offer">¿Te gustaría agregar una oferta a la prenda?
     </label>
   </div>
 </div>
 
-<div class="card mb-4 js-check-container {{ $item && $item->first()->OffSaleID !== null ? '' : 'hidden' }}">
+<div class="card mb-4 js-check-container {{ $item && $item->first()->OffSaleID !== null || old('offer') ? '' : 'hidden' }}">
   <div class="card-body">
     <div class="form-group">
       <label for="Discount">Descuento *</label>
-      <input type="number" class="form-control" name="Discount" id="Discount" min="1" max="75" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->Discount : old('Discount') }}"  onKeyUp="if(this.value>75){this.value='75';}else if(this.value<0){this.value='1';}">
+      <input type="number" class="form-control" name="Discount" id="Discount" min="1" max="99" value="{{ $item && $item->first()->OffSaleID !== null ? $offers[$item->first()->OffSaleID][0]->Discount : old('Discount') }}"  onKeyUp="if(this.value>99){this.value='99';}else if(this.value<0){this.value='1';}">
       <small>Escribe el porcentaje de descuento que le deseas aplicar a la prenda.</small>
 
       @if ($errors->has('Discount'))
-        <div class="invalid-validation">
+        <div class="invalid-validation d-block">
           {{ $errors->first('Discount') }}
         </div>
       @else
@@ -484,7 +485,7 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="ValidFrom">Desde *</label>
-        <input type="text" class="form-control date_input" name="ValidFrom" id="ValidFrom" value="{{ isset($ValidFrom) && $ValidFrom !== '' ? $ValidFrom : '' }}" placeholder="dd/mm/aaaa" autocomplete="off">
+        <input type="text" class="form-control date_input" name="ValidFrom" id="ValidFrom" value="{{ isset($ValidFrom) && $ValidFrom !== '' ? $ValidFrom : (old('ValidFrom') ? old('ValidFrom') : '') }}" placeholder="dd/mm/aaaa" autocomplete="off">
         <small>Selecciona la fecha inicial de la oferta.</small>
 
         @if ($errors->has('ValidFrom'))
@@ -500,7 +501,7 @@
 
       <div class="form-group col-md-6">
         <label for="ValidUntil">Hasta *</label>
-        <input type="text" class="form-control date_input" name="ValidUntil" id="ValidUntil" value="{{ isset($ValidUntil) && $ValidUntil !== '' ? $ValidUntil : '' }}" placeholder="dd/mm/aaaa" autocomplete="off">
+        <input type="text" class="form-control date_input" name="ValidUntil" id="ValidUntil" value="{{ isset($ValidUntil) && $ValidUntil !== '' ? $ValidUntil : (old('ValidUntil') ? old('ValidUntil') : '') }}" placeholder="dd/mm/aaaa" autocomplete="off">
 
         <small>Selecciona la fecha final de la oferta.</small>
 

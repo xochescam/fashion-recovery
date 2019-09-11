@@ -29,10 +29,10 @@
         <div class="row">
           <div class=" col-sm-4 order-sm-1 order-2">
             <div class="card mb-4">
-              <h5 class="card-header">${{ $item->first()->ActualPrice }}
+              <h5 class="card-header">$ {{ isset($priceOffer) ? $priceOffer : $item->first()->ActualPrice }}
                 <small class="line-through">${{ $item->first()->OriginalPrice }}</small>
                 @if($item->first()->OffSaleID !== null)
-                  <span class="badge badge-secondary green-background float-right">{{ $offers[$item->first()->OffSaleID][0]->Discount }}%</span>
+                  <span class="badge badge-danger float-right">{{ $offers[$item->first()->OffSaleID][0]->Discount }}%</span>
                 @endif
               </h5>
 

@@ -102,7 +102,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
         DB::beginTransaction();
 
@@ -152,6 +152,7 @@ class ItemController extends Controller
         }
     }
 
+
     protected function updateItemData($data) {
 
         $data['ValidFrom'] = date("Y-m-d H:i:s",strtotime($data['ValidFrom']));
@@ -176,8 +177,8 @@ class ItemController extends Controller
              'ItemDescription'  => $data['ItemDescription'],
              'OwnerID'          => Auth::User()->id,
              //'PicturesUploaded' => count($data['PicturesUploaded']),
-             //'OriginalPrice'    => $data['OriginalPrice'],
-             //'ActualPrice'      => $data['ActualPrice'],
+             'OriginalPrice'    => $data['OriginalPrice'],
+             'ActualPrice'      => $data['ActualPrice'],
              'ColorID'          => $data['ColorID'],
              'SizeID'           => $size,
              'ClothingTypeID'   => $clothingType,
@@ -556,6 +557,7 @@ class ItemController extends Controller
         $otherBrand    = Null;
         $clothingTypes = Null;
         $sizes         = Null;
+        $priceOffer    = Null;
 
         $item = DB::table($this->table) //Mostrar solo una imagen
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
@@ -638,9 +640,14 @@ class ItemController extends Controller
 
             $ValidFrom = date("d/m/Y", strtotime($offer[0]->ValidFrom));
             $ValidUntil = date("d/m/Y", strtotime($offer[0]->ValidUntil));
+            $ActualPrice = $item->first()->ActualPrice;
+
+            $priceOffer = $ActualPrice - ($ActualPrice * ($offer[0]->Discount / 100));
+
         }
 
         return view('item.show',compact(
+            'priceOffer',
             'ValidFrom',
             'ValidUntil',
             'brands',

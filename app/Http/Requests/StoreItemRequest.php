@@ -23,7 +23,35 @@ class StoreItemRequest extends FormRequest
      */
     public function rules()
     {
+        $ActualPrice = $this->ActualPrice;
+        $discountPrice = 0;
+        $discount = 99;
+
+        if($this->Discount) {
+
+             $discountPrice = $ActualPrice - ($ActualPrice * $this->Discount) / 100;
+             $isValid       = $discountPrice < 180 ? false : true;
+
+             if(!$isValid) {
+
+                for ($i=1; $i < $this->Discount; $i++) { 
+
+                    $value = $this->Discount - $i;
+
+                    $discountPrice = $ActualPrice - ($ActualPrice * $value) / 100;
+                    $isValid       = $discountPrice < 180 ? false : true;
+
+                    if($isValid) {
+                        $discount = $value;
+                        break;
+                    }
+                }
+            }
+        }
+
         return [
+            'ActualPrice' => ['numeric','min:180'],
+            'Discount'   => ['numeric','max:'.$discount]
             //'PicturesUploaded'   => ['required'], //validar imagenes
             //'cover_item_file' => ['mimes:jpeg,png,jpg'], //validar imagenes
             //'front_item_file' => ['mimes:jpeg,png,jpg'], 
@@ -50,29 +78,23 @@ class StoreItemRequest extends FormRequest
      */
     public function messages()
     {
-        $images = [];
+        // $images = [];
 
-        if(isset($this->PicturesUploaded) && count($this->PicturesUploaded) > 0) {
+        // if(isset($this->PicturesUploaded) && count($this->PicturesUploaded) > 0) {
 
-            foreach ($this->PicturesUploaded as $key => $value) {
+        //     foreach ($this->PicturesUploaded as $key => $value) {
 
-                $name = $value->getClientOriginalName();
+        //         $name = $value->getClientOriginalName();
 
-                $images['PicturesUploaded.'.$key .'.mimes'] = $name.' debe ser un archivo con formato: jpeg, png, jpg';
-            }
-        }
+        //         $images['PicturesUploaded.'.$key .'.mimes'] = $name.' debe ser un archivo con formato: jpeg, png, jpg';
+        //     }
+        // }
 
-        return $images + [
-            'OriginalPrice.required'  => 'El campo :attribute es obligatorio.',
-            'ActualPrice.required'    => 'El campo :attribute es obligatorio.',
-            'ColorID.required'        => 'El campo :attribute es obligatorio.',
-            'SizeID.required'         => 'El campo :attribute es obligatorio.',
-            'ClothingTypeID.required' => 'El campo :attribute es obligatorio.',
-            'DepartmentID.required'   => 'El campo :attribute es obligatorio.',
-            'CategoryID.required'     => 'El campo :attribute es obligatorio.',
-            'TypeID.required'         => 'El campo :attribute es obligatorio.',
-            'ClosetID.required'       => 'El campo :attribute es obligatorio.',
-            'OffSaleID.required'      => 'El campo :attribute es obligatorio.',
+        return [
+            'ActualPrice.numeric' => 'El precio debe ser numérico',
+            'ActualPrice.min'     => 'El precio mínimo de la prenda debe ser $180',
+            'Discount.numeric'    => 'El descuento debe ser numérico',
+            'Discount.max'        => 'El descuento máx. que puedes agregar a tu prenda es :max%',
         ];
     }
 }
