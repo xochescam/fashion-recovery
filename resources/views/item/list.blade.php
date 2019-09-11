@@ -15,7 +15,6 @@
           <a href="{{ url('item') }}" class="btn btn-fr mb-4">Subir prenda</a>
         </div>
 
-  
           <div class="row justify-content-start p-3">
             @foreach($items as $item)
 

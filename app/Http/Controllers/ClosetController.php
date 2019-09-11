@@ -91,14 +91,23 @@ class ClosetController extends Controller
     {
         $closet = DB::table($this->table)->where('ClosetID',$id)->first();
 
-        $items = DB::table($this->table)
-                    ->join('fashionrecovery.GR_029', 'GR_030.ClosetID', '=', 'GR_029.ClosetID')
-                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
-                    ->where('fashionrecovery.GR_030.ClosetID',$id)
-                    ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_032.ThumbPath','GR_029.OriginalPrice','GR_029.ActualPrice')
-                    ->get()
-                    ->groupBy('ItemID');
+        $allItems  = $this->getMyItems($id);
+        $hasOffers = $this->getItemOffer($allItems);
+
+
+        $items = $hasOffers->count() > 0 ? 
+                 $hasOffers->merge($this->getItemWithoutOffer($allItems)) :
+                 $this->getItemWithoutOffer($allItems);
+
+        $thumbs = $this->getItemThumbs($items);
+
+        $items = $items->map(function ($item, $key) use($thumbs) {
+
+            $item->ThumbPath = $thumbs[$item->ItemID][0]->ThumbPath;
+
+            return $item;
+        });
+        
 
         return view('closet.show',compact('items','closet'));
     }
@@ -228,5 +237,90 @@ class ClosetController extends Controller
             'ClosetDescription' => $data['ClosetDescription'],
             'CreationDate'      => date("Y-m-d H:i:s")
         ];
+    }
+
+    public function getMyItems($id) {
+
+        $items = DB::table('fashionrecovery.GR_029')
+                    //->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
+                    ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
+                    //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
+                    ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
+                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->where('fashionrecovery.GR_030.ClosetID',$id)
+                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
+                    ->get();
+
+        return $items->map(function ($item, $key) {
+
+            $size       = '';
+            $brand      = '';
+            $otherBrand = '';
+
+           if(isset($item->BrandID)) {
+
+                $size         = DB::table('fashionrecovery.GR_020')
+                                    ->where('SizeID',$item->SizeID)
+                                    ->first()->SizeName;
+
+                $brand         = DB::table('fashionrecovery.GR_017')
+                                    ->where('BrandID',$item->BrandID)
+                                    ->first()->BrandName;
+            } else {
+
+               $otherBrand = DB::table('fashionrecovery.GR_036')
+                                ->where('ItemID',$item->ItemID)
+                                ->first();
+            }
+
+            $item->size       = $size;
+            $item->brand      = $brand;
+            $item->otherBrand      = $otherBrand;
+
+            return $item;
+        });
+    }
+
+    public function getItemOffer($items) {
+
+        $items = $items->filter(function ($item, $key) {
+
+            return $item->OffSaleID !== null;
+        });
+
+        $offers = DB::table('fashionrecovery.GR_031')
+                    ->whereIn('OfferID',$items->groupBy('OffSaleID')
+                    ->keys())
+                    ->get()
+                    ->groupBy('OfferID')
+                    ->toArray();
+
+        return $items->map(function ($item, $key) use ($offers) {
+
+            $discount = $offers[$item->OffSaleID][0]->Discount;
+
+            $item->offer = $discount.'%';
+            $item->PriceOffer = $item->ActualPrice - ($item->ActualPrice * $discount)/100;
+
+            return $item;
+        });
+    }
+
+    public function getItemWithoutOffer($items) {
+
+        return $items->filter(function ($item, $key) {
+
+            return $item->OffSaleID === null;
+            
+        })->sortByDesc('CreationDate');
+    }
+
+    public function getItemThumbs($all) {
+
+        return DB::table('fashionrecovery.GR_032')
+                    ->whereIn('ItemID',$all->groupBy('ItemID')->keys())
+                    ->get()
+                    ->groupBy('ItemID')
+                    ->toArray();
     }
 }

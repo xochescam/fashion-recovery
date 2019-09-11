@@ -41,15 +41,6 @@ class ItemController extends Controller
         
 
         return view('item.list',compact('items'));
-
-        $items = DB::table($this->table)
-                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
-                   ->where('GR_029.OwnerID',Auth::User()->id)
-                   ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_029.OriginalPrice','GR_029.ActualPrice','GR_032.ThumbPath','GR_029.ItemDescription')
-                    ->get()
-                    ->groupBy('ItemID');
-
-        return view('item.list',compact('items'));
     }
 
     /**
@@ -885,7 +876,7 @@ class ItemController extends Controller
         return $itemsName;
     }
 
-        public function getMyItems() {
+    public function getMyItems() {
 
         $items = DB::table('fashionrecovery.GR_029')
                     //->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
