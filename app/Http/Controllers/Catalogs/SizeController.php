@@ -22,11 +22,10 @@ class SizeController extends Controller
     public function index()
     {
         $sizes = DB::table($this->table)
-                    ->join('fashionrecovery.GR_019', 'GR_020.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
-                    ->join('fashionrecovery.GR_017', 'GR_020.BrandID', '=', 'GR_017.BrandID')
-                    ->join('fashionrecovery.GR_025', 'GR_020.DepartmentID', '=', 'GR_025.DepartmentID')
-                    ->select('GR_020.SizeID','GR_020.SizeName', 'GR_020.Active',  'GR_019.ClothingTypeName', 'GR_017.BrandName', 'GR_025.DepName')
-                    ->orderBy('SizeName')
+                    ->join('fashionrecovery.GR_026', 'GR_020.CategoryID', '=', 'GR_026.CategoryID')
+                    ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
+                    ->select('GR_025.DepName','GR_020.SizeID','GR_020.SizeName', 'GR_020.Active', 'GR_026.CategoryName')
+                    ->orderBy('GR_020.SizeName')
                     ->get();
 
         return view('catalogs.size.list',compact('sizes'));
@@ -39,22 +38,14 @@ class SizeController extends Controller
      */
     public function create()
     {
-        $departments   = DB::table('fashionrecovery.GR_025')
-                            ->where('Active',1)       
-                            ->orderBy('DepName')
-                            ->get();
+        $categories  = DB::table('fashionrecovery.GR_026')
+                        ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
+                        ->where('GR_026.Active',1) 
+                        ->select('GR_026.CategoryID','GR_026.CategoryName','GR_025.DepName','GR_026.Active')      
+                        ->orderBy('GR_026.CategoryName')
+                        ->get();
 
-        $brands        = DB::table('fashionrecovery.GR_017')
-                            ->where('Active',1)       
-                            ->orderBy('BrandName')
-                            ->get();
-
-        $clothingTypes = DB::table('fashionrecovery.GR_019')
-                            ->where('Active',1)       
-                            ->orderBy('ClothingTypeName')
-                            ->get();
-
-        return view('catalogs.size.create',compact('departments','brands','clothingTypes'));
+        return view('catalogs.size.create',compact('categories'));
     }
 
     /**
@@ -67,9 +58,7 @@ class SizeController extends Controller
     {
         $exist = DB::table($this->table)
                 ->where('SizeName',$request->name)
-                ->where('BrandID',$request->brandId)
-                ->where('DepartmentID',$request->departmentId)
-                ->where('ClothingTypeID',$request->clothingTypeId)
+                ->where('CategoryID',$request->CategoryID)
                 ->first();
 
         if(isset($exist)) {
@@ -122,25 +111,15 @@ class SizeController extends Controller
                     ->where('SizeID',$id)
                     ->first();
 
-        $departments   = DB::table('fashionrecovery.GR_025')
-                            ->where('Active',1)       
-                            ->orderBy('DepName')
-                            ->get();
+        
+        $categories  = DB::table('fashionrecovery.GR_026')
+                    ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
+                    ->where('GR_026.Active',1) 
+                    ->select('GR_026.CategoryID','GR_026.CategoryName','GR_025.DepName','GR_026.Active')      
+                    ->orderBy('GR_026.CategoryName')
+                    ->get();
 
-        $brands        = DB::table('fashionrecovery.GR_017')
-                            ->where('Active',1)       
-                            ->where('DepartmentID',$size->DepartmentID)
-                            ->orderBy('BrandName')
-                            ->get();
-
-        $clothingTypes = DB::table('fashionrecovery.GR_019')
-                            ->where('Active',1)       
-                            ->where('DepartmentID',$size->DepartmentID)
-                            ->where('BrandID',$size->BrandID)
-                            ->orderBy('ClothingTypeName')
-                            ->get();
-
-        return view('catalogs.size.edit',compact('size','clothingTypes','brands','departments'));
+        return view('catalogs.size.edit',compact('size','categories'));
     }
 
     /**
@@ -222,9 +201,7 @@ class SizeController extends Controller
     {
         return $request->validate([
             'name'           => ['required'],
-            'clothingTypeId' => ['required'],
-            'brandId'        => ['required'],
-            'departmentId'   => ['required'],
+            'CategoryID'     => ['required'],
             'active'         => ['required']
         ]);
     }
@@ -234,9 +211,7 @@ class SizeController extends Controller
 
         return [
                 'SizeName'       => $data['name'],
-                'ClothingTypeID' => $data['clothingTypeId'],
-                'BrandID'        => $data['brandId'],
-                'DepartmentID'   => $data['departmentId'],
+                'CategoryID'     => $data['CategoryID'],
                 'Active'         => isset($data['active']) ? true : false,
                 'CreationDate'   => date("Y-m-d H:i:s"),
                 'CreatedBy'      => Auth::User()->id

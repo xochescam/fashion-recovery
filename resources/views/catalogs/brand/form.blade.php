@@ -15,23 +15,6 @@
       @endif
     </div>
 
-	    <div class="form-group">
-      <label for="departmentId">Departamento</label>
-      <select id="departmentId" class="form-control" name="departmentId">
-        <option value="" selected>- Seleccionar -</option>
-
-            @foreach($departments as $item)
-              <option value="{{ $item->DepartmentID }}"  {{ (isset($brand->DepartmentID) && ($item->DepartmentID == $brand->DepartmentID) || old('departmentId'))  ? 'selected' : '' }} > {{ $item->DepName }} </option>
-            @endforeach
-      </select>
-
-        @if ($errors->has('departmentId'))
-            <div class="invalid-feedback">
-              {{ $errors->first('departmentId') }}
-            </div>
-        @endif
-    </div>
-
 	  <div class="form-group">
     	<div class="form-check">
             <input class="form-check-input" type="checkbox" id="active" name="active" value="{{ (isset($brand->Active) && $brand->Active) ? 'true' : 'false'  }}" {{ isset($brand->Active) ? ($brand->Active == 1 ? 'checked' : '' ) : 'checked'}}>

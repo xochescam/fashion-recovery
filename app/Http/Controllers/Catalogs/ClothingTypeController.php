@@ -22,10 +22,9 @@ class ClothingTypeController extends Controller
     public function index()
     {
         $clothingTypes = DB::table($this->table)
-                            ->join('fashionrecovery.GR_017', 'GR_019.BrandID', '=', 'GR_017.BrandID')
-                            ->join('fashionrecovery.GR_025', 'GR_019.DepartmentID', '=', 'GR_025.DepartmentID')
                             ->join('fashionrecovery.GR_026', 'GR_019.CategoryID', '=', 'GR_026.CategoryID')
-                            ->select('GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active',  'GR_017.BrandName', 'GR_025.DepName', 'GR_026.CategoryName')
+                            ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
+                            ->select('GR_025.DepName', 'GR_019.ClothingTypeID','GR_019.ClothingTypeName', 'GR_019.Active', 'GR_026.CategoryName')
                             ->orderBy('ClothingTypeName')
                             ->get();
 
@@ -39,18 +38,11 @@ class ClothingTypeController extends Controller
      */
     public function create()
     {
-        $brands      = DB::table('fashionrecovery.GR_017')
-                        ->orderBy('BrandName')
-                        ->get();
-
-        $departments = DB::table('fashionrecovery.GR_025') 
-                        ->where('Active',1)       
-                        ->orderBy('DepName')
-                        ->get();
-
         $categories  = DB::table('fashionrecovery.GR_026')
-                        ->where('Active',1)       
-                        ->orderBy('CategoryName')
+                        ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
+                        ->where('GR_026.Active',1) 
+                        ->select('GR_026.CategoryID','GR_026.CategoryName','GR_025.DepName','GR_026.Active')      
+                        ->orderBy('GR_026.CategoryName')
                         ->get();
 
         return view('catalogs.clothing-type.create',compact('brands','departments','categories'));
@@ -66,8 +58,6 @@ class ClothingTypeController extends Controller
     {        
         $exist = DB::table($this->table)
                 ->where('ClothingTypeName',$request->name)
-                ->where('BrandID',$request->brandId)
-                ->where('DepartmentID',$request->departmentId)
                 ->where('CategoryID',$request->categoryId)
                 ->first();
 
@@ -121,16 +111,14 @@ class ClothingTypeController extends Controller
                             ->where('ClothingTypeID',$id)
                             ->first();
 
-        $departments = DB::table('fashionrecovery.GR_025')
-                        ->where('Active',1)->get();
         $categories  = DB::table('fashionrecovery.GR_026')
-                        ->where('Active',1)->get();
-        $brands      = DB::table('fashionrecovery.GR_017')
-                        ->where('Active',1)       
-                        ->where('DepartmentID',$clothingType->DepartmentID)
-                        ->get();
+                            ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
+                            ->where('GR_026.Active',1) 
+                            ->select('GR_026.CategoryID','GR_026.CategoryName','GR_025.DepName','GR_026.Active')      
+                            ->orderBy('GR_026.CategoryName')
+                            ->get();
 
-        return view('catalogs.clothing-type.edit',compact('clothingType','brands','departments','categories'));
+        return view('catalogs.clothing-type.edit',compact('clothingType','categories'));
     }
 
     /**
@@ -209,8 +197,6 @@ class ClothingTypeController extends Controller
     {
         return $request->validate([
             'name'         => ['required'],
-            'brandId'      => ['required'],
-            'departmentId' => ['required'],
             'categoryId'   => ['required']
         ]);
     }
@@ -220,8 +206,6 @@ class ClothingTypeController extends Controller
 
         return [
              'ClothingTypeName' => $data['name'],
-             'BrandID'          => $data['brandId'],
-             'DepartmentID'     => $data['departmentId'],
              'CategoryID'       => $data['categoryId'],
              'Active'           => isset($data['active']) ? true : false,
              'CreationDate'     => date("Y-m-d H:i:s"),

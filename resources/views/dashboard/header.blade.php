@@ -21,7 +21,6 @@
               <a class="dropdown-item text-left" href="{{ url('other-brands') }}">Otras marcas</a>
               <a class="dropdown-item text-left" href="{{ url('clothing-types') }}">Tipos de prendas</a>
               <a class="dropdown-item text-left" href="{{ url('sizes') }}">Tallas</a>
-              <a class="dropdown-item text-left" href="{{ url('styles') }}">Estilos</a>
               <a class="dropdown-item text-left" href="{{ url('colors') }}">Colores</a>
               <a class="dropdown-item text-left" href="{{ url('types') }}">Condiciones</a>
               <div class="dropdown-divider"></div>

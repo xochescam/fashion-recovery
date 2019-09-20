@@ -19,9 +19,8 @@
 						<thead>
 						    <tr>
 							    <th scope="col">Nombre</th>
-							    <th scope="col">Departamento</th>
-							    <th scope="col">Marca</th>
-							    <th scope="col">Tipo de prenda</th>
+								<th scope="col">Departamento</th>
+							    <th scope="col">Categoría</th>
 							    <th scope="col">Activo</th>
 							    <th scope="col"></th>
 						    </tr>
@@ -31,9 +30,8 @@
 						 	@foreach($sizes as $item)
 						 		<tr>
 								    <th> {{ $item->SizeName }} </th>
-								    <td> {{ $item->DepName }} </td>
-								    <td> {{ $item->BrandName }} </td>
-								    <td> {{ $item->ClothingTypeName }} </td>
+									<td> {{ $item->DepName }} </td>
+								    <td> {{ $item->CategoryName }} </td>
 								    <td>
 								    	@if($item->Active)
 											<i class="fas fa-check green-color"></i>

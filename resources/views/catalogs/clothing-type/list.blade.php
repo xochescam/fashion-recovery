@@ -18,9 +18,8 @@
 					<table class="table table-striped">
 						<thead>
 						    <tr>
-							    <th scope="col">Nombre</th>
-							    <th scope="col">Departamento</th>
-							    <th scope="col">Marca</th>
+								<th scope="col">Nombre</th>
+								<th scope="col">Departamento</th>
 							    <th scope="col">Categoría</th>
 							    <th scope="col">Activo</th>
 							    <th scope="col"></th>
@@ -30,10 +29,9 @@
 
 						 	@foreach($clothingTypes as $item)
 						 		<tr>
-								    <th> {{ $item->ClothingTypeName }} </th>
-								    <td> {{ $item->DepName }}</td>
-								    <td> {{ $item->BrandName }} </td>
-								    <td> {{ $item->CategoryName }}</td>
+								 	<th> {{ $item->ClothingTypeName }} </th>
+								 	<td>{{ $item->DepName }}</td>
+								    <td> {{ $item->CategoryName }} </td>
 								    <td>
 								    	@if($item->Active)
 											<i class="fas fa-check green-color"></i>

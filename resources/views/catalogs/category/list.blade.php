@@ -19,6 +19,7 @@
 						<thead>
 						    <tr>
 							    <th scope="col">Nombre</th>
+								<th scope="col">Departamento</th>
 							    <th scope="col">Activa</th>
 							    <th scope="col"></th>
 						    </tr>
@@ -28,6 +29,7 @@
 						 	@foreach($categories as $item)
 						 		<tr>
 								    <th> {{ $item->CategoryName }} </th>
+									<th> {{ $item->DepName }} </th>
 								    <td>
 								    	@if($item->Active)
 											<i class="fas fa-check green-color"></i>

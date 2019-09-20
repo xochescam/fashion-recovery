@@ -23,6 +23,8 @@ class CategoryController extends Controller
     {
         $categories = DB::table($this->table)
                         ->orderBy('CategoryName')
+                        ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
+                        ->select('GR_026.CategoryID','GR_026.CategoryName', 'GR_026.Active','GR_025.DepName')
                         ->get();
 
         return view('catalogs.category.list',compact('categories'));
@@ -35,7 +37,12 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('catalogs.category.create');
+        $departments = DB::table('fashionrecovery.GR_025') 
+                        ->where('Active',1)       
+                        ->orderBy('DepName')
+                        ->get();
+
+        return view('catalogs.category.create',compact('departments'));
     }
 
     /**
@@ -92,8 +99,13 @@ class CategoryController extends Controller
         $category = DB::table($this->table)
                     ->where('CategoryID',$id)
                     ->first();
+        
+        $departments = DB::table('fashionrecovery.GR_025') 
+                        ->where('Active',1)       
+                        ->orderBy('DepName')
+                        ->get();
 
-        return view('catalogs.category.edit',compact('category'));
+        return view('catalogs.category.edit',compact('category','departments'));
 
     }
 
@@ -186,6 +198,7 @@ class CategoryController extends Controller
         return [
                 'CategoryName' => $data['name'],
                 'Active'       => isset($data['active']) ? true : false,
+                'DepartmentID' => $data['DepartmentID'],
                 'CreationDate' => date("Y-m-d H:i:s"),
                 'CreatedBy'    => Auth::User()->id
         ];
