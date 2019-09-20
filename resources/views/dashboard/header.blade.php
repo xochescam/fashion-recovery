@@ -18,7 +18,6 @@
               <a class="dropdown-item text-left" href="{{ url('departments') }}">Departamentos</a>
               <a class="dropdown-item text-left" href="{{ url('categories') }}">Categorías</a>
               <a class="dropdown-item text-left" href="{{ url('brands') }}">Marcas</a>
-              <a class="dropdown-item text-left" href="{{ url('other-brands') }}">Otras marcas</a>
               <a class="dropdown-item text-left" href="{{ url('clothing-types') }}">Tipos de prendas</a>
               <a class="dropdown-item text-left" href="{{ url('sizes') }}">Tallas</a>
               <a class="dropdown-item text-left" href="{{ url('colors') }}">Colores</a>

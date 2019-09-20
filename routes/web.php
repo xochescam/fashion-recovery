@@ -169,10 +169,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('brands/{brandId}', 'Catalogs\BrandController@update')->name('brands.update');
 	Route::get('brands/{brandId}/delete', 'Catalogs\BrandController@destroy')->name('brands.destroy');
 	Route::get('brands/{brandId}/validate', 'Catalogs\BrandController@verify')->name('brands.validate');
-
-	//Other Brands
-	Route::get('other-brands', 'Catalogs\OthersBrandsController@index');
-
+	
 	//Departments
 	Route::get('departments', 'Catalogs\DepartmentController@index');
 	Route::get('departments/create', 'Catalogs\DepartmentController@create')->name('departments.create');
