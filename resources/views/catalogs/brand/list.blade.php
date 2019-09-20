@@ -38,7 +38,10 @@
 									<td>
 										<a class="btn btn-sm btn-fr" href="{{ route('brands.edit',$item->BrandID) }}" role="button">Modificar</a>
 										<a class="btn btn-danger btn-sm" href="{{ route('brands.destroy',$item->BrandID) }}" role="button">Eliminar</a>
-								    </td>
+										@if(!$item->Verified)
+											<a class="btn btn-warning btn-sm text-light" href="{{ route('brands.validate',$item->BrandID) }}" role="button">Validar</a>
+										@endif
+									</td>
 							    </tr>
 						 	@endforeach
 

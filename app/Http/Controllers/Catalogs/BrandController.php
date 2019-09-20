@@ -38,6 +38,34 @@ class BrandController extends Controller
         return view('catalogs.brand.create');
     }
 
+    public function verify($id)
+    {
+        DB::beginTransaction();
+
+        try {
+
+            DB::table($this->table)
+                ->where('BrandID',$id)
+                ->update([
+                    'Verified' => true
+                ]);
+
+            DB::commit();
+
+            Session::flash('success','Se ha verificado correctamente la marca.');
+            return Redirect::to('brands');
+
+        } catch (\Exception $ex) {
+
+            DB::rollback();
+
+            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
+            return Redirect::to('brands');
+        }
+
+        
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -192,7 +220,8 @@ class BrandController extends Controller
              'BrandName'    => $data['name'],
              'Active'       => isset($data['active']) ? true : false,
              'CreationDate' => date("Y-m-d H:i:s"),
-             'CreatedBy'    => Auth::User()->id
+             'CreatedBy'    => Auth::User()->id,
+             'Verified'     => true
         ];
     }
 }
