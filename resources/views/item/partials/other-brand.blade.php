@@ -1,6 +1,6 @@
-<div class="form-group w-100 js-other-brand hidden">
+<div class="form-group w-100 js-other-brand {{  $item && $item->OtherBrand ? '' : 'hidden' }}">
     <label for="otherBrand">Ingresa la marca *</label>
-    <input type="text" class="form-control" name="otherBrand">
+    <input type="text" class="form-control" name="otherBrand" value="{{ $item && $item->OtherBrand ? $brand->BrandName : '' }}">
     <small>Lorem ipsum dolor sit amet</small>
 
     @if ($errors->has('otherBrand'))

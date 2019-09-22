@@ -1,6 +1,6 @@
 <div class="form-group w-100">
     <label for="OtherClothingType">Ingresa el tipo de prenda *</label>
-    <input type="text" class="form-control" name="OtherClothingType" id="OtherClothingType" value="{{ isset($otherBrand->OtherClothingType) ? $otherBrand->OtherClothingType : '' }}">
+    <input type="text" class="form-control" name="OtherClothingType" id="OtherClothingType">
     <small>Lorem ipsum dolor sit amet</small>
 
     @if ($errors->has('OtherClothingType'))

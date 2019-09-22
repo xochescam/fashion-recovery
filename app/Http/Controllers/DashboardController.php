@@ -17,22 +17,21 @@ class DashboardController extends Controller
     public function index()
     {
     	$allItems  = $this->getAllItems();
-		$hasOffers = $this->getItemOffer($allItems);
-
+        $hasOffers = $this->getItemOffer($allItems);
 
 		$items = $hasOffers->count() > 0 ? 
 				 $hasOffers->merge($this->getItemWithoutOffer($allItems)) :
-				 $this->getItemWithoutOffer($allItems);
-
-		$thumbs = $this->getItemThumbs($items);
-
+                 $this->getItemWithoutOffer($allItems);
+                 
+        $thumbs = $this->getItemThumbs($items);
+        
         $items = $items->map(function ($item, $key) use($thumbs) {
 
         	$item->ThumbPath = $thumbs[$item->ItemID][0]->ThumbPath;
 
 		    return $item;
-		});
-        
+        });
+            
         return view('dashboard.index',compact('items'));
     }
 
@@ -81,29 +80,16 @@ class DashboardController extends Controller
 
         return $items->map(function ($item, $key) {
 
-            $size       = '';
-            $brand      = '';
-            $otherBrand = '';
+            $size = DB::table('fashionrecovery.GR_020')
+                        ->where('SizeID',$item->SizeID)
+                        ->first()->SizeName;
 
-           if(isset($item->BrandID)) {
+            $brand = DB::table('fashionrecovery.GR_017')
+                        ->where('BrandID',$item->BrandID)
+                        ->first()->BrandName;
 
-                $size         = DB::table('fashionrecovery.GR_020')
-                                    ->where('SizeID',$item->SizeID)
-                                    ->first()->SizeName;
-
-                $brand         = DB::table('fashionrecovery.GR_017')
-                                    ->where('BrandID',$item->BrandID)
-                                    ->first()->BrandName;
-            } else {
-
-               $otherBrand = DB::table('fashionrecovery.GR_036')
-                                ->where('ItemID',$item->ItemID)
-                                ->first();
-            }
-
-            $item->size       = $size;
-            $item->brand      = $brand;
-            $item->otherBrand      = $otherBrand;
+            $item->SizeName  = $size;
+            $item->BrandName = $brand;
 
             return $item;
         });

@@ -1,16 +1,19 @@
-<div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
+<div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
 
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->first()->BrandID : '' }}"  data-size="false" required>
-        <option value="" {{ !isset($otherBrand->OtherBrand) && !isset($item) ? 'selected' : '' }}>- Seleccionar -</option>
+    <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->BrandID : '' }}"  data-size="false" required>
+        <option value="">- Seleccionar -</option>
 
-        @if(isset($brands))
-          @foreach($brands as $brand)
-            <option value="{{ $brand->BrandID }}" {{ $item && $item->first()->BrandID == $brand->BrandID || old('BrandID') ? 'selected' : '' }} >{{ $brand->BrandName }}</option>
-          @endforeach
-        @endif
+        @foreach($brands as $brand)
 
-        <option value="other" {{ isset($otherBrand->OtherBrand) ? 'selected' : '' }}> Otra marca</option>
+          <option value="{{ $brand->BrandID }}"  
+            {{ old('BrandID') && (old('BrandID') == $brand->BrandID) ? 'selected' :  ($item && !$item->OtherBrand && ($brand->BrandID == $item->BrandID) ? 'selected' : '') }}>
+            {{ $brand->BrandName }}
+          </option>
+          
+        @endforeach
+
+        <option value="other" {{ $item && $item->OtherBrand ? 'selected' : '' }}> Otra marca</option>
 
     </select>
 

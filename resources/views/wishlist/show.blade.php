@@ -20,8 +20,8 @@
                   <img src="{{ url('storage/'.$item->first()->ThumbPath) }}" class="card-img-top" alt="...">
                 </a>
                 <div class="card-body">
-                  <h5 class="card-title">${{ $item->first()->ActualPrice }}
-                    <small class="line-through">${{ $item->first()->OriginalPrice }}</small>
+                  <h5 class="card-title">{{ $item->first()->ActualPrice }}
+                    <small class="line-through">{{ $item->first()->OriginalPrice }}</small>
                   </h5>
                 </div>
               </div>

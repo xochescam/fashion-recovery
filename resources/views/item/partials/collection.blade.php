@@ -1,5 +1,5 @@
 
-<div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
+<div class="form-group col-md-6">
     <label for="ClosetID">Colección</label>
     <select id="ClosetID" class="form-control" name="ClosetID" >
       <option value="" selected>- Seleccionar -</option>
@@ -9,7 +9,9 @@
       @endif
 
       @foreach($closets as $closet)
-        <option value="{{ $closet->ClosetID }}"  {{ ($item && ($closet->ClosetID == $item->first()->ClosetID) || old('ClosetID'))  ? 'selected' : '' }} >
+
+        <option value="{{ $closet->ClosetID }}"  
+          {{ old('ClosetID') && (old('ClosetID') == $closet->ClosetID) ? 'selected' :  ($item && ($closet->ClosetID == $item->ClosetID) ? 'selected' : '') }}>
           {{ $closet->ClosetName }}
         </option>
       @endforeach

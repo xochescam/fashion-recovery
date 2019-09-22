@@ -50,22 +50,22 @@
 	          	<div class="col-sm-4 mb-5">
 
 					<h4>
-						{{ $itemInfo->ItemDescription }} ({{ $itemInfo->TypeName }})
+						{{ $info->ItemDescription }} ({{ $info->TypeName }})
 					</h4>
 
- 					<p>por <a href=" {{ url('seller',$itemInfo->Alias) }} " class="green-link">{{ $itemInfo->Alias }}</a></p>
+ 					<p>por <a href=" {{ url('seller',$info->Alias) }} " class="green-link">{{ $info->Alias }}</a></p>
 
 					<hr>
 
-					<p>Precio original: <small class="line-through">${{ $itemInfo->OriginalPrice }}</small> </p>
+					<p>Precio original: <small class="line-through">{{ $info->OriginalPrice }}</small> </p>
 
-					@if($itemInfo->OffSaleID !== null)
+					@if($info->OffSaleID !== null)
 						<p>Oferta: <span class="badge badge-pill badge-danger">{{ $discount }}%</span></p>
 					@endif
 
-					<p>Precio actual: <span class="green-color">${{ $itemInfo->ActualPrice }}</span> </p>
+					<p>Precio actual: <span class="green-color">{{ $info->ActualPrice }}</span> </p>
 
-					@if($itemInfo->OffSaleID !== null)
+					@if($info->OffSaleID !== null)
 						<p>Precio con oferta: <span class="green-color"> <b>${{ $priceOffer }}</b></span> </p>
 					@endif
 
@@ -75,13 +75,13 @@
 						      <th scope="row" class="px-0 py-1">
 						      	<small>Departamento:</small>
 						      </th>
-						      <td class="px-0 py-1">{{ $itemInfo->DepName }}</td>
+						      <td class="px-0 py-1">{{ $info->DepName }}</td>
 						    </tr>
 						    <tr>
 						      <th scope="row" class="px-0 py-1">
 						      	<small>Categoría:</small>
 						      </th>
-						      <td class="px-0 py-1">{{ $itemInfo->CategoryName }}</td>
+						      <td class="px-0 py-1">{{ $info->CategoryName }}</td>
 						    </tr>
 						    <tr>
 						      <th scope="row" class="px-0 py-1">
@@ -89,11 +89,11 @@
 						      </th>
 						      <td colspan="2" class="px-0 py-1">
 
-						      	@if(isset($otherBrand->OtherBrand))
-									<a href="{{ url('/search?criteria='.$otherBrand->OtherBrand) }}" class="green-link">{{ $otherBrand->OtherBrand }}</a>
-						      	@else
-						      		<a href="{{ url('search/brand/'.$brand->BrandID) }}" class="green-link">{{ $brand->BrandName }}</a>
-						      	@endif
+								@if($info->OtherBrand)
+									{{ $info->BrandName }}
+								@else
+									<a href="{{ url('search/brand/'.$info->BrandID) }}" class="green-link">{{ $info->BrandName }}</a>
+								@endif
 
 						      </td>
 					    	</tr>
@@ -101,40 +101,29 @@
 						      <th scope="row" class="px-0 py-1">
 						      	<small>Tipo de ropa:</small>
 						      </th>
-						      <td class="px-0 py-1">{{ isset($otherBrand->OtherClothingType) ? $otherBrand->OtherClothingType : $clothingType}}</td>
+						      <td class="px-0 py-1">{{ $info->ClothingTypeName }}</td>
 					    	</tr>
 					    	<tr>
 						      <th scope="row" class="px-0 py-1">
 						      	<small>Talla:</small>
 						      </th>
-						      <td class="px-0 py-1">{{ isset($otherBrand->OtherSize) ? $otherBrand->OtherSize : $size}}</td>
-					    	</tr>
-					    	<tr>
-						      	<th scope="row" class="px-0 py-1">
-						      		<small>Estilo:</small>
-						      	</th>
-						      	<td class="px-0 py-1">
-							      	<a href="{{ url('search/style/'.$itemInfo->ClothingStyleID) }}" class="green-link">
-										{{ $itemInfo->ClothingStyleName }}
-									</a>
-								</td>
+						      <td class="px-0 py-1">{{ $info->SizeName }}</td>
 					    	</tr>
 					    	<tr>
 						      <th scope="row" class="px-0 py-2">
 						      	<small>Color:</small>
 						      </th>
-						      <td class="px-0 py-2">{{ $itemInfo->ColorName}}</td>
+						      <td class="px-0 py-2">{{ $info->ColorName}}</td>
 					    	</tr>
 					  	</tbody>
 					</table>
-
 
 					<div class="card w-100">
 		          		<div class="card-body">
 		          			<button class="btn btn-fr mb-3 w-100 ">
 		          				Comprar
 		          			</button>
-		          			<a href="{{ url('add-to-cart',$itemInfo->ItemID) }}" class="btn btn-fr mb-3 w-100 ">
+		          			<a href="{{ url('add-to-cart',$info->ItemID) }}" class="btn btn-fr mb-3 w-100 ">
 		          				<i class="fas fa-shopping-cart mr-1"></i>
 		          				 Agregar al carrito
 		          			</a>

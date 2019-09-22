@@ -1,7 +1,17 @@
-<div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
+<div class="form-group col-md-6">
     <label for="SizeID">Talla *</label>
     <select id="SizeID" class="form-control js-sizes-select" name="SizeID" data-sizes="{{ $sizes }}" required>
-      <option value="" selected>- Seleccionar -</option>
+      <option value="">- Seleccionar -</option>
+
+      @if($item)
+        @foreach((old('CategoryID') ? $sizes[old('CategoryID')] : $sizes[$item->CategoryID]) as $size)
+        <option value="{{ $size->SizeID }}"  
+            {{ old('SizeID') && (old('SizeID') == $size->SizeID) ? 'selected' :  ($item && ($size->SizeID == $item->SizeID) ? 'selected' : '') }}>
+            {{ $size->SizeName }}
+          </option>
+        @endforeach
+      @endif
+
     </select>
     <small>¿Cuál es la talla de la prenda?</small>
 

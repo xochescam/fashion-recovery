@@ -23,14 +23,17 @@ class StoreItemRequest extends FormRequest
      */
     public function rules()
     {
-        $ActualPrice = $this->ActualPrice;
+        $ActualPrice   = ltrim($this->ActualPrice, '$');
         $discountPrice = 0;
-        $discount = 99;
+        $discount      = 99;
+        $validation    = $ActualPrice < 180 ? 'min:180': '';
 
         if($this->Discount) {
 
              $discountPrice = $ActualPrice - ($ActualPrice * $this->Discount) / 100;
              $isValid       = $discountPrice < 180 ? false : true;
+
+             
 
              if(!$isValid) {
 
@@ -49,9 +52,11 @@ class StoreItemRequest extends FormRequest
             }
         }
 
+
+
         return [
-            'ActualPrice' => ['numeric','min:180'],
-            'Discount'   => ['numeric','max:'.$discount]
+            'ActualPrice' => [$validation],
+            'Discount'   => ['max:'.$discount]
             //'PicturesUploaded'   => ['required'], //validar imagenes
             //'cover_item_file' => ['mimes:jpeg,png,jpg'], //validar imagenes
             //'front_item_file' => ['mimes:jpeg,png,jpg'], 

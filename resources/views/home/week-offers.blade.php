@@ -28,7 +28,7 @@
                   @else
                     <div class="badges float-right mb-2">
                       <span class="badge badge-pill badge-success">
-                        ${{ $item->ActualPrice }} 
+                        {{ $item->ActualPrice }} 
                       </span>
                     </div>
                   @endif

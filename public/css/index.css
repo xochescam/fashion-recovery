@@ -34,8 +34,29 @@ body{
   background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
 }
 
+.delete-item {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  font-size: 18px;
+  z-index: 2;
+}
+
+.cover-item {
+  color: #fff;
+  position: absolute;
+  right: 10px;
+  bottom: 8px;
+}
+
+
+.delete-item i {
+  color: red;
+}
+
 .thumb-size {
   height: 200px;
+  width: 200px;
 }
 
 .fit-height {

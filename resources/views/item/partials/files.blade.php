@@ -1,9 +1,9 @@
 @if(!$item)
- <div>
+ <div class="mb-2">
 <label>Fotos de la prenda *</label>
 
- <div class="row js-items-container mt-2 text-center">
-   <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+ <div class="js-items-container d-flex flex-wrap justify-content-center justify-content-sm-start mt-2">
+<!--    <div class="mb-4 mr-4 thumb-size js-item-picture">
       <input type="file" name="cover_item_file" id="cover_item_file" class="no-file js-item-file custom-file-input" data-type="Portada" data-name="cover" accept=".png, .jpg, .jpeg" required>
       <label for="cover_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Portada</span>
@@ -20,9 +20,9 @@
           Selecciona la foto de la portada de la prenda.
         </div>
       @endif
-    </div>
+    </div> -->
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+    <div class="mb-5 mr-4 thumb-size js-item-picture">
       <input type="file" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" accept=".png, .jpg, .jpeg"  required>
       <label for="front_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto frontal</span>
@@ -36,12 +36,12 @@
         </div>
       @else
         <div class="invalid-feedback mb-2">
-          Selecciona la foto de la portada de la prenda.
+          Foto frontal obligatoria.
         </div>
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+    <div class="mb-5 mr-4 thumb-size js-item-picture">
       <input type="file" name="label_item_file" id="label_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de la etiqueta" data-name="label" accept=".png, .jpg, .jpeg"  required>
       <label for="label_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de la etiqueta</span>
@@ -55,12 +55,12 @@
         </div>
       @else
         <div class="invalid-feedback mb-2">
-          Selecciona la foto de la portada de la prenda.
+          Foto de la etiqueta obligatoria.
         </div>
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+    <div class="mb-5 mr-4 thumb-size js-item-picture">
       <input type="file" name="back_item_file" id="back_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de espaldas" data-name="back" accept=".png, .jpg, .jpeg"  required>
       <label for="back_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de espaldas</span>
@@ -74,12 +74,12 @@
         </div>
       @else
         <div class="invalid-feedback mb-2">
-          Selecciona la foto de la portada de la prenda.
+          Foto de espaldas obligatoria.
         </div>
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+    <div class="mb-5 mr-4 thumb-size js-item-picture">
       <input type="file" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" accept=".png, .jpg, .jpeg"  data-name="selfie">
       <label for="selfie_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Selfie</span>
@@ -94,7 +94,7 @@
       @endif
     </div>
 
-    <div class="col-sm-4 mb-5 thumb-size js-item-picture">
+    <div class="mb-5 mr-4 thumb-size js-item-picture">
       <input type="file" name="in_item_file" id="in_item_file" class="no-file js-item-file custom-file-input" data-type="Prenda puesta" accept=".png, .jpg, .jpeg"  data-name="in">
       <label for="in_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Prenda puesta</span>
@@ -108,8 +108,6 @@
         </div>
       @endif
     </div>
-
   </div>
-
 </div>
 @endif

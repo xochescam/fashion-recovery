@@ -1,7 +1,19 @@
-<div class="form-group {{ $item ? 'w-100' : 'col-md-6' }}">
+<div class="form-group col-md-6">
     <label for="ClothingTypeID">Tipo de prenda *</label>
     <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID" data-clothing-types="{{ $clothingTypes }}" required>
-      <option value="" selected>- Seleccionar -</option>
+      <option value="">- Seleccionar -</option>
+
+      @if($item)
+        @foreach( (old('CategoryID') ? $clothingTypes[old('CategoryID')] : $clothingTypes[$item->CategoryID]) as $clothingType )
+
+          <option value="{{ $clothingType->ClothingTypeID }}"  
+            {{ old('ClothingTypeID') && (old('ClothingTypeID') == $clothingType->ClothingTypeID) ? 'selected' :  ($item && ($clothingType->ClothingTypeID == $item->ClothingTypeID) ? 'selected' : '') }}>
+            {{ $clothingType->ClothingTypeName }}
+          </option>
+
+        @endforeach
+      @endif
+
     </select>
     <small>Ejemplo: Blazer, Playera, Jeans...</small>
 

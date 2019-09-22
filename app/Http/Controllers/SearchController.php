@@ -55,11 +55,6 @@ class SearchController extends Controller
                 'id'     => 'BrandID',
                 'table'  => 'GR_017',
                 'name'   => 'BrandName' 
-            ],
-            'style' => [
-                'id'     => 'ClothingStyleID',
-                'table'  => 'GR_035',
-                'name'   => 'ClothingStyleName' 
             ]
         ];        
 
@@ -103,7 +98,6 @@ class SearchController extends Controller
         $types = [
             'department' => 'fashionrecovery.GR_025.DepName',
             'brand'      => 'fashionrecovery.GR_017.BrandName',
-            'style'      => 'fashionrecovery.GR_035.ClothingStyleName',
         ];
 
         $items   = $this->getItems()
@@ -155,8 +149,7 @@ class SearchController extends Controller
                     ->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
                     ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
-                    ->join('fashionrecovery.GR_035', 'GR_029.ClothingStyleID', '=', 'GR_035.ClothingStyleID')
-                    ->select('fashionrecovery.GR_029.ItemDescription', 'GR_029.ItemID','GR_029.OriginalPrice','GR_029.ActualPrice','GR_020.SizeName','GR_018.ColorName','GR_018.ColorID','GR_017.BrandName','GR_017.BrandID','GR_025.DepName','GR_025.DepartmentID','GR_019.ClothingTypeName','GR_035.ClothingStyleID','GR_017.BrandID','GR_019.ClothingTypeID');
+                    ->select('fashionrecovery.GR_029.ItemDescription', 'GR_029.ItemID','GR_029.OriginalPrice','GR_029.ActualPrice','GR_020.SizeName','GR_018.ColorName','GR_018.ColorID','GR_017.BrandName','GR_017.BrandID','GR_025.DepName','GR_025.DepartmentID','GR_019.ClothingTypeName','GR_017.BrandID','GR_019.ClothingTypeID');
                     // ->orWhere('fashionrecovery.GR_029.ItemDescription', 'LIKE', '%'.$search.'%')
                     // ->orWhere('fashionrecovery.GR_018.ColorName', 'LIKE', '%'.$search.'%');
     }

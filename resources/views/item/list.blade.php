@@ -21,7 +21,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
               <a href="{{ url('item',$item->ItemID) }}" class="link-card">
 
-                <div class="card card--public card--item shadow mb-5 bg-white rounded d-flex align-items-stretch">
+                <div class="card card--public card--item shadow mb-5 bg-white rounded d-flex w-100 align-items-stretch">
                   <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
                   <div class="card-body">
                   <h4 class="card-title mb-0">{{ isset($item->otherBrand->OtherBrand) ? $item->otherBrand->OtherBrand : $item->brand   }}</h4> 
@@ -36,7 +36,7 @@
                     @else
                       <div class="badges float-right mb-2">
                         <span class="badge badge-pill badge-success">
-                          ${{ $item->ActualPrice }} 
+                          {{ $item->ActualPrice }} 
                         </span>
                       </div>
                     @endif
@@ -50,22 +50,6 @@
 
           </div>
         </div>
-
-            {{-- <div class="col-sm-4 mb-4">
-              <div class="card">
-                <a href="{{ url('item',$item->first()->ItemID) }}"><img src="{{ url('storage/'.$item->first()->ThumbPath) }}" class="card-img-top" alt="..."></a>
-                <div class="card-body">
-                  <h5 class="card-title">{{$item->first()->ItemDescription}}</h5>
-                  <p class="card-text">${{ $item->first()->ActualPrice }}
-                    <small class="line-through">${{ $item->first()->OriginalPrice }}</small>
-                  </p>
-                </div>
-              </div>
-
-            </div> --}}
-
- 
-
     </main>
 
 @endsection
