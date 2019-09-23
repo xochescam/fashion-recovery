@@ -27,7 +27,7 @@ class HomeController extends Controller
 
         $items = $items->map(function ($item, $key) use($thumbs) {
 
-            $item->ThumbPath = $thumbs[$item->ItemID][0]->ThumbPath;
+            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
 
             return $item;
 
@@ -182,9 +182,9 @@ class HomeController extends Controller
     public function getItemThumbs($all) {
 
         return DB::table('fashionrecovery.GR_032')
-                    ->whereIn('ItemID',$all->groupBy('ItemID')->keys())
-                    ->get()
-                    ->groupBy('ItemID')
-                    ->toArray();
+                ->whereIn('ItemID',$all->groupBy('ItemID')->keys())
+                ->where('IsCover',true)
+                ->get()
+                ->groupBy('ItemID');
     }
 }

@@ -14,8 +14,8 @@
 </div>
 
  <div class="form-row">
+  @include('item.partials.brand')
   @include('item.partials.clothing-type')
- @include('item.partials.brand')
   @include('item.partials.other-brand')
 </div>
 

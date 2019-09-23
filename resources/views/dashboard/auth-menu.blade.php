@@ -24,9 +24,10 @@
 
     @if(Auth::User()->ProfileID == 2)
       <div class="dropdown-divider"></div>
+      <a class="dropdown-item text-left" href="{{ url('item') }}">Subir prenda</a>
       <a class="dropdown-item text-left" href="{{ url('guardarropa') }}">Mi Guardarropa</a>
       <a class="dropdown-item text-left" href="{{ url('wishlists') }}">Mis wishlists</a>
-      <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a>
+  <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
     @endif
 
     @if(Auth::User()->ProfileID > 2)

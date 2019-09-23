@@ -41,10 +41,10 @@ class ItemController extends Controller
                  $this->getItemWithoutOffer($allItems);
 
         $thumbs = $this->getItemThumbs($items);
-
+        
         $items = $items->map(function ($item, $key) use($thumbs) {
 
-            $item->ThumbPath = $thumbs[$item->ItemID][0]->ThumbPath;
+            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
 
             return $item;
         });
@@ -131,14 +131,14 @@ class ItemController extends Controller
 
             Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('items'); //cambiar
-
+ 
       } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
             return Redirect::to('item');
-        }
+        } 
     }
 
 
@@ -317,6 +317,8 @@ class ItemController extends Controller
         $thumbName = [];
         $count     = 0;
 
+        
+
         foreach ($data as $key => $value) {
 
             $name = explode('_', $key);
@@ -324,7 +326,7 @@ class ItemController extends Controller
             if(count($name) > 2 &&
                 $name[1].'_'.$name[2] === "item_file") {
 
-                $itemsName = $this->saveImg($value, $item, $count, $itemsName);
+                $itemsName = $this->saveImg($value, $item, $count++, $itemsName);
             }
         }
 
@@ -333,10 +335,9 @@ class ItemController extends Controller
 
     public function saveImg($value, $item, $count, $itemsName) {
 
-
         $date   = date("Ymd-His");
         $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
-        $name = $date.'-'.$count++.'.jpg';
+        $name = $date.'-'.$count.'.jpg';
         //ini_set('memory_limit', "2000M");
 
         $realImg = Image::make($value->getRealPath())
@@ -835,8 +836,8 @@ class ItemController extends Controller
 
         return DB::table('fashionrecovery.GR_032')
                     ->whereIn('ItemID',$all->groupBy('ItemID')->keys())
+                    ->where('IsCover',true)
                     ->get()
-                    ->groupBy('ItemID')
-                    ->toArray();
+                    ->groupBy('ItemID');
     }
 }
