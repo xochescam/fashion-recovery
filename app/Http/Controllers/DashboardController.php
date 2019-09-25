@@ -49,13 +49,14 @@ class DashboardController extends Controller
 					->groupBy('OfferID')
 					->toArray();
 
-		return $items->map(function ($item, $key) use ($offers) {
+        return $items->map(function ($item, $key) use ($offers) {
 
             $discount = $offers[$item->OffSaleID][0]->Discount;
-
+            $price    = floatval(ltrim($item->ActualPrice,'$'));
+            
             $item->offer = $discount.'%';
-            $item->PriceOffer = $item->ActualPrice - ($item->ActualPrice * $discount)/100;
-
+            $item->PriceOffer = $price - ($price * $discount)/100;
+            
             return $item;
         });
     }
