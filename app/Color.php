@@ -19,6 +19,7 @@ class Color extends Model
 
         return DB::table('fashionrecovery.GR_018')
                 ->where('Active',1)
-                ->orderBy('ColorName')->get();
+                ->orderBy('ColorName')
+                ->get();
     }
 }

@@ -20,8 +20,10 @@ class Offer extends Model
 
         return DB::table('fashionrecovery.GR_031')
             ->where('UserID',Auth::User()->id)
+            ->orderBy('GR_031.Discount')
             ->get()
-            ->groupBy('OfferID')->toArray();
+            ->groupBy('OfferID')
+            ->toArray();
     }
 }
 

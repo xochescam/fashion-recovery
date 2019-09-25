@@ -20,6 +20,7 @@ class Closet extends Model
 
         return DB::table('fashionrecovery.GR_030')
                 ->where('UserID',Auth::User()->id)
+                ->orderBy('ClosetName')
                 ->get();
     }
 }

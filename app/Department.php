@@ -18,6 +18,8 @@ class Department extends Model
     public static function getAll() {
 
         return DB::table('fashionrecovery.GR_025')
-                ->where('Active',1)->get();
+                ->where('Active',1)
+                ->orderBy('DepName')
+                ->get();
     }
 }
