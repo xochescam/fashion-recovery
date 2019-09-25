@@ -20,13 +20,13 @@
   <div class="dropdown-menu btn-fr" aria-labelledby="navbarDropdown">
     <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mi cuenta</a>
     <a class="dropdown-item text-left" href="{{ url('orders') }}">Mis pedidos</a>
-    <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
-
+<!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
+ -->
     @if(Auth::User()->ProfileID == 2)
       <div class="dropdown-divider"></div>
       <a class="dropdown-item text-left" href="{{ url('item') }}">Subir prenda</a>
       <a class="dropdown-item text-left" href="{{ url('guardarropa') }}">Mi Guardarropa</a>
-      <a class="dropdown-item text-left" href="{{ url('wishlists') }}">Mis wishlists</a>
+      <a class="dropdown-item text-left" href="{{ url('wishlists') }}">Wish List</a>
   <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
     @endif
 
@@ -37,8 +37,8 @@
 
 
     <div class="dropdown-divider"></div>
-    <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
-    <a class="dropdown-item text-left" href="{{ route('logout') }}">Cerrar sesión</a>
+<!--     <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
+ -->    <a class="dropdown-item text-left" href="{{ route('logout') }}">Cerrar sesión</a>
   </div>
 </li>
 
