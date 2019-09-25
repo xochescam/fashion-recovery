@@ -122,7 +122,7 @@ class HomeController extends Controller
             $price    = floatval(ltrim($item->ActualPrice,'$'));
 
             $item->offer = $discount.'%';
-            $item->PriceOffer = ltrim($price) - (ltrim($price) * $discount)/100;
+            $item->PriceOffer = $price - ($price * $discount)/100;
 
             return $item;
         });
