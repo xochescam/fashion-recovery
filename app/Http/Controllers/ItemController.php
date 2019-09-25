@@ -91,7 +91,7 @@ class ItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreItemRequest $request)
     {
         DB::beginTransaction();
 
@@ -525,7 +525,7 @@ class ItemController extends Controller
         $departments    = Department::getAll();
         $categories     = Category::getByDepartment();
         $clothingTypes  = ClothingType::getByCategory();
-        $brands         = Brand::getAll();
+        $brands         = Brand::getByDepartment();
         $brand          = $item->OtherBrand ? Brand::getBrand($item) : Null;
         $sizes          = Size::getByCategory();
         $colors         = Color::getAll(); 
@@ -605,7 +605,6 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, $id)
     {
-
          DB::beginTransaction();
 
         try {
@@ -816,9 +815,10 @@ class ItemController extends Controller
         return $items->map(function ($item, $key) use ($offers) {
 
             $discount = $offers[$item->OffSaleID][0]->Discount;
-
+            $price    = floatval(ltrim($item->ActualPrice,'$'));
+            
             $item->offer = $discount.'%';
-            $item->PriceOffer = $item->ActualPrice - ($item->ActualPrice * $discount)/100;
+            $item->PriceOffer = $price - ($price * $discount)/100;
 
             return $item;
         });
