@@ -224,22 +224,41 @@
         }
 
         function changeDepartament(e) {
-            const el           = e.currentTarget;
-            const departmentId = el.options[el.selectedIndex].value;
-            const categories   = JSON.parse(categoriesSelect.getAttribute('data-categories'));
-            let content = `<option value="">- Seleccionar -</option>`;
-        
+            const el            = e.currentTarget;
+            const departmentId  = el.options[el.selectedIndex].value;
+            const categories    = JSON.parse(categoriesSelect.getAttribute('data-categories'));
+            const brands        = JSON.parse(brandsSelect.getAttribute('data-brands'));
+            const otherInput    = otherBrandSelect.querySelector('.form-control');
+            let contentCategories = `<option value="">- Seleccionar -</option>`;
+            let contentBrands     = `<option value="">- Seleccionar -</option>`;
+            otherBrandSelect.classList.add('hidden');
+            otherInput.removeAttribute('required');
+
             if(categories[departmentId] === undefined){
-                content = `<option value="">- Sin categorías -</option>`;
+                contentCategories = `<option value="">- Sin categorías -</option>`;
 
             } else {
 
                 categories[departmentId].forEach(category => {
-                 content += `<option value="`+ category.CategoryID +`">`+ category.CategoryName +`</option>`;
+                    contentCategories += `<option value="`+ category.CategoryID +`">`+ category.CategoryName +`</option>`;
                 });
             }
 
-            categoriesSelect.innerHTML = content;
+            categoriesSelect.innerHTML = contentCategories;
+
+            if(brands[departmentId] === undefined){
+                contentBrands = `<option value="">- Sin marcas -</option>`;
+
+            } else {
+
+                brands[departmentId].forEach(brand => {
+                    contentBrands += `<option value="`+ brand.BrandID +`">`+ brand.BrandName +`</option>`;
+                });
+
+                contentBrands += `<option value="other">Otra marca</option>`;
+            }
+
+            brandsSelect.innerHTML = contentBrands;
 
             departmentsSelect.addEventListener('change', changeDepartament);
             categoriesSelect.addEventListener('change', changeCategory);
