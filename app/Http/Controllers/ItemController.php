@@ -65,7 +65,7 @@ class ItemController extends Controller
         $departments    = Department::getAll();
         $categories     = Category::getByDepartment();
         $clothingTypes  = ClothingType::getByCategory();
-        $brands         = Brand::getAll();
+        $brands         = Brand::getByDepartment();
         $sizes          = Size::getByCategory();
         $colors         = Color::getAll(); 
         $types          = Type::getAll();
@@ -423,8 +423,9 @@ class ItemController extends Controller
                         ->first();
 
             $discount = $offer->Discount;
+            $price    = floatval(ltrim($info->ActualPrice,'$'));
 
-            $priceOffer = $info->ActualPrice - ($info->ActualPrice * ($offer->Discount / 100));
+            $priceOffer = $price - ($price  * ($offer->Discount / 100));
         }
 
         $questions = $this->getQuestions($id);
