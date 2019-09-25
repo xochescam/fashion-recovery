@@ -6,11 +6,36 @@
 
     <div class="form-group">
       <label for="name">Nombre</label>
-      <input type="text" class="form-control" name="name" id="name" value=" {{ isset($brand->BrandName) ? $brand->BrandName : old('name') }}">
+      <input type="text" class="form-control" name="name" id="name" value="{{ isset($brand->BrandName) ? $brand->BrandName : old('name') }}" required>
 
       @if ($errors->has('name'))
-        <div class="invalid-feedback">
+        <div class="invalid-validation">
           {{ $errors->first('name') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo nombre es obligatorio.
+        </div>
+      @endif
+    </div>
+
+    <div class="form-group">
+      <label for="DepartmentID">Departamento</label>
+      <select id="DepartmentID" class="form-control" name="DepartmentID" required data-size="false" required>
+        <option value="" selected>- Seleccionar -</option>
+
+          @foreach($departments as $item)
+            <option value="{{ $item->DepartmentID }}"  {{ (isset($brand->DepartmentID) && ($item->DepartmentID == $brand->DepartmentID) || old('departmentId'))  ? 'selected' : '' }} > {{ $item->DepName }} </option>
+          @endforeach
+      </select>
+
+      @if ($errors->has('DepartmentID'))
+        <div class="invalid-validation">
+          {{ $errors->first('DepartmentID') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo departamento es obligatorio.
         </div>
       @endif
     </div>

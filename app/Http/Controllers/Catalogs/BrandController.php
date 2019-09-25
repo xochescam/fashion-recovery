@@ -21,9 +21,11 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = DB::table($this->table)
-                    ->orderBy('GR_017.BrandName')
-                    ->get();
+         $brands = DB::table($this->table)
+                        ->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
+                        ->select('GR_017.BrandID','GR_017.BrandName','GR_017.Verified', 'GR_017.Active','GR_025.DepName')
+                        ->orderBy('BrandName')
+                        ->get();
 
         return view('catalogs.brand.list',compact('brands'));
     }
@@ -35,7 +37,12 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view('catalogs.brand.create');
+        $departments = DB::table('fashionrecovery.GR_025') 
+                        ->where('Active',1)       
+                        ->orderBy('DepName')
+                        ->get();
+
+        return view('catalogs.brand.create', compact('departments'));
     }
 
     public function verify($id)
@@ -219,6 +226,7 @@ class BrandController extends Controller
         return [
              'BrandName'    => $data['name'],
              'Active'       => isset($data['active']) ? true : false,
+             'DepartmentID' => $data['DepartmentID'],
              'CreationDate' => date("Y-m-d H:i:s"),
              'CreatedBy'    => Auth::User()->id,
              'Verified'     => true
