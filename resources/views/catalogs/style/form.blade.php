@@ -5,7 +5,7 @@
 
   <div class="form-group">
     <label for="name">Nombre</label>
-    <input type="text" class="form-control" name="name" id="name" value=" {{ isset($style->ClothingStyleName) ? $style->ClothingStyleName : old('name') }}">
+    <input type="text" class="form-control" name="name" id="name" value=" {{ isset($style->ClothingStyleName) ? $style->ClothingStyleName : old('name') }}" required>
 
     @if ($errors->has('name'))
       <div class="invalid-feedback">

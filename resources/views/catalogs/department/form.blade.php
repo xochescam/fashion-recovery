@@ -5,11 +5,15 @@
 
   <div class="form-group">
     <label for="name">Nombre</label>
-    <input type="text" class="form-control" name="name" id="name" value=" {{ isset($department->DepName) ? $department->DepName : old('name') }}">
+    <input type="text" class="form-control" name="name" id="name" value="{{ isset($department->DepName) ? $department->DepName : old('name') }}" required>
 
     @if ($errors->has('name'))
-      <div class="invalid-feedback">
+      <div class="invalid-validation">
         {{ $errors->first('name') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo nombre es obligatorio.
       </div>
     @endif
   </div>

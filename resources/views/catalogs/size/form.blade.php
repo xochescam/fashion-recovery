@@ -20,7 +20,7 @@
 
   <div class="form-group">
     <label for="CategoryID">Categoría</label>
-    <select id="CategoryID" class="form-control js-clothing-type-select" name="CategoryID" data-size="true">
+    <select id="CategoryID" class="form-control js-clothing-type-select" name="CategoryID" data-size="true" required>
       <option value="" selected>- Seleccionar -</option>
 
       @foreach($categories as $item)

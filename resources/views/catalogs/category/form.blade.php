@@ -5,18 +5,22 @@
 
   <div class="form-group">
     <label for="name">Nombre</label>
-    <input type="text" class="form-control" name="name" id="name" value=" {{ isset($category->CategoryName) ? $category->CategoryName : old('name') }}">
+    <input type="text" class="form-control" name="name" id="name" value="{{ isset($category->CategoryName) ? $category->CategoryName : old('name') }}" required>
 
     @if ($errors->has('name'))
-      <div class="invalid-feedback">
+      <div class="invalid-validation">
         {{ $errors->first('name') }}
+      </div>
+    @else
+      <div class="invalid-feedback">
+        El campo nombre es obligatorio.
       </div>
     @endif
   </div>
 
   <div class="form-group">
     <label for="DepartmentID">Departamento</label>
-    <select id="DepartmentID" class="form-control js-departments-select" name="DepartmentID" required data-size="false">
+    <select id="DepartmentID" class="form-control" name="DepartmentID" required data-size="false" required>
       <option value="" selected>- Seleccionar -</option>
 
         @foreach($departments as $item)

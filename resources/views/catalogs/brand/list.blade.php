@@ -19,6 +19,7 @@
 						<thead>
 						    <tr>
 							    <th scope="col">Nombre</th>
+								<th scope="col">Departamento</th>
 							    <th scope="col">Activa</th>
 							    <th scope="col"></th>
 						    </tr>
@@ -28,6 +29,7 @@
 						 	@foreach($brands as $item)
 						 		<tr>
 								    <th> {{ $item->BrandName }} </th>
+									<td> {{ isset($item->DepName) ? $item->DepName : ''}} </td>
 								    <td>
 										@if($item->Active)
 											<i class="fas fa-check green-color"></i>

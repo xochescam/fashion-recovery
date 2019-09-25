@@ -22,9 +22,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = DB::table($this->table)
-                        ->orderBy('CategoryName')
                         ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
                         ->select('GR_026.CategoryID','GR_026.CategoryName', 'GR_026.Active','GR_025.DepName')
+                        ->orderBy('GR_026.CategoryName')
                         ->get();
 
         return view('catalogs.category.list',compact('categories'));

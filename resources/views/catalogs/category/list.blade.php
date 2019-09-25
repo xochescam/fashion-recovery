@@ -29,7 +29,7 @@
 						 	@foreach($categories as $item)
 						 		<tr>
 								    <th> {{ $item->CategoryName }} </th>
-									<th> {{ $item->DepName }} </th>
+									<td> {{ $item->DepName }} </td>
 								    <td>
 								    	@if($item->Active)
 											<i class="fas fa-check green-color"></i>
