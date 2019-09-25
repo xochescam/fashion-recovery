@@ -119,9 +119,10 @@ class HomeController extends Controller
         return $items->map(function ($item, $key) use ($offers) {
 
             $discount = $offers[$item->OffSaleID][0]->Discount;
+            $price    = floatval(ltrim($item->ActualPrice,'$'));
 
             $item->offer = $discount.'%';
-            $item->PriceOffer = $item->ActualPrice - ($item->ActualPrice * $discount)/100;
+            $item->PriceOffer = ltrim($price) - (ltrim($price) * $discount)/100;
 
             return $item;
         });
