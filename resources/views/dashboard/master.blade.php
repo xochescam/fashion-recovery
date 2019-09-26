@@ -597,12 +597,7 @@
 
     $('.js-currency-input').on({
         keyup: function() {
-            
             formatCurrency($(this));
-        },
-        blur: function() { 
-
-            formatCurrency($(this), "blur");
         }
     });
 
