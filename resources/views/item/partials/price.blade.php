@@ -1,7 +1,7 @@
 <div class="form-row">
     <div class="form-group col-md-6">
       <label for="OriginalPrice">Precio original *</label>
-      <input type="text" class="form-control" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" name="OriginalPrice" id="OriginalPrice" 
+      <input type="text" class="form-control js-currency-input" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" name="OriginalPrice" id="OriginalPrice" 
       value="{{ old('OriginalPrice') ? old('OriginalPrice') : ($item && $item->OriginalPrice ? $item->OriginalPrice  : '' ) }}" required>
       <small>¿Cuánto te costo la prenda?</small>
 
@@ -19,7 +19,7 @@
     <div class="form-group col-md-6">
       <label for="ActualPrice">Precio actual *</label>
 
-      <input type="text" class="form-control" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" name="ActualPrice" id="ActualPrice" 
+      <input type="text" class="form-control js-currency-input" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" name="ActualPrice" id="ActualPrice" 
       value="{{ old('ActualPrice') ? old('ActualPrice') : ($item && $item->ActualPrice ? $item->ActualPrice  : '' ) }}" required>
       <small>¿En cuánto venderás la prenda?</small>
 
