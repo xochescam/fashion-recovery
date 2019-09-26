@@ -156,11 +156,9 @@ class HomeController extends Controller
 
            if(isset($item->BrandID)) {
 
-            /*     $size         = DB::table('fashionrecovery.GR_020')
+                $size         = DB::table('fashionrecovery.GR_020')
                                     ->where('SizeID',$item->SizeID)
                                     ->first()->SizeName;
- */
-
 
                 $brand         = DB::table('fashionrecovery.GR_017')
                                     ->where('BrandID',$item->BrandID)
