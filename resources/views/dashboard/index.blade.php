@@ -60,7 +60,7 @@
 				                </div>
 
 				              <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-				                Talla: 5 <br />Color: {{ $item->ColorName }}</p>
+				                Talla: {{ $item->SizeName  }}<br />Color: {{ $item->ColorName }}</p>
 				            </div>
 				          </div>
 				          </a>
