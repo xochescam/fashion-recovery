@@ -1,5 +1,4 @@
-
-  <section id="LosDestacados" >
+<section id="LosDestacados" >
     <div class="container-fluid">
       <div class="row">
         <div class="col text-center text-uppercase mb-4">

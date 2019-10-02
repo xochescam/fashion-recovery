@@ -16,7 +16,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-    	$allItems  = $this->getAllItems();
+        $allItems  = $this->getAllItems();        
         $hasOffers = $this->getItemOffer($allItems);
 
 		$items = $hasOffers->count() > 0 ? 

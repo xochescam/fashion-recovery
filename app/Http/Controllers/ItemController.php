@@ -35,7 +35,7 @@ class ItemController extends Controller
         $allItems  = $this->getMyItems();
         $hasOffers = $this->getItemOffer($allItems);
 
-
+        
         $items = $hasOffers->count() > 0 ? 
                  $hasOffers->merge($this->getItemWithoutOffer($allItems)) :
                  $this->getItemWithoutOffer($allItems);
