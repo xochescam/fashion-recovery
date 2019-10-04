@@ -69,8 +69,8 @@ class ItemController extends Controller
         $sizes          = Size::getByCategory();
         $colors         = Color::getAll(); 
         $types          = Type::getAll();
-        $closets        = Closet::getByAuth();             
-
+        $closets        = Closet::getByAuth();   
+        
         return view('item.create',compact(
             'item',
             'departments',
@@ -395,7 +395,6 @@ class ItemController extends Controller
                     ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_027', 'GR_029.TypeID', '=', 'GR_027.TypeID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
-                    ->where('GR_029.ItemID',$id)
                     ->select('GR_029.ItemID',
                              'GR_029.OffSaleID',
                              'GR_029.ItemDescription',
@@ -411,7 +410,7 @@ class ItemController extends Controller
                              'GR_001.Alias',
                              'GR_020.SizeName',
                              'GR_029.OtherBrand'
-                         )->first();
+                         )->first(); 
 
         $items = DB::table('fashionrecovery.GR_032')
                     ->where('ItemID',$id)

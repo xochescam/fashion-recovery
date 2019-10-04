@@ -1,23 +1,9 @@
 <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
 
-    <select id="BrandID" class="form-control js-brands-select" name="BrandID" value="{{ $item ? $item->BrandID : '' }}"  data-brands="{{ $brands }}" data-size="false" required>
-        <option value="">- Seleccionar -</option>
+    <brands-component :options="{{ json_encode($brands) }}" :brand="DepartmentID" ></brands-component>
 
-        @if($item)
-          @foreach($brands[$item->DepartmentID] as $brand)
-
-            <option value="{{ $brand->BrandID }}"  
-              {{ old('BrandID') && (old('BrandID') == $brand->BrandID) ? 'selected' :  ($item && !$item->OtherBrand && ($brand->BrandID == $item->BrandID) ? 'selected' : '') }}>
-              {{ $brand->BrandName }}
-            </option>
-            
-          @endforeach
-        @endif
-
-        <option value="other" {{ $item && $item->OtherBrand ? 'selected' : '' }}> Otra marca</option>
-
-    </select>
+    <input type="hidden" name="BrandID">
 
     <small>¿De qué marca es está prenda?</small>
 

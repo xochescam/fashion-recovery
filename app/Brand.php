@@ -17,14 +17,15 @@ class Brand extends Model
 
     public static function getByDepartment() {
 
-        return DB::table('fashionrecovery.GR_017')
+        //return DB::table('fashionrecovery.GR_017')->get(['GR_017.BrandName as name','GR_017.BrandID as id']);
+
+         return DB::table('fashionrecovery.GR_017')
                     ->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
-                    ->select('GR_017.BrandName','GR_017.BrandID', 'GR_025.DepName','GR_025.DepartmentID')
+                    ->select('GR_017.BrandName as name','GR_017.BrandID as id','GR_025.DepartmentID')
                     ->where('GR_017.Verified',true)
                     ->where('GR_017.Active',1)
                     ->orderBy('GR_017.BrandName')
-                    ->get()
-                    ->groupBy('DepartmentID');
+                    ->get();
     }
 
     public static function getBrand($item) {

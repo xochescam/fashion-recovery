@@ -7,6 +7,8 @@
 
 
 window.Vue = require('vue');
+import vSelect from 'vue-select'
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -23,6 +25,17 @@ Vue.component(
     'example-component',
     require('./components/ExampleComponent.vue').default
 );
+
+Vue.component(
+    'select-component',
+    require('./components/SelectComponent.vue').default
+);
+
+Vue.component(
+    'brands-component',
+    require('./components/BrandsComponent.vue').default
+);
+
 
 
 /**

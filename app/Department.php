@@ -20,6 +20,6 @@ class Department extends Model
         return DB::table('fashionrecovery.GR_025')
                 ->where('Active',1)
                 ->orderBy('DepName')
-                ->get();
+                ->get(['DepartmentID as value', 'DepName as option']);
     }
 }

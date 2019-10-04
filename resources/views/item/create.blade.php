@@ -11,7 +11,10 @@
 
           <div class="col-md-8 offset-md-2">
             <form method="POST" action="{{ url('item') }}" class="needs-validation" enctype="multipart/form-data" novalidate>
+
+              <div id="app">
               @include('item.form')
+              </div>
 
               <div class="text-center mt-5">
                 <button type="submit" class="btn btn-fr w-50">

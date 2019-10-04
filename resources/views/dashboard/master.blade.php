@@ -17,6 +17,8 @@
     <!-- Fontawesome ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
     <link rel="stylesheet" href="{{ url('css/index.css?1.25') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
@@ -41,8 +43,13 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue-select@latest"></script>
+
 
     <script  type="text/javascript" src="{{ url('js/exif.js') }} "></script>
+
+    <script  type="text/javascript" src="{{ url('js/app.js') }} "></script>
 
     <script>
         const dateTime            = document.querySelectorAll('.date_input');
@@ -230,8 +237,8 @@
             const el            = e.currentTarget;
             const departmentId  = el.options[el.selectedIndex].value;
             const categories    = JSON.parse(categoriesSelect.getAttribute('data-categories'));
-            const brands        = JSON.parse(brandsSelect.getAttribute('data-brands'));
-            const otherInput    = otherBrandSelect.querySelector('.form-control');
+/*             const brands        = JSON.parse(brandsSelect.getAttribute('data-brands'));
+ */            const otherInput    = otherBrandSelect.querySelector('.form-control');
             let contentCategories = `<option value="">- Seleccionar -</option>`;
             let contentBrands     = `<option value="">- Seleccionar -</option>`;
             otherBrandSelect.classList.add('hidden');
@@ -249,7 +256,7 @@
 
             categoriesSelect.innerHTML = contentCategories;
 
-            if(brands[departmentId] === undefined){
+/*             if(brands[departmentId] === undefined){
                 contentBrands = `<option value="">- Sin marcas -</option>`;
 
             } else {
@@ -261,7 +268,7 @@
                 contentBrands += `<option value="other">Otra marca</option>`;
             }
 
-            brandsSelect.innerHTML = contentBrands;
+            brandsSelect.innerHTML = contentBrands; */
 
             departmentsSelect.addEventListener('change', changeDepartament);
             categoriesSelect.addEventListener('change', changeCategory);

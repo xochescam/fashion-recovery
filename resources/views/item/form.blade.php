@@ -5,7 +5,7 @@
   @include('alerts.warning')
 @endif
 
-@include('item.partials.files')
+ @include('item.partials.files')
 @include('item.partials.description')
 
 <div class="form-row">
@@ -19,7 +19,7 @@
   @include('item.partials.other-brand')
 </div>
 
-<div class="form-row">
+ <div class="form-row">
   @include('item.partials.size')
   @include('item.partials.color')
 </div>
@@ -29,7 +29,5 @@
   @include('item.partials.collection')
 </div>
 
-
 @include('item.partials.price')
 @include('item.partials.offer')
-

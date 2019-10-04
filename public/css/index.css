@@ -15,6 +15,14 @@ body{
   overflow: hidden;
 }
 
+.list-brands {
+  z-index: 10;
+}
+
+.list-brands li{
+  background-color: #fff;
+}
+
 .container-fade  p {
     margin: 0;
 }
