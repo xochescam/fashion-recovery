@@ -405,6 +405,7 @@ class ItemController extends Controller
                     ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_027', 'GR_029.TypeID', '=', 'GR_027.TypeID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->where('GR_029.ItemID',$id)
                     ->select('GR_029.ItemID',
                              'GR_029.OffSaleID',
                              'GR_029.ItemDescription',

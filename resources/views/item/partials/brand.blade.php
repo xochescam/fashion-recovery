@@ -3,10 +3,6 @@
 
     <brands-component :options="{{ json_encode($brands) }}" :brand="DepartmentID" ></brands-component>
 
-    <input type="hidden" name="BrandID">
-
-    <small>¿De qué marca es está prenda?</small>
-
     @if ($errors->has('BrandID'))
       <div class="invalid-feedback">
         {{ $errors->first('BrandID') }}
