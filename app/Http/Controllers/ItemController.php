@@ -152,7 +152,7 @@ class ItemController extends Controller
                     $data['ClosetID'];
 
         $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
-        $brand     = $data['BrandID'] == 'other' ? $this->saveNewBrand($data) : $data['BrandID'];
+        $brand     = $this->getBrand($data['BrandID']);;
 
         return [
              'ItemDescription'  => $data['ItemDescription'],
@@ -176,7 +176,7 @@ class ItemController extends Controller
                     $this->saveDefaultCloset()->ClosetID :
                     $data['ClosetID'];
         $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
-        $brand     = $data['BrandID'] == 'other' ? $this->saveNewBrand($data) : $data['BrandID'];
+        $brand     = $this->getBrand($data['BrandID']);
 
         foreach ($data as $key => $value) {
             $name = explode('_', $key);
@@ -207,10 +207,20 @@ class ItemController extends Controller
         ];
     }
 
-    public function saveNewBrand($data){
+    public function getBrand($BrandID) {
+        $brand = DB::table('fashionrecovery.GR_017')
+                    ->where('BrandName',$BrandID)
+                    ->first();
+
+        return isset($brand->BrandID) ? 
+                $brand->BrandID : 
+                $this->saveNewBrand($BrandID);
+    }
+
+    public function saveNewBrand($BrandID){
 
         DB::table('fashionrecovery.GR_017')->insert([
-            'BrandName'    => $data['otherBrand'],
+            'BrandName'    => $BrandID,
             'Active'       => true,
             'CreationDate' => date("Y-m-d H:i:s"),
             'CreatedBy'    => Auth::User()->id,

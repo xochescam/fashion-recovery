@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" class="form-control" autocomplete="off" name="BrandID" v-model="BrandID" v-on:keyup="searching=true" v-on:keyup.delete="filter()">
+    <input type="text" placeholder="¿De qué marca es está prenda?" class="form-control" autocomplete="off" name="BrandID" v-model="BrandID" v-on:keyup="isSearching($event.target.value)" required>
     <div class="position-relative" v-show="searching">
         <ul class="list-group position-absolute w-100 list-brands">
             <li 
@@ -36,11 +36,14 @@ export default {
         this.BrandID = el;
       }
     },
+    isSearching(value) {
+
+      this.searching = value ? true : false;      
+
+    },
     filter() {
       
       if(this.DepartmentID === "") {
-
-        this.searching = false;
 
         return {
           0: { 
