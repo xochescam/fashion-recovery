@@ -91,11 +91,11 @@ class User extends Authenticatable
                              )->get();
 
         $sub = 0;
-
+        
         foreach ($items as $key => $item) {
-            $sub += $item->ActualPrice;
+            $sub += floatval(ltrim($item->ActualPrice,'$'));
         }
-
+        
         return $items->map(function ($item, $key) use ($sub){
 
             $item->ThumbPath = $this->getThumbPath($item);
