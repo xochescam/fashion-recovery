@@ -34,6 +34,15 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+        if( $exception->getMessage() !== 'The given data failed to pass validation.' ||
+        $exception->getMessage() !== 'No tiene permisos.')
+        {
+            Mail::send('emails.intern-error', ['e' => $exception], function($message)
+            {
+                $message->to('xochissea@gmail.com')->subject('Error en Fashion Recovery');
+            });
+        }
+
         parent::report($exception);
     }
 
