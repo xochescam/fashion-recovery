@@ -5,6 +5,11 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+use App\Mail\Error;
+use App\Mail\ConfirmAccount;
+use Mail;
+use Auth;
+
 class Handler extends ExceptionHandler
 {
     /**
@@ -13,7 +18,6 @@ class Handler extends ExceptionHandler
      * @var array
      */
     protected $dontReport = [
-        //
     ];
 
     /**
@@ -34,11 +38,13 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        if( $exception->getMessage())
+        $user = isset(Auth::User()->id) ? Auth::User() : 'Sin usuario';
+
+        if($exception)
         {
             Mail::send('emails.error', ['e' => $exception], function($message)
             {
-                $message->to('xochissea@gmail.com')->subject('Error en Fashion Recovery');
+                 $message->to('xochissea@gmail.com')->subject('Error en FR');
             });
         }
 
