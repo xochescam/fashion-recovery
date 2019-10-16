@@ -112,7 +112,17 @@ class ItemController extends Controller
                 'label'  => 1,
                 'back'   => 2,
                 'selfie' => 3,
-                'in'     => 4
+                'in'     => 4,
+                'extra'  => 5
+            ];
+
+            $types = [
+                'front'  => 1,
+                'label'  => 2,
+                'back'   => 3,
+                'selfie' => 4,
+                'in'     => 5,
+                'extra'  => 6
             ];
 
             $itemsName = $this->saveItems($request->toArray(), $last);
@@ -122,6 +132,7 @@ class ItemController extends Controller
                     'ItemID'       => $last,
                     'PicturePath'  => $value['name'],
                     'ThumbPath'    => $value['thumb'],
+                    'TypeItemID'   => $types[$value['type']],
                     'IsCover'      => $names[$request->cover] === $key ? true : false,
                     'CreationDate' => date("Y-m-d H:i:s")
                 ]);
@@ -327,8 +338,6 @@ class ItemController extends Controller
         $thumbName = [];
         $count     = 0;
 
-        
-
         foreach ($data as $key => $value) {
 
             $name = explode('_', $key);
@@ -336,14 +345,14 @@ class ItemController extends Controller
             if(count($name) > 2 &&
                 $name[1].'_'.$name[2] === "item_file") {
 
-                $itemsName = $this->saveImg($value, $item, $count++, $itemsName);
+                $itemsName = $this->saveImg($value, $item, $count++, $itemsName, $name[0]);
             }
         }
 
         return $itemsName;
     }
 
-    public function saveImg($value, $item, $count, $itemsName) {
+    public function saveImg($value, $item, $count, $itemsName, $type) {
 
         $date   = date("Ymd-His");
         $dir = 'items/user_'.Auth::User()->id.'/item_'.$item.'/';
@@ -364,8 +373,9 @@ class ItemController extends Controller
         \Storage::disk('public')->put($dir.'thumb-'.$name, $img, 'public');
 
         $items = [
-            'name' => $dir.$name,
-            'thumb' => $dir.'thumb-'.$name
+            'name'  => $dir.$name,
+            'thumb' => $dir.'thumb-'.$name,
+            'type'  => $type
         ];
 
         array_push($itemsName,$items);
