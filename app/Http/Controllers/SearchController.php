@@ -62,13 +62,15 @@ class SearchController extends Controller
                                 ->where($types[$type]['id'],'=',$id)
                                 ->select($types[$type]['name'])
                                 ->first();
+                                
                               
         $items   = $this->getItems()
                         ->where('fashionrecovery.'.$types[$type]['table'].'.'.$types[$type]['id'], '=', $id);
-
+                        
         $filters = $this->filterOptions($items);
+        
         $selectedOptions = $this->selectedOptions($items, $filters, $options);
-
+       
         $items     = $selectedOptions['items'];
         $filters   = $selectedOptions['filters'];
         $items     = $items->get();

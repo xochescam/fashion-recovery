@@ -1,8 +1,16 @@
-<p>
-  <span class="font-weight-bold">{{ $items->count() }}</span> de resultados para <span class="font-weight-bold">"{{ app('request')->input('criteria') !== null ? app('request')->input('criteria') : ((isset($search->DepName) ? $search->DepName : (isset($search->BrandName)) ? $search->BrandName : ( isset($search->ClothingStyleName) ? $search->ClothingStyleName : $search)))  }}"</span> 
-</p>
-
 <div class="mb-5">
+    <p>
+        <span class="font-weight-bold">{{ $items->count() }}</span> de resultados para <span class="font-weight-bold">
+        "{{ app('request')->input('criteria') !== null ? 
+                app('request')->input('criteria') : 
+                (isset($search->DepName) ? 
+                    $search->DepName : 
+                        (isset($search->BrandName) ? 
+                        $search->BrandName : 
+                            (isset($search->ClothingStyleName) ? 
+                            $search->ClothingStyleName : $search )))  }}"
+        </span>
+    </p>
     <p class="text-right">
       <a class="btn btn-fr" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Filtrar resultados
@@ -40,6 +48,7 @@
             <div class="row shadow-lg p-3 mb-5 bg-white rounded">
 
                 @foreach($items as $item)
+
                     <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 d-flex">
                         <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
                             <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded d-flex align-items-stretch h-100">
@@ -54,11 +63,11 @@
                                     <h6>{{ $item->ItemDescription }}</h6>
                                     <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
                                     {{ $item->SizeName }} <br />Color: {{ $item->ColorName }}</p>
-                                    {{-- <a href="#" class="btn btn-fr">Comprar</a> --}}
                                 </div>
                             </div>
                         </a>
                     </div>
+                    
                 @endforeach
 
             </div>
