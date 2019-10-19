@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" placeholder="¿De qué marca es está prenda?" class="form-control" autocomplete="off" name="BrandID" v-model="BrandID" v-on:keyup="isSearching($event.target.value)" required>
+    <input type="text" placeholder="¿De qué marca es está prenda?" class="form-control" autocomplete="off" name="BrandID" v-model="BrandID" v-on:keyup="isSearching($event.target.value)" :value="initial" required>
     <div class="position-relative" v-show="searching">
         <ul class="list-group position-absolute w-100 list-brands">
             <li 
@@ -20,7 +20,15 @@ export default {
             options: {
                 type: Object,
                 required: true
-            }
+            },
+            /**
+             * Receive an initial selected value.
+             */
+            initial: {
+                type: String,
+                required: false,
+                default: ''
+            },
         },
   data() {
     return {
@@ -100,7 +108,12 @@ export default {
   mounted() {
     this.$root.$on('DepartmentID', data => {
         this.DepartmentID = data;
+
+        console.log(this.DepartmentID);
+        
     });
+
+    this.BrandID = this.initial;    
   }
 };
 </script>

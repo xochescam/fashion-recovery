@@ -1,4 +1,4 @@
-@if(!$item)
+
  <div class="mb-2">
 <label>Fotos de la prenda *</label>
 
@@ -111,4 +111,3 @@
     </div>
   </div>
 </div>
-@endif

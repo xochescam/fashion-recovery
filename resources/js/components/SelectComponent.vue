@@ -7,13 +7,12 @@
         @input="$emit('input', $event.target.value)"
         v-on:change="changeDepartment($event.target.value)"
     >
-        <option value="" selected>- Seleccionar -</option>
+        <option :value="value">- Seleccionar -</option>
 
         <option v-for="option in filteredOptions"
             :key="option.value"
             :value="option.value"
-            v-text="option.option"
-        >
+            v-text="option.option">
         </option>
     </select>
 
@@ -51,6 +50,11 @@
                 required: true
             }
         },
+        data() {
+            return {
+                DepartmentID: ''
+            };
+        },
         methods: {
             changeDepartment(el) {
                 this.$root.$emit('DepartmentID', el);                
@@ -64,6 +68,10 @@
 
                 return this.options[this.dynamic];
             }
+        },
+        mounted() {
+            this.$root.$emit('DepartmentID', this.initial);  
+            $("#DepartmentID").val(this.initial)
         }
     };
 </script>

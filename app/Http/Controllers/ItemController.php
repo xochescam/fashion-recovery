@@ -546,13 +546,13 @@ class ItemController extends Controller
         $categories     = Category::getByDepartment();
         $clothingTypes  = ClothingType::getByCategory();
         $brands         = Brand::getByDepartment();
-        $brand          = $item->OtherBrand ? Brand::getBrand($item) : Null;
+        $brand          = Brand::getBrand($item);
         $sizes          = Size::getByCategory();
         $colors         = Color::getAll(); 
         $types          = Type::getAll();
         $closets        = Closet::getByAuth(); 
-        $offers         = isset($item->OffSaleID) ? Offer::getByAuth() : Null;    
-
+        $offers         = isset($item->OffSaleID) ? Offer::getByAuth() : Null;   
+        
         if(isset($offers)) {
 
             $offer = $offers[$item->OffSaleID];
@@ -564,7 +564,14 @@ class ItemController extends Controller
             $priceOffer = $ActualPrice - ($ActualPrice * ($offer[0]->Discount / 100));
         }
 
-        return view('item.show',compact(
+        $departments = $departments->map(function ($department) use ($item){
+            $isSelected = $item->DepartmentID === $department->value;
+            $department->selected = $isSelected;
+            return $department;
+        });
+
+        
+        return view('item.edit',compact(
             'priceOffer',
             'ValidFrom',
             'ValidUntil',
@@ -636,14 +643,14 @@ class ItemController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha modificado correctamente');
-            return Redirect::to('item/'.$id); //cambiar
+            return Redirect::to('item/'.$id.'/edit'); //cambiar
 
          } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
-            return Redirect::to('item/'.$id);
+            return Redirect::to('item/'.$id.'/edit');
         }
     }
 
@@ -667,14 +674,14 @@ class ItemController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha eliminado correctamente la imagen.');
-            return Redirect::to('item/'.$itemId);
+            return Redirect::to('item/'.$itemId.'/edit');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('item/'.$itemId);
+            return Redirect::to('item/'.$itemId.'/edit');
         }
     }
 
