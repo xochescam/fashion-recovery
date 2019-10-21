@@ -18,7 +18,7 @@
     
   </a>
 
-  <div class="dropdown-menu btn-fr" aria-labelledby="navbarDropdown">
+  <div class="dropdown-menu btn-fr border-0" aria-labelledby="navbarDropdown">
     <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mi cuenta</a>
     <a class="dropdown-item text-left" href="{{ url('orders') }}">Mis pedidos</a>
 <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
@@ -54,7 +54,7 @@
     <span class="ml-1 d-inline-block d-sm-none">Notificaciones</span>
 
   </a>
-  <div class="dropdown-menu dropdown-menu--notifications">
+  <div class="dropdown-menu btn-fr text-white dropdown-menu--notifications border-0">
 
     @if(Auth::User()->Notifications && count(Auth::User()->getNotifications()) > 0)
       @foreach(Auth::User()->getNotifications() as $notification)
