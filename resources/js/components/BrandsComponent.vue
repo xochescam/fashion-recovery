@@ -29,6 +29,11 @@ export default {
                 required: false,
                 default: ''
             },
+            department: {
+                type: String,
+                required: false,
+                default: ''
+            },
         },
   data() {
     return {
@@ -63,7 +68,7 @@ export default {
 
       let filtered = this.options.filter(
         m => m.DepartmentID == this.DepartmentID
-      );
+      );      
               
       if (this.BrandID) {
 
@@ -107,11 +112,12 @@ export default {
   },
   mounted() {
     this.$root.$on('DepartmentID', data => {
-        this.DepartmentID = data;
-
-        console.log(this.DepartmentID);
-        
+      this.DepartmentID = data;
     });
+
+    this.DepartmentID = this.department;
+
+    this.filter();
 
     this.BrandID = this.initial;    
   }

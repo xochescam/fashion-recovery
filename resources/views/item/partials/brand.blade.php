@@ -1,7 +1,10 @@
 <div class="form-group col-md-6">
     <label for="BrandID">Marca *</label>
 
-    <brands-component :options="{{ json_encode($brands) }}" :brand="DepartmentID" initial="{{ isset($brand->BrandName) ? $brand->BrandName : '' }}"></brands-component>
+
+    <brands-component :options="{{ json_encode($brands) }}" 
+    :department="{{ isset($item->DepartmentID) ? $item->DepartmentID : 'null' }}" 
+    initial="{{ isset($brand->BrandName) ? $brand->BrandName : '' }}"></brands-component>
 
     @if ($errors->has('BrandID'))
       <div class="invalid-feedback">

@@ -1,9 +1,8 @@
 @csrf
 
-@if(!$item)
-  @include('alerts.success')
-  @include('alerts.warning')
-@endif
+
+@include('alerts.success')
+@include('alerts.warning')
 
  @include('item.partials.files')
 @include('item.partials.description')

@@ -56,6 +56,12 @@
             };
         },
         methods: {
+            init() {
+
+                if(this.initial) {
+                    this.$root.$emit('DepartmentID', this.initial); 
+                }
+            },
             changeDepartment(el) {
                 this.$root.$emit('DepartmentID', el);                
             }
@@ -66,12 +72,14 @@
                     return this.options;
                 };
 
+                
+
                 return this.options[this.dynamic];
             }
         },
         mounted() {
-            this.$root.$emit('DepartmentID', this.initial);  
-            $("#DepartmentID").val(this.initial)
+            this.init();
+            $("#DepartmentID").val(this.initial);
         }
     };
 </script>

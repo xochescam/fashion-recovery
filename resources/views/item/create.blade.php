@@ -21,6 +21,8 @@
                   <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
                   Subir
                </button>
+
+               
               </div>
             </form>
           </div>

@@ -69,9 +69,21 @@ class ItemController extends Controller
         $sizes          = Size::getByCategory();
         $colors         = Color::getAll(); 
         $types          = Type::getAll();
-        $closets        = Closet::getByAuth();   
+        $closets        = Closet::getByAuth();
+        $front  = null;
+        $label  = null;
+        $back   = null;
+        $selfie = null;
+        $in     = null;
+        $extra  = null;   
         
         return view('item.create',compact(
+            'front',
+            'label',
+            'back',
+            'selfie',
+            'in',
+            'extra',
             'item',
             'departments',
             'categories',
@@ -327,6 +339,33 @@ class ItemController extends Controller
                     ->first();
     }
 
+    public function deleteItems($data,$item) {
+        $itemsName = [];
+        $thumbName = [];
+        $count     = 0;
+
+        foreach ($data as $key => $value) {
+
+            $name = explode('_', $key);
+
+            if(count($name) > 2 &&
+                $name[1].'_'.$name[2] === "item_file") {
+
+                $img = DB::table('fashionrecovery.GR_032')
+                    ->join('fashionrecovery.GR_042', 'GR_032.TypeItemID', '=', 'GR_042.TypeItemID')
+                    ->where('GR_032.ItemID',$item)
+                    ->where('GR_042.TypeItem',$name[0])
+                    ->first();
+                    
+                    if($img) {
+                        $img->delete();
+                    }
+            }
+        }
+
+        return;
+    }
+
     /* Save items to disk.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -539,7 +578,9 @@ class ItemController extends Controller
                     ->first();
         
         $images = DB::table('fashionrecovery.GR_032')
+                    ->join('fashionrecovery.GR_042', 'GR_032.TypeItemID', '=', 'GR_042.TypeItemID')
                     ->where('GR_032.ItemID',$id)
+                    ->select('GR_032.*','GR_042.TypeItem')
                     ->get();
 
         $departments    = Department::getAll();
@@ -570,8 +611,20 @@ class ItemController extends Controller
             return $department;
         });
 
+        $front  = $this->getImage($images, 'front');
+        $label  = $this->getImage($images, 'label');
+        $back   = $this->getImage($images, 'back');
+        $selfie = $this->getImage($images, 'selfie');
+        $in     = $this->getImage($images, 'in');
+        $extra  = $this->getImage($images, 'extra'); 
         
         return view('item.edit',compact(
+            'front',
+            'label',
+            'back',
+            'selfie',
+            'in',
+            'extra',
             'priceOffer',
             'ValidFrom',
             'ValidUntil',
@@ -588,6 +641,12 @@ class ItemController extends Controller
             'closets',
             'brand'
         ));
+    }
+
+    function getImage($images, $type) {
+
+        return $images->where('TypeItem',$type)->first() !== null ? 
+                $images->where('TypeItem',$type)->first() : null;
     }
 
     /**
@@ -632,25 +691,58 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, $id)
     {
-         DB::beginTransaction();
+        $names = [
+            'front'  => 0,
+            'label'  => 1,
+            'back'   => 2,
+            'selfie' => 3,
+            'in'     => 4,
+            'extra'  => 5
+        ];
 
-        try {
+        $types = [
+            'front'  => 1,
+            'label'  => 2,
+            'back'   => 3,
+            'selfie' => 4,
+            'in'     => 5,
+            'extra'  => 6
+        ];
+
+        DB::beginTransaction();
+
+        try { 
 
             $data = $this->updateItemData($request->toArray());
 
             DB::table($this->table)->where('ItemID',$id)->update($data);
 
+            //$deleteItems = $this->deleteItems($request->toArray(), $id);
+            
+            $itemsName = $this->saveItems($request->toArray(), $id);
+
+            foreach ($itemsName as $key => $value) { //change
+                DB::table('fashionrecovery.GR_032')->insert([
+                    'ItemID'       => $id,
+                    'PicturePath'  => $value['name'],
+                    'ThumbPath'    => $value['thumb'],
+                    'TypeItemID'   => $types[$value['type']],
+                    'IsCover'      => $names[$request->cover] === $key ? true : false,
+                    'CreationDate' => date("Y-m-d H:i:s")
+                ]);
+            }
+
             DB::commit();
 
             Session::flash('success','Se ha modificado correctamente');
-            return Redirect::to('item/'.$id.'/edit'); //cambiar
+            return Redirect::to('item/'.$id); //cambiar
 
-         } catch (\Exception $ex) {
+          } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
-            return Redirect::to('item/'.$id.'/edit');
+            return Redirect::to('item/'.$id);
         }
     }
 
@@ -674,14 +766,14 @@ class ItemController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha eliminado correctamente la imagen.');
-            return Redirect::to('item/'.$itemId.'/edit');
+            return Redirect::to('item/'.$itemId);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('item/'.$itemId.'/edit');
+            return Redirect::to('item/'.$itemId);
         }
     }
 

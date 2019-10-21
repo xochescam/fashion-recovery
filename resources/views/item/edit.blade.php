@@ -16,11 +16,20 @@
               @include('item.form')
               </div>
 
-              <div class="text-center mt-5">
-                <button type="submit" class="btn btn-fr w-50">
-                  <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
-                  Subir
-               </button>
+              <div class="text-center mt-5 row">
+                <div class="col-md-6">
+                  <a href="{{ url('item/'.$item->ItemID.'/full-delete') }}" class="btn btn-secondary w-100">
+                    <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                    Eliminar prenda
+                  </a>
+                </div>
+                <div class="col-md-6">
+                  <button type="submit" class="btn btn-fr w-100">
+                    <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                    Guardar cambios
+                  </button>
+                </div>
+
               </div>
             </form>
           </div>
