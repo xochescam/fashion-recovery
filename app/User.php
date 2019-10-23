@@ -61,6 +61,14 @@ class User extends Authenticatable
                     ->get();
     }
 
+    public function getDefaultAddress() {
+
+        return DB::table('fashionrecovery.GR_002')
+                 ->where('UserID',Auth::User()->id)
+                 ->where('IsDefault',true)
+                 ->first();
+    }
+
     public function getNotifications() {
 
         $notifications = DB::table('fashionrecovery.GR_040')

@@ -13,11 +13,31 @@ class PaymentController extends Controller
 {
     public function payment($ShippingAddID) {
 
-    	$address = Auth::User()->getShippingAddress()
-                                ->where('ShippingAddID',$ShippingAddID)
-                                ->first();
+        $user = Auth::User();
+
+        $address = $user->getItems()->count() > 0 ?
+                    $user->getDefaultAddress() :
+                    $this->addToCart($ShippingAddID, $user);
 
     	return view('payment.index',compact('address'));
+    }
+
+    public function getAddress($ShippingAddID, $user) {
+        return $user->getShippingAddress()
+                ->where('ShippingAddID',$ShippingAddID)
+                ->first();
+    }
+
+    public function addToCart($ShippingAddID, $user) {
+
+        DB::table('fashionrecovery.GR_041')
+            ->insert([
+                'UserID'       => $user->id,
+                'ItemID'       => $ShippingAddID,
+                'CreationDate' => date("Y-m-d H:i:s")
+            ]);
+
+        return $user->getDefaultAddress();
     }
 
     public function summary($ShippingAddID) {
