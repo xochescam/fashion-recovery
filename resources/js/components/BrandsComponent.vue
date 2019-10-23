@@ -73,7 +73,7 @@ export default {
       if (this.BrandID) {
 
         filtered = filtered.filter(
-          m => m.name.toLowerCase().indexOf(this.BrandID) > -1
+          m => m.name.toLowerCase().indexOf(this.BrandID.toLowerCase()) > -1
         );
 
       }
@@ -103,7 +103,7 @@ export default {
       if (this.BrandID) {
 
         filtered = filtered.filter(
-          m => m.name.toLowerCase().indexOf(this.BrandID) > -1
+          m => m.name.toLowerCase().indexOf(this.BrandID.toLowerCase()) > -1
         );
       }
 
