@@ -236,6 +236,15 @@
     </div>
 
     <div class="form-group row">
+      <label class="col-sm-3 col-form-label">Pausar Guardarropa</label>
+      <div class="col-sm-9 col-form-label text-left d-flex align-top" id="app">
+        <guardarropa-component
+        initial="{{ Auth::User()->IsPaused }}"
+        ></guardarropa-component>
+      </div>
+    </div>
+
+    <div class="form-group row">
       <label class="col-sm-3 col-form-label">Vendedor desde</label>
       <label class="col-sm-9 col-form-label text-left">{{ $sellerSince }}</label>
     </div>

@@ -45,6 +45,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-select@latest"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
     <script  type="text/javascript" src="{{ url('js/exif.js') }} "></script>

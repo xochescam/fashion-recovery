@@ -296,6 +296,18 @@ class SellerController extends Controller
             ];
     }
 
+    
+    public function guardarropaStatus($IsPaused)
+    {
+        $user = DB::table('fashionrecovery.GR_001')
+                    ->where('id',Auth::User()->id)
+                    ->update([
+                        'IsPaused' => $IsPaused
+                    ]);
+        
+        return response()->json("success");
+    }
+
 
     /**
      * Get a validator for an incoming registration request.
