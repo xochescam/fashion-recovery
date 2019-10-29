@@ -36,6 +36,11 @@ Vue.component(
     require('./components/BrandsComponent.vue').default
 );
 
+Vue.component(
+    'guardarropa-component',
+    require('./components/GuardarropaStatusComponent.vue').default
+);
+
 
 
 /**
