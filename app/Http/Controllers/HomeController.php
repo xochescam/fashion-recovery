@@ -142,8 +142,12 @@ class HomeController extends Controller
         $items = DB::table('fashionrecovery.GR_029')
                     //->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
+                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->where('GR_001.IsPaused',0)
                     //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
-                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
+                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate',
+                             'GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice',
+                             'GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
                     ->get();
 
         return $items->map(function ($item, $key) {
