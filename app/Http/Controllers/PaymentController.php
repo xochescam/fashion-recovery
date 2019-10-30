@@ -21,7 +21,7 @@ class PaymentController extends Controller
 
         //$address = $this->addToCart($ShippingAddID, $user);
 
-        if(!$address && !$IsBuy) {
+        if(!$address && $IsBuy === "true") {
             Session::flash('warning','La prenda ya está en el carrito.');
             return Redirect::back();
         }
