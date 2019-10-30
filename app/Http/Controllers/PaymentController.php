@@ -11,13 +11,20 @@ use Redirect;
 
 class PaymentController extends Controller
 {
-    public function payment($ShippingAddID) {
+    public function payment($ShippingAddID, $IsBuy) {
 
         $user = Auth::User();
 
-        $address = $user->getItems()->count() > 0 ?
-                    $user->getDefaultAddress() :
-                    $this->addToCart($ShippingAddID, $user);
+        $address = $IsBuy === "true" ?
+                    $this->addToCart($ShippingAddID, $user) :
+                    $user->getDefaultAddress();
+
+        //$address = $this->addToCart($ShippingAddID, $user);
+
+        if(!$address && !$IsBuy) {
+            Session::flash('warning','La prenda ya está en el carrito.');
+            return Redirect::back();
+        }
 
     	return view('payment.index',compact('address'));
     }
@@ -30,14 +37,31 @@ class PaymentController extends Controller
 
     public function addToCart($ShippingAddID, $user) {
 
-        DB::table('fashionrecovery.GR_041')
+        if ($this->existsInCart($ShippingAddID)) {
+
+            return false;
+
+        } else {
+
+            DB::table('fashionrecovery.GR_041')
             ->insert([
                 'UserID'       => $user->id,
                 'ItemID'       => $ShippingAddID,
                 'CreationDate' => date("Y-m-d H:i:s")
             ]);
 
-        return $user->getDefaultAddress();
+            return $user->getDefaultAddress();
+
+        }
+
+    }
+
+    public function existsInCart($ItemID) {
+
+        return DB::table('fashionrecovery.GR_041')
+                    ->where('ItemID',$ItemID)
+                    ->where('UserID',Auth::User()->id)
+                    ->first();
     }
 
     public function summary($ShippingAddID) {

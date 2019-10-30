@@ -32,7 +32,7 @@
 									      <div class="card-body">
 									      	<div class="row">
 									      		<h5 class="card-title col-10">{{ $item->ItemDescription }}</h5>
-									      		<p class="font-weight-bold  text-right green-color p-0 col-2">${{ $item->ActualPrice }}</p>
+									      		<p class="font-weight-bold  text-right green-color p-0 col-2">{{ $item->ActualPrice }}</p>
 									      	</div>
 									      	<p>
 									      		<small>Talla: {{ $item->SizeID }}</small> <br>

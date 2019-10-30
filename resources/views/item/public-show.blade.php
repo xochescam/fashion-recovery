@@ -120,7 +120,7 @@
 
 					<div class="card w-100">
 		          		<div class="card-body">
-		          			<a href="{{ url('payment',(count(Auth::User()->getItems()) > 0 ? Auth::User()->getDefaultAddress()->ShippingAddID : $info->ItemID )) }}" class="btn btn-fr mb-3 w-100 ">
+		          			<a href="{{ url('payment/'.$info->ItemID.'/true') }}" class="btn btn-fr mb-3 w-100 ">
 		          				Comprar
 		          			</a>
 		          			<a href="{{ url('add-to-cart',$info->ItemID) }}" class="btn btn-fr mb-3 w-100 ">

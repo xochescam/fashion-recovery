@@ -65,7 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('notification', 'NotificationController@show');
 
 	//payment
-	Route::get('payment/{ShippingAddID}', 'PaymentController@payment');
+	Route::get('payment/{ShippingAddID}/{IsBuy}', 'PaymentController@payment');
 	Route::get('summary/{ShippingAddID}', 'PaymentController@summary');
 	Route::get('confirmation/{ShippingAddID}', 'PaymentController@confirmation');
 

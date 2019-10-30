@@ -27,7 +27,7 @@
 
 							    <p class="card-text">{{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }}</p>
 
-							    <a href="{{ url('payment/'.$address->ShippingAddID) }}" class="btn btn-fr w-100 mb-2">Elegir y continuar</a>
+							    <a href="{{ url('payment/'.$address->ShippingAddID.'/false') }}" class="btn btn-fr w-100 mb-2">Elegir y continuar</a>
 							    <a href="{{ url('address/'.$address->ShippingAddID.'/address') }}" class="btn btn-outline-secondary mb-2 w-100">Editar</a>
 							    <a href="{{ url('shipping/'.$address->ShippingAddID.'/delete') }}" class="btn btn-outline-secondary w-100">Eliminar</a>
 							  </div>
