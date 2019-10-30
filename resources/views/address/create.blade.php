@@ -4,7 +4,7 @@
 
   <main id="main">
     <div class="container py-5">
-      <h2 class="text-center TituloFR my-4 mb-5 "> {{ $title }} </h2>
+      <h2 class="text-center TituloFR my-4 mb-5 "> Dirección de envío </h2>
 
       <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 

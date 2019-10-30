@@ -15,18 +15,52 @@ class PaymentController extends Controller
 
         $user = Auth::User();
 
-        $address = $IsBuy === "true" ?
-                    $this->addToCart($ShippingAddID, $user) :
-                    $user->getDefaultAddress();
+        //cuando no hay direccion // pasar a agregar la dirección
+        //cuando hay dirección y no hay nada en el carrito // tomar la dirección default y agregar al carrito
+        //cuando hay dirección y ya hay items en el carrito // tomar la dirección default y agregar al carrito que ya tiene items
+        $address = $user->getDefaultAddress() !== null ? $user->getDefaultAddress() : false;
+        $addToCart  = $this->addToCart($ShippingAddID, $user);
 
-        //$address = $this->addToCart($ShippingAddID, $user);
-
-        if(!$address && $IsBuy === "true") {
+        if (!$addToCart && $IsBuy === "true") {
             Session::flash('warning','La prenda ya está en el carrito.');
             return Redirect::back();
         }
 
-    	return view('payment.index',compact('address'));
+        if($address) {
+
+            return view('payment.index',compact('address'));
+
+        } else {
+
+            return Redirect::to('address');
+        }
+
+    /*     if(!$exists) {
+
+        }
+
+        $address = $IsBuy === "true" ?
+                    $this->addToCart($ShippingAddID, $user) :
+                    $user->getDefaultAddress();
+
+        
+        if(!isset($address->IsDefault)) {
+
+            return Redirect::to('address');
+
+        } else if (!$address && $IsBuy === "true") {
+            
+            Session::flash('warning','La prenda ya está en el carrito.');
+            return Redirect::back();
+        } else {
+
+            return view('payment.index',compact('address'));
+
+        } */
+
+
+        //$address = $this->addToCart($ShippingAddID, $user);
+
     }
 
     public function getAddress($ShippingAddID, $user) {
@@ -50,8 +84,7 @@ class PaymentController extends Controller
                 'CreationDate' => date("Y-m-d H:i:s")
             ]);
 
-            return $user->getDefaultAddress();
-
+            return true;
         }
 
     }

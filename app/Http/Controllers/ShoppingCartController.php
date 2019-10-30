@@ -41,7 +41,7 @@ class ShoppingCartController extends Controller
             DB::commit();
 
             Session::flash('success','Prenda agregada al carrito.');
-            return Redirect::to('cart');
+            return Redirect::back();
 
         } catch (\Exception $ex) {
 
