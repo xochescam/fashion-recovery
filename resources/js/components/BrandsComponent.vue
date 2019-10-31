@@ -47,6 +47,8 @@ export default {
 
       if(this.DepartmentID) {
         this.BrandID = el;
+
+        this.searching = false;   
       }
     },
     isSearching(value) {

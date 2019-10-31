@@ -50,7 +50,7 @@
 
     <script  type="text/javascript" src="{{ url('js/exif.js') }} "></script>
 
-    <script  type="text/javascript" src="{{ url('js/app.js?1.3') }} "></script>
+    <script  type="text/javascript" src="{{ url('js/app.js?1.4') }} "></script>
 
     <script>
         const dateTime            = document.querySelectorAll('.date_input');
