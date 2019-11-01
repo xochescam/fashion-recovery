@@ -10,7 +10,7 @@
   <div class="card-body">
     <div class="form-group">
       <label for="Discount">Descuento *</label>
-      <input type="number" class="form-control" name="Discount" id="Discount" min="1" max="99" 
+      <input type="number" class="form-control js-discount" name="Discount" id="Discount" min="1" max="99" 
       value="{{ old('Discount') ? old('Discount') : ($item && $item->OffSaleID !== null ? $offers[$item->OffSaleID][0]->Discount : '') }}"  
       onKeyUp="if(this.value>99){this.value='99';}else if(this.value<0){this.value='1';}">
       <small>Escribe el porcentaje de descuento que le deseas aplicar a la prenda.</small>
@@ -20,7 +20,7 @@
           {{ $errors->first('Discount') }}
         </div>
       @else
-        <div class="invalid-feedback">
+        <div class="invalid-feedback js-invalid-discount">
           El campo descuento es obligatorio.
         </div>
       @endif

@@ -69,9 +69,91 @@
         const currencyInputs      = document.querySelectorAll('.js-currency-input');
         const itemFiles1          = document.querySelector('.js-item-file-opt1');
         const itemFiles2          = document.querySelector('.js-item-file-opt2');
+        const acceptPrice         = document.querySelector('.js-accept-price');
+        const discount            = document.querySelector('.js-discount');
 
-        
+        if(discount) {
+            discount.addEventListener('keyup', function(e) {
 
+                var invalidPrice     = document.querySelector('.js-invalid-feedback');
+                var invalidDiscount  = document.querySelector('.js-invalid-discount');
+                var discount         = e.currentTarget;                           
+                var actual           = Number(acceptPrice.value.replace(/[^0-9.-]+/g,""));
+
+                checkDiscount(invalidPrice, invalidDiscount, discount, actual);
+
+            });
+        }
+
+        function checkDiscount(invalidPrice, invalidDiscount, discount, actual) {
+            if(actual < 180) {
+                invalidPrice.classList.add('d-block');
+                invalidPrice.innerHTML = "El precio mínimo de la prenda debe ser $180";
+
+            } else if(actual < 180 && discount.value !== ''){
+
+                invalidDiscount.classList.add('d-block');
+                invalidDiscount.innerHTML = "No tienes permitido asignar un descuento a la prenda.";
+
+            } else {
+
+                invalidPrice.classList.remove('d-block');
+                invalidPrice.innerHTML = "El campo precio original es obligatorio.";
+            }
+
+
+            if(discount.value !== '') {
+
+                var discountVal   =  Number(discount.value);
+                var discountPrice = actual - (actual * discountVal) / 100;
+                var isValid       = discountPrice < 180 ? false : true;
+
+                 if(!isValid) {
+
+                    for (let index = 1; index < discountVal; index++) {
+
+                        var value = Number(discountVal - index);
+                        isValid   = (actual - (actual * value) / 100) < 180 ? false : true;
+                        
+                        if(isValid) {
+
+                            discount = value;
+
+                            invalidDiscount.classList.add('d-block');
+                            invalidDiscount.innerHTML = "El descuento máx. que puedes agregar a tu prenda es "+discount+"%";
+
+                            return;
+
+
+                        } else {
+
+                            invalidDiscount.classList.add('d-block');
+                            invalidDiscount.innerHTML = "No tienes permitido asignar un descuento.";
+
+                        } 
+                    }
+                        
+                } else {
+
+                    invalidDiscount.classList.remove('d-block');
+                    invalidDiscount.innerHTML = "El campo descuento es obligatorio.";
+
+                    return;
+                }
+            }
+        }
+
+        if(acceptPrice) {
+           acceptPrice.addEventListener('keyup', function(e) {
+
+                var invalidPrice     = document.querySelector('.js-invalid-feedback');
+                var invalidDiscount  = document.querySelector('.js-invalid-discount');
+                var discount         = document.querySelector('.js-discount');                           
+                var actual           = Number(acceptPrice.value.replace(/[^0-9.-]+/g,""));
+                
+                checkDiscount(invalidPrice, invalidDiscount, discount, actual);
+            }); 
+        }
 
         const fade = document.querySelectorAll('.container-fade p');     
 
