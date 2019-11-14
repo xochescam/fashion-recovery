@@ -188,9 +188,66 @@ content:"";
   color: #dc3545;
 }
 
+.a-card {
+  text-align: left;
+  text-decoration: none;
+  color:#212529; 
+}
+
+.a-card:hover, .a-card:active {
+  text-decoration: none;
+  color: initial;
+}
+
+.heart-wishlist {
+  z-index: 10;
+  position: absolute;
+  right: 45px;
+  top: 25px;
+  font-size: 40px;
+  color: #fff;
+}
+
+.ol-decimals { 
+  counter-reset: item;
+}
+.ol-decimals  li { 
+  display: block;
+}
+.ol-decimals  li:before { 
+  content: counters(item, ".") " "; 
+  counter-increment: item ;
+  font-weight: 600;
+}
+
+.edit-closet a{
+  font-size: 18px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.edit-closet a:hover{
+  font-size: 18px;
+  color: #019b77db;
+}
+
+
+.heart-wishlist:hover {
+  color: #dc3545;
+}
+
 .btn-fr{
   background-color: #009c77;
   color:white  !important;
+}
+
+.badge-price {
+  font-size: 100% !important;
+}
+
+.badge-danger {
+  background: #ff7f7e;
+  color: #8b0b0b;
+  font-size: 80% !important;
 }
 
 .btn-fr:hover{
