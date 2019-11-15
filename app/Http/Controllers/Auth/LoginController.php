@@ -77,7 +77,7 @@ class LoginController extends Controller
     {
         $this->validateLogin($request);
 
-        $route = $beSeller == 1 ? 'seller' : 'dashboard' ;
+        $route = $beSeller == 1 ? 'seller' : '/' ;
 
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
