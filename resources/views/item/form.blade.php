@@ -29,4 +29,4 @@
 </div>
 
 @include('item.partials.price')
-@include('item.partials.offer')
+<!-- @include('item.partials.offer') -->

@@ -33,12 +33,15 @@ class ItemController extends Controller
     public function index()
     {
         $allItems  = $this->getMyItems();
-        $hasOffers = $this->getItemOffer($allItems);
+        //$hasOffers = $this->getItemOffer($allItems);
 
-        
-        $items = $hasOffers->count() > 0 ? 
+
+/*         $items = $hasOffers->count() > 0 ? 
                  $hasOffers->merge($this->getItemWithoutOffer($allItems)) :
-                 $this->getItemWithoutOffer($allItems);
+                 $this->getItemWithoutOffer($allItems); */
+
+        $items = $allItems;
+        
 
         $thumbs = $this->getItemThumbs($items);
         
@@ -226,7 +229,8 @@ class ItemController extends Controller
              'ClosetID'         => $closet,
              'OffSaleID'        => $OffSaleID,
              'OtherBrand'       => $data['BrandID'] == 'other' ? true : false,
-             'CreationDate'     => date("Y-m-d H:i:s")
+             'CreationDate'     => date("Y-m-d H:i:s"),
+             'IsPaused'         => false
         ];
     }
 
@@ -888,7 +892,7 @@ class ItemController extends Controller
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
                     ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
+                    ->select('GR_029.IsPaused','GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
                     ->get();
 
         return $items->map(function ($item, $key) {

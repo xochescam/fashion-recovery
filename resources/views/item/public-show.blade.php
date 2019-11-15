@@ -59,11 +59,17 @@
 
 					<p>Precio original: <small class="line-through">{{ $info->OriginalPrice }}</small> </p>
 
-					@if($info->OffSaleID !== null)
-						<p>Oferta: <span class="badge badge-pill badge-danger">{{ $discount }}%</span></p>
-					@endif
-
 					<p>Precio actual: <span class="green-color">{{ $info->ActualPrice }}</span> </p>
+
+					@if($info->OffSaleID !== null)
+						<p>Oferta: 
+						<span class="badge badge-danger">
+                      		{{ $discount }} %
+						</span>
+					
+<!-- 					<span class="badge badge-pill badge-danger">{{ $discount }}%</span>
+ -->				</p>
+					@endif
 
 					@if($info->OffSaleID !== null)
 						<p>Precio con oferta: <span class="green-color"> <b>${{ $priceOffer }}</b></span> </p>
@@ -129,10 +135,23 @@
 		          			</a>
 
 		          			<div class="dropdown">
-							  <button class="btn green-border-button w-100 btn-outline-light my-2 my-sm-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							  	<i class="fas fa-heart mr-1"></i>
-								 Agregar a wishlist
-							  </button>
+
+							  @if(Auth::User())
+
+								<button class="btn green-border-button w-100 btn-outline-light my-2 my-sm-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									<i class="fas fa-heart mr-1"></i>
+									Agregar a wishlist
+								</button>
+
+							  @else
+
+							  	<a href="{{ url('login/0') }}" class="btn green-border-button w-100 btn-outline-light my-2 my-sm-0">
+							  		<i class="fas fa-heart mr-1"></i>
+									Agregar a wishlist
+							  	</a>
+
+							  @endif
+							  
 							  <div class="dropdown-menu w-100 " aria-labelledby="dropdownMenuButton">
 
 							  	@if(Auth::User())
