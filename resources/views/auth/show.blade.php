@@ -39,21 +39,33 @@
             @endif
 
             <ul class="list-group list-group-flush">
-              <a href="#" class="list-group-item list-group-item-action text-left">
+              <a href="#personalData" class="list-group-item list-group-item-action text-left">
                 Mis datos
               </a>
-              <a href="#" class="list-group-item list-group-item-action text-left">
+              <a href="#personalData" class="list-group-item list-group-item-action text-left">
                 Mis preferencias
               </a>
-              <a href="#" class="list-group-item list-group-item-action text-left">
+              <a href="#followersData" class="list-group-item list-group-item-action text-left">
+                Mis seguidores
+              </a>
+              <a href="#sellerData" class="list-group-item list-group-item-action text-left">
+                Mis ventas
+              </a>
+<!--               <a href="#personalData" class="list-group-item list-group-item-action text-left">
+                Mis datos
+              </a>
+              <a href="#personalData" class="list-group-item list-group-item-action text-left">
+                Mis preferencias
+              </a>
+              <a href="#personalData" class="list-group-item list-group-item-action text-left">
                 Wish Lists
               </a>
-              <a href="#" class="list-group-item list-group-item-action text-left">
+              <a href="#personalData" class="list-group-item list-group-item-action text-left">
                 Mis pedidos
               </a>
-              <a href="#" class="list-group-item list-group-item-action text-left">
+              <a href="#personalData" class="list-group-item list-group-item-action text-left">
                 Mis tickets
-              </a>
+              </a> -->
             </ul>
           </div>
 
@@ -62,8 +74,9 @@
 
             @include('auth.partials.shipping-data')
 
-            @include('auth.partials.billing-info')
+            @include('auth.partials.followers-data')
 
+            @include('auth.partials.billing-info')
 
             @if(Auth::User()->ProfileID == 2)
               @include('auth.partials.seller-data')

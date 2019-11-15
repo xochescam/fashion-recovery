@@ -1,5 +1,5 @@
-<div class="card">
-  <h5 class="card-header">Ventas</h5>
+<div class="card" id="sellerData">
+  <h5 class="card-header">Mis ventas</h5>
 
   <div class="card-body">
 
@@ -236,13 +236,11 @@
     </div>
 
     <div class="form-group row">
-      <label class="col-sm-3 col-form-label">Pausar Guardarropa</label>
-      <div class="col-sm-9 col-form-label text-left d-flex align-top" id="app">
-        <guardarropa-component
-        initial="{{ Auth::User()->IsPaused }}"
-        ></guardarropa-component>
-      </div>
+      <label class="col-sm-3 col-form-label">Mi cartera</label>
+      <label class="col-sm-9 col-form-label text-left"> $0 </label>
+
     </div>
+
 
     <div class="form-group row">
       <label class="col-sm-3 col-form-label">Vendedor desde</label>

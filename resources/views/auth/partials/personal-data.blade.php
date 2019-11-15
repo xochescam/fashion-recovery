@@ -1,4 +1,4 @@
-<div class="card mb-4">
+<div class="card mb-4" id="personalData">
   <h5 class="card-header">Datos personales</h5>
 
   <div class="card-body">
