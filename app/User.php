@@ -42,6 +42,38 @@ class User extends Authenticatable
         $this->notify(new MailResetPasswordNotification($token));
     }
 
+    public function getFollowers() {
+
+/*         $followers  = $this->followers();
+
+        $following  = $this->following(); */
+
+        return [
+            'followers' => $this->followers(),
+            'following' => $this->following()
+        ];
+    }
+
+    public function followers() {
+
+        return DB::table('fashionrecovery.GR_038')
+                ->join('fashionrecovery.GR_001', 'GR_038.UserID', '=', 'GR_001.id')
+                ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
+                ->where('fashionrecovery.GR_038.SellerID',Auth::User()->id)
+                ->select('GR_001.id','GR_001.Alias','GR_033.SelfieThumbPath')
+                ->get();
+    }
+
+    public function following() {
+
+        return DB::table('fashionrecovery.GR_038')
+                ->join('fashionrecovery.GR_001', 'GR_038.SellerID', '=', 'GR_001.id')
+                ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
+                ->where('fashionrecovery.GR_038.UserID',Auth::User()->id)
+                ->select('GR_001.id','GR_001.Alias','GR_033.SelfieThumbPath')
+                ->get();
+    }
+
     public function isBuyerProfile() {
         $profile = Auth::User()->ProfileID;
 
