@@ -7,7 +7,7 @@
         name="IsPaused" 
         value="true"  
         @click="changeStatus()"/>
-        <label for="IsPaused" class="switch-label"></label>
+        <label for="IsPaused" class="switch-label m-0"></label>
     </div>
 </template>
 
@@ -23,7 +23,12 @@
                 type: String,
                 required: false,
                 default: ''
-            }
+            },
+            type: {
+                type: String,
+                required: false,
+                default: ''
+            },
         },
         methods: {
             changeStatus() {
@@ -31,8 +36,11 @@
                 const el = document.getElementById('IsPaused');
                 const IsPaused = el.checked;
 
+                console.log(this.type);
+                
+
                 window.axios
-                    .get('update/guardarropa/'+IsPaused)
+                    .get('update/'+this.type+'/'+IsPaused)
                     .then(response => {
 
                         console.log(response.data)
@@ -44,11 +52,9 @@
         },
         mounted() {
 
-            if(this.initial ) {
-
+            if(this.initial) {
                 const el = document.getElementById('IsPaused');
                 el.setAttribute('checked',true);
-
             }
         }
     };
