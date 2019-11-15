@@ -91,13 +91,7 @@ class ClosetController extends Controller
     {
         $closet = DB::table($this->table)->where('ClosetID',$id)->first();
 
-        $allItems  = $this->getMyItems($id);
-        $hasOffers = $this->getItemOffer($allItems);
-
-
-        $items = $hasOffers->count() > 0 ? 
-                 $hasOffers->merge($this->getItemWithoutOffer($allItems)) :
-                 $this->getItemWithoutOffer($allItems);
+        $items  = $this->getMyItems($id);
 
         $thumbs = $this->getItemThumbs($items);
 
@@ -150,7 +144,7 @@ class ClosetController extends Controller
 
             DB::commit();
 
-            return Redirect::to('closets/');
+            return Redirect::to('closets');
 
         } catch (\Exception $ex) {
 
@@ -235,7 +229,8 @@ class ClosetController extends Controller
             'UserID'            => Auth::User()->id,
             'ClosetName'        => $data['ClosetName'],
             'ClosetDescription' => $data['ClosetDescription'],
-            'CreationDate'      => date("Y-m-d H:i:s")
+            'CreationDate'      => date("Y-m-d H:i:s"),
+            'IsPaused'          => false
         ];
     }
 
@@ -248,7 +243,7 @@ class ClosetController extends Controller
                     ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
                     ->where('GR_029.OwnerID',Auth::User()->id)
                     ->where('fashionrecovery.GR_030.ClosetID',$id)
-                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
+                    ->select('GR_029.IsPaused','GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
                     ->get();
 
         return $items->map(function ($item, $key) {

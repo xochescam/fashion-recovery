@@ -71,11 +71,14 @@
                 
                 @endif
 
-                
+      
                 <div class="card-body">
-                  <h5 class="card-title"> {{ $closet->ClosetName }} </h5>
-                  <a href="{{ route('closet.edit',$closet->ClosetID) }}" class="card-link">Editar</a>
-                  <a href="{{ route('closet.destroy',$closet->ClosetID) }}" class="card-link text-danger">Eliminar</a>
+                  <h5 class="card-title mb-0"> {{ $closet->ClosetName }} </h5>
+              
+                  <div class="edit-closet">
+                    <small class="text-left align-middle"> {{ isset($items[$closet->ClosetID]) ? count($items) : '0' }} prenda{{ isset($items) && count($items) > 1 ? 's': '' }}</small>
+                    <a class="card-link float-right" href="#" data-toggle="modal" data-target="#updateCollection"><i class="fas fa-pencil-alt"></i></a>
+                  </div>
                 </div>
               </div>
             </div>
@@ -87,5 +90,7 @@
 
       </div>
     </main>
+
+    @include('closet.edit')
 
 @endsection

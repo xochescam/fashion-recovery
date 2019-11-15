@@ -4,49 +4,24 @@
 
 	 <main id="main">
       <div class="container py-5">
-        <h2 class="text-center TituloFR my-4 mb-5 ">{{ $closet->ClosetName }}</h2>
+        <h2 class="text-center TituloFR my-4">{{ $closet->ClosetName }}</h2>
+        <div class="edit-closet text-center">
+          <small class="text-left align-middle text-black-50"> {{ isset($items) ? count($items) : '0' }} prenda{{ isset($items) && count($items) > 1 ? 's': '' }}</small>
+<!--           <a class="card-link float-right" href="#" data-toggle="modal" data-target="#updateCollection"><i class="fas fa-pencil-alt"></i></a>
+ -->        </div>
 
-        <p class="mb-5 text-center">{{ $closet->ClosetDescription }}</p>
+        <p class="mb-5 mt-5 text-center">{{ $closet->ClosetDescription }}</p>
 
         @include('alerts.success')
         @include('alerts.warning')
 
         <div class="row justify-content-start p-3">
-            @foreach($items as $item)
-
-            <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
-              <a href="{{ url('item',$item->ItemID) }}" class="link-card">
-
-                <div class="card card--public card--item shadow mb-5 bg-white rounded d-flex align-items-stretch">
-                  <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
-                  <div class="card-body">
-                  <h4 class="card-title mb-0">{{ isset($item->otherBrand->OtherBrand) ? $item->otherBrand->OtherBrand : $item->brand   }}</h4> 
-
-                    @if(isset($item->offer))
-                      <div class="badges float-right mb-2">
-                        <span class="badge badge-pill badge-danger">{{ $item->offer }}</span>
-                        <span class="badge badge-pill badge-success">
-                          ${{ $item->PriceOffer }}
-                        </span>
-                      </div>
-                    @else
-                      <div class="badges float-right mb-2">
-                        <span class="badge badge-pill badge-success">
-                          {{ $item->ActualPrice }} 
-                        </span>
-                      </div>
-                    @endif
-
-                  </div>
-                </div>
-                </a>
-              </div>  
-              
-            @endforeach
-
-          </div>
+          @include('item.partials.card-auth')        
+        </div>
 
       </div>
     </main>
+
+    @include('closet.edit')
 
 @endsection
