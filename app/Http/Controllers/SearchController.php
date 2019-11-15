@@ -14,7 +14,7 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        $search     = $request->get('criteria');
+        $search     = $request->get('q');
         $filterType = 'brand';
 
         if(strpos($search, ' ') !== false) {
@@ -26,7 +26,15 @@ class SearchController extends Controller
 
         $filters   = $this->filterOptions($items);
         $items     = $items->get();
-        $itemsInfo = $this->getItemsInfo($items);
+
+        $thumbs = $this->getItemThumbs($items);
+
+        $items = $items->map(function ($item, $key) use($thumbs) {
+
+        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+
+		    return $item;
+        });
 
         return view('search.search', compact('search',
                                              'itemsInfo',
@@ -35,9 +43,19 @@ class SearchController extends Controller
                                              'filterType'));
     }
 
+    public function getItemThumbs($all) {
+
+    	return DB::table('fashionrecovery.GR_032')
+                ->whereIn('ItemID',$all->groupBy('ItemID')->keys())
+                ->where('IsCover',true)
+                ->get()
+                ->groupBy('ItemID');
+    }
+
     public function searchByLink($type, $id) {
 
         $filterType = $type;
+        
         $options = [
             'departmentsIds'   => $filterType == 'department' ? [$id] : false,
             'brandsIds'        => $filterType == 'brand' ? [$id] : false,
@@ -54,27 +72,23 @@ class SearchController extends Controller
             'brand' => [
                 'id'     => 'BrandID',
                 'table'  => 'GR_017',
-                'name'   => 'BrandName' 
+                'name'   => 'brand' 
             ]
-        ];        
+        ];  
 
         $search = DB::table('fashionrecovery.'.$types[$type]['table'])
                                 ->where($types[$type]['id'],'=',$id)
                                 ->select($types[$type]['name'])
                                 ->first();
-                                
                               
         $items   = $this->getItems()
                         ->where('fashionrecovery.'.$types[$type]['table'].'.'.$types[$type]['id'], '=', $id);
-                        
+
         $filters = $this->filterOptions($items);
-        
         $selectedOptions = $this->selectedOptions($items, $filters, $options);
        
         $items     = $selectedOptions['items'];
         $filters   = $selectedOptions['filters'];
-        $items     = $items->get();
-        $itemsInfo = $this->getItemsInfo($items);
 
         return view('search.search', compact('actualPrice',
                                              'search',
@@ -88,14 +102,16 @@ class SearchController extends Controller
     public function filter(Request $request) {
 
         $filterType = $request->filterType;
-        $search  = $request->search;
+
+        
+        $search     = $request->search;
         $options = [
             'departmentsIds'   => isset($request->DepartmentID) ? $request->DepartmentID : false,
             'brandsIds'        => isset($request->BrandID) ? $request->BrandID : false,
             'clothingTypesIds' => isset($request->ClothingTypeID) ? $request->ClothingTypeID : false,
-            'actualPrice'      => isset($request->ActualPrice) ? $request->ActualPrice : false
         ];
 
+        
 
         $types = [
             'department' => 'fashionrecovery.GR_025.DepName',
@@ -103,7 +119,7 @@ class SearchController extends Controller
         ];
 
         $items   = $this->getItems()
-                     ->where($types[$filterType], 'LIKE', '%'.$search.'%');
+                        ->where($types[$filterType], 'LIKE', '%'.$search.'%');
         $filters = $this->filterOptions($items);
         $selectedOptions = $this->selectedOptions($items, $filters, $options);
 
@@ -153,7 +169,7 @@ class SearchController extends Controller
                     ->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->where('GR_001.IsPaused',false)
-                    ->select('GR_029.ItemDescription', 'GR_029.ItemID','GR_029.OriginalPrice','GR_029.ActualPrice','GR_020.SizeName','GR_018.ColorName','GR_018.ColorID','GR_017.BrandName','GR_017.BrandID','GR_025.DepName','GR_025.DepartmentID','GR_019.ClothingTypeName','GR_017.BrandID','GR_019.ClothingTypeID');
+                    ->select('GR_029.ItemDescription', 'GR_029.ItemID','GR_029.OriginalPrice','GR_029.ActualPrice','GR_020.SizeName as size','GR_018.ColorName','GR_018.ColorID','GR_017.BrandName as brand','GR_017.BrandID','GR_025.DepName','GR_025.DepartmentID','GR_019.ClothingTypeName','GR_017.BrandID','GR_019.ClothingTypeID');
                     // ->orWhere('fashionrecovery.GR_029.ItemDescription', 'LIKE', '%'.$search.'%')
                     // ->orWhere('fashionrecovery.GR_018.ColorName', 'LIKE', '%'.$search.'%');
     }
@@ -182,6 +198,15 @@ class SearchController extends Controller
         if($options['actualPrice']) {
             $items = $items->where('fashionrecovery.GR_029.ActualPrice','=',$options['actualPrice']);
         }
+ 
+        $thumbs = $this->getItemThumbs($items->get());
+
+        $items = $items->get()->map(function ($item, $key) use($thumbs) {
+
+        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+
+		    return $item;
+        });
 
         return [
             'items'   => $items,
@@ -191,12 +216,44 @@ class SearchController extends Controller
 
     public function filterOptions($items) {
 
+        $thumbs = $this->getItemThumbs($items->get());
+
+        $departments = $items->orderBy('GR_025.DepName')->get()->map(function ($item, $key) use($thumbs) {
+
+        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            return $item;
+            
+        })->groupBy('DepName');
+
+        $brands = $items->orderBy('brand')->get()->map(function ($item, $key) use($thumbs) {
+
+        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            return $item;
+            
+        })->groupBy('brand');
+
+        $clothingTypes = $items->orderBy('GR_019.ClothingTypeName')->get()->map(function ($item, $key) use($thumbs) {
+
+        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            return $item;
+            
+        })->groupBy('ClothingTypeName');
+
+        $colors = $items->orderBy('GR_018.ColorName')->get()->map(function ($item, $key) use($thumbs) {
+
+        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            return $item;
+            
+        })->groupBy('ColorName');
+
+
         return [
-            'departments'   => $items->orderBy('GR_025.DepName')->get()->groupBy('DepName'),
-            'brands'        => $items->orderBy('GR_017.BrandName')->get()->groupBy('BrandName'),
-            'clothingTypes' => $items->orderBy('GR_019.ClothingTypeName')->get()->groupBy('ClothingTypeName'),
-            'colors'        => $items->orderBy('GR_018.ColorName')->get()->groupBy('ColorName'),
+            'departments'   => $departments,
+            'brands'        => $brands,
+            'clothingTypes' => $clothingTypes,
+            'colors'        => $colors
         ];
 
     }
+
 }

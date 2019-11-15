@@ -4,14 +4,16 @@
 @section('content')
 
   <main id="main">
-    <div class="container py-5">
-      <div class="row">
-        <div class="col-12">
-          <h1 class="text-left TituloFR my-4">Resultados de la búsqueda</h1>
-        </div>
-        <div class="col-12 text-justify">
+
+    <div class="row justify-content-start p-3 mx-0 mx-md-5">
+      <h2 class="text-left TituloFR my-4 mb-5">Resultados de la búsqueda</h2>
+    </div>
+
+		<section>
+		  	<div class="container-fluid">
           @include('search.results')
-        </div>
+		  	</div>
+		</section>
   </main>
 
 @endsection

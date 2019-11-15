@@ -146,6 +146,151 @@
             })
         }
 
+        const filterInputs = document.querySelectorAll('.filter-option');   
+
+        if(filterInputs){
+
+            Array.prototype.forEach.call(filterInputs, (check) => {
+
+              check.addEventListener('change', changeFilter);
+
+            });
+        }
+
+        function changeFilter(e) {
+
+          return;
+
+          const filters           = document.querySelector('#filters');
+          const filtersContainer  = document.querySelector('#container-filters');
+          const departments       = document.querySelectorAll('.departments-filters');
+          const clothingTypes     = document.querySelectorAll('.clothingTypes-filters');
+          const brands            = document.querySelectorAll('.brands-filters');
+          const colors            = document.querySelectorAll('.colors-filters');
+          const itemOptions       = document.querySelectorAll('.item-option');
+          const departmentsArr    = [];
+          const clothingTypesArr  = [];
+          const brandsArr         = []; 
+          const colorsArr         = [];
+          const result            = [];
+
+          //var val                 = e.currentTarget.getAttribute('id').split('-')[0];
+          //var value               = e.currentTarget.value;
+          var filtersObj          = JSON.parse(filters.value);
+
+          var types = {
+            'DepartmentID': 'departments',
+            'ClothingTypeID':'clothingTypes',
+            'BrandID':'brands',
+            'ColorID':'colors'
+
+          };
+
+          Array.prototype.forEach.call(itemOptions, (itemOption) => {
+            itemOption.classList.add('hidden');
+          });
+
+          Array.prototype.forEach.call(departments, (department) => {
+            if(department.checked) {
+              $("#container-filters div").filter(function( index ) {
+                return $(this).attr("data-department") === department.value;
+              }).css( "display", "block" );
+            }
+          });
+
+          Array.prototype.forEach.call(clothingTypes, (clothingType) => {
+            if(clothingType.checked) {
+
+              //const peopleArray = Object.keys(filtersObj).map(i => filtersObj[i])
+
+              console.log(filtersObj['clothingTypes']['Camisa']);
+                          
+              
+
+              //console.log(filtersObj['departments'].filter(word => word == 'Chamarra'));
+              
+/*               $("#container-filters div").filter(function( index ) {
+                return $(this).attr("data-clothingType") === clothingType.value;
+              }).css( "display", "block" ); */
+              //clothingTypesArr.push(clothingType.value);
+            }
+          });
+
+          
+          
+
+          Array.prototype.forEach.call(brands, (brand) => {
+            if(brand.checked) {
+              $("#container-filters div").filter(function( index ) {
+                return $(this).attr("data-brand") === brand.value;
+              }).css( "display", "block" );
+            }
+          });
+
+          Array.prototype.forEach.call(colors, (color) => {
+            if(color.checked) {
+              $("#container-filters div").filter(function( index ) {
+                return $(this).attr("data-color") === color.value;
+              }).css( "display", "block" );
+            }
+          });
+
+
+
+          console.log(filtersObj);
+          
+
+          /* const results = filtersObj[types[val]];
+
+          if(results) {
+
+            filtersContainer.innerHTML = "";
+
+            //showFiltered(results, filtersContainer, value);
+          } */
+        }
+
+        function showFiltered(results, filtersContainer, value) {
+
+          for (const el in results[value]) {
+              
+              var item = `<div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
+                  <a href="{{ url('login/0') }}"><i class="far fa-heart heart-wishlist"></i></a>
+                  <a href="{{ url('items/`+results[value][el].ItemID+`/public') }}" class="link-card">
+                    <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
+                  
+                        <img class="card-img-top" src="{{ url('/storage/`+results[value][el].ThumbPath+`') }}" alt="Card image cap" height="200px;">
+
+              <!--         <img class="card-img-top" src="storage/'`+results[value][el].brand+`" alt="Card image cap" height="200px;">
+              -->          <div class="card-body px-0 p-lg-3">
+
+                          <h4 class="card-title mb-0">`+results[value][el].brand+`</h4>
+
+                          <div class="float-right">
+                            <span class="mr-2 text-black-50">
+                              <del>`+results[value][el].OriginalPrice+`</del>
+                            </span>
+
+                            <p class="badge alert-success badge-price">
+                              `+results[value][el].ActualPrice+`
+                            </p>
+                          </div>
+                                
+                          <div class="container-fade">
+                            <p>`+results[value][el].ItemDescription+`</p>
+                          </div>
+                        <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
+                          Talla: `+results[value][el].size+` <br />Color: `+results[value][el].color+`</p>
+                      </div>
+                    </div>
+                  </a>
+              </div>`
+
+              filtersContainer.insertAdjacentHTML('beforeend', item);
+            }
+        }
+
+
         //  $("#price").ionRangeSlider({
         //     skin: "round",
         //     type: "double",

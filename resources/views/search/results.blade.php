@@ -1,8 +1,8 @@
-<div class="mb-5">
-    <p>
+<div class="row p-3 mx-md-5">
+    <p class="w-100">
         <span class="font-weight-bold">{{ $items->count() }}</span> de resultados para <span class="font-weight-bold">
-        "{{ app('request')->input('criteria') !== null ? 
-                app('request')->input('criteria') : 
+        "{{ app('request')->input('q') !== null ? 
+                app('request')->input('q') : 
                 (isset($search->DepName) ? 
                     $search->DepName : 
                         (isset($search->BrandName) ? 
@@ -11,66 +11,35 @@
                             $search->ClothingStyleName : $search )))  }}"
         </span>
     </p>
-    <p class="text-right">
+     <p class="text-right w-100 d-block d-md-none">
       <a class="btn btn-fr" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Filtrar resultados
       </a>
     </p>
-
-    <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-            @include('search.filter')
-        </div>
-    </div>
 </div>
 
-{{-- <a href="#myModal" role="button" class="btn btn-fr" data-toggle="modal">Filtrar resultados</a> --}}
-
-{{-- <div class="modal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-full" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Filtrar resultados</h5>
-                        <button type="button" class="close " data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body p-4" id="result">
-                        @include('search.filter')
-                    </div>
-                </div>
-            </div>
-    </div> --}}
-
 @if($items->count() > 0)
-    <section id="resultadosBusqueda" class="mt-5">
-        <div class="container-fluid">
-            <div class="row shadow-lg p-3 mb-5 bg-white rounded">
 
-                @foreach($items as $item)
-
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 d-flex">
-                        <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
-                            <div class="card card--public card--item shadow p-3 mb-5 bg-white rounded d-flex align-items-stretch h-100">
-                                <img class="card-img-top" src="{{ url('storage',$itemsInfo[$item->ItemID]->first()->ThumbPath) }}" alt="{{ $item->BrandName }}" height="200px;">
-                                <div class="card-body">
-                                    <div class="badges float-right">
-                                        <h5>
-                                            <span class="badge badge-pill badge-success">{{ $item->ActualPrice }} </span>
-                                        </h5>
-                                    </div>
-                                    <h4 class="card-title">{{ $item->BrandName }}</h4>
-                                    <h6>{{ $item->ItemDescription }}</h6>
-                                    <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                                    {{ $item->SizeName }} <br />Color: {{ $item->ColorName }}</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                @endforeach
-
+    <div class="row p-0 p-md-3 mb-5 mx-md-5">
+        <div class="collapse d-md-none w-100 p-3" id="collapseExample">
+            <div class="card card-body mb-5">
+            @include('search.filter')
             </div>
         </div>
-    </section>
+
+        <div class="col-md-2 d-none d-md-block p-0">
+            @include('search.filter')
+        </div>
+
+        <div class="p-0 col-md-10">
+<!--             <section id="resultadosBusqueda">
+ -->            <div class="container-fluid">
+                    <div class="row justify-content-start shadow-lg p-3 mb-5 bg-white rounded" id="container-filters">
+                        @include('item.partials.card')
+                    </div>
+                </div>
+<!--             </section>
+ -->    </div>
+    </div>
+    
 @endif
