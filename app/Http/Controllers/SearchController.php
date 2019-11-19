@@ -21,8 +21,11 @@ class SearchController extends Controller
             $search = str_replace(' ', '%', $search);
         }
 
+
         $items = $this->getItems()
                       ->where('fashionrecovery.GR_017.BrandName', 'LIKE', '%'.$search.'%');
+
+                      
 
         $filters   = $this->filterOptions($items);
         $items     = $items->get();
@@ -72,7 +75,7 @@ class SearchController extends Controller
             'brand' => [
                 'id'     => 'BrandID',
                 'table'  => 'GR_017',
-                'name'   => 'brand' 
+                'name'   => 'BrandName' 
             ]
         ];  
 
