@@ -1,5 +1,5 @@
 @foreach($items as $item)
-  <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
+  <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 item-option" >
 
     @if(Auth::User())
 

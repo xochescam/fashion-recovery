@@ -5,6 +5,7 @@
 
                 @csrf
 
+                <input type="hidden"  id="items" value="{{ isset($items) ? json_encode($items) : '' }}">
                 <input type="hidden" id="filters" value="{{ isset($filters) ? json_encode($filters) : '' }}">
                 <input type="hidden" name="search" value="{{ isset($search->DepName) ? $search->DepName : (isset($search->BrandName) ? $search->BrandName : (isset($search->ClothingStyleName) ? $search->ClothingStyleName : $search) ) }}">
                 <input type="hidden" name="filterType" value="{{ $filterType }}">
