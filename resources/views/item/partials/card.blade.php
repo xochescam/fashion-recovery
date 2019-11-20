@@ -16,10 +16,8 @@
         
 
         <!-- <i class="fas fa-heart"></i> -->
-          <img class="card-img-top" src="http://fashionrecovery.azurewebsites.net/storage/{{ $item->ThumbPath }}" alt="Card image cap" height="200px;">
-
-<!--         <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
- -->          <div class="card-body px-0 p-lg-3">
+          <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
+          <div class="card-body px-0 p-lg-3">
 
           
               
