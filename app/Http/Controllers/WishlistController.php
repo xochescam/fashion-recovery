@@ -115,14 +115,16 @@ class WishlistController extends Controller
             DB::commit();
 
             Session::flash('success',$message);
-            return Redirect::to($url);
+            return Redirect::back();
+            //return Redirect::to($url);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('items/'.$request->ItemID.'/public');
+            return Redirect::back();
+            //return Redirect::to('items/'.$request->ItemID.'/public');
         }
     }
 
@@ -139,7 +141,8 @@ class WishlistController extends Controller
 
         if(isset($exists)){
             Session::flash('warning','Ya has guardado esta prenda en '.$wishlist->NameList);
-            return Redirect::to('items/'.$ItemID.'/public');
+            return Redirect::back();
+            //return Redirect::to('items/'.$ItemID.'/public');
         }
 
         DB::table('fashionrecovery.GR_037')->insert([
@@ -148,7 +151,8 @@ class WishlistController extends Controller
             ]);
 
         Session::flash('success','Prenda agregada correctamente a '.$wishlist->NameList);
-            return Redirect::to('items/'.$ItemID.'/public');
+        return Redirect::back();
+            //return Redirect::to('items/'.$ItemID.'/public');
 
     }
 

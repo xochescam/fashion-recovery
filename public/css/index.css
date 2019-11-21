@@ -208,6 +208,10 @@ content:"";
   color: #fff;
 }
 
+.heart-wishlist--active {
+  color: #dc3545;
+}
+
 .ol-decimals { 
   counter-reset: item;
 }
