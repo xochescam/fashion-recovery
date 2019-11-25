@@ -8,12 +8,12 @@
 
         <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia eligendi sint, officiis fugit optio ullam quod eveniet, unde quibusdam nostrum.</p>
 
-        @include('alerts.success')
-        @include('alerts.warning')
-
         <div class="text-right w-100">
           <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Nueva colección</a>
         </div>
+
+        @include('alerts.success')
+        @include('alerts.warning')
 
         <div class="row">
           
