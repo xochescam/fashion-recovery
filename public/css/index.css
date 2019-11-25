@@ -202,10 +202,14 @@ content:"";
 .heart-wishlist {
   z-index: 10;
   position: absolute;
-  right: 45px;
+  right: 35px;
   top: 25px;
-  font-size: 40px;
-  color: #fff;
+  font-size: 30px;
+  color: #009c77;
+}
+
+.top-60 {
+  top: 60px !important;
 }
 
 .heart-wishlist--active {
