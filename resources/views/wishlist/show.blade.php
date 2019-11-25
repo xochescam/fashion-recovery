@@ -13,7 +13,9 @@
 
           @foreach($items as $item)
 
-            <div class="col-sm-4 mb-4">
+           @include('item.partials.card') 
+
+            <!-- <div class="col-sm-4 mb-4">
 
               <div class="card">
                 <a href="{{ url('/items/'.$item->first()->ItemID.'/public') }}">
@@ -25,7 +27,7 @@
                   </h5>
                 </div>
               </div>
-            </div>
+            </div> -->
 
           @endforeach
 
