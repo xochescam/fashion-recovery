@@ -15,7 +15,7 @@
           
         </a>
       
-        <div class="dropdown-menu w-100 " aria-labelledby="dropdownMenuButton">
+        <div class="dropdown-menu top-60 w-100 " aria-labelledby="dropdownMenuButton">
 
           @if(Auth::User() && count(Auth::User()->getWishlists()) > 0)
              @foreach(Auth::User()->getWishlists() as $wishlist)
