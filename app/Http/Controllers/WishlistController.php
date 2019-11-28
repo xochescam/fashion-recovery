@@ -128,6 +128,26 @@ class WishlistController extends Controller
         }
     }
 
+    public function addToWishlist($WishlistID, $ItemID){
+
+        DB::table('fashionrecovery.GR_037')->insert([
+                'ItemID'     => $ItemID,
+                'WishlistID' => $WishlistID
+            ]);
+
+        return response()->json("success");
+    }
+
+    public function removeFromWishlist($WishlistID, $ItemID){ //where and delete
+
+        DB::table('fashionrecovery.GR_037')
+            ->where('ItemID','=',$ItemID)
+            ->where('WishlistID','=',$WishlistID)
+            ->delete();
+
+        return response()->json("success");
+    }
+
     public function existingWishlist($WishlistID, $ItemID){
 
         $wishlist = DB::table($this->table)
@@ -164,25 +184,83 @@ class WishlistController extends Controller
      */
     public function show($id)
     {
-        $wishlist = DB::table($this->table)
+         $wishlist = DB::table($this->table)
                     ->where('WishListID',$id)
                     ->first();
 
-        $itemsIds = DB::table('fashionrecovery.GR_037')
-                        ->where('WishlistID',$wishlist->WishListID)
+         $itemsIds = DB::table('fashionrecovery.GR_037')
+                        ->where('WishlistID',$id)
                         ->get()
                         ->groupBy('ItemID')
                         ->keys()
                         ->toArray();
 
-        $items = DB::table('fashionrecovery.GR_029')
-                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
-                    ->whereIn('GR_029.ItemID',$itemsIds)
-                    ->select('GR_029.ItemID','GR_032.ItemPictureID','GR_032.PicturePath','GR_032.ThumbPath','GR_029.OriginalPrice','GR_029.ActualPrice')
-                    ->get()
-                    ->groupBy('ItemID');
+        $allItems  = $this->getAllItems($itemsIds);
+
+        $thumbs = $this->getItemThumbs($allItems);
+
+        $items = $allItems->map(function ($item, $key) use($thumbs) {
+
+            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+                
+            return $item;
+         });
 
         return view('wishlist.show',compact('wishlist','items'));
+    }
+
+    public function getItemThumbs($all) {
+
+        return DB::table('fashionrecovery.GR_032')
+                ->whereIn('ItemID',$all->groupBy('ItemID')->keys())
+                ->where('IsCover',true)
+                ->get()
+                ->groupBy('ItemID');
+    }
+
+    public function getAllItems($itemsIds) {
+
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
+                    ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
+                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->where('GR_001.IsPaused',0)
+                    ->where('GR_029.IsPaused',0)
+                    ->where('GR_030.IsPaused',0)
+                    ->whereIn('GR_029.ItemID',$itemsIds)
+                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate',
+                             'GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice',
+                             'GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
+                    ->get();
+
+        return $items->map(function ($item, $key) {
+
+            $size       = '';
+            $brand      = '';
+            $otherBrand = '';
+
+           if(isset($item->BrandID)) {
+
+                $size         = DB::table('fashionrecovery.GR_020')
+                                    ->where('SizeID',$item->SizeID)
+                                    ->first()->SizeName;
+
+                $brand         = DB::table('fashionrecovery.GR_017')
+                                    ->where('BrandID',$item->BrandID)
+                                    ->first()->BrandName;
+            } else {
+
+               $otherBrand = DB::table('fashionrecovery.GR_036')
+                                ->where('ItemID',$item->ItemID)
+                                ->first();
+            }
+
+            $item->size       = $size;
+            $item->brand      = $brand;
+            $item->otherBrand = $otherBrand;
+
+            return $item;
+        });
     }
 
     /**

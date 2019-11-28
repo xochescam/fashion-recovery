@@ -1,34 +1,14 @@
 @foreach($items as $item)
-  <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 item-option" >
+  <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 item-option">
 
     @if(Auth::User())
 
-      <div class="dropdown">
-
-        <a href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-          @if(count(Auth::User()->inWishlist($item->ItemID)))
-            <i class="fas fa-heart heart-wishlist heart-wishlist--active"></i>
-          @else
-            <i class="far fa-heart heart-wishlist"></i>
-          @endif
-          
-        </a>
-      
-        <div class="dropdown-menu top-60 w-100 " aria-labelledby="dropdownMenuButton">
-
-          @if(Auth::User() && count(Auth::User()->getWishlists()) > 0)
-             @foreach(Auth::User()->getWishlists() as $wishlist)
-              <a class="dropdown-item text-left" href="{{ url('wishlist/'.$wishlist->WishListID.'/'.$item->ItemID.'/exists') }}"> {{ $wishlist->NameList }} </a>
-            @endforeach
-          @endif
-          <a class="dropdown-item dropdown-item--green text-left green-color" href="#" data-toggle="modal" data-target="#addWishlist">
-            <i class="fas fa-plus"></i>
-            <b class="ml-1" >Nueva wishlist</b>
-          </a>
-
-        </div>
-      </div>
+        <heart-wishlist-component
+          initial="{{ isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
+          wish="{{ isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? Auth::User()->inWishlist($item->ItemID)->WishlistID : 0 }}"
+          wishlists="{{ count(Auth::User()->getWishlists()) > 0 ? Auth::User()->getWishlists() : null }}"
+          item="{{ $item->ItemID }}"
+        ></heart-wishlist-component>
 
      @else
      

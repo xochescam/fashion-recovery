@@ -48,8 +48,7 @@ class User extends Authenticatable
                             ->join('fashionrecovery.GR_037', 'GR_024.WishListID', '=', 'GR_037.WishlistID')
                             ->where('GR_024.UserID',Auth::User()->id)
                             ->where('GR_037.ItemID',$ItemID)
-                            ->get();
-        
+                            ->first();        
     }
 
     public function getWishlists() {

@@ -116,6 +116,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('wishlist/{WishlistID}/edit', 'WishlistController@edit')->name('wishlists.edit');
 	Route::post('wishlist/{WishlistID}', 'WishlistController@update')->name('wishlists.update');
 	Route::get('wishlist/{WishlistID}/delete', 'WishlistController@destroy')->name('wishlists.destroy');
+	Route::get('wishlist/{WishlistID}/{ItemID}/add', 'WishlistController@addToWishlist');
+	Route::get('wishlist/{WishlistID}/{ItemID}/delete', 'WishlistController@removeFromWishlist');
+	
 
 	//Dashboard
 	Route::get('dashboard', 'DashboardController@index');

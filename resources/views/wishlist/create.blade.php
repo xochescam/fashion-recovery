@@ -1,4 +1,4 @@
-	<div class="modal fade " id="addWishlist" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal fade " id="addWishlist{{ isset($item->ItemID) ? '-'.$item->ItemID : '' }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">

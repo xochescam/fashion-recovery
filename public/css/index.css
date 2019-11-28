@@ -214,6 +214,7 @@ content:"";
 
 .heart-wishlist--active {
   color: #dc3545;
+  cursor: pointer;
 }
 
 .ol-decimals { 
