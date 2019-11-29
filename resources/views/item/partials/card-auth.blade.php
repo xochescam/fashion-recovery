@@ -21,10 +21,11 @@
                 <div class="float-right w-100">
                     <div class="form-group m-0 row float-right">
                         <label class="col-form-label my-auto mr-2">Pausar prenda</label>
-                        <div class="col-form-label text-left d-flex align-top" id="app">
+                        <div class="col-form-label text-left d-flex align-top">
                           <guardarropa-component
                             initial="{{ $item->IsPaused }}"
                             type="item"
+                            item="{{ $item->ItemID }}"
                           ></guardarropa-component>
                         </div>
                     </div>

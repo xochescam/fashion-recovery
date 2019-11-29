@@ -139,7 +139,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('update-selfie/{userId}', 'SellerController@updateSelfie');
 	Route::get('welcome/seller', 'SellerController@sellerWelcome');
 
-	Route::get('update/{Type}/{IsPaused}', 'SellerController@guardarropaStatus');
+	Route::get('update/{Type}/{IsPaused}/{ItemID}', 'SellerController@guardarropaStatus');
+	Route::get('closet/update/{Type}/{IsPaused}/{ItemID}', 'SellerController@guardarropaStatus');
 
 	//Item
 	Route::get('items', 'ItemController@index');

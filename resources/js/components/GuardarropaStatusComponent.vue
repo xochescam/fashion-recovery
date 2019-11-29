@@ -3,11 +3,11 @@
         <input 
         class="switch-checkbox" 
         type="checkbox"  
-        id="IsPaused" 
-        name="IsPaused" 
-        value="true"  
+        :id="('IsPaused'+this.item)" 
+        :name="('IsPaused'+this.item)"
+        :value="(this.item)"  
         @click="changeStatus()"/>
-        <label for="IsPaused" class="switch-label m-0"></label>
+        <label :for="('IsPaused'+this.item)" class="switch-label m-0"></label>
     </div>
 </template>
 
@@ -29,18 +29,22 @@
                 required: false,
                 default: ''
             },
+            item: {
+                type: String,
+                required: false,
+                default: ''
+            },
         },
         methods: {
             changeStatus() {
 
-                const el = document.getElementById('IsPaused');
+                const el = document.getElementById('IsPaused'+this.item);
                 const IsPaused = el.checked;
 
-                console.log(this.type);
-                
+                console.log(this.item);
 
                 window.axios
-                    .get('update/'+this.type+'/'+IsPaused)
+                    .get('update/'+this.type+'/'+IsPaused+'/'+this.item)
                     .then(response => {
 
                         console.log(response.data)
@@ -52,8 +56,11 @@
         },
         mounted() {
 
+            //console.log(this.item);
+            
+
             if(this.initial) {
-                const el = document.getElementById('IsPaused');
+                const el = document.getElementById('IsPaused'+this.item);
                 el.setAttribute('checked',true);
             }
         }

@@ -17,6 +17,7 @@
 								<guardarropa-component
 									initial="{{ Auth::User()->IsPaused }}"
 									type="all"
+									item="false"
 								></guardarropa-component>
 							</div>
 						</div>

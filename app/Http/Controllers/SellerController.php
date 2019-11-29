@@ -297,7 +297,7 @@ class SellerController extends Controller
     }
 
     
-    public function guardarropaStatus($Type, $IsPaused)
+    public function guardarropaStatus($Type, $IsPaused, $ItemID)
     {
         $urls = [
             'all'       => 'fashionrecovery.GR_001',
@@ -307,12 +307,15 @@ class SellerController extends Controller
         
         $ids = [
             'all'       => 'id',
-            'item'      => 'OwnerID',
-            'colection' => 'UserID'
+            'item'      => 'ItemID',
+            'colection' => 'ClosetID'
         ];
 
+        $id = $ids[$Type] === 'id' ? 
+              Auth::User()->id : $ItemID ;
+
         $user = DB::table($urls[$Type])
-                    ->where($ids[$Type],Auth::User()->id)
+                    ->where($ids[$Type],$id)
                     ->update([
                         'IsPaused' => $IsPaused
                     ]);

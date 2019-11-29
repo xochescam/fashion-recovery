@@ -212,6 +212,21 @@ content:"";
   top: 60px !important;
 }
 
+a h5.card-title {
+  text-decoration: none;
+  color: #212529;
+  text-align: left;
+}
+
+.card-body a:hover {
+  text-decoration: none;
+}
+
+.content-empty {
+  padding-bottom: 100%;
+  max-height: 348px;
+  background: #ececec;
+}
 .heart-wishlist--active {
   color: #dc3545;
   cursor: pointer;
