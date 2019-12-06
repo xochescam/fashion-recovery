@@ -35,7 +35,7 @@
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/kid.jpg') }}" alt="Guardarropa para Niños">
             <div class="card-body">
               <h5 class="card-title">Niños</h5>
-              <p class="card-text">Vístelos ideal para cada ocasión,encuentras las mejores prendas ya ccesosios  para los pequeñitos del hogar.</p>
+              <p class="card-text">Vístelos ideal para cada ocasión, encuentras las mejores prendas y accesosios para los pequeñitos del hogar.</p>
               <a href="{{ url('search/department',3) }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>

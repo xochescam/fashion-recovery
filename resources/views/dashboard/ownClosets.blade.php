@@ -26,9 +26,9 @@
 					
 
 					<div class="row">
-						<div class="col-sm-6 mb-5">
+						<div class="col-sm-6 mb-5 d-flex">
 							<a href="{{ url('items') }}" class="a-card">
-								<div class="card card--public card--item">
+								<div class="card card--public card--item h-100">
 									<img class="card-img-top" src="{{ url('img/cards/prendas.jpg') }}" alt="prendas-img" />
 									<div class="card-body text-left">
 										<h5 class="card-title">Prendas</h5>
@@ -37,9 +37,9 @@
 						    	</div>
 							</a>
 						</div>
-						<div class="col-sm-6 mb-5">
+						<div class="col-sm-6 mb-5 d-flex">
 							<a href="{{ url('closets') }}" class="a-card">
-								<div class="card card--public card--item">
+								<div class="card card--public card--item h-100">
 									<img class="card-img-top" src="{{ url('img/cards/closets.jpg') }}" alt="closets-img" />
 									<div class="card-body text-left">
 										<h5 class="card-title">Colecciones</h5>
