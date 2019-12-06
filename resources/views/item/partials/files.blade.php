@@ -1,6 +1,6 @@
 
  <div class="mb-2">
-<label>Fotos de la prenda *</label>
+<label>Coloca abajo las mejores fotos de la prenda a vender*</label>
 
  <div class="js-items-container d-flex flex-wrap justify-content-center justify-content-sm-start mt-2">
 

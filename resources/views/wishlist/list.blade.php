@@ -4,12 +4,12 @@
 
 	 <main id="main">
 	    <div class="container py-5">
-        <h2 class="text-center TituloFR my-4 mb-5 ">Mis Wishlists</h2>
+        <h2 class="text-center TituloFR my-4 mb-5 ">Mis favoritos</h2>
 
-        <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia eligendi sint, officiis fugit optio ullam quod eveniet, unde quibusdam nostrum.</p>
+        <p class="mb-5 text-center w-100">Encuentra las prendas que más te gustaron y que has marcado como favoritas, pero apresúrate, alguien te las puede ganar. </p>
 
         <div class="text-right w-100">
-          <button type="button"   class="btn btn-fr mb-4" data-toggle="modal" data-target="#addWishlist">Crear wishlist</button>
+          <button type="button"   class="btn btn-fr mb-4" data-toggle="modal" data-target="#addWishlist">Crear nueva lista de favoritos</button>
         </div>
 
         @include('alerts.success')

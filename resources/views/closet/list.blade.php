@@ -6,10 +6,10 @@
     <div class="container py-5">
       <h2 class="text-center TituloFR my-4 mb-5 ">Mis colecciones</h2>
 
-      <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia eligendi sint, officiis fugit optio ullam quod eveniet, unde quibusdam nostrum.</p>
+      <p class="mb-5 text-center w-100">Estas son las listas de prendas que tienes disponibles para nuestra comunidad. Agrega nuevas prendas a tus colecciones y crea looks para tus seguidores a través de nuevas colecciones.</p>
 
       <div class="text-right w-100">
-        <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Nueva colección</a>
+        <a href="{{ url('closet') }}" class="btn btn-fr mb-4">Crea una nueva colección</a>
       </div>
 
       @include('alerts.success')
