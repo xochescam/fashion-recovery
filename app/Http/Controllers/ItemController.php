@@ -333,7 +333,7 @@ class ItemController extends Controller
 
         DB::table($table)
             ->insert([
-                'ClosetName'   => 'Closet por defecto',
+                'ClosetName'   => 'Colección por defecto',
                 'UserID'       => $userID,
                 'CreationDate' => date("Y-m-d H:i:s"),
             ]);

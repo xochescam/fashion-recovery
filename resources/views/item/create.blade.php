@@ -7,10 +7,12 @@
         <div class="row">
           <h2 class="text-center TituloFR my-4 mb-5 w-100">Subir prenda</h2>
 
-          <p class="text-center mb-5 w-100">Cambio ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
+          <p class="text-center mb-5 w-100">¡Comparte tus mejores prendas con nuestra comunidad y cuida de nuestro planeta mientras ganas dinero!</p>
 
           <div class="col-md-8 offset-md-2">
             <form method="POST" action="{{ url('item') }}" class="needs-validation" enctype="multipart/form-data" novalidate>
+
+              <p><small>Todos los campos con * son obligatorios.</small></p>
 
               <div id="app">
               @include('item.form')

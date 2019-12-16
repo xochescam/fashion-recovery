@@ -13,7 +13,7 @@
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/women.jpg') }}" alt="Guardarropa para Mujer">
             <div class="card-body">
               <h5 class="card-title">Mujeres</h5>
-              <p class="card-text">Encuentra los mejores estilos para toda clase de mujeres.</p>
+              <p class="card-text">Encuentra aquí los mejores estilos y los look más chic & hot del momento.</p>
               <a href="{{ url('search/department',12) }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>
@@ -24,7 +24,7 @@
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/men.jpg') }}" alt="Guardarropa para Hombre">
             <div class="card-body">
               <h5 class="card-title">Hombres</h5>
-              <p class="card-text">¿Hombre casual?, ¿de negocios?, ¿aventurero?, ¿deportivo? ¡Tú elijes!</p>
+              <p class="card-text">¿Casual? ¿Negocios? ¿Relajado? ¿Deportivo?  ¡Tú elijes! Arma tu look aquí.</p>
               <a href="{{ url('search/department',1) }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>
@@ -35,7 +35,7 @@
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/kid.jpg') }}" alt="Guardarropa para Niños">
             <div class="card-body">
               <h5 class="card-title">Niños</h5>
-              <p class="card-text">Una breve descripción del producto que harán cuando suban las prendas y tedrá un máximo de caracteres.</p>
+              <p class="card-text">Vístelos ideal para cada ocasión, encuentras las mejores prendas y accesosios para los pequeñitos del hogar.</p>
               <a href="{{ url('search/department',3) }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>
@@ -46,7 +46,7 @@
             <img class="card-img-top img-thumbnail" src="{{ url('img/important/maternity.jpg') }}" alt="Guardarropa para Bebés y Maternidad">
             <div class="card-body">
               <h5 class="card-title">Bebés y Maternidad</h5>
-              <p class="card-text">Adquiere el mejor Guardarropa para tu bebé y prpárate para su llegada a este mundo.</p>
+              <p class="card-text">Prepara lo necesario para el gran momento, encuentra los mejores conjuntos para ti y para tu bebé.</p>
               <a href="{{ url('search/department',5) }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>

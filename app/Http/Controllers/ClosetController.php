@@ -9,6 +9,8 @@ use Redirect;
 use Session;
 use Auth;
 
+use App\Item;
+
 
 class ClosetController extends Controller
 {
@@ -25,17 +27,18 @@ class ClosetController extends Controller
      */
     public function index()
     {
-        $closets = DB::table($this->table) //Mostrar solo una imagen
+        $closets = DB::table($this->table)
                     ->where('UserID',Auth::User()->id)
                     ->get();
 
-        $items = DB::table('fashionrecovery.GR_029')
-                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
-                    ->whereIn('GR_029.ClosetID',$closets->groupBy('ClosetID')->keys()->toArray())
-                    ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->get()
-                    ->groupBy('ClosetID')
-                    ->toArray();
+        $all = DB::table('fashionrecovery.GR_029')
+                ->whereIn('GR_029.ClosetID',$closets->groupBy('ClosetID')->keys()->toArray())
+                ->where('GR_029.OwnerID',Auth::User()->id)
+                ->get();
+
+        $thumbs = Item::getThumbs($all);
+        $items  = Item::getItemThumbs($all, $thumbs)
+                        ->groupBy('ClosetID')->toArray();  
 
         return view('closet.list',compact('closets','items'));
     }

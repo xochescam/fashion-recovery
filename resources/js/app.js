@@ -41,6 +41,11 @@ Vue.component(
     require('./components/GuardarropaStatusComponent.vue').default
 );
 
+Vue.component(
+    'heart-wishlist-component',
+    require('./components/HeartWishlistComponent.vue').default
+);
+
 
 
 

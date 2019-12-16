@@ -20,7 +20,7 @@
 
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.30') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.34') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -45,14 +45,15 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/locales/bootstrap-datepicker.es.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-
 
     <!--Ion.RangeSlider Plugin JavaScript file-->
     <!--jQuery-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ion-rangeslider/2.3.0/js/ion.rangeSlider.min.js"></script>
-    <script type="text/javascript" src="{{ url('js/app.js?1.4') }} "></script>
+    <script type="text/javascript" src="{{ url('js/app.js?1.5') }} "></script>
+    <script src="https://unpkg.com/vue-select@latest"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
     <script>
 
@@ -157,130 +158,149 @@
             });
         }
 
+        function filterByProperty(array, prop, value){
+          var filtered = [];
+          for(var i = 0; i < array.length; i++){
+
+              var obj = array[i];
+
+              for(var key in obj){
+                  if(typeof(obj[key] == "object")){
+                      var item = obj[key];
+                      if(item[prop] == value){
+                          filtered.push(item);
+                      }
+                  }
+              }
+
+          }    
+
+          return filtered;
+
+      }
+
         function changeFilter(e) {
 
-          return;
-
           const filters           = document.querySelector('#filters');
+          var items               = document.querySelector('#items').value;
           const filtersContainer  = document.querySelector('#container-filters');
           const departments       = document.querySelectorAll('.departments-filters');
           const clothingTypes     = document.querySelectorAll('.clothingTypes-filters');
           const brands            = document.querySelectorAll('.brands-filters');
           const colors            = document.querySelectorAll('.colors-filters');
           const itemOptions       = document.querySelectorAll('.item-option');
-          const departmentsArr    = [];
-          const clothingTypesArr  = [];
-          const brandsArr         = []; 
-          const colorsArr         = [];
-          const result            = [];
-
-          //var val                 = e.currentTarget.getAttribute('id').split('-')[0];
-          //var value               = e.currentTarget.value;
+          var result            = [];
           var filtersObj          = JSON.parse(filters.value);
+          var clothingTypesKeys   = Object.keys(filtersObj.clothingTypes);
+          var brandsKeys          = Object.keys(filtersObj.brands);
+          var colorsKeys          = Object.keys(filtersObj.colors);
+          var deparmentsKeys      = Object.keys(filtersObj.departments);
 
-          var types = {
-            'DepartmentID': 'departments',
-            'ClothingTypeID':'clothingTypes',
-            'BrandID':'brands',
-            'ColorID':'colors'
+          //result = result.length > 0 ? result : JSON.parse(items);
 
-          };
+        
 
-          Array.prototype.forEach.call(itemOptions, (itemOption) => {
-            itemOption.classList.add('hidden');
-          });
-
+          filtersContainer.innerHTML = "";
+        
           Array.prototype.forEach.call(departments, (department) => {
-            if(department.checked) {
-              $("#container-filters div").filter(function( index ) {
-                return $(this).attr("data-department") === department.value;
-              }).css( "display", "block" );
-            }
+            if(departments.checked) { 
+
+              const filter = departmentsKeys.forEach(element => {
+
+                var findDepa = result.find(search => search.DepName === element);
+
+                if(element === department.value && !findDepa) {
+                  result.push(filtersObj.departments[element]);
+                  result = result.flat();
+                }
+              });
+            } 
           });
 
           Array.prototype.forEach.call(clothingTypes, (clothingType) => {
-            if(clothingType.checked) {
+            if(clothingType.checked) { 
 
-              //const peopleArray = Object.keys(filtersObj).map(i => filtersObj[i])
+              const filter = clothingTypesKeys.forEach(element => {
 
-              console.log(filtersObj['clothingTypes']['Camisa']);
-                          
-              
-
-              //console.log(filtersObj['departments'].filter(word => word == 'Chamarra'));
-              
-/*               $("#container-filters div").filter(function( index ) {
-                return $(this).attr("data-clothingType") === clothingType.value;
-              }).css( "display", "block" ); */
-              //clothingTypesArr.push(clothingType.value);
+                var findClothing = result.find(search => search.ClothingTypeName === element);
+                
+                if(element === clothingType.value && !findClothing) {
+                  result.push(filtersObj.clothingTypes[element]);
+                  result = result.flat();
+                }
+              });
             }
           });
 
-          
           
 
           Array.prototype.forEach.call(brands, (brand) => {
             if(brand.checked) {
-              $("#container-filters div").filter(function( index ) {
-                return $(this).attr("data-brand") === brand.value;
-              }).css( "display", "block" );
-            }
-          });
 
+              const filter = brandsKeys.forEach(element => {
+
+                var findBrands = result.find(search => search.brand === element);
+
+                if(element === brand.value && !findBrands) {
+                  result.push(filtersObj.brands[element]);
+                  result = result.flat();
+                }
+              });
+            } 
+          });
+ 
           Array.prototype.forEach.call(colors, (color) => {
+
             if(color.checked) {
-              $("#container-filters div").filter(function( index ) {
-                return $(this).attr("data-color") === color.value;
-              }).css( "display", "block" );
+
+              const filter = colorsKeys.forEach(element => {
+
+                var findColors = result.find(search => search.ColorName === element);
+
+                if(element === color.value && !findColors) {
+                  result.push(filtersObj.colors[element]);
+                  result = result.flat();
+                }
+              });
             }
-          });
+          }); 
 
+          result = result.length < 1 ? JSON.parse(items) : result;
 
-
-          console.log(filtersObj);
-          
-
-          /* const results = filtersObj[types[val]];
-
-          if(results) {
-
-            filtersContainer.innerHTML = "";
-
-            //showFiltered(results, filtersContainer, value);
-          } */
+          showFiltered(result, filtersContainer);
         }
 
-        function showFiltered(results, filtersContainer, value) {
+        function showFiltered(results, filtersContainer) {
 
-          for (const el in results[value]) {
+          for (const el in results) {
               
               var item = `<div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
                   <a href="{{ url('login/0') }}"><i class="far fa-heart heart-wishlist"></i></a>
-                  <a href="{{ url('items/`+results[value][el].ItemID+`/public') }}" class="link-card">
+                  <a href="{{ url('items/`+results[el].ItemID+`/public') }}" class="link-card">
                     <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
                   
-                        <img class="card-img-top" src="{{ url('/storage/`+results[value][el].ThumbPath+`') }}" alt="Card image cap" height="200px;">
+                        <img class="card-img-top" src="{{ url('/storage/`+results[el].ThumbPath+`') }}" alt="Card image cap" height="200px;">
 
-              <!--         <img class="card-img-top" src="storage/'`+results[value][el].brand+`" alt="Card image cap" height="200px;">
+              <!--         <img class="card-img-top" src="storage/'`+results[el].brand+`" alt="Card image cap" height="200px;">
               -->          <div class="card-body px-0 p-lg-3">
 
-                          <h4 class="card-title mb-0">`+results[value][el].brand+`</h4>
+                          <h4 class="card-title mb-0">`+results[el].brand+`</h4>
 
                           <div class="float-right">
                             <span class="mr-2 text-black-50">
-                              <del>`+results[value][el].OriginalPrice+`</del>
+                              <del>`+results[el].OriginalPrice+`</del>
                             </span>
 
                             <p class="badge alert-success badge-price">
-                              `+results[value][el].ActualPrice+`
+                              `+results[el].ActualPrice+`
                             </p>
                           </div>
                                 
                           <div class="container-fade">
-                            <p>`+results[value][el].ItemDescription+`</p>
+                            <p>`+results[el].ItemDescription+`</p>
                           </div>
                         <p class="card-text" style="border-bottom: 1px solid gray; border-top: 1px solid gray;">
-                          Talla: `+results[value][el].size+` <br />Color: `+results[value][el].color+`</p>
+                          Talla: `+results[el].size+` <br />Color: `+results[el].color+`</p>
                       </div>
                     </div>
                   </a>

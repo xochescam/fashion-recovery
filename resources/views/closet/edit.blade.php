@@ -1,4 +1,4 @@
-<div class="modal fade" id="updateCollection" tabindex="-1" role="dialog" aria-labelledby="updateCollection" aria-hidden="true">
+<div class="modal fade" id="updateCollection-{{ $closet->ClosetID }}" tabindex="-1" role="dialog" aria-labelledby="updateCollection" aria-hidden="true">
       <div class="modal-dialog modal-md modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -33,10 +33,11 @@
               <div class="float-right w-100 mb-4">
                 <div class="form-group m-0 row float-right">
                   <label class="col-form-label my-auto mr-2">Pausar colección</label>
-                  <div class="col-form-label text-left d-flex align-top" id="app">
+                  <div class="col-form-label text-left d-flex align-top" >
                     <guardarropa-component
                       initial="{{ $closet->IsPaused }}"
                       type="colection"
+                      item="{{ $closet->ClosetID }}"
                     ></guardarropa-component>
                   </div>
                 </div>

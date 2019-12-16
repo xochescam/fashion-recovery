@@ -6,7 +6,7 @@
       	<div class="container py-5">
         	<h2 class="text-center TituloFR my-4 mb-5 ">Mis pedidos</h2>
 
-        	<p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
+        	<p class="mb-5 text-center w-100">Encuentra toda la información referente a tus compras. ¿Qué he comprado? ¿Cuáles pedidos están activos? ¿Cuándo llega? ¿Qué he cancelado?</p>
 
 			<div class="w-100">
 				@include('alerts.success')

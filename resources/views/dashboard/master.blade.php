@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
 
     <!-- <link rel="stylesheet" href="css/bootstrap.min.css" /> -->
-    <link rel="stylesheet" href="{{ url('css/index.css?1.28') }}" />
+    <link rel="stylesheet" href="{{ url('css/index.css?1.32') }}" />
     <link rel="stylesheet" href="{{ url('css/fonts.css') }}" />
 
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
@@ -50,7 +50,7 @@
 
     <script  type="text/javascript" src="{{ url('js/exif.js') }} "></script>
 
-    <script  type="text/javascript" src="{{ url('js/app.js?1.5') }} "></script>
+    <script  type="text/javascript" src="{{ url('js/app.js?1.6') }} "></script>
 
     <script>
         const dateTime            = document.querySelectorAll('.date_input');
@@ -71,6 +71,8 @@
         const itemFiles2          = document.querySelector('.js-item-file-opt2');
         const acceptPrice         = document.querySelector('.js-accept-price');
         const discount            = document.querySelector('.js-discount');
+
+        $('.carousel').carousel('pause');
 
         if(discount) {
             discount.addEventListener('keyup', function(e) {
