@@ -90,6 +90,77 @@
           }, false);
         })();
 
+
+        function checkDep() {
+          const departments       = document.querySelectorAll('.departments-filters');
+
+          var checked = document.querySelector('.departments-filters:checked');
+
+          Array.prototype.forEach.call(departments, (dep) => {
+
+            if(!checked) {
+              dep.parentNode.classList.remove('hidden');
+              return;
+            }
+
+            if(dep.checked) {
+
+              dep.parentNode.classList.remove('hidden');
+
+            } else {
+
+              dep.parentNode.classList.add('hidden');
+            }
+          });
+        }
+
+        function checkTypes() {
+          const clothingTypes     = document.querySelectorAll('.clothingTypes-filters');
+
+          var checked = document.querySelector('.clothingTypes-filters:checked');
+
+          Array.prototype.forEach.call(clothingTypes, (types) => {            
+
+            if(!checked) {
+              types.parentNode.classList.remove('hidden');
+              return;
+            }
+
+            if(types.checked) {
+
+              types.parentNode.classList.remove('hidden');
+
+            } else {
+              
+              types.parentNode.classList.add('hidden');
+            }
+          });
+        }
+
+        
+
+        function checkBrands() {
+          const brands     = document.querySelectorAll('.brands-filters');
+
+          var checked = document.querySelector('.brands-filters:checked');
+
+          Array.prototype.forEach.call(brands, (brand) => {
+
+            if(!checked) {
+              brand.parentNode.classList.remove('hidden');
+              return;
+            }
+
+            if(brand.checked) {
+
+              brand.parentNode.classList.remove('hidden');
+
+            } else {
+              brand.parentNode.classList.add('hidden');
+            }
+          });
+        }
+
         
 
         const fade = document.querySelectorAll('.container-fade p');     
@@ -150,6 +221,7 @@
         const filterInputs = document.querySelectorAll('.filter-option');   
 
         if(filterInputs){
+          
 
             Array.prototype.forEach.call(filterInputs, (check) => {
 
@@ -189,7 +261,10 @@
           const brands            = document.querySelectorAll('.brands-filters');
           const colors            = document.querySelectorAll('.colors-filters');
           const itemOptions       = document.querySelectorAll('.item-option');
-          var result            = [];
+          var result              = [];
+          var filtredDep          = [];
+          var filtredClothing     = [];
+          var filtredBrand        = [];
           var filtersObj          = JSON.parse(filters.value);
           var clothingTypesKeys   = Object.keys(filtersObj.clothingTypes);
           var brandsKeys          = Object.keys(filtersObj.brands);
@@ -198,9 +273,8 @@
 
           //result = result.length > 0 ? result : JSON.parse(items);
 
-        
-
           filtersContainer.innerHTML = "";
+          
         
           Array.prototype.forEach.call(departments, (department) => {
             if(departments.checked) { 
@@ -208,33 +282,46 @@
               const filter = departmentsKeys.forEach(element => {
 
                 var findDepa = result.find(search => search.DepName === element);
+                
 
                 if(element === department.value && !findDepa) {
                   result.push(filtersObj.departments[element]);
                   result = result.flat();
-                }
-              });
-            } 
-          });
 
+                  
+
+                } 
+              });
+
+            } 
+            checkDep();
+          });
+        
+          
+          
           Array.prototype.forEach.call(clothingTypes, (clothingType) => {
-            if(clothingType.checked) { 
+            
+            if(clothingType.checked) {               
 
               const filter = clothingTypesKeys.forEach(element => {
+      
 
                 var findClothing = result.find(search => search.ClothingTypeName === element);
                 
                 if(element === clothingType.value && !findClothing) {
                   result.push(filtersObj.clothingTypes[element]);
                   result = result.flat();
-                }
-              });
+                } 
+                
+              })
             }
+            checkTypes();
           });
 
           
 
           Array.prototype.forEach.call(brands, (brand) => {
+
             if(brand.checked) {
 
               const filter = brandsKeys.forEach(element => {
@@ -244,9 +331,13 @@
                 if(element === brand.value && !findBrands) {
                   result.push(filtersObj.brands[element]);
                   result = result.flat();
+
+                  
+
                 }
               });
             } 
+            checkBrands();
           });
  
           Array.prototype.forEach.call(colors, (color) => {
@@ -260,17 +351,23 @@
                 if(element === color.value && !findColors) {
                   result.push(filtersObj.colors[element]);
                   result = result.flat();
+
                 }
               });
-            }
+            } 
           }); 
 
           result = result.length < 1 ? JSON.parse(items) : result;
 
+
+          //showOptions(filtredDep, filtredClothing, filtredBrand);
           showFiltered(result, filtersContainer);
         }
 
         function showFiltered(results, filtersContainer) {
+
+          
+          
 
           for (const el in results) {
               
