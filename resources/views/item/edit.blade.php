@@ -7,7 +7,7 @@
         <div class="row">
           <h2 class="text-center TituloFR my-4 mb-5 w-100">Editar prenda</h2>
 
-          <p class="text-center mb-5 w-100">Cambio ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
+          <p class="text-center mb-5 w-100">¡Comparte tus mejores prendas con nuestra comunidad y cuida de nuestro planeta mientras ganas dinero!</p>
 
           <div class="col-md-8 offset-md-2 mb-4">
               <a href="{{ url('items/'.$item->ItemID.'/public') }}" target="_blank" class="btn btn-fr mb-4 float-right">
