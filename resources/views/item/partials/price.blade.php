@@ -1,6 +1,6 @@
 <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="OriginalPrice">Precio Fashion Recovery*</label>
+      <label for="OriginalPrice">Precio Original *</label>
       <input type="text" class="form-control js-currency-input" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" name="OriginalPrice" id="OriginalPrice" 
       value="{{ old('OriginalPrice') ? old('OriginalPrice') : ($item && $item->OriginalPrice ? $item->OriginalPrice  : '' ) }}" required>
       <small>¿Cuánto te costo la prenda?</small>
@@ -17,7 +17,7 @@
     </div>
 
     <div class="form-group col-md-6">
-      <label for="ActualPrice">Precio actual *</label>
+      <label for="ActualPrice">Precio Fashion Recovery *</label>
 
       <input type="text" class="form-control js-currency-input js-accept-price" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" name="ActualPrice" id="ActualPrice" 
       value="{{ old('ActualPrice') ? old('ActualPrice') : ($item && $item->ActualPrice ? $item->ActualPrice  : '' ) }}" required>
@@ -30,7 +30,7 @@
         </div>
       @else
         <div class="invalid-feedback js-invalid-feedback">
-          El campo precio actual es obligatorio.
+          El campo Precio Fashion Recovery es obligatorio.
         </div>
       @endif
     </div>
