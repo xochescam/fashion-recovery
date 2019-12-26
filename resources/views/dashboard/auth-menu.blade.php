@@ -19,15 +19,15 @@
   </a>
 
   <div class="dropdown-menu btn-fr border-0" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mi cuenta</a>
-    <a class="dropdown-item text-left" href="{{ url('orders') }}">Mis pedidos</a>
+    <a class="dropdown-item text-left" href="{{ url('auth',Auth::User()->id) }}">Mi Cuenta</a>
+    <a class="dropdown-item text-left" href="{{ url('orders') }}">Mis Pedidos</a>
 <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
  -->
     @if(Auth::User()->ProfileID == 2)
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item text-left" href="{{ url('item') }}">Subir prenda</a>
+      <a class="dropdown-item text-left" href="{{ url('item') }}">Subir Prenda</a>
       <a class="dropdown-item text-left" href="{{ url('guardarropa') }}">Mi Clóset</a>
-      <a class="dropdown-item text-left" href="{{ url('wishlists') }}">Mis favoritos</a>
+      <a class="dropdown-item text-left" href="{{ url('wishlists') }}">Mis Favoritos</a>
   <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
     @endif
 
@@ -39,7 +39,7 @@
 
     <div class="dropdown-divider"></div>
 <!--     <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
- -->    <a class="dropdown-item text-left" href="{{ route('logout') }}">Cerrar sesión</a>
+ -->    <a class="dropdown-item text-left" href="{{ route('logout') }}">Cerrar Sesión</a>
   </div>
 </li>
 
