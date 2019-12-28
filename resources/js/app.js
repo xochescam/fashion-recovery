@@ -7,7 +7,6 @@
 
 
 window.Vue = require('vue');
-import vSelect from 'vue-select'
 
 
 /**

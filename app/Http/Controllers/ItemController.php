@@ -14,6 +14,7 @@ use App\Color;
 use App\Type;
 use App\Offer;
 use App\Closet;
+use App\Item;
 
 use DB;
 use Redirect;
@@ -440,14 +441,8 @@ class ItemController extends Controller
         $size         = null;
         $brand        = null;
         $otherBrand   = null;
-        $wishlists    = null;
         $discount     = null;
-
-        if(Auth::User()) {
-            $wishlists = DB::table('fashionrecovery.GR_024')
-                            ->where('UserID',Auth::User()->id)
-                            ->get();
-        }
+        $urlWishlists = Item::getWishlistUrl($id);
 
         $info = DB::table($this->table)
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
@@ -496,7 +491,7 @@ class ItemController extends Controller
         return view('item.public-show',compact(
             'questions',
             'id',
-            'wishlists',
+            'urlWishlists',
             'ValidFrom',
             'ValidUntil',
             'priceOffer',

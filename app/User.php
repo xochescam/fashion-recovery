@@ -45,17 +45,17 @@ class User extends Authenticatable
     public function inWishlist($ItemID) {
 
         return DB::table('fashionrecovery.GR_024')
-                            ->join('fashionrecovery.GR_037', 'GR_024.WishListID', '=', 'GR_037.WishlistID')
-                            ->where('GR_024.UserID',Auth::User()->id)
-                            ->where('GR_037.ItemID',$ItemID)
-                            ->first();        
+                ->join('fashionrecovery.GR_037', 'GR_024.WishListID', '=', 'GR_037.WishlistID')
+                ->where('GR_024.UserID',Auth::User()->id)
+                ->where('GR_037.ItemID',$ItemID)
+                ->first();        
     }
 
     public function getWishlists() {
 
         return DB::table('fashionrecovery.GR_024')
                 ->where('UserID',Auth::User()->id)
-                ->get();
+                ->first();
         
     }
 

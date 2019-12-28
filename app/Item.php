@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Auth;
 
 class Item extends Model
 {
@@ -28,10 +29,29 @@ class Item extends Model
 
         return $items->map(function ($item, $key) use($thumbs) {
 
-            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $user = Auth::User();
+            $id = $item->ItemID;
+            $item->ThumbPath = $thumbs[$id]->first()->ThumbPath;
+
+            $item->urlWishlists = !isset($user->id) ? 'login/0' :
+                    (!$user->getWishlists() ? 'wishlist/'.$id.'/create' : 
+                    ($user->inWishlist($id) ? 
+                    'wishlist/'.$user->getWishlists()->WishListID.'/'.$id.'/delete':
+                    'wishlist/'.$user->getWishlists()->WishListID.'/'.$id.'/add'));
 
             return $item;
 
         });
+    }
+
+    public static function getWishlistUrl($item) {
+
+        $user = Auth::User();
+
+        return !isset($user->id) ? 'login/0' :
+                (!$user->getWishlists() ? 'wishlist/'.$item.'/create' : 
+                ($user->inWishlist($item) ? 
+                'wishlist/'.$user->getWishlists()->WishListID.'/'.$item.'/delete':
+                'wishlist/'.$user->getWishlists()->WishListID.'/'.$item.'/add'));
     }
 }

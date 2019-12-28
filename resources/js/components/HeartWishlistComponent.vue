@@ -1,31 +1,27 @@
 <template>
-    <div class="dropdown">
-        <a v-if="initial" @click="removeFromWishlist()">
+    <div>
+        <a v-if="type === 'card' && hasWish" @click="removeFromWishlist()">
             <i class="fas fa-heart heart-wishlist heart-wishlist--active"></i>
         </a>
 
-        <a href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
-            v-else>
+        <a @click="addToWishlist()" 
+            v-else-if="type === 'card'">
             <i class="far fa-heart heart-wishlist"></i>
         </a>
-        
-        <div class="dropdown-menu top-60 w-100" aria-labelledby="dropdownMenuButton" v-if="!initial">
-            <a class="dropdown-item text-left"
-                v-for="wishlist in allWishlists" 
-                :key="wishlist.WishListID"
-                :value="wishlist.NameList" 
-                @click="addToWishlist(wishlist.WishListID)">  
-            {{ wishlist.NameList }} </a>
 
-            <a  class="dropdown-item dropdown-item--green text-left green-color" 
-                href="#" 
-                data-toggle="modal" 
-                :data-target="'#addWishlist-'+(item )" 
-            >
-                <i class="fas fa-plus"></i>
-                <b class="ml-1">Nueva wishlist</b>
-            </a>
-        </div>  
+        <a class="btn w-100 btn-outline-green my-2 my-sm-0"
+            @click="removeFromWishlist()"
+            v-if="type === 'full' && hasWish">
+			<i class="fas fa-heart mr-1"></i>
+			Agregado a mis favoritos
+		</a>
+
+        <a class="btn w-100 btn-outline-green my-2 my-sm-0"
+            @click="addToWishlist()" 
+            v-else-if="type === 'full'">
+			<i class="far fa-heart mr-1"></i>
+			Agregar a mis favoritos
+		</a>
     </div>
 </template>
 
@@ -37,7 +33,15 @@
             /**
              * Receive an initial selected value.
              */
-            initial: {
+            has: {
+                type: String,
+                required: true,
+                default: ''
+            },
+            /**
+             * Receive an initial selected value.
+             */
+            url: {
                 type: String,
                 required: false,
                 default: ''
@@ -45,42 +49,25 @@
             /**
              * Receive an initial selected value.
              */
-            wishlists: {
-                type: Object,
-                required: false,
-                default: ''
-            },
-            /**
-             * Receive an initial selected value.
-             */
-            item: {
+            type: {
                 type: String,
-                required: false,
-                default: ''
-            },
-            /**
-             * Receive an initial selected value.
-             */
-            wish: {
-                type: String,
-                required: false,
+                required: true,
                 default: ''
             },
         },
          data() {
             return {
-                allWishlists: []
+                hasWish: []
             };
         },
         methods: {
             removeFromWishlist() {    
-                console.log(this.wish);
 
-                window.axios
-                    .get('wishlist/'+Number(this.wish)+'/'+Number(this.item)+'/delete')
+                axios
+                    .get(window.location.origin+'/'+this.url)
                     .then(response => {
 
-                        this.initial = false;
+                        this.hasWish = 0;
 
                         console.log(response.data)
                     })
@@ -88,13 +75,13 @@
                         console.log(error)
                 }) 
             },
-            addToWishlist(WishListID) {
+            addToWishlist() {                
         
-                window.axios
-                    .get('wishlist/'+Number(WishListID)+'/'+Number(this.item)+'/add')
+                axios
+                    .get(window.location.origin+'/'+this.url)
                     .then(response => {
 
-                        this.initial = true;
+                        this.hasWish = 1;
 
                         console.log(response.data)
                     })
@@ -103,9 +90,10 @@
                 }) 
             }
         },
-        mounted() {
+        mounted() { 
             
-            this.allWishlists = this.wishlists ? JSON.parse(this.wishlists) : [];  
+            this.hasWish = this.has;            
+            
         }
     };
 </script>

@@ -228,7 +228,7 @@ a h5.card-title {
   background: #ececec;
 }
 .heart-wishlist--active {
-  color: #dc3545;
+  color: #009c77;
   cursor: pointer;
 }
 
@@ -256,7 +256,8 @@ a h5.card-title {
 
 
 .heart-wishlist:hover {
-  color: #dc3545;
+  color: #009c77;
+  cursor: pointer;
 }
 
 .btn-fr{
@@ -290,6 +291,17 @@ a h5.card-title {
 
 .green-color {
   color: #009c77;
+}
+
+.btn-outline-green {
+  color: #009c77 !important;
+  border-color: #009c77;
+  cursor: pointer;
+}
+
+.btn-outline-green:hover {
+  color: #fff !important;
+  background-color: #009c77 !important;
 }
 
 .green-background {

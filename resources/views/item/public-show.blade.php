@@ -125,45 +125,21 @@
 					</table>
 
 					<div class="card w-100">
-		          		<div class="card-body">
+		          		<div class="card-body" id="app">
 		          			<a href="{{ url('payment/'.$info->ItemID.'/true') }}" class="btn btn-fr mb-3 w-100 ">
 		          				Comprar
 		          			</a>
 		          			<a href="{{ url('add-to-cart',$info->ItemID) }}" class="btn btn-fr mb-3 w-100 ">
 		          				<i class="fas fa-shopping-cart mr-1"></i>
 		          				 Agregar al carrito
-		          			</a>
-
-		          			<div class="dropdown">
-
-							  @if(Auth::User())
-
-								<button class="btn green-border-button w-100 btn-outline-light my-2 my-sm-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-									<i class="fas fa-heart mr-1"></i>
-									Agregar a wishlist
-								</button>
-
-							  @else
-
-							  	<a href="{{ url('login/0') }}" class="btn green-border-button w-100 btn-outline-light my-2 my-sm-0">
-							  		<i class="fas fa-heart mr-1"></i>
-									Agregar a wishlist
-							  	</a>
-
-							  @endif
+							  </a>
 							  
-							  <div class="dropdown-menu w-100 " aria-labelledby="dropdownMenuButton">
+							<heart-wishlist-component
+								has="{{ isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
+								url="{{ $urlWishlists }}"
+								type="full"
+							></heart-wishlist-component>
 
-							  	@if(Auth::User())
-							  		@foreach($wishlists as $wishlist)
-							    		<a class="dropdown-item text-left" href="{{ url('wishlist/'.$wishlist->WishListID.'/'.$id.'/exists') }}"> {{ $wishlist->NameList }} </a>
-							    	@endforeach
-							    @endif
-							    <a class="dropdown-item dropdown-item--green text-left green-color" href="#" data-toggle="modal" data-target="#addWishlist">
-							    	<i class="fas fa-plus"></i>
-									<b class="ml-1" >Nueva wishlist</b>
-								</a>
-							  </div>
 							</div>
 		          		</div>
 		          	</div>
@@ -202,8 +178,5 @@
 	        </div>
       	</div>
     </main>
-
-    <!-- Modal -->
-    @include('wishlist.create')
 
 @endsection

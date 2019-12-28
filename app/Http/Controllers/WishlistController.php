@@ -9,6 +9,8 @@ use Redirect;
 use Session;
 use Auth;
 
+use App\Item;
+
 class WishlistController extends Controller
 {
     protected $table = 'fashionrecovery.GR_024';
@@ -19,52 +21,72 @@ class WishlistController extends Controller
      */
     public function index()
     {
-        $wishlist = DB::table($this->table)
-                        ->where('UserID',Auth::User()->id)
-                        ->orderBy('CreationDate', 'desc')
-                        ->get();
+        $type = 'card';
+        $items = [];
+        $wishlist = Auth::User()->getWishlists() !== null ? 
+                    Auth::User()->getWishlists() : null;
 
-        $itemsWishlist = DB::table('fashionrecovery.GR_037')
-                        ->whereIn('WishlistID',$wishlist->groupBy('WishListID')->keys()->toArray())
-                        ->get();
 
-        if(count($itemsWishlist) > 0) {
+        if($wishlist) {
 
-            $wishlists = $wishlist->map(function ($item, $key) use($itemsWishlist){
+            $itemsWishlist = DB::table('fashionrecovery.GR_037')
+                        ->where('WishlistID',$wishlist->WishListID)
+                        ->get()->groupBy('ItemID')->keys();
+        
+            $all = $this->getAllItems($itemsWishlist); 
+            $thumbs = Item::getThumbs($all);
+            $items  = Item::getItemThumbs($all, $thumbs)->toArray(); 
 
-                $itemsIds = $itemsWishlist->where('WishlistID',$item->WishListID)
-                                          ->groupBy('ItemID')
-                                          ->keys()
-                                          ->toArray();
-
-                $items = DB::table('fashionrecovery.GR_032')
-                        ->whereIn('ItemID',$itemsIds)
-                        ->get()
-                        ->groupBy('ItemID');
-
-                return [
-                    'WishListID' => $item->WishListID,
-                    'NameList'   => $item->NameList,
-                    'IsPublic'   => $item->IsPublic,
-                    'Active'     => $item->Active,
-                    'Items'      => count($items) == 0 ? null : $items
-                ];
-            });
-        } else {
-
-            $wishlists = $wishlist->map(function ($item, $key) {
-
-                return [
-                    'WishListID' => $item->WishListID,
-                    'NameList'   => $item->NameList,
-                    'IsPublic'   => $item->IsPublic,
-                    'Active'     => $item->Active,
-                    'Items'      => null
-                ];
-            });
         }
 
-        return view('wishlist.list',compact('wishlists'));
+        return view('wishlist.list',compact('wishlist','items','type'));
+    }
+
+    public function getAllItems($itemsWishlist) {
+
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
+                    ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
+                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->whereIn('GR_029.ItemID',$itemsWishlist)
+                    ->where('GR_001.IsPaused',0)
+                    ->where('GR_029.IsPaused',0)
+                    ->where('GR_030.IsPaused',0)
+                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate',
+                             'GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice',
+                             'GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
+                    ->get();
+
+        return $items->map(function ($item, $key) {
+
+            $size       = '';
+            $brand      = '';
+            $otherBrand = '';
+
+
+
+           if(isset($item->BrandID)) {
+
+                $size         = DB::table('fashionrecovery.GR_020')
+                                    ->where('SizeID',$item->SizeID)
+                                    ->first()->SizeName;
+
+                $brand         = DB::table('fashionrecovery.GR_017')
+                                    ->where('BrandID',$item->BrandID)
+                                    ->first()->BrandName;
+            } else {
+
+               $otherBrand = DB::table('fashionrecovery.GR_036')
+                                ->where('ItemID',$item->ItemID)
+                                ->first();
+            }
+
+            $item->size       = $size;
+            $item->brand      = $brand;
+            $item->otherBrand = $otherBrand;
+
+            return $item;
+        });
     }
 
     /**
@@ -83,49 +105,46 @@ class WishlistController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($ItemID)
     {
 
-        DB::beginTransaction();
+/*         DB::beginTransaction();
 
-        try {
+        try { */
 
-            $message = 'Wishlist creada correctamente';
-            $url     = 'wishlists';
-
-            $data = $this->getData($request->toArray());
+            $data = $this->getData();
 
             DB::table($this->table)->insert($data);
 
-            if(isset($request->ItemID)) {
-                $lastWishlist = DB::table($this->table)
-                                ->where('UserID',Auth::User()->id)
-                                ->orderBy('CreationDate', 'desc')
-                                ->first();
+            $lastWishlist = DB::table($this->table)
+                            ->where('UserID',Auth::User()->id)
+                            ->orderBy('CreationDate', 'desc')
+                            ->first();
 
-                DB::table('fashionrecovery.GR_037')->insert([
-                    'ItemID'     => $request->ItemID,
-                    'WishlistID' => $lastWishlist->WishListID
-                ]);
+            DB::table('fashionrecovery.GR_037')->insert([
+                'ItemID'     => $ItemID,
+                'WishlistID' => $lastWishlist->WishListID
+            ]);
 
-                $message = 'Prenda agregada correctamente a '.$lastWishlist->NameList;
-                $url     = 'items/'.$request->ItemID.'/public';
-            }
-
+            $message = 'Prenda agregada correctamente a '.$lastWishlist->NameList;
+            $url     = 'items/'.$ItemID.'/public';
+            
             DB::commit();
 
+            return response()->json("success");
+/* 
             Session::flash('success',$message);
-            return Redirect::back();
+            return Redirect::back(); */
             //return Redirect::to($url);
 
-        } catch (\Exception $ex) {
+/*         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
             return Redirect::back();
             //return Redirect::to('items/'.$request->ItemID.'/public');
-        }
+        } */
     }
 
     public function addToWishlist($WishlistID, $ItemID){
@@ -160,7 +179,7 @@ class WishlistController extends Controller
                     ->first();
 
         if(isset($exists)){
-            Session::flash('warning','Ya has guardado esta prenda en '.$wishlist->NameList);
+            Session::flash('warning','Ya has agregado esta prenda a '.$wishlist->NameList);
             return Redirect::back();
             //return Redirect::to('items/'.$ItemID.'/public');
         }
@@ -216,51 +235,6 @@ class WishlistController extends Controller
                 ->where('IsCover',true)
                 ->get()
                 ->groupBy('ItemID');
-    }
-
-    public function getAllItems($itemsIds) {
-
-        $items = DB::table('fashionrecovery.GR_029')
-                    ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
-                    ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
-                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
-                    ->where('GR_001.IsPaused',0)
-                    ->where('GR_029.IsPaused',0)
-                    ->where('GR_030.IsPaused',0)
-                    ->whereIn('GR_029.ItemID',$itemsIds)
-                    ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate',
-                             'GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice',
-                             'GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
-                    ->get();
-
-        return $items->map(function ($item, $key) {
-
-            $size       = '';
-            $brand      = '';
-            $otherBrand = '';
-
-           if(isset($item->BrandID)) {
-
-                $size         = DB::table('fashionrecovery.GR_020')
-                                    ->where('SizeID',$item->SizeID)
-                                    ->first()->SizeName;
-
-                $brand         = DB::table('fashionrecovery.GR_017')
-                                    ->where('BrandID',$item->BrandID)
-                                    ->first()->BrandName;
-            } else {
-
-               $otherBrand = DB::table('fashionrecovery.GR_036')
-                                ->where('ItemID',$item->ItemID)
-                                ->first();
-            }
-
-            $item->size       = $size;
-            $item->brand      = $brand;
-            $item->otherBrand = $otherBrand;
-
-            return $item;
-        });
     }
 
     /**
@@ -347,12 +321,11 @@ class WishlistController extends Controller
         }
     }
 
-    public function getData($data) {
+    public function getData() {
 
         return [
              'UserID'       => Auth::User()->id,
-             'NameList'     => $data['NameList'],
-             'IsPublic'     => isset($data['IsPublic']) ? 1 : 0,
+             'NameList'     => 'Mis Favoritos',
              'Active'       => 1,
              'CreationDate' => date("Y-m-d H:i:s")
         ];

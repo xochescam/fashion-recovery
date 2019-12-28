@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 
+use App\Item;
+
 class HomeController extends Controller
 {
     /**
@@ -16,20 +18,13 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $allItems  = $this->getAllItems();
-        $items = $allItems;
+        $all  = $this->getAllItems();
+        $type = "card";
 
-        $thumbs = $this->getItemThumbs($items);
+        $thumbs = Item::getThumbs($all);
+        $items  = Item::getItemThumbs($all, $thumbs)->take(16); 
 
-        $items = $items->map(function ($item, $key) use($thumbs) {
-
-            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-
-            return $item;
-
-        })->take(16);
-
-        return view('home',compact('items'));
+        return view('home',compact('items','type'));
     }
 
     /**

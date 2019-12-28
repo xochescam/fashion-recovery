@@ -1,20 +1,11 @@
 @foreach($items as $item)
   <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 item-option">
 
-    @if(Auth::User())
-
-        <heart-wishlist-component
-          initial="{{ isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
-          wish="{{ isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? Auth::User()->inWishlist($item->ItemID)->WishlistID : 0 }}"
-          wishlists="{{ count(Auth::User()->getWishlists()) > 0 ? Auth::User()->getWishlists() : null }}"
-          item="{{ $item->ItemID }}"
-        ></heart-wishlist-component>
-
-     @else
-     
-      <a href="{{ url('login/0') }}"><i class="far fa-heart heart-wishlist"></i></a>
-
-		 @endif
+      <heart-wishlist-component
+        has="{{ isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
+        url="{{ $item->urlWishlists }}"
+        type="{{ $type }}"
+      ></heart-wishlist-component>
 
     <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
       <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
@@ -44,9 +35,6 @@
       </div>
     </a>
   </div>
-
-  <!-- Modal -->
-  @include('wishlist.create')
 
 @endforeach
 

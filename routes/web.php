@@ -111,7 +111,7 @@ Route::group(['middleware' => ['auth']], function () {
 	//Wishlist
 	Route::get('wishlists', 'WishlistController@index');
 	Route::get('wishlist/{WishlistID}', 'WishlistController@show')->name('wishlists.show');
-	Route::post('wishlist', 'WishlistController@store')->name('wishlists.store');
+	Route::get('wishlist/{ItemID}/create', 'WishlistController@store')->name('wishlists.store');
 	Route::get('wishlist/{WishlistID}/{ItemID}/exists', 'WishlistController@existingWishlist');
 	Route::get('wishlist/{WishlistID}/edit', 'WishlistController@edit')->name('wishlists.edit');
 	Route::post('wishlist/{WishlistID}', 'WishlistController@update')->name('wishlists.update');
