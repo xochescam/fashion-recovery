@@ -135,7 +135,7 @@
 							  </a>
 							  
 							<heart-wishlist-component
-								has="{{ isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
+								has="{{ Auth::User() && isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
 								url="{{ $urlWishlists }}"
 								type="full"
 							></heart-wishlist-component>
