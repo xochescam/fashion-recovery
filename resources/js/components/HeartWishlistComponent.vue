@@ -75,7 +75,11 @@
                         console.log(error)
                 }) 
             },
-            addToWishlist() {                
+            addToWishlist() {     
+                
+                if(this.url == 'login/0') {
+                    window.location.href = window.location.origin+'/'+this.url;
+                }
         
                 axios
                     .get(window.location.origin+'/'+this.url)
