@@ -51,6 +51,14 @@ class User extends Authenticatable
                 ->first();        
     }
 
+    public function getCollections() {
+
+        return DB::table('fashionrecovery.GR_030')
+                ->where('UserID',Auth::User()->id)
+                ->get();
+        
+    }
+
     public function getWishlists() {
 
         return DB::table('fashionrecovery.GR_024')
