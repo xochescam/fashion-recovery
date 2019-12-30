@@ -13,7 +13,7 @@
 
 					<div class="float-right w-100">
 						<div class="form-group row float-right">
-							<label class="col-form-label mr-2">Pausar Guardarropa</label>
+							<label class="col-form-label mr-2">Pausar Clóset</label>
 							<div class="col-form-label text-left d-flex align-top mr-3" id="app">
 								<guardarropa-component
 									initial="{{ Auth::User()->IsPaused }}"
