@@ -33,7 +33,7 @@
 										<div class="carousel-inner">
 											@foreach($items as $item)
 												<div class="carousel-item {{ $item->ThumbPath == $items->first()->ThumbPath ? 'active' : ''  }}">
-													<img src="{{ url('storage/'.$item->ThumbPath) }}" class="d-block">
+													<img src="{{ url('storage/'.$item->ThumbPath) }}" class="d-block w-100">
 												</div>
 											@endforeach
 										</div>
