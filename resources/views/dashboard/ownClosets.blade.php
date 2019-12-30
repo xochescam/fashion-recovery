@@ -33,7 +33,7 @@
 										<div class="carousel-inner">
 											@foreach($items as $item)
 												<div class="carousel-item {{ $item->ThumbPath == $items->first()->ThumbPath ? 'active' : ''  }}">
-													<img src="{{ url($item->ThumbPath) }}" class="d-block">
+													<img src="{{ url('storage/'.$item->ThumbPath) }}" class="d-block">
 												</div>
 											@endforeach
 										</div>
@@ -60,7 +60,7 @@
 										<div class="carousel-inner">
 											@foreach($closets as $closet)
 												<div class="carousel-item {{ $closet->ThumbPath == $closets->first()->ThumbPath ? 'active' : ''  }}">
-													<img src="{{ url($closet->ThumbPath) }}" class="d-block w-100" >
+													<img src="{{ url('storage/'.$closet->ThumbPath) }}" class="d-block w-100" >
 												</div>
 											@endforeach
 										</div>
