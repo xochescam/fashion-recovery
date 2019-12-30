@@ -4,7 +4,7 @@
         <a href="{{ url('item',$item->ItemID) }}" class="link-card">
 
         <div class="card card--public card--item shadow mb-5 bg-white rounded d-flex w-100 align-items-stretch">
-            <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="Card image cap" height="200px;">
+            <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="{{ $item->brand }}" height="200px;">
             <div class="card-body">
                 <h4 class="card-title mb-0">{{ isset($item->otherBrand->OtherBrand) ? $item->otherBrand->OtherBrand : $item->brand   }}</h4> 
 
