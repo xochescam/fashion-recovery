@@ -82,7 +82,7 @@
                 var discount         = e.currentTarget;                           
                 var actual           = Number(acceptPrice.value.replace(/[^0-9.-]+/g,""));
 
-                checkDiscount(invalidPrice, invalidDiscount, discount, actual);
+                //checkDiscount(invalidPrice, invalidDiscount, discount, actual);
 
             });
         }
@@ -153,7 +153,7 @@
                 var discount         = document.querySelector('.js-discount');                           
                 var actual           = Number(acceptPrice.value.replace(/[^0-9.-]+/g,""));
                 
-                checkDiscount(invalidPrice, invalidDiscount, discount, actual);
+                //checkDiscount(invalidPrice, invalidDiscount, discount, actual);
             }); 
         }
 

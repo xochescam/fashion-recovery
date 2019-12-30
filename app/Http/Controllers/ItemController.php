@@ -171,15 +171,15 @@ class ItemController extends Controller
 
     protected function updateItemData($data) {
 
-        $data['ValidFrom'] = date("Y-m-d H:i:s",strtotime($data['ValidFrom']));
-        $data['ValidUntil'] = date("Y-m-d H:i:s",strtotime($data['ValidUntil']));
+      /*   $data['ValidFrom'] = date("Y-m-d H:i:s",strtotime($data['ValidFrom']));
+        $data['ValidUntil'] = date("Y-m-d H:i:s",strtotime($data['ValidUntil'])); */
 
         $closet = !isset($data['ClosetID']) || $data['ClosetID'] == "default" ?
                     $this->saveDefaultCloset()->ClosetID :
                     $data['ClosetID'];
 
-        $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
-        $brand     = $this->getBrand($data['BrandID']);;
+/*         $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
+ */        $brand     = $this->getBrand($data['BrandID']);;
 
         return [
              'ItemDescription'  => $data['ItemDescription'],
@@ -192,7 +192,7 @@ class ItemController extends Controller
              'TypeID'           => $data['TypeID'],
              'BrandID'          => $brand,
              'ClosetID'         => $closet,
-             'OffSaleID'        => $OffSaleID,
+             'OffSaleID'        => null,
         ];
     }
 
@@ -444,6 +444,8 @@ class ItemController extends Controller
         $discount     = null;
         $urlWishlists = Item::getWishlistUrl($id);
 
+        
+
         $info = DB::table($this->table)
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
@@ -455,7 +457,7 @@ class ItemController extends Controller
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->where('GR_029.ItemID',$id)
                     ->select('GR_029.ItemID',
-                             'GR_029.OffSaleID',
+                              'GR_029.OffSaleID',
                              'GR_029.ItemDescription',
                              'GR_029.OriginalPrice',
                              'GR_029.ActualPrice',
@@ -468,7 +470,7 @@ class ItemController extends Controller
                              'GR_027.TypeName',
                              'GR_001.Alias',
                              'GR_020.SizeName',
-                             'GR_029.OtherBrand'
+                             'GR_029.OtherBrand' 
                          )->first(); 
 
         $items = DB::table('fashionrecovery.GR_032')
@@ -487,6 +489,8 @@ class ItemController extends Controller
         }
 
         $questions = $this->getQuestions($id);
+
+       
 
         return view('item.public-show',compact(
             'questions',
@@ -710,7 +714,7 @@ class ItemController extends Controller
 
         DB::beginTransaction();
 
-        try { 
+        try {  
 
             $data = $this->updateItemData($request->toArray());
 
@@ -736,7 +740,7 @@ class ItemController extends Controller
             Session::flash('success','Se ha modificado correctamente');
             return Redirect::to('item/'.$id); //cambiar
 
-          } catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
             DB::rollback();
 
