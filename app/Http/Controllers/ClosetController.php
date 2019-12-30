@@ -18,8 +18,36 @@ class ClosetController extends Controller
 
 
     public function ownClosets() {
-        return view('dashboard.ownClosets');
+
+        $allClosets = Auth::User()->getCollections();
+        $closetIds  = $allClosets->groupBy('ClosetID')->keys();
+        $closets    = $this->getItemsByCloset($closetIds);
+
+        $items      = $this->getAllItems();        
+
+        return view('dashboard.ownClosets',compact('closets','items'));
     }
+
+    function getItemsByCloset($closetIds) {
+
+        return DB::table('fashionrecovery.GR_029')
+                ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                ->where('GR_032.IsCover',true)
+                ->whereIn('GR_029.ClosetID',$closetIds)
+                ->select('GR_032.ThumbPath')
+                ->get();
+    }
+
+    function getAllItems() {
+
+        return DB::table('fashionrecovery.GR_029')
+                ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                ->where('GR_032.IsCover',true)
+                ->where('GR_029.OwnerID',Auth::User()->id)
+                ->select('GR_032.ThumbPath')
+                ->get();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -237,7 +265,7 @@ class ClosetController extends Controller
         ];
     }
 
-    public function getMyItems($id) {
+    public function getMyItems($closetIds) {
 
         $items = DB::table('fashionrecovery.GR_029')
                     //->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
@@ -245,7 +273,7 @@ class ClosetController extends Controller
                     //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
                     ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
                     ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->where('fashionrecovery.GR_030.ClosetID',$id)
+                    ->whereIn('fashionrecovery.GR_030.ClosetID',$closetIds)
                     ->select('GR_029.IsPaused','GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
                     ->get();
 
@@ -321,4 +349,6 @@ class ClosetController extends Controller
                     ->groupBy('ItemID')
                     ->toArray();
     }
+
+    
 }

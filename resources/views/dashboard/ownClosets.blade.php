@@ -24,12 +24,28 @@
 						</div>
 					</div>
 					
-
 					<div class="row">
-						<div class="col-sm-6 mb-5 d-flex">
+						
+		 				<div class="col-sm-6 mb-5 d-flex">
 							<a href="{{ url('items') }}" class="a-card">
-								<div class="card card--public card--item h-100">
-									<img class="card-img-top" src="{{ url('img/cards/prendas.jpg') }}" alt="prendas-img" />
+								<div class="card card--public card--item h-100 m-auto">
+									<div id="carouselItems" class="carousel slide" data-ride="carousel">
+										<div class="carousel-inner">
+											@foreach($items as $item)
+												<div class="carousel-item {{ $item->ThumbPath == $items->first()->ThumbPath ? 'active' : ''  }}">
+													<img src="{{ url($item->ThumbPath) }}" class="d-block">
+												</div>
+											@endforeach
+										</div>
+										<a class="carousel-control-prev" href="#carouselItems" role="button" data-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="sr-only">Anterior</span>
+										</a>
+										<a class="carousel-control-next" href="#carouselItems" role="button" data-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="sr-only">Siguiente</span>
+										</a>
+									</div>
 									<div class="card-body text-left">
 										<h5 class="card-title">Prendas</h5>
 										<p class="card-text">Revisa el detalle de las prendas que tienes disponibles para venta. </p>
@@ -39,8 +55,24 @@
 						</div>
 						<div class="col-sm-6 mb-5 d-flex">
 							<a href="{{ url('closets') }}" class="a-card">
-								<div class="card card--public card--item h-100">
-									<img class="card-img-top" src="{{ url('img/cards/closets.jpg') }}" alt="closets-img" />
+								<div class="card card--public card--item h-100 m-auto">
+									<div id="carouselCollections" class="carousel slide" data-ride="carousel">
+										<div class="carousel-inner">
+											@foreach($closets as $closet)
+												<div class="carousel-item {{ $closet->ThumbPath == $closets->first()->ThumbPath ? 'active' : ''  }}">
+													<img src="{{ url($closet->ThumbPath) }}" class="d-block w-100" >
+												</div>
+											@endforeach
+										</div>
+										<a class="carousel-control-prev" href="#carouselCollections" role="button" data-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="sr-only">Anterior</span>
+										</a>
+										<a class="carousel-control-next" href="#carouselCollections" role="button" data-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="sr-only">Siguiente</span>
+										</a>
+									</div>
 									<div class="card-body text-left">
 										<h5 class="card-title">Colecciones</h5>
 										<p class="card-text">Arma listas de prendas de acuerdo a tus diferentes looks. Dale a tus compradores una herramienta más fácil de ver tu cloóset de manera ordenada y ganar seguidores. </p>

@@ -369,6 +369,7 @@ div a{
 
 .card--item {
   cursor: pointer;
+  max-width: 300px;
 }
 
 .card--public:hover{
