@@ -107,10 +107,9 @@ class WishlistController extends Controller
      */
     public function store($ItemID)
     {
+        DB::beginTransaction();
 
-/*         DB::beginTransaction();
-
-        try { */
+        try {
 
             $data = $this->getData();
 
@@ -132,19 +131,13 @@ class WishlistController extends Controller
             DB::commit();
 
             return response()->json("success");
-/* 
-            Session::flash('success',$message);
-            return Redirect::back(); */
-            //return Redirect::to($url);
-
-/*         } catch (\Exception $ex) {
+ 
+        } catch (\Exception $ex) {
 
             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::back();
-            //return Redirect::to('items/'.$request->ItemID.'/public');
-        } */
+            return response()->json("error");
+        }
     }
 
     public function addToWishlist($WishlistID, $ItemID){

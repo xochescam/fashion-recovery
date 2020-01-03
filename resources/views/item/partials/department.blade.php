@@ -5,7 +5,7 @@
       class="form-control js-departments-select"
       id="DepartmentID"
       name="DepartmentID"
-      initial="{{ isset($item->DepartmentID) ? $item->DepartmentID : '' }}"
+      initial="{{ old('DepartmentID') ? old('DepartmentID') : (isset($item->DepartmentID) ? $item->DepartmentID : '') }}"
       :options="{{ json_encode($departments) }}"
     ></select-component>
     <small>Ejemplo: Niños, Niñas, Hombres...</small>

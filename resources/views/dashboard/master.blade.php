@@ -88,7 +88,7 @@
         }
 
         function checkDiscount(invalidPrice, invalidDiscount, discount, actual) {
-            if(actual < 180) {
+             if(actual < 180) {
                 invalidPrice.classList.add('d-block');
                 invalidPrice.innerHTML = "El precio mínimo de la prenda debe ser $180";
 
@@ -101,7 +101,7 @@
 
                 invalidPrice.classList.remove('d-block');
                 invalidPrice.innerHTML = "El campo precio original es obligatorio.";
-            }
+            } 
 
 
             if(discount.value !== '') {
@@ -152,6 +152,15 @@
                 var invalidDiscount  = document.querySelector('.js-invalid-discount');
                 var discount         = document.querySelector('.js-discount');                           
                 var actual           = Number(acceptPrice.value.replace(/[^0-9.-]+/g,""));
+
+                if(actual < 180) {
+                    invalidPrice.classList.add('d-block');
+                    invalidPrice.innerHTML = "El precio mínimo de la prenda debe ser $180";
+
+                } else {
+                    invalidPrice.classList.remove('d-block');
+                    invalidPrice.innerHTML = "El campo precio original es obligatorio.";
+                }
                 
                 //checkDiscount(invalidPrice, invalidDiscount, discount, actual);
             }); 
@@ -307,10 +316,20 @@
         }
 
         if(departmentsSelect) {
+
+            if(departmentsSelect.selectedIndex !== 0){
+                changeDepartament(departmentsSelect);
+            }            
+                        
             departmentsSelect.addEventListener('change', changeDepartament);
         }
 
         if(categoriesSelect) {
+
+            if(categoriesSelect.selectedIndex !== 0){
+                changeCategory(categoriesSelect);
+            } 
+
             categoriesSelect.addEventListener('change', changeCategory);
         }
 
@@ -318,24 +337,27 @@
             brandsSelect.addEventListener('change', changeBrand);
         }
 
-        function changeDepartament(e) {
-            const el            = e.currentTarget;
-            const departmentId  = el.options[el.selectedIndex].value;
+        function changeDepartament(e) {              
+            const el            = e.currentTarget ? e.currentTarget : e;       
+            const departmentId  = el.options[el.selectedIndex].value;     
+                
+            const categoryId    = categoriesSelect.getAttribute('data-category');
             const categories    = JSON.parse(categoriesSelect.getAttribute('data-categories'));
 /*             const brands        = JSON.parse(brandsSelect.getAttribute('data-brands'));
- */            const otherInput    = otherBrandSelect.querySelector('.form-control');
+ */         const otherInput    = otherBrandSelect.querySelector('.form-control');
             let contentCategories = `<option value="">- Seleccionar -</option>`;
             let contentBrands     = `<option value="">- Seleccionar -</option>`;
             otherBrandSelect.classList.add('hidden');
             otherInput.removeAttribute('required');
 
+            
             if(categories[departmentId] === undefined){
                 contentCategories = `<option value="">- Sin categorías -</option>`;
 
             } else {
 
                 categories[departmentId].forEach(category => {
-                    contentCategories += `<option value="`+ category.CategoryID +`">`+ category.CategoryName +`</option>`;
+                    contentCategories += `<option value="`+ category.CategoryID +`" `+(categoryId && categoryId == category.CategoryID ? 'selected' : '')+`>`+ category.CategoryName +`</option>`;
                 });
             }
 
@@ -360,11 +382,13 @@
         }
 
         function changeCategory(e) {
-            const el            = e.currentTarget;
+            const el            = e.currentTarget ? e.currentTarget : e;  
             const categoryId    = el.options[el.selectedIndex].value;
             const category      = el.options[el.selectedIndex].innerText;
             const clothingTypes = JSON.parse(clothingTypesSelect.getAttribute('data-clothing-types'));
             const sizes         = JSON.parse(sizesSelect.getAttribute('data-sizes'));
+            const clothingTypeId = clothingTypesSelect.getAttribute('data-clothing-type');
+            const sizeId        = sizesSelect.getAttribute('data-size');
             let contentSizes    = `<option value="">- Seleccionar -</option>`;
             let contentTypes    = `<option value="">- Seleccionar -</option>`;
        
@@ -374,7 +398,7 @@
             } else {
 
                 clothingTypes[categoryId].forEach(type => {
-                    contentTypes += `<option value="`+ type.ClothingTypeID +`">`+ type.ClothingTypeName +`</option>`;
+                    contentTypes += `<option value="`+ type.ClothingTypeID +`" `+(clothingTypeId && clothingTypeId == type.ClothingTypeID ? 'selected' : '')+`>`+ type.ClothingTypeName +`</option>`;
                 });
             }
 
@@ -386,7 +410,7 @@
             } else {
 
                 sizes[categoryId].forEach(size => {
-                    contentSizes += `<option value="`+ size.SizeID +`">`+ size.SizeName +`</option>`;
+                    contentSizes += `<option value="`+ size.SizeID +`" `+(sizeId && sizeId == size.SizeID ? 'selected' : '')+`>`+ size.SizeName +`</option>`;
                 });
             }
 
@@ -525,7 +549,6 @@
 
         function insertAfter(e,i){ 
 
-            console.log(i);
             if(e.nextElementSibling){                 
                 e.parentNode.insertBefore(i,e.nextElementSibling); 
             } else { 
@@ -534,8 +557,8 @@
         }
 
 
-        if(itemFiles) {
-            Array.prototype.forEach.call(itemFiles, (file) => {
+        if(itemFiles) {            
+            Array.prototype.forEach.call(itemFiles, (file) => {                
                 if(file.files.length > 0){
                     showItemPicture(file);
 
@@ -570,7 +593,7 @@
                 EXIF.getData(file[0], function() {
                     // run orientation on img in canvas
                     orientation(imagen);
-                });
+                });                
 
                 imagen.setAttribute('src', e.currentTarget.result);
                 container.classList.add('card');
@@ -601,6 +624,9 @@
 
             // Trigger reader to read the file input
             reader.readAsDataURL(file[0]);
+            
+            console.log(el.files);
+            
         }
 
         function deleteItem(e) {

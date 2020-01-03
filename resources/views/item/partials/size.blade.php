@@ -1,6 +1,6 @@
 <div class="form-group col-md-6">
     <label for="SizeID">Talla *</label>
-    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" data-sizes="{{ $sizes }}" required>
+    <select id="SizeID" class="form-control js-sizes-select" name="SizeID" data-sizes="{{ $sizes }}" data-size="{{ old('SizeID') ?  old('SizeID') : ($item ? $item->SizeID : false) }}" required>
       <option value="">- Seleccionar -</option>
 
       @if($item)

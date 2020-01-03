@@ -23,7 +23,7 @@
 
       @else
 
-        <input type="file" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" accept=".png, .jpg, .jpeg"  required>
+        <input type="file" value="{{ old('front_item_file') ? old('front_item_file') : false }}" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" accept=".png, .jpg, .jpeg"  required>
         <label for="front_item_file" class="card card--file-item custom-file-label">
           <span><i class="far fa-image"></i> <br>Foto frontal</span>
         </label>
@@ -48,7 +48,7 @@
 
     @if($label)
         <div class="container-item-img card">
-          <a  href="{{ url('item/'.$label->ItemPictureID.'/'.$label->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto frontal" data-name="label">
+          <a href="{{ url('item/'.$label->ItemPictureID.'/'.$label->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto frontal" data-name="label">
             <i class="far fa-trash-alt"></i>
           </a>
           <img src="{{ url('storage/'.$label->ThumbPath) }}" style="width: 200px;">

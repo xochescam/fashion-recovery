@@ -1,6 +1,6 @@
 <div class="form-group col-md-6">
     <label for="ClothingTypeID">Tipo de prenda *</label>
-    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID" data-clothing-types="{{ $clothingTypes }}" required>
+    <select id="ClothingTypeID" class="form-control js-clothing-type-select" name="ClothingTypeID" data-clothing-types="{{ $clothingTypes }}" data-clothing-type="{{ old('ClothingTypeID') ?  old('ClothingTypeID') : ($item ? $item->ClothingTypeID : false) }}" required>
       <option value="">- Seleccionar -</option>
 
       @if($item)

@@ -149,7 +149,7 @@ class ItemController extends Controller
                     'PicturePath'  => $value['name'],
                     'ThumbPath'    => $value['thumb'],
                     'TypeItemID'   => $types[$value['type']],
-                    'IsCover'      => $names[$request->cover] === $key ? true : false,
+                    'IsCover'      => $names[$request->cover] == $key ? true : false,
                     'CreationDate' => date("Y-m-d H:i:s")
                 ]);
             }
@@ -165,7 +165,7 @@ class ItemController extends Controller
 
             Session::flash('warning','Ha ocurrido un error');
             return Redirect::to('item');
-        } 
+        }
     }
 
 
@@ -475,7 +475,7 @@ class ItemController extends Controller
 
         $items = DB::table('fashionrecovery.GR_032')
                     ->where('ItemID',$id)
-                    ->get();
+                    ->orderBy('IsCover', 'desc')->get();
 
         if(isset($info->OffSaleID)) {
             $offer = DB::table('fashionrecovery.GR_031')
@@ -714,14 +714,31 @@ class ItemController extends Controller
 
         DB::beginTransaction();
 
-        try {  
+        try {
 
             $data = $this->updateItemData($request->toArray());
 
             DB::table($this->table)->where('ItemID',$id)->update($data);
 
-            //$deleteItems = $this->deleteItems($request->toArray(), $id);
-            
+            $sameCover = DB::table('fashionrecovery.GR_032')
+                        ->where('ItemID',$id)
+                        ->where('IsCover',true)
+                        ->first()->TypeItemID;
+
+            if($sameCover !== $types[$request->cover]) {
+
+                DB::table('fashionrecovery.GR_032')
+                    ->where('ItemID',$id)
+                    ->where('IsCover',true)
+                    ->update(['IsCover'=>false]);
+
+                DB::table('fashionrecovery.GR_032')
+                    ->where('ItemID',$id)
+                    ->where('TypeItemID',$types[$request->cover])
+                    ->update(['IsCover'=>true]);
+                        
+            } 
+
             $itemsName = $this->saveItems($request->toArray(), $id);
 
             foreach ($itemsName as $key => $value) { //change
@@ -730,7 +747,7 @@ class ItemController extends Controller
                     'PicturePath'  => $value['name'],
                     'ThumbPath'    => $value['thumb'],
                     'TypeItemID'   => $types[$value['type']],
-                    'IsCover'      => $names[$request->cover] === $key ? true : false,
+                    'IsCover'      => $names[$request->cover] == $key ? true : false,
                     'CreationDate' => date("Y-m-d H:i:s")
                 ]);
             }

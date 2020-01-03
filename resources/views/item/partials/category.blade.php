@@ -1,12 +1,13 @@
 <div class="form-group col-md-6">
     <label for="CategoryID">Categoría *</label>
-    <select id="CategoryID" class="form-control js-categories-select" name="CategoryID" data-categories="{{ $categories }}" required>
+    <select id="CategoryID" class="form-control js-categories-select" name="CategoryID" data-categories="{{ $categories }}" data-category="{{  old('CategoryID') ?  old('CategoryID') : ($item ? $item->CategoryID : false) }}" required>
       <option value="" selected>- Seleccionar -</option>
 
       @if($item)
         @foreach($categories[$item->DepartmentID] as $category)
 
           <option value="{{ $category->CategoryID }}"  
+
             {{ old('CategoryID') && (old('CategoryID') == $category->CategoryID) ? 'selected' :  ($item && ($category->CategoryID == $item->CategoryID) ? 'selected' : '') }}>
             {{ $category->CategoryName }}
           </option>

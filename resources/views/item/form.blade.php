@@ -5,8 +5,7 @@
 @include('alerts.warning')
 
  @include('item.partials.files')
-@include('item.partials.description')
-
+ @include('item.partials.description')
 <div class="form-row">
   @include('item.partials.department')
   @include('item.partials.category')
@@ -18,7 +17,7 @@
   @include('item.partials.other-brand')
 </div>
 
- <div class="form-row">
+<div class="form-row">
   @include('item.partials.size')
   @include('item.partials.color')
 </div>

@@ -1,13 +1,13 @@
 <template>
     <select 
-        :id="id" 
-        :name="name"
+        id="DepartmentID" 
+        name="DepartmentID"
         class="form-control"
-        :value="value"
         @input="$emit('input', $event.target.value)"
         v-on:change="changeDepartment($event.target.value)"
+        required
     >
-        <option :value="value">- Seleccionar -</option>
+        <option value="">- Seleccionar -</option>
 
         <option v-for="option in filteredOptions"
             :key="option.value"
@@ -46,7 +46,7 @@
              * inside the select field.
              */
             options: {
-                type: Object,
+                type: Array,
                 required: true
             }
         },

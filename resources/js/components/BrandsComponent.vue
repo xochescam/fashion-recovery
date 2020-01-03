@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" placeholder="¿De qué marca es está prenda?" class="form-control" autocomplete="off" name="BrandID" v-model="BrandID" v-on:keyup="isSearching($event.target.value)" :value="initial" required>
+    <input type="text" id="BrandID" placeholder="¿De qué marca es está prenda?" class="form-control" autocomplete="off" name="BrandID" v-model="BrandID" v-on:keyup="isSearching($event.target.value)" value="" required>
     <div class="position-relative" v-show="searching">
         <ul class="list-group position-absolute w-100 list-brands">
             <li 
@@ -18,7 +18,7 @@
 export default {
          props: {
             options: {
-                type: Object,
+                type: Array,
                 required: true
             },
             /**
@@ -30,7 +30,7 @@ export default {
                 default: ''
             },
             department: {
-                type: String,
+                type: Number,
                 required: false,
                 default: ''
             },
