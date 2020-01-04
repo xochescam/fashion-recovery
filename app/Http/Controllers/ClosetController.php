@@ -273,9 +273,9 @@ class ClosetController extends Controller
                     //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
                     ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
                     ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->whereIn('fashionrecovery.GR_030.ClosetID',$closetIds)
+                    ->where('fashionrecovery.GR_030.ClosetID',$closetIds)
                     ->select('GR_029.IsPaused','GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
-                    ->get();
+                    ->get();                    
 
         return $items->map(function ($item, $key) {
 
