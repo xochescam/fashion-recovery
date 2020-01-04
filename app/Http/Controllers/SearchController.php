@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use Auth;
+
+use App\Item;
 
 class SearchController extends Controller
 {
@@ -57,6 +60,7 @@ class SearchController extends Controller
 
     public function searchByLink($type, $id) {
 
+        
         $filterType = $type;
         
         $options = [
@@ -83,22 +87,28 @@ class SearchController extends Controller
                                 ->where($types[$type]['id'],'=',$id)
                                 ->select($types[$type]['name'])
                                 ->first();
+
+                                
                               
         $items   = $this->getItems()
                         ->where('fashionrecovery.'.$types[$type]['table'].'.'.$types[$type]['id'], '=', $id);
-
+        
         $filters = $this->filterOptions($items);
+
         $selectedOptions = $this->selectedOptions($items, $filters, $options);
        
         $items     = $selectedOptions['items'];
         $filters   = $selectedOptions['filters'];
+
+        $type = 'full';
 
         return view('search.search', compact('actualPrice',
                                              'search',
                                              'itemsInfo',
                                              'items',
                                              'filters',
-                                             'filterType'));
+                                             'filterType',
+                                             'type'));
 
     }
 
@@ -202,14 +212,16 @@ class SearchController extends Controller
             $items = $items->where('fashionrecovery.GR_029.ActualPrice','=',$options['actualPrice']);
         }
  
-        $thumbs = $this->getItemThumbs($items->get());
+        $thumbs = Item::getThumbs($items->get());
+        $items = Item::getItemThumbs($items->get(), $thumbs); 
+        //$this->getItemThumbs($items->get());
 
-        $items = $items->get()->map(function ($item, $key) use($thumbs) {
+        /* $items = $items->get()->map(function ($item, $key) use($thumbs) {
 
         	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
 
 		    return $item;
-        });
+        }); */
 
         return [
             'items'   => $items,
@@ -219,32 +231,41 @@ class SearchController extends Controller
 
     public function filterOptions($items) {
 
-        $thumbs = $this->getItemThumbs($items->get());
+        $thumbs = Item::getThumbs($items->get());
 
         $departments = $items->orderBy('GR_025.DepName')->get()->map(function ($item, $key) use($thumbs) {
 
-        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            
+            $item->urlWishlists = $this->getWishlist($item);
+
             return $item;
             
         })->groupBy('DepName');
 
         $brands = $items->orderBy('brand')->get()->map(function ($item, $key) use($thumbs) {
 
-        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $item->urlWishlists = $this->getWishlist($item);
+
             return $item;
             
         })->groupBy('brand');
 
         $clothingTypes = $items->orderBy('GR_019.ClothingTypeName')->get()->map(function ($item, $key) use($thumbs) {
 
-        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $item->urlWishlists = $this->getWishlist($item);
+
             return $item;
             
         })->groupBy('ClothingTypeName');
 
         $colors = $items->orderBy('GR_018.ColorName')->get()->map(function ($item, $key) use($thumbs) {
 
-        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
+            $item->urlWishlists = $this->getWishlist($item);
+
             return $item;
             
         })->groupBy('ColorName');
@@ -257,6 +278,18 @@ class SearchController extends Controller
             'colors'        => $colors
         ];
 
+    }
+
+    public function getWishlist($item) {
+
+        $user = Auth::User();
+        $id = $item->ItemID;
+
+        return !isset($user->id) ? 'login/0' :
+                    (!$user->getWishlists() ? 'wishlist/'.$id.'/create' : 
+                    ($user->inWishlist($id) ? 
+                    'wishlist/'.$user->getWishlists()->WishListID.'/'.$id.'/delete':
+                    'wishlist/'.$user->getWishlists()->WishListID.'/'.$id.'/add'));
     }
 
 }
