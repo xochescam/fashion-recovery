@@ -1,0 +1,24 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Dancing+Script');
+
+@font-face {
+  font-family: "CooperHewitt";
+  src:  url('/fonts/cooperhewitt-light-webfont.woff') format('woff'),
+        url('/fonts/cooperhewitt-light-webfont.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: "CooperHewittM";
+  src: url('/fonts/CooperHewitt-Medium.otf');
+}
+
+.fCooperHewitt{
+  font-family: CooperHewitt;
+}
+.fRoboto{
+  font-family: Roboto;
+}
+
+.fDancingScript {
+  font-family: Dancing Script;
+}
