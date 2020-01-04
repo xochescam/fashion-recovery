@@ -175,13 +175,16 @@ class SearchController extends Controller
     public function getItems() {
 
         return DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_030', 'GR_029.ClosetID', '=', 'GR_030.ClosetID')
                     ->join('fashionrecovery.GR_020', 'GR_029.SizeID', '=', 'GR_020.SizeID')
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     ->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
                     ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->join('fashionrecovery.GR_019', 'GR_029.ClothingTypeID', '=', 'GR_019.ClothingTypeID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
-                    ->where('GR_001.IsPaused',false)
+                    ->where('GR_001.IsPaused',0)
+                    ->where('GR_029.IsPaused',0)
+                    ->where('GR_030.IsPaused',0)
                     ->select('GR_029.ItemDescription', 'GR_029.ItemID','GR_029.OriginalPrice','GR_029.ActualPrice','GR_020.SizeName as size','GR_018.ColorName','GR_018.ColorID','GR_017.BrandName as brand','GR_017.BrandID','GR_025.DepName','GR_025.DepartmentID','GR_019.ClothingTypeName','GR_017.BrandID','GR_019.ClothingTypeID');
                     // ->orWhere('fashionrecovery.GR_029.ItemDescription', 'LIKE', '%'.$search.'%')
                     // ->orWhere('fashionrecovery.GR_018.ColorName', 'LIKE', '%'.$search.'%');
