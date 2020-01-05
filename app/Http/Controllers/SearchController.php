@@ -18,35 +18,24 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $search     = $request->get('q');
-        $filterType = 'brand';
 
         if(strpos($search, ' ') !== false) {
             $search = str_replace(' ', '%', $search);
         }
 
-
-        $items = $this->getItems()
+        $all = $this->getItems()
                       ->where('fashionrecovery.GR_017.BrandName', 'LIKE', '%'.$search.'%');
-
-                      
-
-        $filters   = $this->filterOptions($items);
-        $items     = $items->get();
-
-        $thumbs = $this->getItemThumbs($items);
-
-        $items = $items->map(function ($item, $key) use($thumbs) {
-
-        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-
-		    return $item;
-        });
+        $thumbs = Item::getThumbs($all->get());
+        $items  = Item::getItemThumbs($all->get(), $thumbs);
+              
+        $filters = $this->filterOptionsLink($all, $search);
+        $type = 'card';
+        
 
         return view('search.search', compact('search',
-                                             'itemsInfo',
                                              'items',
                                              'filters',
-                                             'filterType'));
+                                             'type'));
     }
 
     public function getItemThumbs($all) {
