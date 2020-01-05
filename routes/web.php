@@ -43,7 +43,7 @@ Route::get('seller/{alias}', 'SellerController@show');
 Route::post('filter', 'SearchController@filter');
 
 //Department
-Route::get('search/{type}/{id}', 'SearchController@searchByLink');
+Route::get('search/{type}/{search}', 'SearchController@searchByLink');
 
 //Clothing filters
 Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');

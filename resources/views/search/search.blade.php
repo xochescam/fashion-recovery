@@ -10,7 +10,7 @@
     </div>
 
 		<section>
-		  	<div class="container-fluid">
+		  	<div class="container-fluid" id="app">
           @include('search.results')
 		  	</div>
 		</section>

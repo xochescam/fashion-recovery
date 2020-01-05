@@ -98,7 +98,7 @@
 								@if($info->OtherBrand)
 									{{ $info->BrandName }}
 								@else
-									<a href="{{ url('search/brand/'.$info->BrandID) }}" class="green-link">{{ $info->BrandName }}</a>
+									<a href="{{ url('search/brands/'.$info->BrandName) }}" class="green-link">{{ $info->BrandName }}</a>
 								@endif
 
 						      </td>

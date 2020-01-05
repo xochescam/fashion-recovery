@@ -45,6 +45,11 @@ Vue.component(
     require('./components/HeartWishlistComponent.vue').default
 );
 
+Vue.component(
+    'search-filter-component',
+    require('./components/SearchFilterComponent.vue').default
+);
+
 
 
 

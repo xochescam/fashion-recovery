@@ -193,6 +193,8 @@ function filterByProperty(array, prop, value){
 
 function changeFilter(e) {
 
+  return;
+
   const filters           = document.querySelector('#filters');
   var items               = document.querySelector('#items').value;
   const filtersContainer  = document.querySelector('#container-filters');
@@ -305,7 +307,7 @@ function changeFilter(e) {
 }
 
 function showFiltered(results, filtersContainer) {
-
+  return;
   
   
 

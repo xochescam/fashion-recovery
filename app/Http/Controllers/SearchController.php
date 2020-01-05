@@ -58,95 +58,80 @@ class SearchController extends Controller
                 ->groupBy('ItemID');
     }
 
-    public function searchByLink($type, $id) {
-
-        
-        $filterType = $type;
-        
-        $options = [
-            'departmentsIds'   => $filterType == 'department' ? [$id] : false,
-            'brandsIds'        => $filterType == 'brand' ? [$id] : false,
-            'clothingTypesIds' => false,
-            'actualPrice'      => false
-        ];
+    public function searchByLink($type, $search) {
 
         $types = [
-            'department' => [
+            'departments' => [
                 'id'     => 'DepartmentID',
                 'table'  => 'GR_025',
                 'name'   => 'DepName' 
             ],
-            'brand' => [
+            'brands' => [
                 'id'     => 'BrandID',
                 'table'  => 'GR_017',
                 'name'   => 'BrandName' 
             ]
-        ];  
+        ];                          
+                                              
+        $all   = $this->getItems()
+                    ->where($types[$type]['table'].'.'.$types[$type]['name'], '=', $search);
+        $thumbs = Item::getThumbs($all->get());
+        $items  = Item::getItemThumbs($all->get(), $thumbs);
 
-        $search = DB::table('fashionrecovery.'.$types[$type]['table'])
-                                ->where($types[$type]['id'],'=',$id)
-                                ->select($types[$type]['name'])
-                                ->first();
+        $filters = $this->filterOptionsLink($all, $search);
 
-                                
-                              
-        $items   = $this->getItems()
-                        ->where('fashionrecovery.'.$types[$type]['table'].'.'.$types[$type]['id'], '=', $id);
-        
-        $filters = $this->filterOptions($items);
+        $type = 'card';
 
-        $selectedOptions = $this->selectedOptions($items, $filters, $options);
-       
-        $items     = $selectedOptions['items'];
-        $filters   = $selectedOptions['filters'];
-
-        $type = 'full';
-
-        return view('search.search', compact('actualPrice',
-                                             'search',
-                                             'itemsInfo',
+        return view('search.search', compact('search',
                                              'items',
                                              'filters',
-                                             'filterType',
                                              'type'));
-
     }
 
     public function filter(Request $request) {
 
-        $filterType = $request->filterType;
-
-        
-        $search     = $request->search;
-        $options = [
-            'departmentsIds'   => isset($request->DepartmentID) ? $request->DepartmentID : false,
-            'brandsIds'        => isset($request->BrandID) ? $request->BrandID : false,
-            'clothingTypesIds' => isset($request->ClothingTypeID) ? $request->ClothingTypeID : false,
+        $filtersOpts = [
+            'departments'   => $this->getChecked($request->departments),
+            'clothingTypes' => $this->getChecked($request->clothingTypes),
+            'brands'        => $this->getChecked($request->brands),
+            'colors'        => $this->getChecked($request->colors)
         ];
 
-        
+        $all   = $this->getFiltredItems($this->getItems(), $filtersOpts);
+        $thumbs = Item::getThumbs($all->get());
+        $items  = Item::getItemThumbs($all->get(), $thumbs);
 
-        $types = [
-            'department' => 'fashionrecovery.GR_025.DepName',
-            'brand'      => 'fashionrecovery.GR_017.BrandName',
-        ];
+        $filters = $this->filterOptions($all, $filtersOpts);
 
-        $items   = $this->getItems()
-                        ->where($types[$filterType], 'LIKE', '%'.$search.'%');
-        $filters = $this->filterOptions($items);
-        $selectedOptions = $this->selectedOptions($items, $filters, $options);
+        return response()->json([
+            'filters' => $filters,
+            'items'   => $items
+        ]);
+    }
 
-        $items     = $selectedOptions['items'];
-        $filters   = $selectedOptions['filters'];
-        $items     = $items->get();
-        $itemsInfo = $this->getItemsInfo($items);
+    public function getFiltredItems($items, $filters) {
 
-        return view('search.search', compact('actualPrice',
-                                             'search',
-                                             'itemsInfo',
-                                             'items',
-                                             'filters',
-                                             'filterType' ));
+        if(count($filters['departments']) > 0) {
+            $items = $this->getItems()->whereIn('GR_025.DepName',$filters['departments']);
+        }
+
+        if(count($filters['clothingTypes']) > 0) {
+            $items = $this->getItems()->whereIn('GR_019.ClothingTypeName',$filters['clothingTypes']);
+        }
+
+        if(count($filters['brands']) > 0) {
+            $items = $this->getItems()->whereIn('GR_017.BrandName',$filters['brands']);
+        }
+
+        if(count($filters['colors']) > 0) {
+            $items = $this->getItems()->whereIn('GR_018.ColorName',$filters['colors']);
+        }
+
+        return $items;
+    }
+
+    public function getChecked($item) {
+        return $item !== null ? explode(',',$item) : [];
     }
 
     public function getItemsInfo($items) {
@@ -185,102 +170,100 @@ class SearchController extends Controller
                     ->where('GR_001.IsPaused',0)
                     ->where('GR_029.IsPaused',0)
                     ->where('GR_030.IsPaused',0)
-                    ->select('GR_029.ItemDescription', 'GR_029.ItemID','GR_029.OriginalPrice','GR_029.ActualPrice','GR_020.SizeName as size','GR_018.ColorName','GR_018.ColorID','GR_017.BrandName as brand','GR_017.BrandID','GR_025.DepName','GR_025.DepartmentID','GR_019.ClothingTypeName','GR_017.BrandID','GR_019.ClothingTypeID');
-                    // ->orWhere('fashionrecovery.GR_029.ItemDescription', 'LIKE', '%'.$search.'%')
-                    // ->orWhere('fashionrecovery.GR_018.ColorName', 'LIKE', '%'.$search.'%');
+                    ->select('GR_029.ItemDescription', 
+                             'GR_029.ItemID',
+                             'GR_029.OriginalPrice',
+                             'GR_029.ActualPrice',
+                             'GR_020.SizeName as size',
+                             'GR_018.ColorName',
+                             'GR_018.ColorID',
+                             'GR_017.BrandName as brand',
+                             'GR_017.BrandID',
+                             'GR_025.DepName',
+                             'GR_025.DepartmentID',
+                             'GR_019.ClothingTypeName',
+                             'GR_017.BrandID',
+                             'GR_019.ClothingTypeID');
     }
 
-    public function selectedOptions($items, $filters, $options) {
+    public function filterOptions($items, $options) {
 
-        if($options['departmentsIds']) {
-
-            $filters['departments'] = $this->addChecked($filters['departments'], 'DepartmentID', $options['departmentsIds']);
-            $items  = $items->whereIn('fashionrecovery.GR_025.DepartmentID', $options['departmentsIds']);
-
-        }
-
-        if($options['brandsIds']) {
-
-            $filters['brands'] = $this->addChecked($filters['brands'], 'BrandID', $options['brandsIds']);
-            $items  = $items->whereIn('fashionrecovery.GR_017.BrandID', $options['brandsIds']);
-        }
-
-        if($options['clothingTypesIds']) {
-
-            $filters['clothingTypes'] = $this->addChecked($filters['clothingTypes'], 'ClothingTypeID', $options['clothingTypesIds']);
-            $items         = $items->whereIn('fashionrecovery.GR_019.ClothingTypeID', $options['clothingTypesIds']);
-        }
-
-        if($options['actualPrice']) {
-            $items = $items->where('fashionrecovery.GR_029.ActualPrice','=',$options['actualPrice']);
-        }
- 
-        $thumbs = Item::getThumbs($items->get());
-        $items = Item::getItemThumbs($items->get(), $thumbs); 
-        //$this->getItemThumbs($items->get());
-
-        /* $items = $items->get()->map(function ($item, $key) use($thumbs) {
-
-        	$item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-
-		    return $item;
-        }); */
+        $departments   = $this->getFiltredKeys('DepName', 'DepartmentID', $items);
+        $clothingTypes = $this->getFiltredKeys('ClothingTypeName', 'ClothingTypeID', $items);
+        $brands        = $this->getFiltredKeys('brand', 'BrandID', $items);
+        $colors        = $this->getFiltredKeys('ColorName', 'ColorID', $items);
 
         return [
-            'items'   => $items,
-            'filters' => $filters
+            'departments'   => $this->checked($departments, $options['departments']),
+            'brands'        => $this->checked($brands, $options['brands']),
+            'clothingTypes' => $this->checked($clothingTypes, $options['clothingTypes']),
+            'colors'        => $this->checked($colors, $options['colors'])
         ];
     }
 
-    public function filterOptions($items) {
+    public function filterOptionsLink($items, $search) {
 
-        $thumbs = Item::getThumbs($items->get());
-
-        $departments = $items->orderBy('GR_025.DepName')->get()->map(function ($item, $key) use($thumbs) {
-
-            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-            
-            $item->urlWishlists = $this->getWishlist($item);
-
-            return $item;
-            
-        })->groupBy('DepName');
-
-        $brands = $items->orderBy('brand')->get()->map(function ($item, $key) use($thumbs) {
-
-            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-            $item->urlWishlists = $this->getWishlist($item);
-
-            return $item;
-            
-        })->groupBy('brand');
-
-        $clothingTypes = $items->orderBy('GR_019.ClothingTypeName')->get()->map(function ($item, $key) use($thumbs) {
-
-            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-            $item->urlWishlists = $this->getWishlist($item);
-
-            return $item;
-            
-        })->groupBy('ClothingTypeName');
-
-        $colors = $items->orderBy('GR_018.ColorName')->get()->map(function ($item, $key) use($thumbs) {
-
-            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-            $item->urlWishlists = $this->getWishlist($item);
-
-            return $item;
-            
-        })->groupBy('ColorName');
-
+        $departments   = $this->getFiltredKeys('DepName', 'DepartmentID', $items);
+        $clothingTypes = $this->getFiltredKeys('ClothingTypeName', 'ClothingTypeID', $items);
+        $brands        = $this->getFiltredKeys('brand', 'BrandID', $items);
+        $colors        = $this->getFiltredKeys('ColorName', 'ColorID', $items);
 
         return [
-            'departments'   => $departments,
-            'brands'        => $brands,
-            'clothingTypes' => $clothingTypes,
-            'colors'        => $colors
+            'departments'   => $this->checkedAttr($departments, $search),
+            'brands'        => $this->checkedAttr($brands, $search),
+            'clothingTypes' => $this->checkedAttr($clothingTypes, $search),
+            'colors'        => $this->checkedAttr($colors, $search)
         ];
+    }
 
+    public function getFiltredKeys($name, $id, $items) {
+
+        $keys = $items->orderBy($name)->get()->groupBy($name);
+
+        return $keys->map(function ($item, $key) use ($id) {
+
+            return [
+                'id'    => $item->first()->$id,
+                'count' => count($item)
+            ];
+
+            return count($item);
+        });
+    }
+
+    public function checked($filter, $options) {
+
+        return $filter->map(function ($item, $key) use ($options) {
+
+            $checked = false;
+            $keyOpt = null;
+
+            foreach ($options as $value) {
+                if($value == $key) {
+                    $checked = true;
+                }
+            }
+
+            return [
+
+                'id'      => $item['id'],
+                'checked' => $checked,
+                'count'   => $item['count']
+            ];
+
+        })->toArray();
+    }
+
+    public function checkedAttr($filter, $search) {
+
+        return $filter->map(function ($item, $key) use ($search) {
+
+            return [
+                'id'      => $item['id'],
+                'checked' => $search == $key,
+                'count'   => $item['count']
+            ];
+        })->toArray();
     }
 
     public function getWishlist($item) {
