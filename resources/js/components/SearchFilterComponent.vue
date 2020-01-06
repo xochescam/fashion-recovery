@@ -139,30 +139,17 @@
                     .catch(error => {
                         console.log(error)
                     }) 
-
-/*                 axios
-                    .get(window.location.origin+'/filter/' + type + '/' + search)
-                    .then(response => {
-
-                        this.departments   = response.data.filters.departments;
-                        this.clothingTypes = response.data.filters.clothingTypes;
-                        this.brands        = response.data.filters.brands;
-                        this.colors        = response.data.filters.colors;
-                    })
-                    .catch(error => {
-                        console.log(error)
-                    }) */
             },
             getItems(results, container) {
 
                 for (const el in results) {
                     
                     var item = `<div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
-                        <a href="{{ url('login/0') }}"><i class="far fa-heart heart-wishlist"></i></a>
-                        <a href="{{ url('items/`+results[el].ItemID+`/public') }}" class="link-card">
+                        <a href="`+window.location.origin+`/login/0"><i class="far fa-heart heart-wishlist"></i></a>
+                        <a href="`+window.location.origin+`/items/`+results[el].ItemID+`/public" class="link-card">
                             <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
                         
-                                <img class="card-img-top" src="`+window.location.origin+'/'+results[el].ThumbPath+`" alt="`+results[el].brand+`" height="200px;">
+                                <img class="card-img-top" src="`+window.location.origin+`/`+results[el].ThumbPath+`" alt="`+results[el].brand+`" height="200px;">
 
                                 <div class="card-body px-0 p-lg-3">
 
