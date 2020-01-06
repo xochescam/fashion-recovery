@@ -149,7 +149,7 @@
                         <a href="`+window.location.origin+`/items/`+results[el].ItemID+`/public" class="link-card">
                             <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
                         
-                                <img class="card-img-top" src="`+window.location.origin+`/`+results[el].ThumbPath+`" alt="`+results[el].brand+`" height="200px;">
+                                <img class="card-img-top" src="`+window.location.origin+`/storage/`+results[el].ThumbPath+`" alt="`+results[el].brand+`" height="200px;">
 
                                 <div class="card-body px-0 p-lg-3">
 
