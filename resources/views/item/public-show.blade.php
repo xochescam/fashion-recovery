@@ -5,10 +5,21 @@
 	<main id="main">
       	<div class="container py-5">
 
-      		@include('alerts.success')
-  			@include('alerts.warning')
+		<div class="alert alert-warning alert-dismissible d-none mb-3" role="alert">
+			<span></span>
+		<!-- 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button> -->
+		</div>
 
-	        <div class="row">
+		<div class="alert alert-success alert-dismissible d-none mb-3" role="alert">
+			<span></span>
+		<!-- 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button> -->
+		</div>
+
+	        <div class="row ">
 
 	          	<div class="col-sm-8 d-flex mb-5">
 
@@ -126,13 +137,15 @@
 
 					<div class="card w-100">
 		          		<div class="card-body" id="app">
-		          			<a href="{{ url('payment/'.$info->ItemID.'/true') }}" class="btn btn-fr mb-3 w-100 ">
+		          			<a href="{{ url('payment/'.$info->ItemID.'/true') }}" class="btn btn-fr my-2 w-100">
 		          				Comprar
 		          			</a>
-		          			<a href="{{ url('add-to-cart',$info->ItemID) }}" class="btn btn-fr mb-3 w-100 ">
-		          				<i class="fas fa-shopping-cart mr-1"></i>
-		          				 Agregar al carrito
-							  </a>
+							<item-to-shopping-cart
+								item_id="{{ $info->ItemID }}"
+								url="{{ isset(Auth::User()->id) }}"
+								in_cart="{{ isset(Auth::User()->id) ? Auth::User()->inCart($info->ItemID) : 0 }}"
+								>
+							</item-to-shopping-cart>
 							  
 							<heart-wishlist-component
 								has="{{ Auth::User() && isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"

@@ -72,8 +72,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Shopping cart
 	Route::get('add-to-cart/{ItemID}', 'ShoppingCartController@addItem');
-	Route::get('delete-to-cart/{ItemID}/{url}', 'ShoppingCartController@deleteItem');
-	Route::get('cart', 'ShoppingCartController@items');
+	Route::get('delete-to-cart/{ItemID}', 'ShoppingCartController@deleteItem');
+	Route::get('shopping-cart', 'ShoppingCartController@items');
 
 
 	//Questions

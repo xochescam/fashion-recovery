@@ -7,8 +7,7 @@
                         
                 @foreach($items[$closet->ClosetID] as $item)
                     <div class="carousel-item {{ $item->ThumbPath == $items[$closet->ClosetID][0]->ThumbPath ? 'active' : ''  }}">
-                        <img src="https://fashionrecovery.azurewebsites.net/storage/{{ $item->ThumbPath}}" class="d-block w-100" alt="...">
-                        <!--    <img src="{{ url('storage/'.$item->ThumbPath) }}" class="d-block w-100" alt="...">-->
+                        <img src="{{ url('storage/'.$item->ThumbPath) }}" class="d-block w-100" alt="...">
                     </div>
                 @endforeach
             </div>
@@ -27,7 +26,8 @@
 
             <div id="carousel_{{ $closet->ClosetID }}" class="mb-3">
                 <div>
-                    <img src="https://fashionrecovery.azurewebsites.net/storage/{{ $items[$closet->ClosetID][0]->ThumbPath}}" class="d-block w-100" alt="...">
+                    <img src="{{ url('/storage/'.$items[$closet->ClosetID][0]->ThumbPath) }}" class="d-block w-100" alt="...">
+
                 </div>
             </div>
         @endif

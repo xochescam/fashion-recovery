@@ -21,14 +21,18 @@ class ShoppingCartController extends Controller
 
         if(!isset($item->ItemID)) {
 
-            Session::flash('warning',$item['message']);
-            return Redirect::back();
+            return response()->json([
+                'message' => $item['message'], 
+                'response' => 'warning'
+            ]);
         }
 
         if ($this->existsInCart($ItemID)) {
 
-            Session::flash('warning','La prenda ya está en el carrito.');
-            return Redirect::back();
+            return response()->json([
+                'message' => 'La prenda ya está en el carrito.', 
+                'response' => 'warning'
+            ]);
         }
 
         DB::beginTransaction();
@@ -40,47 +44,45 @@ class ShoppingCartController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Prenda agregada al carrito.');
-            return Redirect::back();
+            return response()->json([
+                'message' => 'Prenda agregada al carrito.', 
+                'response' => 'success'
+            ]);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::back();
+            return response()->json([
+                'message' => 'Ha ocurrido un error, inténtalo nuevamente.', 
+                'response' => 'warning'
+            ]);
         }
     }
 
-    public function deleteItem($ShoppingCartID, $url) {
-
-        $explode = explode('-',$url);
-
-        if($explode[0] == 'summary') {
-
-            $items = Auth::User()->getItems();
-
-            $url = count($items) == 1 ? 'cart' : $explode[0].'/'.$explode[1];
-        }
+    public function deleteItem($ItemID) {
 
         DB::beginTransaction();
 
         try {
 
-            DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "ShoppingCartID"='.$ShoppingCartID);
+            DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "ItemID"='.$ItemID.'AND "UserID"='.Auth::User()->id);
 
             DB::commit();
 
-            Session::flash('success','Se ha eliminado correctamente la prenda del carrito.');
-
-            return Redirect::to($url);
+            return response()->json([
+                'message' => 'Se ha eliminado correctamente la prenda del carrito.', 
+                'response' => 'success'
+            ]);
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::to($url);
+            return response()->json([
+                'message' => 'Ha ocurrido un error, inténtalo nuevamente.', 
+                'response' => 'warning'
+            ]);
         }
     }
 
@@ -151,10 +153,12 @@ class ShoppingCartController extends Controller
 
     public function existsInCart($ItemID) {
 
-        return DB::table($this->table)
+        $exist = DB::table($this->table)
                     ->where('ItemID',$ItemID)
                     ->where('UserID',Auth::User()->id)
-                    ->first();
+                    ->get();
+
+        return count($exist) > 0 ? true : false;
     }
 
     public function getData($ItemID) {

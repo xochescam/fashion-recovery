@@ -46,11 +46,24 @@ Vue.component(
 );
 
 Vue.component(
+    'item-to-shopping-cart',
+    require('./components/ItemToShoppingCartComponent.vue').default
+);
+
+Vue.component(
     'search-filter-component',
     require('./components/SearchFilterComponent.vue').default
 );
 
+Vue.component(
+    'item-list-component',
+    require('./components/ItemListComponent.vue').default
+);
 
+Vue.component(
+    'shopping-steps-component',
+    require('./components/ShoppingStepsComponent.vue').default
+);
 
 
 /**

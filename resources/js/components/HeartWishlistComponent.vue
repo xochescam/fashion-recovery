@@ -9,14 +9,14 @@
             <i class="far fa-heart heart-wishlist"></i>
         </a>
 
-        <a class="btn w-100 btn-outline-green my-2 my-sm-0"
+        <a class="btn w-100 btn-outline-green my-2"
             @click="removeFromWishlist()"
             v-if="type === 'full' && hasWish">
 			<i class="fas fa-heart mr-1"></i>
 			Agregado a mis favoritos
 		</a>
 
-        <a class="btn w-100 btn-outline-green my-2 my-sm-0"
+        <a class="btn w-100 btn-outline-green my-2"
             @click="addToWishlist()" 
             v-else-if="type === 'full'">
 			<i class="far fa-heart mr-1"></i>

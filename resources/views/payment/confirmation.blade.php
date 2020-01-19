@@ -4,9 +4,19 @@
 
 	<main id="main">
       	<div class="container py-5">
-        	<h2 class="text-center TituloFR my-4 mb-5 ">Revisar tu pedido</h2>
 
-        	<p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
+		  	<div id="app">
+			  	<shopping-steps-component
+			  		step="4"
+				></shopping-steps-component>
+			</div>
+
+        	<h2 class="text-center TituloFR my-4 mb-5 ">¡Felicidades, tu compra ha sido procesada!</h2>
+
+        	<p class="mb-5 text-left w-100">
+				Este es el resumen de tu compra, en breve recibirás un correo con el resumen de tu compra y los datos necesarios para rastrear tu pedido. 
+				Recuerda que siempre podrás ver el seguimiento en <a href="{{ url('orders') }}" class="green-link">Mis pedidos</a> dentro de tu cuenta.
+			</p>
 
 			<div class="w-100">
 				@include('alerts.success')
@@ -21,19 +31,17 @@
 
 								<p>
 									<b>Dirección de envío</b>
-									<small><a href="{{ url('address/'.$address->ShippingAddID.'/confirmation') }}" class="green-link">Editar</a></small>
 								</p>
 
-								<p> {{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }}</p>
+								<p> <b>{{ count($items) }} producto{{ count($items) > 1 ? 's' : '' }} se enviar{{ count($items) > 1 ? 'án' : 'á' }} a {{ Auth::User()->Alias }} </b> en {{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }} por parte de fashionrecovery.com</p>
 
 							</div>
 							<div class="col-md-6">
 								<p>
 									<b>Método de pago</b>
-									<small><a href="#" class="green-link">Editar</a></small>
 								</p>
 
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quisquam.</p>
+								<p>xxxx xxxx xxxx x245 BBVA </p>
 							</div>
 						</div>
 					</div>
@@ -47,20 +55,19 @@
 			          			<li class="list-group-item">
 							  		<div class="row no-gutters">
 									    <div class="col-md-3">
-									      <img src="{{ url('storage/'.$item->ThumbPath) }}" class="card-img" alt="{{ $item->ItemDescription }}">
+									      <img src="{{ url('storage/'.$item->ThumbPath) }}" class="card-img" alt="{{ $item->BrandName }}">
 									    </div>
 									    <div class="col-md-9">
 									      <div class="card-body">
 									      	<div class="row">
-									      		<h5 class="card-title col-10">{{ $item->ItemDescription }}</h5>
+												<p class="col-10">{{ $item->ItemDescription }}</p>
 									      		<p class="font-weight-bold  text-right green-color p-0 col-2">{{ $item->ActualPrice }}</p>
 									      	</div>
 									      	<p>
 									      		<small>Talla: {{ $item->SizeID }}</small> <br>
-									      		<small>Marca: {{ $item->BrandID }}</small>
+												<small>Marca: {{ $item->BrandID }}</small> <br>
+												<small>Vendedor: {{ $item->Alias }}</small>
 									      	</p>
-
-									        <p class="card-text"><small class="text-muted"><a href="{{ url('delete-to-cart/'.$item->ShoppingCartID.'/summary-'.$address->ShippingAddID) }}" class="text-danger">Eliminar</a></small></p>
 									      </div>
 									    </div>
 									</div>
@@ -68,20 +75,20 @@
 
 			          		@endforeach
 						</ul>
-
 					</div>
+
+					
+
 				</div>
 
 				<div class="col-md-3 order-sm-2 order-1">
 					<div class="card bg-light fit-height mb-4">
 						<div class="card-body w-full">
-							<a href="{{ url('confirmation/'.$address->ShippingAddID) }}" class="btn btn-fr btn-lg w-100 mb-4">Comprar ahora</a>
+ 							<h5 class="mb-2 text-center"><b>Gracias por tu compra</b></h5>
 
-							<p class="m-0"><b>Confirmación del pedido</b></p>
-
-							<table class="w-100">
+							<table class="w-100 mt-4">
 								<tr>
-									<td>Productos:</td>
+									<td>Prendas:</td>
 									<td class="text-right">${{ $items->first()->sub }}</td>
 								</tr>
 								<tr>
@@ -93,9 +100,6 @@
 
 							<table class="w-100">
 								<tr>
-									<td class="text-left green-color">
-										<h5><b>Importe total:</b></h5>
-									</td>
 									<td class="text-right green-color">
 										<h5><b>${{ $items->first()->sub }}</b></h5>
 									</td>
@@ -108,7 +112,11 @@
 				</div>
 
 			</div>
-      	</div>
+
+			<div class="w-100 text-center mt-3">
+				<small>Al confirmar tu pedido, aceptas el <a class="green-link" href="{{ url('privacy') }}">Aviso de privacidad</a>, y los <a class="green-link" href="{{ url('terms') }}">Términos y condiciones</a>	 encontrados en fashionrecovery.com</small>					
+			</div>
+		</div>  
     </main>
 
 @endsection

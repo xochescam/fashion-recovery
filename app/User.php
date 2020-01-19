@@ -45,10 +45,33 @@ class User extends Authenticatable
     public function inWishlist($ItemID) {
 
         return DB::table('fashionrecovery.GR_024')
-                ->join('fashionrecovery.GR_037', 'GR_024.WishListID', '=', 'GR_037.WishlistID')
-                ->where('GR_024.UserID',Auth::User()->id)
-                ->where('GR_037.ItemID',$ItemID)
-                ->first();        
+            ->join('fashionrecovery.GR_037', 'GR_024.WishListID', '=', 'GR_037.WishlistID')
+            ->where('GR_024.UserID',Auth::User()->id)
+            ->where('GR_037.ItemID',$ItemID)
+            ->first();        
+    }
+
+    public function getTotal() {
+
+        $items = DB::table('fashionrecovery.GR_041')
+            ->join('fashionrecovery.GR_029', 'GR_041.ItemID', '=', 'GR_029.ItemID')
+            ->where('GR_041.UserID',Auth::User()->id)
+            ->select('GR_029.ActualPrice')
+            ->get(); 
+
+        return $items->sum(function ($item) {
+            return substr($item->ActualPrice, 1);
+        });
+    }
+
+    public function inCart($ItemID) {
+
+        $item = DB::table('fashionrecovery.GR_041')
+            ->where('GR_041.UserID',Auth::User()->id)
+            ->where('GR_041.ItemID',$ItemID)
+            ->get(); 
+            
+        return count($item) > 0 ? 1 : 0;
     }
 
     public function getCollections() {
@@ -143,17 +166,19 @@ class User extends Authenticatable
 
 
         $items = DB::table('fashionrecovery.GR_029')
-                        ->join('fashionrecovery.GR_041', 'GR_029.ItemID', '=', 'GR_041.ItemID')
-                        ->whereIn('GR_029.ItemID',$itemIds)
-                        ->select('GR_029.ItemID',
-                                 'GR_029.OffSaleID',
-                                 'GR_029.ItemDescription',
-                                 'GR_029.OriginalPrice',
-                                 'GR_029.ActualPrice',
-                                 'GR_029.SizeID',
-                                 'GR_029.BrandID',
-                                 'GR_041.ShoppingCartID'
-                             )->get();
+                    ->join('fashionrecovery.GR_041', 'GR_029.ItemID', '=', 'GR_041.ItemID')
+                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->whereIn('GR_029.ItemID',$itemIds)
+                    ->select('GR_029.ItemID',
+                             'GR_029.OffSaleID',
+                             'GR_029.ItemDescription',
+                             'GR_029.OriginalPrice',
+                             'GR_029.ActualPrice',
+                             'GR_029.SizeID',
+                             'GR_029.BrandID',
+                             'GR_041.ShoppingCartID',
+                             'GR_001.Alias'
+                        )->get();
 
         $sub = 0;
         
@@ -164,7 +189,7 @@ class User extends Authenticatable
         return $items->map(function ($item, $key) use ($sub){
 
             $item->ThumbPath = $this->getThumbPath($item);
-            $item->BrandID   = $this->getBrand($item);
+            $item->BrandName = $this->getBrand($item);
             $item->SizeID    = $this->getSize($item);
             $item->sub       = $sub;
 

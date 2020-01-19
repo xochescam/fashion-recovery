@@ -1,12 +1,6 @@
-  <a class="nav-link order-1 order-sm-1 text-left text-sm-center" href="{{ url('cart') }}" role="button" aria-haspopup="true" aria-expanded="false">
-
-    @if( count(Auth::User()->getItems()) > 0)
-      <i class="fas fa-shopping-cart"></i>
-      <span class="badge badge-pill badge-light badge-notifications">{{ count(Auth::User()->getItems()) }}</span>
-    @else
-      <i class="fas fa-shopping-cart"></i>
-    @endif
-
+  <a class="nav-link order-1 order-sm-1 text-left text-sm-center" href="{{ url('shopping-cart') }}" role="button" aria-haspopup="true" aria-expanded="false">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="badge badge-pill badge-light badge-notifications">{{ count(Auth::User()->getItems()) }}</span>
     <span class="ml-1 d-inline-block d-sm-none">Carrito</span>
   </a>
 

@@ -18,6 +18,7 @@ const itemFiles1          = document.querySelector('.js-item-file-opt1');
 const itemFiles2          = document.querySelector('.js-item-file-opt2');
 const acceptPrice         = document.querySelector('.js-accept-price');
 const discount            = document.querySelector('.js-discount');
+const paymentBtn          = document.querySelector('.js-payment-btn');
 
 $('.carousel').carousel('pause');
 
@@ -738,4 +739,117 @@ input.val(input_val);
 var updated_len = input_val.length;
 caret_pos = updated_len - original_len + caret_pos;
 input[0].setSelectionRange(caret_pos, caret_pos);
+}
+
+if(paymentBtn) {
+    paymentBtn.addEventListener('click', function(e) {
+
+        var user_id = null;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({"email":"heavyjra@gmail.com","password":"F12345678R"});
+        //var raw = JSON.stringify({"email":"xochissea@gmail.com","password":"1234567"});
+
+        var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch("https://pp-users-integrations-api-test.herokuapp.com/signin/email", requestOptions)
+        .then(response => response.text())
+        .then(result => cotizar(JSON.parse(result)))
+        .catch(error => console.log('error', error));            
+
+     }); 
+}
+
+function getToken(data) {       
+        
+    const body = '{"delivery_zip_code":72000,"pickup_zip_code":75763,"type":"package","insurance":10,"size":{"width":10,"height":10,"deep":2,"weight":10}}';
+    let token = data.data.key;
+    let uri = '/quotation/native';
+
+    //console.log(token);
+    
+
+    var result = body + uri + token;
+    //var result = '/quotation/native2cHyel1and4tNOscLxgU7oW7yQO3O8vHIOeRrHJh4KsRALSMosa';
+    //var hash = sha256(result).toUpperCase();
+    var hash = sha256(result);
+
+    //console.log('DATA: '+result);
+    //console.log('HASH: '+hash);
+    
+    return hash;
+}
+
+function verify(data) {
+    var hash = '';
+
+    
+  
+    var requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch("https://pp-users-integrations-api-test.herokuapp.com/keys/"+data.key._id+"/verify", requestOptions)
+      .then(response => response.text())
+      .then(function(response) {
+
+        var res = JSON.parse(response);
+
+        if(res.success) {
+            var token = getToken(res);
+            localStorage.setItem('token', token)
+        }
+      })
+      .catch(error => console.log('error', error));      
+      
+      return localStorage.getItem('token');     
+}
+
+function cotizar(data) {    
+
+    var token = verify(data);
+    const user_id = data.user._id;
+
+    console.log('USER_ID: '+user_id);
+
+    //console.log('DATA: '+result);
+    console.log('token: '+token);
+    
+    
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("user_id", user_id);
+    myHeaders.append("token", token);
+
+    var raw = JSON.stringify({
+        "delivery_zip_code": 72000,
+        "pickup_zip_code": 75763,
+        "type":"package",
+        "size":{
+            "width":10,
+            "height":10,
+            "deep":10,
+            "weight":5
+        }
+    });
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+    };
+
+    fetch("https://pp-users-integrations-api-test.herokuapp.com/quotation/native", requestOptions)
+    .then(response => response.text())
+    .then(result => console.log(result))
+    .catch(error => console.log('error', error));
 }
