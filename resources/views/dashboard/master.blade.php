@@ -33,7 +33,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="{{ url('js/sha256.min.js') }} "></script>
 
-    <script  type="text/javascript" src="{{ url('js/app.js?1.10') }} "></script>
+    <script  type="text/javascript" src="{{ url('js/app.js?1.13') }} "></script>
     <script  type="text/javascript" src="{{ url('js/dashboard.js?1') }} "></script>
 
   </body>
