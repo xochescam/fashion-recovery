@@ -8,6 +8,10 @@
 		  	<div id="app">
 			  	<shopping-steps-component
 			  		step="4"
+					urlone=""
+					urltwo=""
+					urlthree=""
+					urlfour=""
 				></shopping-steps-component>
 			</div>
 

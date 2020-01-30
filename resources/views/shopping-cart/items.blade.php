@@ -7,6 +7,10 @@
 
 			<shopping-steps-component
 			  	step="1"
+				urlone="{{ url('shopping-cart') }}"
+				urltwo=""
+				urlthree=""
+				urlfour=""
 			></shopping-steps-component>
 
         	<h2 class="text-center TituloFR my-4 mb-5">Carrito de compras</h2>

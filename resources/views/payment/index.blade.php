@@ -8,6 +8,10 @@
 		<div id="app">
 			<shopping-steps-component
 			  	step="3"
+				urlone="{{ url('shopping-cart') }}"
+				urltwo="{{ url('address') }}"
+				urlthree="{{ url('/payment/'.$ShippingAddID.'/'.$IsBuy) }}"
+				urlfour=""
 			></shopping-steps-component>
 		</div>
 
@@ -92,8 +96,7 @@
 
 	<div class="row mt-4">
 <!-- 		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Continuar</a>
- -->					
-		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto js-payment-btn">Cotizar / Pagar</a>
+ -->		<a class="btn btn-fr m-auto js-payment-btn">Cotizar / Pagar</a>
 	</div>	
 </main>
 

@@ -28,7 +28,7 @@ class PaymentController extends Controller
 
         if($address) {
 
-            return view('payment.index',compact('address'));
+            return view('payment.index',compact('address','IsBuy','ShippingAddID'));
 
         } else {
 

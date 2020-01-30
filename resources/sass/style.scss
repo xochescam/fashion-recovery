@@ -726,7 +726,7 @@ div a{
   text-transform: uppercase;
   color: #7d7d7d;
 }
-.progressbar li:before {
+/* .progressbar li:before {
   width: 30px;
   height: 30px;
   content: counter(step);
@@ -738,7 +738,24 @@ div a{
   margin: 0 auto 10px auto;
   border-radius: 50%;
   background-color: white;
+} */
+
+.progressbar a {
+  width: 30px;
+  height: 30px;
+  content: counter(step);
+  counter-increment: step;
+  cursor: initial;
+  color: #7d7d7d;
+  line-height: 30px;
+  border: 2px solid #7d7d7d;
+  display: block;
+  text-align: center;
+  margin: 0 auto 10px auto;
+  border-radius: 50%;
+  background-color: white;
 }
+
 .progressbar li:after {
   width: 100%;
   height: 2px;
@@ -755,9 +772,25 @@ div a{
 .progressbar li.active {
   color: #009c77;
 }
+
+.progressbar li.active > a {
+  border-color: #009c77;
+  color: #009c77;
+}
 .progressbar li.active:before {
   border-color: #009c77;
 }
+
 .progressbar li.active + li:after {
   background-color: #009c77;
+}
+
+.progressbar li a:hover {
+  text-decoration: none;
+}
+
+.progressbar li.active a:hover {
+  background-color: #009c77;
+  color: #fff;
+  cursor: pointer !important;
 }

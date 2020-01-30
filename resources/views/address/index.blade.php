@@ -5,11 +5,15 @@
 	<main id="main">
       	<div class="container py-5" >
 			
-		  	<div id="app">
-			  	<shopping-steps-component
-			  		step="2"
-				></shopping-steps-component>
-			</div>
+		  <div id="app">
+			<shopping-steps-component
+			  	step="2"
+				urlone="{{ url('shopping-cart') }}"
+				urltwo="{{ url('address') }}"
+				urlthree=""
+				urlfour=""
+			></shopping-steps-component>
+		</div>
 		 	
 
         	<h2 class="text-center TituloFR my-4 mb-5 ">¿A dónde lo enviaremos?</h2>
