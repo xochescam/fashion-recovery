@@ -27,7 +27,7 @@
 
     @if(Auth::User()->ProfileID > 2)
       <div class="dropdown-divider"></div>
-      <a class="dropdown-item text-left" href="{{ url('#') }}">Administración</a>
+      <a class="dropdown-item text-left" href="{{ url('dashboard') }}">Administración</a>
     @endif
 
 

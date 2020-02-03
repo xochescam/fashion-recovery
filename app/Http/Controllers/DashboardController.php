@@ -33,8 +33,10 @@ class DashboardController extends Controller
 
 		    return $item;
         });
+
+        $type = "card";
             
-        return view('dashboard.index',compact('items'));
+        return view('dashboard.index',compact('items','type'));
     }
 
     public function getItemOffer($items) {

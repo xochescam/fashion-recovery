@@ -3,7 +3,7 @@
 
       <heart-wishlist-component
         has="{{ Auth::User() && isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
-        url="{{ $item->urlWishlists }}"
+        url="{{ isset($item->urlWishlists) ? $item->urlWishlists : '#' }}"
         type="{{ $type }}"
       ></heart-wishlist-component>
 
