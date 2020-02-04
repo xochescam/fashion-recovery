@@ -29,7 +29,7 @@
 						 	@foreach($brands as $item)
 						 		<tr>
 								    <th> {{ $item->BrandName }} </th>
-									<td> {{ isset($item->DepName) ? $item->DepName : ''}} </td>
+									<td> {{ isset($departments[$item->DepartmentID][0]->DepName) ? $departments[$item->DepartmentID][0]->DepName : ''}} </td>
 								    <td>
 										@if($item->Active)
 											<i class="fas fa-check green-color"></i>

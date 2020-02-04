@@ -21,13 +21,23 @@ class BrandController extends Controller
      */
     public function index()
     {
-         $brands = DB::table($this->table)
-                        ->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
-                        ->select('GR_017.BrandID','GR_017.BrandName','GR_017.Verified', 'GR_017.Active','GR_025.DepName')
-                        ->orderBy('BrandName')
-                        ->get();
+        $brands = DB::table($this->table)
+                    //->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
+                    ->select('GR_017.BrandID',
+                             'GR_017.BrandName',
+                             'GR_017.Verified', 
+                             'GR_017.Active', 
+                             'GR_017.DepartmentID')
+                    ->orderBy('BrandName')
+                    ->get();
 
-        return view('catalogs.brand.list',compact('brands'));
+    
+        $departments = DB::table('fashionrecovery.GR_025')
+                        ->select('DepartmentID',
+                                 'DepName')->get()
+                        ->groupBy('DepartmentID')->toArray();                    
+
+        return view('catalogs.brand.list',compact('brands','departments'));
     }
 
     /**

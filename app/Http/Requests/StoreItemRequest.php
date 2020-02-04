@@ -23,7 +23,7 @@ class StoreItemRequest extends FormRequest
      */
     public function rules()
     {
-        $ActualPrice   = floatval(ltrim($this->ActualPrice, '$'));
+        $ActualPrice   = (int)str_replace(',', '', ltrim($this->ActualPrice, '$'));
 
         $discountPrice = 0;
         $discount      = 99;
@@ -54,7 +54,6 @@ class StoreItemRequest extends FormRequest
 
         return [
             'ActualPrice' => [$validation],
-            'Discount'   => [$numeric,'max:'.$discount]
             //'PicturesUploaded'   => ['required'], //validar imagenes
             //'cover_item_file' => ['mimes:jpeg,png,jpg'], //validar imagenes
             //'front_item_file' => ['mimes:jpeg,png,jpg'], 

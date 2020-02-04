@@ -337,6 +337,7 @@ class ItemController extends Controller
                 'ClosetName'   => 'Colección por defecto',
                 'UserID'       => $userID,
                 'CreationDate' => date("Y-m-d H:i:s"),
+                'IsPaused' => false,
             ]);
 
         return  DB::table($table)

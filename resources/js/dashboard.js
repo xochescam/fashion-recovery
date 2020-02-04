@@ -744,39 +744,62 @@ input[0].setSelectionRange(caret_pos, caret_pos);
 if(paymentBtn) {
     paymentBtn.addEventListener('click', function(e) {
 
-        var user_id = null;
+        var a = new Date().getTime();
 
-        var myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+        console.log();
+        
 
-        var raw = JSON.stringify({"email":"heavyjra@gmail.com","password":"F12345678R"});
-        //var raw = JSON.stringify({"email":"xochissea@gmail.com","password":"1234567"});
+        for (let index = 0; index < 25; index++) {
+            var user_id = null;
 
-        var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-        };
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+    
+            var raw = JSON.stringify({"email":"heavyjra@gmail.com","password":"F12345678R"});
+            //var raw = JSON.stringify({"email":"xochissea@gmail.com","password":"1234567"});
+    
+            var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+            };
+    
+            fetch("https://pp-users-integrations-api-test.herokuapp.com/signin/email", requestOptions)
+            .then(response => response.text())
+            .then(function(result) {
 
-        fetch("https://pp-users-integrations-api-test.herokuapp.com/signin/email", requestOptions)
-        .then(response => response.text())
-        .then(result => cotizar(JSON.parse(result)))
-        .catch(error => console.log('error', error));            
+                enviar(JSON.parse(result), index);
+                
+                
+                
+                
+            }).catch(error => console.log('error', error));  
+
+            
+
+            
+            
+        }
+
+        
+
+
+          
 
      }); 
 }
 
-function getToken(data) {       
+function getToken(data, uri, body) {       
         
-    const body = '{"delivery_zip_code":72000,"pickup_zip_code":75763,"type":"package","insurance":10,"size":{"width":10,"height":10,"deep":2,"weight":10}}';
+    //const body = '{"delivery_zip_code":72000,"pickup_zip_code":75763,"type":"package","insurance":10,"size":{"width":10,"height":10,"deep":2,"weight":10}}';
     let token = data.data.key;
-    let uri = '/quotation/native';
+    //let uri = '/quotation/native';
 
     //console.log(token);
     
 
-    var result = body + uri + token;
+    var result = JSON.stringify(body) + uri + token;
     //var result = '/quotation/native2cHyel1and4tNOscLxgU7oW7yQO3O8vHIOeRrHJh4KsRALSMosa';
     //var hash = sha256(result).toUpperCase();
     var hash = sha256(result);
@@ -787,10 +810,8 @@ function getToken(data) {
     return hash;
 }
 
-function verify(data) {
+function verify(data, url, body) {
     var hash = '';
-
-    
   
     var requestOptions = {
       method: 'GET',
@@ -804,7 +825,7 @@ function verify(data) {
         var res = JSON.parse(response);
 
         if(res.success) {
-            var token = getToken(res);
+            var token = getToken(res, url, body);
             localStorage.setItem('token', token)
         }
       })
@@ -813,33 +834,25 @@ function verify(data) {
       return localStorage.getItem('token');     
 }
 
-function cotizar(data) {    
+function enviar(data, index) {
 
-    var token = verify(data);
-    const user_id = data.user._id;
+    var user_id =  data.user._id;
+    var url = '/shipments/native';
+    
+    var body = {"address_delivery":{"send_email":false,"address1":"Cholula","address2":"La Paz","zip_code":"72160","state":"Puebla","city":"Heroica Puebla de Zaragoza","ext":"35","int":null,"customer":{"first_name":"Cliente","last_name":"Cliente","phone":2222222222,"email":"ejemplo@ejemplo.com"}},"address_pickup":{"collect":true,"address1":"Calle 16 Sur","address2":"Residencial Puebla","zip_code":"72530","state":"Puebla","city":"Heroica Puebla de Zaragoza","ext":"3307","int":null,"municipality":"","customer":{"first_name":"Usuario","last_name":"Usuario","phone":2222222222,"email":"ejemplo@ejemplo.com"}},"insurance":{"amount":0,"declared":false},"shipping_information":{"coverage_entry":"5b2ae7556e2cabc183dcc9ea","end_time":"1020","quote_from":"packandpack","service_type":"5b2acaf5b5de20bb7f53a654","start_time":"720"},"size":{"weight":12,"width":10,"height":10,"deep":10}};
 
+    var token = verify(data, url, body);
+
+    console.log('ENVIAR');
     console.log('USER_ID: '+user_id);
-
-    //console.log('DATA: '+result);
     console.log('token: '+token);
-    
-    
+
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     myHeaders.append("user_id", user_id);
     myHeaders.append("token", token);
 
-    var raw = JSON.stringify({
-        "delivery_zip_code": 72000,
-        "pickup_zip_code": 75763,
-        "type":"package",
-        "size":{
-            "width":10,
-            "height":10,
-            "deep":10,
-            "weight":5
-        }
-    });
+    var raw = JSON.stringify(body);
 
     var requestOptions = {
     method: 'POST',
@@ -848,8 +861,56 @@ function cotizar(data) {
     redirect: 'follow'
     };
 
-    fetch("https://pp-users-integrations-api-test.herokuapp.com/quotation/native", requestOptions)
+    fetch("https://pp-users-integrations-api-test.herokuapp.com"+url, requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
+}
+
+function cotizar(data, a) {  
+    
+    var url = '/quotation/native';
+    const body = {"delivery_zip_code":72000,"pickup_zip_code":75763,"type":"package","insurance":10,"size":{"width":10,"height":10,"deep":2,"weight":10}};
+
+    var token = verify(data, url, body);
+    const user_id = data.user._id;
+
+    var b = new Date().getTime();
+
+    //console.log('USER_ID: '+user_id);
+
+    //console.log('DATA: '+result);
+    //console.log('token: '+token);
+    
+    
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("user_id", user_id);
+    myHeaders.append("token", token);
+
+    var raw = JSON.stringify(body);
+
+    var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow'
+    };
+
+    
+
+    fetch("https://pp-users-integrations-api-test.herokuapp.com"+url, requestOptions)
+    .then(response => response.text())
+    .then(function(result) {
+
+        //enviar(data);
+
+               
+        console.log('index '+a);
+                
+        
+      })
+    .catch(error => console.log('error', error));
+
+    
 }
