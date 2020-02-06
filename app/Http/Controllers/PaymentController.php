@@ -102,10 +102,6 @@ class PaymentController extends Controller
             ];
         }
 
-        $item->BrandID = $this->getBrand($item);
-        $item->SizeID  = $this->getSize($item);
-
-
         return $item;
     }
 
@@ -117,8 +113,6 @@ class PaymentController extends Controller
     }
 
     public function addToCart($ShippingAddID, $user) {
-
-        dd($this->existsInCart($ShippingAddID));
 
         if ($this->existsInCart($ShippingAddID)) {
 
