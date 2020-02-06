@@ -5,6 +5,9 @@
 	<main id="main">
       	<div class="container py-5">
 
+
+		@include('alerts.warning')
+
 		<div class="alert alert-warning alert-dismissible d-none mb-3" role="alert">
 			<span></span>
 		<!-- 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">

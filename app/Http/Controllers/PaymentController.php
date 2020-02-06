@@ -15,6 +15,16 @@ class PaymentController extends Controller
 
         $user = Auth::User();
 
+        $item = $this->getItem($ShippingAddID);
+
+        if(!isset($item->ItemID)) {
+
+            Session::flash('warning',$item['message']);
+            return Redirect::back();
+        }
+
+        
+
         //cuando no hay direccion // pasar a agregar la dirección
         //cuando hay dirección y no hay nada en el carrito // tomar la dirección default y agregar al carrito
         //cuando hay dirección y ya hay items en el carrito // tomar la dirección default y agregar al carrito que ya tiene items
@@ -63,6 +73,43 @@ class PaymentController extends Controller
 
     }
 
+    public function getItem($ItemID) {
+
+        $item = DB::table('fashionrecovery.GR_029')
+                        ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                        ->where('GR_029.ItemID',$ItemID)
+                        ->select('GR_029.ItemID',
+                                 'GR_029.OffSaleID',
+                                 'GR_029.ItemDescription',
+                                 'GR_029.OriginalPrice',
+                                 'GR_029.ActualPrice',
+                                 'GR_029.SizeID',
+                                 'GR_029.BrandID',
+                                 'GR_032.PicturePath',
+                                 'GR_032.ThumbPath',
+                                 'GR_029.OwnerID'
+                             )->get()->first();
+
+        if(!isset($item)) {
+            return [
+                'message' => 'La prenda no está disponible.'
+            ];
+
+        } else if($item->OwnerID === Auth::User()->id){
+
+            return [
+                'message' => 'No puedes adquirir una prenda de tu colección.'
+            ];
+        }
+
+        $item->BrandID = $this->getBrand($item);
+        $item->SizeID  = $this->getSize($item);
+
+
+        return $item;
+    }
+
+
     public function getAddress($ShippingAddID, $user) {
         return $user->getShippingAddress()
                 ->where('ShippingAddID',$ShippingAddID)
@@ -70,6 +117,8 @@ class PaymentController extends Controller
     }
 
     public function addToCart($ShippingAddID, $user) {
+
+        dd($this->existsInCart($ShippingAddID));
 
         if ($this->existsInCart($ShippingAddID)) {
 
@@ -149,4 +198,5 @@ class PaymentController extends Controller
 
         return Redirect::to('orders');
     }
+
 }
