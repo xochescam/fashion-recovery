@@ -164,11 +164,13 @@ class User extends Authenticatable
                     ->where('GR_041.UserID',Auth::User()->id)
                     ->get()->groupBy('ItemID')->keys();
 
+        
 
         $items = DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_041', 'GR_029.ItemID', '=', 'GR_041.ItemID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->whereIn('GR_029.ItemID',$itemIds)
+                    ->where('GR_041.UserID',Auth::User()->id)
                     ->select('GR_029.ItemID',
                              'GR_029.OffSaleID',
                              'GR_029.ItemDescription',
