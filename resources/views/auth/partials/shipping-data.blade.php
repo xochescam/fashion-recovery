@@ -14,15 +14,19 @@
 
         </div>
 
-        <a class="btn btn-fr w-50" href="">
-          Agregar nueva dirección de envío
-        </a>       
+        @if(Auth::User()->isBuyerProfile())
+          <a class="btn btn-fr w-50" href="{{ url('add-address/auth') }}">
+            Nueva dirección
+          </a>
+        @endif
       @else
 
-        <a class="btn btn-fr mb-4" href="{{ url('add-address/auth') }}">
-          Nueva dirección
-        </a> 
-  
+        @if(Auth::User()->isBuyerProfile())
+          <a class="btn btn-fr mb-4" href="{{ url('add-address/auth') }}">
+            Nueva dirección
+          </a> 
+        @endif
+         
         <div class="card">
           <ul class="list-group list-group-flush">
 
@@ -35,7 +39,10 @@
 
                 <div class="float-right">
                   <a href="{{ url('address/'.$address->ShippingAddID.'/auth') }}" class="btn btn-sm btn-fr">Editar</a>
-                  <a href="{{ url('shipping/'.$address->ShippingAddID.'/delete') }}" class="btn btn-sm btn-danger">Eliminar</a>                
+                  
+                  @if(Auth::User()->isBuyerProfile() && count($shipping) > 1)
+                    <a href="{{ url('shipping/'.$address->ShippingAddID.'/delete') }}" class="btn btn-sm btn-danger">Eliminar</a>                
+                  @endif
                 </div>
               </li>
             @endforeach

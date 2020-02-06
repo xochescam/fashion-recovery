@@ -14,12 +14,23 @@
       </div>
 
       <div class="row">
-        <h5 class="mb-4 text-center w-100"> 
-          Introduce una nueva dirección de envío:
-        </h5>
 
-        <div class="col-md-6 offset-md-3">
-          @include('address.form')
+        <div class="col-md-8 offset-md-2">
+
+          <form method="POST" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
+            @csrf
+
+            <input type="hidden" value="{{ $type_url }}" name="type_url">
+
+            @include('address.form')
+
+            <div class="w-auto text-center">
+              <button class="btn btn-fr w-50">
+                <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
+                Guardar
+              </button>
+            </div>
+          </form>
         </div>
 
       </div>

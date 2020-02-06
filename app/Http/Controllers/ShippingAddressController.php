@@ -35,6 +35,10 @@ class ShippingAddressController extends Controller
      */
     public function create($type_url)
     {
+        if(!Auth::User()->isBuyerProfile()) {
+            return abort(403);
+        }
+
         $isNew = true;
         $title    = $type_url == 'address' ? 'Selecciona una dirección de envío' : 'Dirección de envío';
 
@@ -49,6 +53,10 @@ class ShippingAddressController extends Controller
      */
     public function store(Request $request)
     {
+        if(!Auth::User()->isBuyerProfile()) {
+            return abort(403);
+        }
+        
         $this->validator($request);
 
         $urltype = [
@@ -200,6 +208,10 @@ class ShippingAddressController extends Controller
      */
     public function destroy($id)
     {
+        if(!Auth::User()->isBuyerProfile()) {
+            return abort(403);
+        }
+
         DB::beginTransaction();
 
         try {

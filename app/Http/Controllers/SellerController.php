@@ -36,7 +36,9 @@ class SellerController extends Controller
             abort(403);
         }
 
-        return view('seller.create');
+        $isNew = true;
+
+        return view('seller.create',compact('isNew'));
     }
 
     /**
@@ -47,6 +49,8 @@ class SellerController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -56,9 +60,13 @@ class SellerController extends Controller
             $IDP    = $this->saveID($request->toArray(), true);
             $selfie = $this->saveSelfie($request->toArray(), false);
 
-            $data = $this->sellerData($request->toArray(), $selfie, $IDP);
+            $dataSeller = $this->sellerData($request->toArray(), $selfie, $IDP);
 
-            DB::table($this->table)->insert($data);
+            $dataAddress = $this->addressData($request->toArray());
+
+            DB::table($this->table)->insert($dataSeller);
+
+            DB::table('fashionrecovery.GR_002')->insert($dataAddress);
 
             DB::table('fashionrecovery.GR_001')
                 ->where('id',Auth::User()->id)
@@ -338,7 +346,16 @@ class SellerController extends Controller
             'Phone'                => ['numeric','digits:10'],
             'LiveIn'               => ['max:35'],
             'IdentityDocumentPath' => ['mimes:jpg,jpeg,png'],
-            'SelfiePath'           => ['mimes:jpg,jpeg,png']
+            'SelfiePath'           => ['mimes:jpg,jpeg,png'],
+
+            'Alias'                => ['max:30'],
+            'Street'               => ['max:50'],
+            'Suburb'               => ['max:50'],
+            'ZipCode'              => ['numeric','digits:5'],
+            'State'                => ['max:25'],
+            'City'                 => ['max:25'],
+            'PhoneContact'         => ['numeric','digits:10'],
+            'References'           => ['max:100']
         ]);
     }
 
@@ -366,7 +383,25 @@ class SellerController extends Controller
              'SelfiePath'           => $selfie['mean'],
              'SelfieThumbPath'      => $selfie['thumb'],
              'VerifiedEmail'        => false,
-             'VerifiedPhone'        => false //Phone ?
+             'VerifiedPhone'        => false, //Phone ?
+        ];
+    }
+
+    public function addressData($data) {
+        
+        return [           
+            'UserID'               => Auth::User()->id,
+            'Alias'                => $data['Alias'],
+            'Street'               => $data['Street'],
+            'Suburb'               => $data['Suburb'],
+            'ZipCode'              => $data['ZipCode'],
+            'State'                => $data['State'],
+            'City'                 => $data['City'],
+            'PhoneContact'         => $data['PhoneContact'],
+            'References'           => $data['References'],
+            'CreationDate'         => date("Y-m-d H:i:s"),
+            'Active'               => true, //
+            'IsDefault'       => true, //
         ];
     }
 
