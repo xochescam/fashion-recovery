@@ -15,12 +15,16 @@ class PaymentController extends Controller
 
         $user = Auth::User();
 
-        $item = $this->getItem($ShippingAddID);
+        if($IsBuy === "true") {
 
-        if(!isset($item->ItemID)) {
+            $item = $this->getItem($ShippingAddID);
 
-            Session::flash('warning',$item['message']);
-            return Redirect::back();
+            if(!isset($item->ItemID)) {
+    
+                Session::flash('warning',$item['message']);
+                return Redirect::back();
+            }
+
         }
 
         
