@@ -2,10 +2,10 @@
 
 @section('content')
 
-<main id="main">
+<main id="app">
     <div class="container py-5">
 
-		<div id="app">
+		<div>
 			<shopping-steps-component
 			  	step="3"
 				urlone="{{ url('shopping-cart') }}"
@@ -95,8 +95,13 @@
     </div>
 
 	<div class="row mt-4">
-<!-- 		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Continuar</a>
- -->		<a class="btn btn-fr m-auto js-payment-btn">Cotizar / Pagar</a>
+		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Continuar</a>		
+
+<!-- 
+		<confirm-buy
+			shipping="{{ $address->ShippingAddID }}"
+			shipping="{{ $address->ShippingAddID }}"
+		></confirm-buy> -->
 	</div>	
 </main>
 
