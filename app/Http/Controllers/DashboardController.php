@@ -82,6 +82,7 @@ class DashboardController extends Controller
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->where('GR_001.IsPaused',0)
                     ->where('GR_029.IsPaused',0)
+                    ->where('GR_029.IsSold',0)
                     ->where('GR_030.IsPaused',0)
                     ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
                     ->get();

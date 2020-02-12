@@ -95,7 +95,7 @@
     </div>
 
 	<div class="row mt-4">
-		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Continuar</a>		
+		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Pagar</a>		
 
 
 <!-- 
