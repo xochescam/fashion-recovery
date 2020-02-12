@@ -151,6 +151,8 @@ class PaymentController extends Controller
                                 ->where('ShippingAddID',$ShippingAddID)
                                 ->first();
 
+        $this->confirmation($ShippingAddID);
+
         return view('payment.confirmation',compact('items','address'));
     }
 
@@ -194,7 +196,7 @@ class PaymentController extends Controller
 
         DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
 
-        return Redirect::to('orders');
+        //return Redirect::to('orders');
     }
 
 }
