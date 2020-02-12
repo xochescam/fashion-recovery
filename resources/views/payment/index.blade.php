@@ -97,6 +97,7 @@
 	<div class="row mt-4">
 		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Continuar</a>		
 
+
 <!-- 
 		<confirm-buy
 			shipping="{{ $address->ShippingAddID }}"
