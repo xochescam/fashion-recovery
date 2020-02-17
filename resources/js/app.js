@@ -65,6 +65,11 @@ Vue.component(
     require('./components/ShoppingStepsComponent.vue').default
 );
 
+Vue.component(
+    'confirm-buy',
+    require('./components/ConfirmBuy.vue').default
+);
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

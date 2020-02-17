@@ -794,3 +794,9 @@ div a{
   color: #fff;
   cursor: pointer !important;
 }
+
+.spinner-border--green::after  {
+  border-color: #009c77 transparent #009c77 transparent;
+  width: 30px;
+  height: 30px;
+}

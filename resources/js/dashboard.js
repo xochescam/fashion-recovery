@@ -911,6 +911,4 @@ function cotizar(data, a) {
         
       })
     .catch(error => console.log('error', error));
-
-    
 }
