@@ -164,7 +164,39 @@ class User extends Authenticatable
                     ->where('GR_041.UserID',Auth::User()->id)
                     ->get()->groupBy('ItemID')->keys();
 
+        return $this->items($itemIds);
+    }
+
+    public function getOrdered() {
+
+        $order = DB::table('fashionrecovery.GR_021')
+                    ->where('GR_021.UserID',Auth::User()->id)
+                    ->orderBy('CreationDate', 'desc')
+                    ->first()
+                    ->OrderID;
+
+        $itemIds = DB::table('fashionrecovery.GR_022')
+                    ->where('GR_022.OrderID',$order)
+                    ->get()->groupBy('ItemID')->keys();
+
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->whereIn('GR_029.ItemID',$itemIds)
+                    ->select('GR_029.ItemID',
+                             'GR_029.OffSaleID',
+                             'GR_029.ItemDescription',
+                             'GR_029.OriginalPrice',
+                             'GR_029.ActualPrice',
+                             'GR_029.SizeID',
+                             'GR_029.BrandID',
+                             'GR_001.Alias',
+                             'GR_001.id as UserID'
+                        )->get();
         
+        return $this->infoItem($items);
+    }
+
+    public function items($itemIds) {
 
         $items = DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_041', 'GR_029.ItemID', '=', 'GR_041.ItemID')
@@ -179,11 +211,16 @@ class User extends Authenticatable
                              'GR_029.SizeID',
                              'GR_029.BrandID',
                              'GR_041.ShoppingCartID',
-                             'GR_001.Alias'
+                             'GR_001.Alias',
+                             'GR_001.id as UserID'
                         )->get();
-
-        $sub = 0;
         
+        return $this->infoItem($items);
+    }
+
+    public function infoItem($items) {
+        $sub = 0;
+
         foreach ($items as $key => $item) {
             $sub += floatval(ltrim($item->ActualPrice,'$'));
         }
@@ -198,6 +235,7 @@ class User extends Authenticatable
             return $item;
         });
     }
+
 
     public function getThumbPath($item) {
 

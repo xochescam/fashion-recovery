@@ -94,16 +94,28 @@
 		</div>	
     </div>
 
-	<div class="row mt-4">
-		<a href="{{ url('summary',$address->ShippingAddID) }}" class="btn btn-fr m-auto">Pagar</a>		
-
-
-<!-- 
+	<div class="row mt-4"> 
 		<confirm-buy
 			shipping="{{ $address->ShippingAddID }}"
 			shipping="{{ $address->ShippingAddID }}"
-		></confirm-buy> -->
+		></confirm-buy>
 	</div>	
 </main>
 
+
+<!-- Modal -->
+<div class="modal fade js-loader-payment" id="loader-payment" tabindex="-1" role="dialog" aria-labelledby="loadMeLabel">
+  <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-body text-center">
+
+		Estamos procesando tu compra
+
+		<div class="d-flex justify-content-center mt-2">
+			<span class="spinner-border spinner-border--green" role="status" aria-hidden="true"></span>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
 @endsection

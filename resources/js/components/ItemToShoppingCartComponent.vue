@@ -4,7 +4,7 @@
             v-if="inShoppingCart"
             @click="removeFromShoppingCart()">
             <i class="fas fa-cart-arrow-down mr-1"></i>
-            En al carrito
+            Quitar del carrito
 		</a>
 
         <a  class=" btn w-100 btn-outline-green my-2"

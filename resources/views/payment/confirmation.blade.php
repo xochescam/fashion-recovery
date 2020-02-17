@@ -81,8 +81,6 @@
 						</ul>
 					</div>
 
-					
-
 				</div>
 
 				<div class="col-md-3 order-sm-2 order-1">

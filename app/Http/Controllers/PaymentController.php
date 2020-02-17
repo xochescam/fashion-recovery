@@ -146,12 +146,10 @@ class PaymentController extends Controller
 
     public function summary($ShippingAddID) {
 
-        $items   = Auth::User()->getItems();
+        $items   = Auth::User()->getOrdered();
         $address = Auth::User()->getShippingAddress()
                                 ->where('ShippingAddID',$ShippingAddID)
                                 ->first();
-
-        $this->confirmation($ShippingAddID);
 
         return view('payment.confirmation',compact('items','address'));
     }
@@ -167,10 +165,11 @@ class PaymentController extends Controller
                 'UserID'          => $user->id,
                 'OrderStatusID'   => 1,
                 'ShippingID'      => $ShippingAddID,
-                'TotalAmount'     => $items->first()->sub, //agregar lo del envío
+                'TotalAmount'     => Auth::User()->getTotal(), //agregar lo del envío
                 'PaymentOptionID' => 2, //agregar lo del pago
                 'CreationDate' => date("Y-m-d H:i:s")
             ]);
+
 
         $last = DB::table('fashionrecovery.GR_021')
                     ->where('UserID',$user->id)
@@ -178,25 +177,23 @@ class PaymentController extends Controller
                     ->first()
                     ->OrderID;
 
+
         foreach ($items as $key => $value) {
 
-            $arrayIt += [
-                'OrderID'      => $last,
-                'ItemID'       => $value->ItemID,
-                'CreationDate' => date("Y-m-d H:i:s")
-            ];
-        }
+            DB::table('fashionrecovery.GR_022')
+                ->insert([
+                    'OrderID'      => $last,
+                    'ItemID'       => $value->ItemID,
+                    'CreationDate' => date("Y-m-d H:i:s")
+                ]);
 
-        DB::table('fashionrecovery.GR_022')
-            ->insert($arrayIt);
-
-        DB::table('fashionrecovery.GR_029')
-                ->where('ItemID',$items->first()->ItemID)
+            DB::table('fashionrecovery.GR_029')
+                ->where('ItemID',$value->ItemID)
                 ->update(['IsSold' => true]);
+        }
 
         DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
 
-        //return Redirect::to('orders');
+        return response()->json('success');
     }
-
 }
