@@ -35,7 +35,7 @@
               <li class="list-group-item">
 
                 {{ $address->Alias }} 
-                <small>{{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }}</small>
+                <small>{{ $address->Street }} {{ $address->Ext }} {{ $address->Int }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }}</small>
 
                 <div class="float-right">
                   <a href="{{ url('address/'.$address->ShippingAddID.'/auth') }}" class="btn btn-sm btn-fr">Editar</a>

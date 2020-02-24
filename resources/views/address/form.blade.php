@@ -33,6 +33,38 @@
 
 <div class="form-row">
   <div class="form-group col-md-6">
+    <label for="Ext" class="col-form-label">Núm. Exterior *</label>
+      <input type="Ext" class="form-control" name="Ext" id="Ext" value="{{ $isNew ? '' : ($address->Ext ?: old('Ext')) }}" required>
+
+      @if ($errors->has('Ext'))
+        <div class="invalid-validation">
+          {{ $errors->first('Ext') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo núm. exterior es obligatorio.
+        </div>
+      @endif
+  </div>
+
+  <div class="form-group col-md-6">
+    <label for="Int" class="col-form-label">Núm. Interior </label>
+      <input type="text" class="form-control" name="Int" id="Int" value="{{ $isNew ? '' : ($address->Int ?: old('Int')) }}">
+
+      @if ($errors->has('Int'))
+        <div class="invalid-validation">
+          {{ $errors->first('Int') }}
+        </div>
+      @else
+        <div class="invalid-feedback">
+          El campo núm. interior es obligatorio.
+        </div>
+      @endif
+  </div>
+</div>
+
+<div class="form-row">
+  <div class="form-group col-md-6">
     <label for="Suburb" class="col-form-label">Colonia *</label>
       <input type="Suburb" class="form-control" name="Suburb" id="Suburb" value="{{ $isNew ? '' : ($address->Suburb ?: old('Suburb')) }}" maxlength="50" required>
 

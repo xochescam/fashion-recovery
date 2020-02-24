@@ -214,6 +214,8 @@ return [
         'RFC'                   => 'RFC',
         'PhoneContact'          => 'teléfono',
         'ClothingStyleID'       => 'estilo',
+        'Ext'                   => 'núm. exterior',
+        'Int'                   => 'núm. interior',
     ],
 
 ];

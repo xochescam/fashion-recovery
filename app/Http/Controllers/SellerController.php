@@ -397,6 +397,8 @@ class SellerController extends Controller
             'ZipCode'              => $data['ZipCode'],
             'State'                => $data['State'],
             'City'                 => $data['City'],
+            'Ext'                  => $data['Ext'],
+            'Int'                  => $data['Int'],
             'PhoneContact'         => $data['PhoneContact'],
             'References'           => $data['References'],
             'CreationDate'         => date("Y-m-d H:i:s"),
