@@ -70,6 +70,13 @@ Vue.component(
     require('./components/ConfirmBuy.vue').default
 );
 
+Vue.component(
+    'cancel-order',
+    require('./components/CancelOrderComponent.vue').default
+);
+
+
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
