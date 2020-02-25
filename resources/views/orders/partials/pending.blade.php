@@ -19,8 +19,18 @@
 						      		<span class="badge badge-warning mb-3">{{ $order->Name }}</span>
 						      	<p>
 						      		<small>Talla: {{ $item->SizeID }}</small> <br>
-						      		<small>Marca: {{ $item->BrandID }}</small>
-						      	</p>
+						      		<small>Marca: {{ $item->BrandID }}</small> <br>
+									<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a> </small>
+									<small id="app">
+										<cancel-order 
+											guide="{{ $item->PackingOrderID }}"
+											class="text-danger cursor-pointer"
+										>Cancelar pedido
+										<cancel-order/>
+									</small>
+								</p>
+
+								  
 						      </div>
 						    </div>
 						</div>

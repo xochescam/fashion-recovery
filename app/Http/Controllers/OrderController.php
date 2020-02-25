@@ -9,6 +9,9 @@ use Redirect;
 use Session;
 use Auth;
 
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Client;
+
 class OrderController extends Controller
 {
 	protected $table = 'fashionrecovery.GR_021';
@@ -24,7 +27,8 @@ class OrderController extends Controller
     	$user      = Auth::User();
 
     	$orders = DB::table($this->table)
-    			    ->join('fashionrecovery.GR_013', 'GR_021.OrderStatusID', '=', 'GR_013.OrderStatusID')
+                    ->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
+                    ->join('fashionrecovery.GR_013', 'GR_022.OrderStatusID', '=', 'GR_013.OrderStatusID')
                     ->where('UserID',Auth::User()->id)
                     ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name')
                     ->get();
@@ -33,8 +37,8 @@ class OrderController extends Controller
                             ->where('Name','!==','Cancelado')
                             ->where('Name','!==','Solicitado'); 
         $finalized = $orders->where('Name','Entregado'); 
-        $canceled  = $orders->where('Name','Cancelado');           
-
+        $canceled  = $orders->where('Name','Cancelado');  
+        
         $keys = $orders->groupBy('OrderID')->keys();
 
 		$items = DB::table($this->detail)
@@ -46,9 +50,13 @@ class OrderController extends Controller
                              'GR_029.SizeID',
                              'GR_029.BrandID',
                              'GR_001.Alias',
-                             'GR_022.OrderID'
-                	)->get();
-
+                             'GR_022.OrderID',
+                             'GR_022.GuideID',
+                             'GR_022.PackingOrderID',
+                             'GR_022.FolioID',
+                             'GR_022.GuideURL'
+                    )->get();
+                    
         $items = $items->map(function ($item, $key) use ($user){
 
             $item->ThumbPath = $user->getThumbPath($item);
@@ -66,5 +74,79 @@ class OrderController extends Controller
                     'finalized',
                     'canceled',
                     'items'));
+    }
+
+    public function cancel($GuideID) {
+
+        $data = $this->login();
+        $url  = '/orders/cancel/';
+        $body = '{}';
+        $key  = '';
+
+        if($data->success) {
+
+            $key = $this->key($data, $url, $body);
+
+            $client = new Client();
+
+            $response = $client->request('PUT', 
+            'https://pp-users-integrations-api-test.herokuapp.com'.$url.$GuideID,[
+                'headers' => [
+                    'user_id' => $data->data->user_id,
+                    'token' => $key
+                ]
+            ]);
+
+            $orderId = DB::table('fashionrecovery.GR_022')
+                ->where('PackingOrderID','=',$GuideID)
+                ->update(["OrderStatusID" => 6]);
+            
+
+                    ;
+
+            return response()->json($response->getStatusCode());
+        }
+
+    }
+
+    public function login() {
+
+        $res = '';
+        $client = new Client();
+        
+        $response = $client->request('POST', 
+        'https://pp-users-integrations-api-test.herokuapp.com/signin/email',
+        [
+            'form_params' => [
+                    'email' => 'heavyjra@gmail.com',
+                    'password' => 'F12345678R'
+
+            ]
+        ]);
+
+        if($response->getStatusCode() == 200) {
+            $res = $this->validateKey($response);
+        }
+
+        return $res->success ? $res : json_decode($response->getBody())->success;
+    }
+
+    public function key($response, $url, $body) {
+        
+        $key    = $response->data->key;
+        $result = $body.$url.$key;
+        $hash   = hash('sha256', $result);
+
+        return $hash;
+    }
+
+    public function validateKey($user) {
+        
+        $userData = json_decode($user->getBody());
+
+        $client = new Client(); 
+        $response = $client->request('GET', 'https://pp-users-integrations-api-test.herokuapp.com/keys/'.$userData->key->_id.'/verify');
+
+        return json_decode($response->getBody());
     }
 }

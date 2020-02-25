@@ -20,7 +20,8 @@
 						      		<span class="badge badge-danger mb-3">{{ $order->Name }}</span>
 						      	<p>
 						      		<small>Talla: {{ $item->SizeID }}</small> <br>
-						      		<small>Marca: {{ $item->BrandID }}</small>
+						      		<small>Marca: {{ $item->BrandID }}</small> <br>
+									<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a></small>
 						      	</p>
 						      </div>
 						    </div>

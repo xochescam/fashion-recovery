@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//orders
 	Route::get('orders', 'OrderController@index');
+	Route::get('cancel-order/{GuideID}', 'OrderController@cancel');
 
 	//Notifications
 	Route::get('notification', 'NotificationController@show');
