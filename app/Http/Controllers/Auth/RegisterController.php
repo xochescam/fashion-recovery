@@ -102,7 +102,7 @@ class RegisterController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Tu cuenta ha sido creada. Confirma tu cuenta antes de iniciar sesión.');
+            Session::flash('success','Tu cuenta ha sido creada. Te hemos enviado un correo electrónico para confirmar tu cuenta, posiblemente se encuentre en la carpeta de spam.');
             return $this->registered($request, $user)
                             ?: redirect('login/'.$beSeller);
 
