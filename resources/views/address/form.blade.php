@@ -114,7 +114,7 @@
   </div>
 
   <div class="form-group col-md-6">
-    <label for="City" class="col-form-label">Ciudad *</label>
+    <label for="City" class="col-form-label">Municipio / Alcaldía *</label>
       <input type="text" class="form-control" name="City" id="City" value="{{ $isNew ? '' : ($address->City ?: old('City')) }}" maxlength="25" required>
 
       @if ($errors->has('City'))
