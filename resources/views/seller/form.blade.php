@@ -57,6 +57,9 @@
 
         <div class="container-item-img m-auto"></div>
 
+        <small>Foto de tu INE o Pasaporte</small>
+
+
         @if ($errors->has('id_item_file'))
           <div class="invalid-validation mb-2">
             {{ $errors->first('id_item_file') }}
