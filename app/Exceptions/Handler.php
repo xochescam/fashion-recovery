@@ -42,10 +42,10 @@ class Handler extends ExceptionHandler
 
         if($exception)
         {
-         /*    Mail::send('emails.error', ['e' => $exception], function($message)
+            Mail::send('emails.error', ['e' => $exception], function($message)
             {
-                 $message->to('xochissea@gmail.com')->subject('Error en FR');
-            }); */
+                $message->to('xochissea@gmail.com')->subject('Error en FR');
+            });
         }
 
         parent::report($exception);
