@@ -356,16 +356,15 @@ class SellerController extends Controller
             'IdentityDocumentPath' => ['mimes:jpg,jpeg,png'],
             'SelfiePath'           => ['mimes:jpg,jpeg,png'],
 
-            'Alias'                => ['max:30'],
+            'Alias'                => ['max:50'],
             'Street'               => ['max:50'],
             'Suburb'               => ['max:50'],
-            'ZipCode'              => ['numeric','digits:5'],
-            'Ext'                  => ['numeric'],
-            'Int'                  => ['numeric'],
-            'State'                => ['max:25'],
+            'ZipCode'              => ['regex:/^\d{5}$|^\d{5}-\d{4}$/'],
+            'Ext'                  => ['max:50'],
+            'State'                => ['max:50'],
             'City'                 => ['max:25'],
             'PhoneContact'         => ['numeric','digits:10'],
-            'References'           => ['max:100']
+            'References'           => ['max:200'] //
         ]);
     }
 
@@ -413,7 +412,7 @@ class SellerController extends Controller
             'References'           => $data['References'],
             'CreationDate'         => date("Y-m-d H:i:s"),
             'Active'               => true, //
-            'IsDefault'       => true, //
+            'IsDefault'            => true, //
         ];
     }
 
