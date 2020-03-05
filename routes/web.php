@@ -48,6 +48,8 @@ Route::get('search/{type}/{search}', 'SearchController@searchByLink');
 //Clothing filters
 Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');
 
+Route::get('delete-secret/{id}/', 'SellerController@deleteSecret');
+
 	
 //Search
 Route::get('search', 'SearchController@search');

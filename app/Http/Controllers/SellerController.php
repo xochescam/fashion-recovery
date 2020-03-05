@@ -83,6 +83,16 @@ class SellerController extends Controller
         }
     }
 
+    public function deleteSecret($id) {
+        DB::table('fashionrecovery.GR_001')
+                ->where('id',$id)
+                ->update(['ProfileID' => 1]);
+
+        DB::delete('DELETE FROM fashionrecovery."GR_033" WHERE "UserID"='.$id);
+
+        dd('Eliminado');
+    }
+
     public function sellerWelcome() {
         return view('seller.welcome');
     }
