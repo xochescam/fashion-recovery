@@ -51,11 +51,11 @@ class SellerController extends Controller
     {
 
 
-    /*     $this->validator($request);
+        $this->validator($request);
 
         DB::beginTransaction();
 
-        try { */
+        try {
 
             $IDP    = $this->saveID($request->toArray(), true);
             $selfie = $this->saveSelfie($request->toArray(), false);
@@ -76,13 +76,13 @@ class SellerController extends Controller
 
             return Redirect::to('welcome/seller');
 
-     /*    } catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error');
             return Redirect::to('seller');
-        } */
+        }
     }
 
     public function sellerWelcome() {
