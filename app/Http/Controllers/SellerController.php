@@ -49,8 +49,6 @@ class SellerController extends Controller
      */
     public function store(Request $request)
     {
-
-
         $this->validator($request);
 
         DB::beginTransaction();
@@ -80,7 +78,7 @@ class SellerController extends Controller
 
             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error');
+            Session::flash('warning','Ha ocurrido un error'.$ex);
             return Redirect::to('seller');
         }
     }
