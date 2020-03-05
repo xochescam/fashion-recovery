@@ -360,6 +360,8 @@ class SellerController extends Controller
             'Street'               => ['max:50'],
             'Suburb'               => ['max:50'],
             'ZipCode'              => ['numeric','digits:5'],
+            'Ext'                  => ['numeric'],
+            'Int'                  => ['numeric'],
             'State'                => ['max:25'],
             'City'                 => ['max:25'],
             'PhoneContact'         => ['numeric','digits:10'],
