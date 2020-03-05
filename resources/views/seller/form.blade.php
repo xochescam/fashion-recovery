@@ -1,4 +1,4 @@
-@csrf
+{!! csrf_field() !!}
 
 @include('alerts.success')
 @include('alerts.warning')
