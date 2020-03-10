@@ -94,11 +94,17 @@
 				</div>
 				<div class="modal-body">
 					<form method="POST" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
-						@csrf
+						{!! csrf_field() !!}
 
 						<input type="hidden" value="{{ $type_url }}" name="type_url">
 
-						@include('address.form')
+						<address-form
+							:states="{{ json_encode($states) }}"
+							:errors="{{ count($errors) > 0 ? $errors : '{}'  }}"
+							:old="{{ count(Session::getOldInput()) > 0 ? json_encode(Session::getOldInput()) : '{}'}}"
+							:address="{{ $isNew ? {} : json_encode($address) }}"
+						>
+						</address-form>
 
 						<div class="w-auto text-center">
 						<button class="btn btn-fr w-50">

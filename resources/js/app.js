@@ -8,6 +8,10 @@
 
 window.Vue = require('vue');
 
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
+
 
 /**
  * The following block of code may be used to automatically register your
@@ -73,6 +77,16 @@ Vue.component(
 Vue.component(
     'cancel-order',
     require('./components/CancelOrderComponent.vue').default
+);
+
+Vue.component(
+    'create-seller',
+    require('./components/CreateSeller.vue').default
+);
+
+Vue.component(
+    'address-form',
+    require('./components/AddressForm.vue').default
 );
 
 

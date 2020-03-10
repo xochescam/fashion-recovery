@@ -14,18 +14,20 @@
       </div>
 
       <div class="row">
-        <h5 class="mb-4 text-center w-100"> 
-          Modificar dirección de envío:
-        </h5>
-
         <div class="col-md-8 offset-md-2">
 
-          <form method="POST" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
-            @csrf
+          <form method="POST" id="app" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
+            {!! csrf_field() !!}
 
             <input type="hidden" value="{{ $type_url }}" name="type_url">
 
-            @include('address.form')
+            <address-form
+              :states="{{ json_encode($states) }}"
+              :errors="{{ count($errors) > 0 ? $errors : '{}'  }}"
+              :old="{{ count(Session::getOldInput()) > 0 ? json_encode(Session::getOldInput()) : '{}'}}"
+              :address="{{ json_encode($address) }}"
+            >
+            </address-form>
 
             <div class="w-auto text-center">
               <button class="btn btn-fr w-50">

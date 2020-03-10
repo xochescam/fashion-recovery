@@ -8,7 +8,7 @@
     
       @if($front)
         <div class="container-item-img card">
-          <a  href="{{ url('item/'.$front->ItemPictureID.'/'.$front->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto frontal" data-name="front">
+          <a  href="{{ url('item/'.$front->ItemPictureID.'/'.$front->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto frontal" data-name="front" data-item="true">
             <i class="far fa-trash-alt"></i>
           </a>
           <img src="{{ url('storage/'.$front->ThumbPath) }}" style="width: 200px;">
@@ -23,7 +23,7 @@
 
       @else
 
-        <input type="file" value="{{ old('front_item_file') ? old('front_item_file') : false }}" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" accept=".png, .jpg, .jpeg"  required>
+        <input type="file" value="{{ old('front_item_file') ? old('front_item_file') : false }}" name="front_item_file" id="front_item_file" class="no-file js-item-file custom-file-input" data-type="Foto frontal" data-name="front" data-item="true" accept=".png, .jpg, .jpeg"  required>
         <label for="front_item_file" class="card card--file-item custom-file-label">
           <span><i class="far fa-image"></i> <br>Foto frontal</span>
         </label>
@@ -48,7 +48,7 @@
 
     @if($label)
         <div class="container-item-img card">
-          <a href="{{ url('item/'.$label->ItemPictureID.'/'.$label->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto frontal" data-name="label">
+          <a href="{{ url('item/'.$label->ItemPictureID.'/'.$label->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto frontal" data-name="label" data-item="true">
             <i class="far fa-trash-alt"></i>
           </a>
           <img src="{{ url('storage/'.$label->ThumbPath) }}" style="width: 200px;">
@@ -62,7 +62,7 @@
         </div>
 
     @else
-      <input type="file" name="label_item_file" id="label_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de la etiqueta" data-name="label" accept=".png, .jpg, .jpeg"  required>
+      <input type="file" name="label_item_file" id="label_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de la etiqueta" data-name="label" data-item="true" accept=".png, .jpg, .jpeg"  required>
       <label for="label_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de la etiqueta</span>
       </label>
@@ -85,7 +85,7 @@
 
     @if($back)
         <div class="container-item-img card">
-          <a  href="{{ url('item/'.$back->ItemPictureID.'/'.$back->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto de espaldas" data-name="back">
+          <a  href="{{ url('item/'.$back->ItemPictureID.'/'.$back->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto de espaldas" data-name="back" data-item="true">
             <i class="far fa-trash-alt"></i>
           </a>
           <img src="{{ url('storage/'.$back->ThumbPath) }}" style="width: 200px;">
@@ -99,7 +99,7 @@
         </div>
 
     @else
-      <input type="file" name="back_item_file" id="back_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de espaldas" data-name="back" accept=".png, .jpg, .jpeg"  required>
+      <input type="file" name="back_item_file" id="back_item_file" class="no-file js-item-file custom-file-input" data-type="Foto de espaldas" data-name="back" data-item="true" accept=".png, .jpg, .jpeg"  required>
       <label for="back_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto de espaldas</span>
       </label>
@@ -121,7 +121,7 @@
     <div class="mb-5 mr-4 thumb-size js-item-picture">
     @if($selfie)
         <div class="container-item-img card">
-          <a  href="{{ url('item/'.$selfie->ItemPictureID.'/'.$selfie->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Selfie" data-name="selfie">
+          <a  href="{{ url('item/'.$selfie->ItemPictureID.'/'.$selfie->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Selfie" data-name="selfie" data-item="true">
             <i class="far fa-trash-alt"></i>
           </a>
           <img src="{{ url('storage/'.$selfie->ThumbPath) }}" style="width: 200px;">
@@ -135,7 +135,7 @@
         </div>
 
     @else
-      <input type="file" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" accept=".png, .jpg, .jpeg"  data-name="selfie">
+      <input type="file" name="selfie_item_file" id="selfie_item_file" class="no-file js-item-file custom-file-input" data-type="Selfie" accept=".png, .jpg, .jpeg"  data-name="selfie" data-item="true">
       <label for="selfie_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Selfie</span>
       </label>
@@ -153,7 +153,7 @@
     <div class="mb-5 mr-4 thumb-size js-item-picture">
     @if($in)
         <div class="container-item-img card">
-          <a  href="{{ url('item/'.$in->ItemPictureID.'/'.$in->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Prenda puesta" data-name="in">
+          <a  href="{{ url('item/'.$in->ItemPictureID.'/'.$in->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Prenda puesta" data-name="in" data-item="true">
             <i class="far fa-trash-alt"></i>
           </a>
           <img src="{{ url('storage/'.$in->ThumbPath) }}" style="width: 200px;">
@@ -168,7 +168,7 @@
 
     @else
 
-      <input type="file" name="in_item_file" id="in_item_file" class="no-file js-item-file custom-file-input" data-type="Prenda puesta" accept=".png, .jpg, .jpeg"  data-name="in">
+      <input type="file" name="in_item_file" id="in_item_file" class="no-file js-item-file custom-file-input" data-type="Prenda puesta" accept=".png, .jpg, .jpeg"  data-name="in" data-item="true">
       <label for="in_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Prenda puesta</span>
       </label>
@@ -186,7 +186,7 @@
     <div class="mb-4 mr-4 thumb-size js-item-picture">
     @if($extra)
         <div class="container-item-img card">
-          <a  href="{{ url('item/'.$extra->ItemPictureID.'/'.$extra->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto extra" data-name="extra">
+          <a  href="{{ url('item/'.$extra->ItemPictureID.'/'.$extra->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto extra" data-name="extra" data-item="true">
             <i class="far fa-trash-alt"></i>
           </a>
           <img src="{{ url('storage/'.$extra->ThumbPath) }}" style="width: 200px;">
@@ -200,7 +200,7 @@
         </div>
 
     @else
-      <input type="file" name="extra_item_file" id="extra_item_file" class="no-file js-item-file custom-file-input" data-type="Foto extra" data-name="extra" accept=".png, .jpg, .jpeg">
+      <input type="file" name="extra_item_file" id="extra_item_file" class="no-file js-item-file custom-file-input" data-type="Foto extra" data-name="extra" data-item="true" accept=".png, .jpg, .jpeg">
       <label for="extra_item_file" class="card card--file-item custom-file-label">
         <span><i class="far fa-image"></i> <br>Foto extra</span>
       </label>

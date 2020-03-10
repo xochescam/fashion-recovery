@@ -11,6 +11,8 @@ use Auth;
 use Image;
 use File;
 
+use App\States;
+
 class SellerController extends Controller
 {
     protected $table = 'fashionrecovery.GR_033';
@@ -38,7 +40,9 @@ class SellerController extends Controller
 
         $isNew = true;
 
-        return view('seller.create',compact('isNew'));
+        $states = States::get();
+
+        return view('seller.create',compact('isNew','states'));
     }
 
     /**
@@ -71,6 +75,7 @@ class SellerController extends Controller
                 ->update(['ProfileID' => 2]);
 
             DB::commit();
+            //return response()->json('success', 200);
 
             return Redirect::to('welcome/seller');
 
@@ -79,6 +84,7 @@ class SellerController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error'.$ex);
+            //return response()->json(null, $ex->getCode());
             return Redirect::to('seller');
         }
     }
@@ -89,6 +95,8 @@ class SellerController extends Controller
                 ->update(['ProfileID' => 1]);
 
         DB::delete('DELETE FROM fashionrecovery."GR_033" WHERE "UserID"='.$id);
+
+        DB::delete('DELETE FROM fashionrecovery."GR_002" WHERE "UserID"='.$id);
 
         dd('Eliminado');
     }
@@ -352,19 +360,20 @@ class SellerController extends Controller
             'Greeting'             => ['max:50'],
             'AboutMe'              => ['max:256'],
             'Phone'                => ['numeric','digits:10'],
-            'LiveIn'               => ['max:35'],
-            'IdentityDocumentPath' => ['mimes:jpg,jpeg,png'],
-            'SelfiePath'           => ['mimes:jpg,jpeg,png'],
+            'LiveIn'               => ['max:100'],
+            'id_item_file'         => ['mimes:jpg,jpeg,png'],
+            'profile_item_file'    => ['mimes:jpg,jpeg,png'],
 
             'Alias'                => ['max:50'],
             'Street'               => ['max:50'],
             'Suburb'               => ['max:50'],
             'ZipCode'              => ['regex:/^\d{5}$|^\d{5}-\d{4}$/'],
             'Ext'                  => ['max:50'],
+            'Int'                  => ['max:50'],
             'State'                => ['max:50'],
             'City'                 => ['max:25'],
             'PhoneContact'         => ['numeric','digits:10'],
-            'References'           => ['max:200'] //
+            'References'           => ['max:100']
         ]);
     }
 

@@ -9,6 +9,8 @@ use DB;
 use Session;
 use Redirect;
 
+use App\States;
+
 class ShippingAddressController extends Controller
 {
     protected $table = 'fashionrecovery.GR_002';
@@ -20,10 +22,11 @@ class ShippingAddressController extends Controller
     public function index()
     {
         $addresses = Auth::User()->getShippingAddress();
+        $states    = States::get();
         $isNew     = count($addresses) > 0 ? false : true;
         $url       = $isNew ? 'address.create' : 'address.index';
         $type_url  = 'address';
-        $data      = $isNew ? compact('isNew','type_url') : compact('addresses','isNew','type_url');
+        $data      = $isNew ? compact('isNew','type_url','states') : compact('addresses','isNew','type_url','states');
 
         return view($url,$data);
     }
@@ -41,8 +44,9 @@ class ShippingAddressController extends Controller
 
         $isNew = true;
         $title    = $type_url == 'address' ? 'Selecciona una dirección de envío' : 'Dirección de envío';
+        $states = States::get();
 
-        return view('address.create',compact('isNew','type_url','title'));
+        return view('address.create',compact('isNew','type_url','title','states'));
     }
 
     /**
@@ -118,16 +122,16 @@ class ShippingAddressController extends Controller
     protected function validator(Request $request)
     {
         $request->validate([
-             'Alias'           => ['max:30'],
-             'Street'          => ['max:50'],
-             'Suburb'          => ['max:50'],
-             'ZipCode'         => ['numeric'],
-             'State'           => ['max:25'],
-             'ZipCode'         => ['numeric'],
-             'Ext'             => ['numeric'],
-             'Int'             => ['numeric'],
-             'PhoneContact'    => ['numeric'],
-             'References'      => ['max:100'],
+            'Alias'                => ['max:50'],
+            'Street'               => ['max:50'],
+            'Suburb'               => ['max:50'],
+            'ZipCode'              => ['regex:/^\d{5}$|^\d{5}-\d{4}$/'],
+            'Ext'                  => ['max:50'],
+            'Int'                  => ['max:50'],
+            'State'                => ['max:50'],
+            'City'                 => ['max:25'],
+            'PhoneContact'         => ['numeric','digits:10'],
+            'References'           => ['max:100']
         ]);
     }
 
@@ -151,13 +155,13 @@ class ShippingAddressController extends Controller
     public function edit($id, $type_url)
     {
         $title    = $type_url == 'address' ? 'Selecciona una dirección de envío' : 'Dirección de envío';
-        //$subtitle
         $isNew    = false;
+        $states   = States::get();
         $address  = DB::table('fashionrecovery.GR_002')
                         ->where('ShippingAddID',$id)
                         ->get()->first();
 
-        return view('address.edit',compact('address','isNew','type_url','title'));
+        return view('address.edit',compact('address','isNew','type_url','title','states'));
     }
 
     /**

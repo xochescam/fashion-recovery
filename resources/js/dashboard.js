@@ -522,6 +522,7 @@ function showItemPicture(e) {
     const container = el.parentNode.querySelector('.container-item-img');
     const type      = el.getAttribute('data-type');
     const name      = el.getAttribute('data-name');
+    const item      = el.getAttribute('data-item');
     const parent    = el.nextElementSibling.parentNode;
     const label     = el.nextElementSibling;
     const input     = el.nextElementSibling.previousElementSibling;
@@ -553,15 +554,19 @@ function showItemPicture(e) {
         <i class="far fa-trash-alt"></i>
         </a>`;
 
+
         const cover = `<div class="form-check cover-item">
-                    <input class="form-check-input" type="radio" name="cover" id="cover_`+name+`" value="`+name+`" `+isRequired+`>
+                    <input class="form-check-input" type="radio" name="cover" id="cover_`+name+`" data-item="`+item+`" value="`+name+`" `+isRequired+`>
                     <label class="form-check-label" for="cover_`+name+`">
                         Portada
                     </label>
                     </div>`;
 
         container.insertAdjacentHTML('afterbegin', button);
-        container.insertAdjacentHTML('beforeend', cover);
+
+        if(item == 'true') {
+            container.insertAdjacentHTML('beforeend', cover);
+        }
 
         const deleteButtons = document.querySelectorAll('.js-delete-item');
 
