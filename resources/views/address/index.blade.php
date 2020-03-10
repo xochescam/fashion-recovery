@@ -2,10 +2,10 @@
 
 @section('content')
 
-	<main id="main">
+	<main id="app">
       	<div class="container py-5" >
 			
-		  <div id="app">
+		  <div>
 			<shopping-steps-component
 			  	step="2"
 				urlone="{{ url('shopping-cart') }}"
@@ -47,7 +47,7 @@
 						</div>
 					@endforeach
 				</div>
-				<div class="col-md-3 order-1 order-md-2 mb-4" v-if="allItems.length > 0">
+				<div class="col-md-3 order-1 order-md-2 mb-4">
 					<div class="card bg-light fit-height">
 						<div class="card-body w-full">
 							<h5 class="card-title"><b>Resumen del pedido</b></h5>
@@ -78,7 +78,7 @@
 			</div>
 
       	</div>
-    </main>
+   
 
 	@foreach($addresses as $address)
 
@@ -92,8 +92,9 @@
 					<span aria-hidden="true">&times;</span>
 					</button>
 				</div>
+
 				<div class="modal-body">
-					<form method="POST" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
+					<form method="POST"action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
 						{!! csrf_field() !!}
 
 						<input type="hidden" value="{{ $type_url }}" name="type_url">
@@ -102,7 +103,7 @@
 							:states="{{ json_encode($states) }}"
 							:errors="{{ count($errors) > 0 ? $errors : '{}'  }}"
 							:old="{{ count(Session::getOldInput()) > 0 ? json_encode(Session::getOldInput()) : '{}'}}"
-							:address="{{ $isNew ? {} : json_encode($address) }}"
+							:address="{{ $isNew ? '{}' : json_encode($address) }}"
 						>
 						</address-form>
 
@@ -122,5 +123,5 @@
 		</div>
 
 	@endforeach
-
+	</main>
 @endsection

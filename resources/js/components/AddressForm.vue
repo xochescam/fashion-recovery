@@ -299,7 +299,15 @@ export default {
                 this.old.PhoneContact ? 
                 this.old.PhoneContact : 
                 (this.address ? this.address.PhoneContact : ''),
+            telUpdated: false
         };
+    },
+    watch: {
+        phone: function (val) {
+            if (! this.tel || ! this.telUpdated) {
+                this.tel = val;
+            }
+        }
     },
     validations: {
         alias: {
@@ -380,6 +388,7 @@ export default {
         setTel(value) {
             this.tel = value
             this.$v.tel.$touch()
+            this.telUpdated = true;
         },
         setReferences(value) {
             this.references = value
