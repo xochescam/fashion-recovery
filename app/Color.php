@@ -14,6 +14,12 @@ class Color extends Model
      * @var string
      */
     protected $table = 'fashionrecovery.GR_018';
+    protected $primaryKey = 'ColorID';
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ItemID');
+    }
 
     public static function getAll() {
 

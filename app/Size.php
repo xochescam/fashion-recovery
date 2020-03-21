@@ -14,6 +14,12 @@ class Size extends Model
      * @var string
      */
     protected $table = 'fashionrecovery.GR_020';
+    protected $primaryKey = 'SizeID';
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ItemID');
+    }
 
     public static function getByCategory() {
 

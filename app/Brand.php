@@ -14,6 +14,12 @@ class Brand extends Model
      * @var string
      */
     protected $table = 'fashionrecovery.GR_017';
+    protected $primaryKey = 'BrandID';
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ItemID');
+    }
 
     public static function getByDepartment() {
 

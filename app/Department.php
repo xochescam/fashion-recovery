@@ -14,6 +14,12 @@ class Department extends Model
      * @var string
      */
     protected $table = 'fashionrecovery.GR_025';
+    protected $primaryKey = 'DepartmentID';
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ItemID');
+    }
 
     public static function getAll() {
 

@@ -14,6 +14,12 @@ class ClothingType extends Model
      * @var string
      */
     protected $table = 'fashionrecovery.GR_019';
+    protected $primaryKey = 'ClothingTypeID';
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ItemID');
+    }
 
     public static function getByCategory() {
 

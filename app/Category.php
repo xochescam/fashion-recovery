@@ -8,12 +8,18 @@ use DB;
 
 class Category extends Model
 {
-    /**
+     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = 'fashionrecovery.GR_026';
+    protected $primaryKey = 'CategoryID';
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ItemID');
+    }
 
     public static function getByDepartment() {
 
