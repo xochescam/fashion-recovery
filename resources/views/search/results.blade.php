@@ -11,24 +11,12 @@
                             $search->ClothingStyleName : $search )))  }}"
         </span>
     </p>
-     <!-- <p class="text-right w-100 d-block d-md-none">
-      <a class="btn btn-fr" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-        Filtrar resultados
-      </a>
-    </p> -->
+
 </div>
 
 @if($items->count() > 0)
 
     <div class="row p-0 p-md-3 mb-5 mx-md-5">
-        <!-- <div class="collapse d-md-none w-100 p-3" id="collapseExample">
-            <div class="card card-body mb-5">
-                <search-filter-component
-                    filters="{{ json_encode($filters) }}"
-                ></search-filter-component>
-            </div>
-        </div> -->
-
         <div class="col-md-2 d-block">
             <search-filter-component
                 filters="{{ json_encode($filters) }}"
