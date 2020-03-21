@@ -93,7 +93,7 @@
                 default: ''
             }
         },
-         data() {
+        data() {
             return {
                 allItems: {},
                 total: 0,

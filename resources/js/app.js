@@ -7,9 +7,11 @@
 
 
 window.Vue = require('vue');
-
+import InstantSearch from 'vue-instantsearch';
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
+Vue.use(InstantSearch);
+
 
 
 
@@ -89,8 +91,18 @@ Vue.component(
     require('./components/AddressForm.vue').default
 );
 
+Vue.component('search', require('./components/Search.vue').default);
 
 
+Vue.component('my-search', require('./components/MySearch.vue').default);
+
+Vue.component('header-component', require('./components/Header.vue').default);
+
+Vue.component('search-component', require('./components/SearchComponent.vue').default);
+
+Vue.component('hits-component', require('./components/HitsComponent.vue').default);
+
+Vue.component('refinament-component', require('./components/RefinamentComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -98,5 +110,9 @@ Vue.component(
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: {
+        path: document.body.getAttribute('data-root') || '',
+    },
+
 });
