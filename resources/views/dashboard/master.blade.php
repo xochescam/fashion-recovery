@@ -11,7 +11,7 @@
     <!-- Fontawesome ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
-    <link rel="stylesheet" href="{{ url('css/app.css?1') }}" />
+    <link rel="stylesheet" href="{{ url('css/app.css?1.01') }}" />
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
 
     <title>FASHION RECOVERY</title>
@@ -33,8 +33,8 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="{{ url('js/sha256.min.js') }} "></script>
 
-    <script  type="text/javascript" src="{{ url('js/app.js?1.13') }} "></script>
-    <script  type="text/javascript" src="{{ url('js/dashboard.js?1') }} "></script>
+    <script  type="text/javascript" src="{{ url('js/app.js?1.14') }} "></script>
+    <script  type="text/javascript" src="{{ url('js/dashboard.js?1.1') }} "></script>
 
   </body>
 </html>
