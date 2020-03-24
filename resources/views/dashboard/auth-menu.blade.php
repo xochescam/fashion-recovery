@@ -6,7 +6,9 @@
 
 
 <li class="nav-item dropdown order-3 order-sm-2">
-  <a class="nav-link dropdown-toggle float-left float-sm-none" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <a class="nav-link dropdown-toggle float-left float-sm-none" 
+    id="navbarDropdown" role="button" data-toggle="dropdown" 
+    aria-haspopup="true" aria-expanded="false">
     <i class="fas fa-user d-inline-block d-sm-none"></i>
     <span class="ml-1">{{ Auth::User()->Alias }}</span>
     
@@ -38,7 +40,9 @@
 </li>
 
 <li class="nav-item dropdown order-2 order-sm-3">
-  <a class="nav-link dropdown-toggle float-left float-sm-none" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+  <a class="nav-link dropdown-toggle float-left float-sm-none" 
+  data-toggle="dropdown" href="#" role="button" 
+  aria-haspopup="true" aria-expanded="false">
 
     @if(count(Auth::User()->getNotifications()) > 0)
       <i class="fas fa-bell"></i><span class="badge badge-pill badge-light badge-notifications">{{ count(Auth::User()->getNotifications())}}</span>
