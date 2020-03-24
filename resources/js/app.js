@@ -15,6 +15,7 @@ Vue.use(InstantSearch);
 
 
 
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -56,10 +57,7 @@ Vue.component(
     require('./components/ItemToShoppingCartComponent.vue').default
 );
 
-Vue.component(
-    'search-filter-component',
-    require('./components/SearchFilterComponent.vue').default
-);
+
 
 Vue.component(
     'item-list-component',
@@ -91,18 +89,20 @@ Vue.component(
     require('./components/AddressForm.vue').default
 );
 
-Vue.component('search', require('./components/Search.vue').default);
+// Search
+Vue.component('header-component', require('./components/header/Header.vue').default);
+
+Vue.component(
+    'search-filter',
+    require('./components/search/Filters.vue').default
+);
 
 
-Vue.component('my-search', require('./components/MySearch.vue').default);
-
-Vue.component('header-component', require('./components/Header.vue').default);
-
-Vue.component('search-component', require('./components/SearchComponent.vue').default);
-
-Vue.component('hits-component', require('./components/HitsComponent.vue').default);
-
-Vue.component('refinament-component', require('./components/RefinamentComponent.vue').default);
+// Search
+Vue.component('search-page', require('./components/search/SearchPage.vue').default);
+Vue.component('search-input', require('./components/search/SearchInput.vue').default);
+Vue.component('hits', require('./components/search/Hits.vue').default);
+Vue.component('refinament', require('./components/search/Refinament.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
