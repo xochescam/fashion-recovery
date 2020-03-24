@@ -24,6 +24,7 @@
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
+    "vue-instantsearch": "^2.7.0",
     "vue-select": "^3.2.0",
     "vuelidate": "^0.7.5"
   }
