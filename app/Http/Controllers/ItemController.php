@@ -180,7 +180,7 @@ class ItemController extends Controller
 
             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error');
+            Session::flash('warning','Ha ocurrido un error '+$ex);
             return Redirect::to('item');
         }
     }
