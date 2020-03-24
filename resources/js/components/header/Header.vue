@@ -1,0 +1,158 @@
+<template>
+
+<nav id="header" class="navbar navbar-expand-lg navbar-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" :href="this.$root.path">
+      <img :src="this.$root.path+'/img/header/transparent_logo.png'" alt="Fashion Recovery"/>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" 
+    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+    aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    
+        <search-input 
+            :searchdata="search"
+            v-if="instantsearch"></search-input>
+
+        <div class="form-inline my-2 my-lg-0 mr-auto" v-else>
+            <input
+                class="form-control mr-sm-2"
+                name="search" 
+                type="search"
+                ref="search"
+                placeholder="¿Qué buscas hoy?" 
+                v-on:keyup.enter="searchPage"
+            >
+            <button 
+                class="btn btn-outline-light my-2 my-sm-0 mx-2" 
+                type="button"
+                @click="searchPage"
+                >Buscar</button>
+        </div>   
+
+        <ul class="navbar-nav ml-auto" >
+            <li class="nav-item" v-if="sellerurl">
+                <a class="nav-link" :href="sellerurl">
+                    ¿Quieres vender?
+                </a>
+            </li>
+    
+            <a class="nav-link order-1 order-sm-1 text-left text-sm-center" 
+                :href="this.$root.path+'/shopping-cart'" 
+                role="button" 
+                aria-haspopup="true" 
+                aria-expanded="false"
+                v-if="auth.id">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge badge-pill badge-light badge-notifications">{{ countitems }}</span>
+                    <span class="ml-1 d-inline-block d-sm-none">Carrito</span>
+            </a>
+
+
+            <li class="nav-item dropdown order-3 order-sm-2">
+                <a class="nav-link dropdown-toggle float-left float-sm-none" 
+                    id="navbarDropdown" role="button" data-toggle="dropdown" 
+                    aria-haspopup="true" aria-expanded="false"
+                    v-if="auth.id">
+                    <i class="fas fa-user d-inline-block d-sm-none"></i>
+                    <span class="ml-1">{{ auth.Alias }}</span>
+                    
+                </a>
+
+                <div class="dropdown-menu btn-fr border-0" aria-labelledby="navbarDropdown" v-if="auth.id">
+                    <a class="dropdown-item text-left" :href="this.$root.path+'/auth/'+auth.id">Mi Cuenta</a>
+                    <a class="dropdown-item text-left" :href="this.$root.path+'/orders'">Mis Pedidos</a>
+                <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
+                -->
+                    <div class="dropdown-divider" 
+                        v-if="auth.id && auth.ProfileID === 2">
+                    </div>
+                    <a  class="dropdown-item text-left" 
+                        :href="this.$root.path+'/item'"
+                        v-if="auth.id  && auth.ProfileID === 2">Subir Prenda</a>
+                    <a  class="dropdown-item text-left" 
+                        :href="this.$root.path+'/guardarropa'"
+                        v-if="auth.id  && auth.ProfileID === 2">Mi Clóset</a>
+                    <a  class="dropdown-item text-left" 
+                        :href="this.$root.path+'/wishlists'"
+                        v-if="auth.id  && auth.ProfileID === 2">Mis Favoritos</a>
+                <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
+
+                    <div class="dropdown-divider" 
+                        v-if="auth.id  && auth.ProfileID > 2">
+                    </div>
+                    <a  class="dropdown-item text-left" 
+                        :href="this.$root.path+'/dashboard'"  
+                        v-if="auth.id  && auth.ProfileID > 2">Administración</a>
+
+
+                    <div class="dropdown-divider"></div>
+            <!--     <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
+            -->    <a class="dropdown-item text-left" :href="this.$root.path+'/logout'">Cerrar Sesión</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown order-2 order-sm-3" v-if="auth.id">
+                <a class="nav-link dropdown-toggle float-left float-sm-none" 
+                    data-toggle="dropdown" href="#" role="button" 
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell" v-if="Object.keys(this.notifications).length > 0"></i>
+                    <span class="badge badge-pill badge-light badge-notifications" v-if="Object.keys(this.notifications).length > 0">
+                        {{ Object.keys(this.notifications).length }}</span>
+                    <i class="fas fa-bell" v-else></i>
+                    <span class="ml-1 d-inline-block d-sm-none">Notificaciones</span>
+                </a>
+                <div class="dropdown-menu btn-fr text-white dropdown-menu--notifications border-0">
+                    <a href="#" class="dropdown-item text-left">No tienes notificaciones</a>
+                </div>
+            </li>
+
+            <li class="nav-item active" v-if="!auth.id">
+                <a class="nav-link" :href="this.$root.path+'/login/0'">Iniciar sesión</a>
+            </li>    
+        </ul>    
+
+    </div>
+  </div>
+</nav>
+
+</template>
+
+<script>
+
+export default {
+    props: {
+        instantsearch: Boolean,
+        sellerurl: String,
+        authdata: Object,
+        countitemsdata: Number,
+        notificationsdata: Array,
+        searchdata: String
+    },
+    data() {
+        return {
+            auth: this.authdata,
+            countitems: this.countitemsdata,
+            notifications: this.notificationsdata,
+            search: this.searchdata
+        };
+
+    },
+    methods: {
+        searchPage() {
+            var val = this.$refs.search.value;
+
+            if(!val) {
+                return;
+            }
+
+            window.location.href = this.$root.path+'/search/'+val;
+        }
+    },
+    mounted() {
+    }
+};
+</script>

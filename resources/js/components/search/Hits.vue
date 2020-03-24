@@ -7,7 +7,7 @@
         <section>
             <div class="row p-0 p-md-3 mb-5 mx-md-5">
 
-                <refinament-component></refinament-component>
+                <refinament></refinament>
 
                 <ais-hits class="col-md-10 shadow-lg p-3 mb-5 bg-white rounded w-100">
 
