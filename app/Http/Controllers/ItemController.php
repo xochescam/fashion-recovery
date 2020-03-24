@@ -15,6 +15,7 @@ use App\Type;
 use App\Offer;
 use App\Closet;
 use App\Item;
+use App\ItemInfo;
 
 use DB;
 use Redirect;
@@ -115,13 +116,29 @@ class ItemController extends Controller
 
             $data = $this->itemData($request->toArray());
 
-            DB::table($this->table)->insert($data);
+            //DB::table($this->table)->insert($data);
 
-            $last = DB::table($this->table)
-                    ->where('OwnerID',Auth::User()->id)
-                    ->orderBy('CreationDate', 'desc')
-                    ->first()
-                    ->ItemID;
+            $item = new Item;
+
+            $item->ItemDescription  = $data['ItemDescription'];
+            $item->OwnerID          = $data['OwnerID'];
+            $item->PicturesUploaded = $data['PicturesUploaded'];
+            $item->OriginalPrice    = $data['OriginalPrice'];
+            $item->ActualPrice      = $data['ActualPrice'];
+            $item->ColorID          = $data['ColorID'];
+            $item->SizeID           = $data['SizeID'];
+            $item->ClothingTypeID   = $data['ClothingTypeID'];
+            $item->DepartmentID     = $data['DepartmentID'];
+            $item->CategoryID       = $data['CategoryID'];
+            $item->TypeID           = $data['TypeID'];
+            $item->BrandID          = $data['BrandID'];
+            $item->ClosetID         = $data['ClosetID'];
+            $item->OffSaleID        = $data['OffSaleID'];
+            $item->OtherBrand       = $data['OtherBrand'];
+            $item->CreationDate     = $data['CreationDate'];
+            $item->IsPaused         = $data['IsPaused'];
+
+            $item->save();
 
             $names = [
                 'front'  => 0,
@@ -141,11 +158,11 @@ class ItemController extends Controller
                 'extra'  => 6
             ];
 
-            $itemsName = $this->saveItems($request->toArray(), $last);
+            $itemsName = $this->saveItems($request->toArray(), $item->ItemID);
 
             foreach ($itemsName as $key => $value) { //change
                 DB::table('fashionrecovery.GR_032')->insert([
-                    'ItemID'       => $last,
+                    'ItemID'       => $item->ItemID,
                     'PicturePath'  => $value['name'],
                     'ThumbPath'    => $value['thumb'],
                     'TypeItemID'   => $types[$value['type']],
