@@ -20,6 +20,10 @@ class Item extends Model
     protected $table = 'fashionrecovery.GR_029';
     protected $primaryKey = 'ItemID';
 
+    public function info()
+    {
+        return $this->hasMany('App\ItemInfo', 'ItemID');
+    }
 
     public function department()
     {
@@ -79,9 +83,9 @@ class Item extends Model
         $array['ClothingTypeName'] = $this->clothingType->ClothingTypeName;
         $array['SizeName']         = $this->size->SizeName;
         $array['ColorName']        = $this->color->ColorName;
+        $array['ThumbPath']        = $this->info->where('IsCover',true)->first()->ThumbPath;
 
-       
-
+    
         return $array;
 
         /* $array = $this->transform(Item::getMyItems());
