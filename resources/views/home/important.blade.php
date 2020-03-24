@@ -14,7 +14,7 @@
             <div class="card-body">
               <h5 class="card-title">Mujeres</h5>
               <p class="card-text">Encuentra aquí los mejores estilos y los look más chic & hot del momento.</p>
-              <a href="{{ url('search/departments/Mujeres') }}" class="btn btn-fr">Ver más</a>
+              <a href="{{ url('search/Mujeres') }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>
         </div>
@@ -25,7 +25,7 @@
             <div class="card-body">
               <h5 class="card-title">Hombres</h5>
               <p class="card-text">¿Casual? ¿Negocios? ¿Relajado? ¿Deportivo?  ¡Tú elijes! Arma tu look aquí.</p>
-              <a href="{{ url('search/departments/Hombres') }}" class="btn btn-fr">Ver más</a>
+              <a href="{{ url('search/Hombres') }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>
         </div>
@@ -36,7 +36,7 @@
             <div class="card-body">
               <h5 class="card-title">Niños</h5>
               <p class="card-text">Vístelos ideal para cada ocasión, encuentras las mejores prendas y accesosios para los pequeñitos del hogar.</p>
-              <a href="{{ url('search/departments/Ninos') }}" class="btn btn-fr">Ver más</a>
+              <a href="{{ url('search/Niños') }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>
         </div>
@@ -47,7 +47,7 @@
             <div class="card-body">
               <h5 class="card-title">Bebés y Maternidad</h5>
               <p class="card-text">Prepara lo necesario para el gran momento, encuentra los mejores conjuntos para ti y para tu bebé.</p>
-              <a href="{{ url('search/departments/Bebés y Maternidad') }}" class="btn btn-fr">Ver más</a>
+              <a href="{{ url('search/Maternidad') }}" class="btn btn-fr">Ver más</a>
             </div>
           </div>
         </div>
