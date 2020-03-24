@@ -17,7 +17,7 @@
                         slot-scope="{ item }">
                         <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">
                                 
-                            <img class="card-img-top" :src="path+'/'+item.ThumbPath" alt="" height="200px;">
+                            <img class="card-img-top" :src="path+'/storage/'+item.ThumbPath" alt="" height="200px;">
                             <div class="card-body px-0 p-lg-3">
                                     
                                 <h4 class="card-title mb-0">
