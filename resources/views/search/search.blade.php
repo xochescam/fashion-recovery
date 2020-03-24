@@ -24,17 +24,24 @@
   <body data-root="{{ url('/') }}">
 
     <div id="app">
-      <search-component
+
+      <search-page
+        searchdata="{{ $search }}"
+        :authdata="{{ Auth::User() !== null ? Auth::User() : '{}' }}"
+        :countitemsdata="{{ Auth::User() !== null  ? count(Auth::User()->getItems()) : 0 }}"
+        :notificationsdata="{{ Auth::User() !== null  ? Auth::User()->getNotifications() : '[]' }}"
         sellerurl="{{ (!isset(Auth::User()->ProfileID) || (isset(Auth::User()->ProfileID) 
           && Auth::User()->ProfileID == 1)) ? 
           Auth::User() !== null ? url('seller') : url('register',1) :  '' }}"
       >
-      </search-component>
+      </search-page>
     </div>
 
-
-
     @include('layout.footer')
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.4/dist/instantsearch.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/instantsearch.js@2.10.4"></script>
+
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS, then  bootstrap-datepicker JS-->
