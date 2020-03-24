@@ -52,7 +52,7 @@ Route::get('delete-secret/{id}/', 'SellerController@deleteSecret');
 
 	
 //Search
-Route::get('search', 'SearchController@search');
+Route::get('search/{search}', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
