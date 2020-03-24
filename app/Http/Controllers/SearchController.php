@@ -15,27 +15,9 @@ class SearchController extends Controller
         return view('search.search');
     }
 
-    public function search(Request $request)
+    public function search(Request $request, $search)
     {
-        $search     = $request->get('q');
-
-        if(strpos($search, ' ') !== false) {
-            $search = str_replace(' ', '%', $search);
-        }
-
-        $all = $this->getItems()
-                      ->where('fashionrecovery.GR_017.BrandName', 'LIKE', '%'.$search.'%');
-        $thumbs = Item::getThumbs($all->get());
-        $items  = Item::getItemThumbs($all->get(), $thumbs);
-              
-        $filters = $this->filterOptionsLink($all, $search);
-        $type = 'card';
-        
-
-        return view('search.search', compact('search',
-                                             'items',
-                                             'filters',
-                                             'type'));
+        return view('search.search', compact('search'));
     }
 
     public function getItemThumbs($all) {
