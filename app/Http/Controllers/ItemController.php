@@ -737,9 +737,25 @@ class ItemController extends Controller
 
         try {
 
+            Item::disableSearchSyncing();
+
             $data = $this->updateItemData($request->toArray());
 
-            DB::table($this->table)->where('ItemID',$id)->update($data);
+            $item = Item::find($id);;
+
+            $item->ItemDescription  = $data['ItemDescription'];
+            $item->OriginalPrice    = $data['OriginalPrice'];
+            $item->ActualPrice      = $data['ActualPrice'];
+            $item->ColorID          = $data['ColorID'];
+            $item->SizeID           = $data['SizeID'];
+            $item->ClothingTypeID   = $data['ClothingTypeID'];
+            $item->CategoryID       = $data['CategoryID'];
+            $item->TypeID           = $data['TypeID'];
+            $item->BrandID          = $data['BrandID'];
+            $item->ClosetID         = $data['ClosetID'];
+            $item->OffSaleID        = $data['OffSaleID'];
+
+            $item->save();
 
             $sameCover = DB::table('fashionrecovery.GR_032')
                         ->where('ItemID',$id)
@@ -760,18 +776,21 @@ class ItemController extends Controller
                         
             } 
 
-            $itemsName = $this->saveItems($request->toArray(), $id);
+            $itemsName = $this->saveItems($request->toArray(), $item->ItemID);
 
             foreach ($itemsName as $key => $value) { //change
-                DB::table('fashionrecovery.GR_032')->insert([
-                    'ItemID'       => $id,
-                    'PicturePath'  => $value['name'],
-                    'ThumbPath'    => $value['thumb'],
-                    'TypeItemID'   => $types[$value['type']],
-                    'IsCover'      => $names[$request->cover] == $key ? true : false,
-                    'CreationDate' => date("Y-m-d H:i:s")
-                ]);
+
+                $info = new ItemInfo;
+                $info->ItemID       = $item->ItemID;
+                $info->PicturePath  = $value['name'];
+                $info->ThumbPath    = $value['thumb'];
+                $info->TypeItemID   = $types[$value['type']];
+                $info->IsCover      = $names[$request->cover] == $key ? true : false;
+                $info->CreationDate = date("Y-m-d H:i:s");
+                $info->save();
             }
+
+            $item->searchable();
 
             DB::commit();
 
