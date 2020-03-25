@@ -8,6 +8,7 @@ use DB;
 
 class ItemInfo extends Model
 {
+    public $timestamps = false;
     /**
      * The table associated with the model.
      *

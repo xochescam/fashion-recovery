@@ -116,7 +116,7 @@ class ItemController extends Controller
 
             $data = $this->itemData($request->toArray());
 
-            //DB::table($this->table)->insert($data);
+            Item::disableSearchSyncing();
 
             $item = new Item;
 
@@ -161,22 +161,25 @@ class ItemController extends Controller
             $itemsName = $this->saveItems($request->toArray(), $item->ItemID);
 
             foreach ($itemsName as $key => $value) { //change
-                DB::table('fashionrecovery.GR_032')->insert([
-                    'ItemID'       => $item->ItemID,
-                    'PicturePath'  => $value['name'],
-                    'ThumbPath'    => $value['thumb'],
-                    'TypeItemID'   => $types[$value['type']],
-                    'IsCover'      => $names[$request->cover] == $key ? true : false,
-                    'CreationDate' => date("Y-m-d H:i:s")
-                ]);
+
+                $info = new ItemInfo;
+                $info->ItemID       = $item->ItemID;
+                $info->PicturePath  = $value['name'];
+                $info->ThumbPath    = $value['thumb'];
+                $info->TypeItemID   = $types[$value['type']];
+                $info->IsCover      = $names[$request->cover] == $key ? true : false;
+                $info->CreationDate = date("Y-m-d H:i:s");
+                $info->save();
             }
+
+            $item->searchable();
 
             DB::commit();
 
             Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('items'); //cambiar
  
-      } catch (\Exception $ex) {
+        } catch (\Exception $ex) {
 
             DB::rollback();
 

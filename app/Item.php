@@ -12,6 +12,8 @@ class Item extends Model
 {
     use Searchable;
 
+    public $timestamps = false;
+
     /**
      * The table associated with the model.
      *
