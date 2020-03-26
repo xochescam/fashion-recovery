@@ -11,7 +11,7 @@
 
                 <ais-hits class="col-md-10 shadow-lg p-3 mb-5 bg-white rounded w-100">
 
-                    <a  href="#" 
+                    <a :href="path+'/items/'+item.ItemID+'/public'" 
                         class="link-card mt-4"
                         slot="item"
                         slot-scope="{ item }">
