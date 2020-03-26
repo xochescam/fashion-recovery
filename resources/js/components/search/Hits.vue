@@ -1,11 +1,11 @@
 <template>
     <main id="main">
-        <div class="row p-3 mx-0 mx-md-5">
+        <div class="container pt-4">
             <h2 class="text-left TituloFR my-4 mb-5">Resultados de la búsqueda</h2>
         </div>
         
-        <section>
-            <div class="row p-0 p-md-3 mb-5 mx-md-5">
+        <section class="container">
+            <div class="row p-0 mb-5">
 
                 <refinament></refinament>
 

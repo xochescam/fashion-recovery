@@ -379,7 +379,13 @@ div a{
 
 .card--item {
   cursor: pointer;
-  max-width: 300px;
+      max-width: initial;
+
+  @media (min-width: 576px) {
+
+    max-width: 300px;
+
+  }
 }
 
 .card--public:hover{
@@ -810,10 +816,14 @@ div a{
 
 .ais-Hits-item {
   display: block;
-  max-width: 280px;
+  max-width: 100%;
   margin-bottom: 30px;
   padding-right: 15px;
   padding-left: 15px;
+
+  @media (min-width: 576px) {
+    max-width: 280px;
+  }
 }
 
 .ais-RefinementList-list {
@@ -834,4 +844,13 @@ div a{
   white-space: nowrap;
   vertical-align: baseline;
   border-radius: .25rem;
+}
+
+.border-md-0 {
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+  
+  @media (min-width: 576px) {
+    border: none;
+  }
 }
