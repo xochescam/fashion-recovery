@@ -29,7 +29,7 @@
 		          	<div class="col-sm-2 p-0 mb-4 container-img-thumbs">
 		          		@foreach($items as $item)
 			                <div class="p-0 mb-4 thumb-img-public js-thumb-image" data-name="{{ 'storage/'.$item->PicturePath }}">
-			                    <img src="{{ url('storage/'.$item->ThumbPath) }}" class="card-img-top alt="...">
+			                    <img src="{{ url('storage/'.$item->ThumbPath) }}" class="card-img-top">
 			                </div>
 			              @endforeach
 		          	</div>
