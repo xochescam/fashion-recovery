@@ -26,6 +26,7 @@
     <div id="app">
 
       <search-page
+        :wishlistdata="{{ $wishlist === [] ? '[]' : $wishlist }}"
         searchdata="{{ $search }}"
         :authdata="{{ Auth::User() !== null ? Auth::User() : '{}' }}"
         :countitemsdata="{{ Auth::User() !== null  ? count(Auth::User()->getItems()) : 0 }}"

@@ -42,6 +42,15 @@ class User extends Authenticatable
         $this->notify(new MailResetPasswordNotification($token));
     }
 
+    public function infoWishlist() {
+
+        return DB::table('fashionrecovery.GR_024')
+            ->join('fashionrecovery.GR_037', 'GR_024.WishListID', '=', 'GR_037.WishlistID')
+            ->where('GR_024.UserID',Auth::User()->id)
+            ->get(['WishListID','ItemID']);        
+    }
+
+
     public function inWishlist($ItemID) {
 
         return DB::table('fashionrecovery.GR_024')

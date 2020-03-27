@@ -1,11 +1,11 @@
 @foreach($items as $item)
-  <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 item-option">
+  <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4 item-option position-relative">
 
-      <heart-wishlist-component
-        has="{{ Auth::User() && isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
-        url="{{ isset($item->urlWishlists) ? $item->urlWishlists : '#' }}"
-        type="{{ $type }}"
-      ></heart-wishlist-component>
+    <heart-wishlist-component
+      has="{{ Auth::User() && isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
+      url="{{ isset($item->urlWishlists) ? $item->urlWishlists : '#' }}"
+      type="{{ $type }}"
+    ></heart-wishlist-component>
 
     <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="link-card">
       <div class="card card--public card--item shadow p-3 bg-white rounded d-flex align-items-stretch h-100">

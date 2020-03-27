@@ -17,7 +17,9 @@ class SearchController extends Controller
 
     public function search(Request $request, $search)
     {
-        return view('search.search', compact('search'));
+        $wishlist = isset(Auth::User()->id) ? Auth::User()->infoWishlist() : [];
+
+        return view('search.search', compact('search','wishlist'));
     }
 
     public function getItemThumbs($all) {

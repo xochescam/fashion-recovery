@@ -57,7 +57,7 @@
         },
          data() {
             return {
-                hasWish: []
+                hasWish: this.has
             };
         },
         methods: {
@@ -93,11 +93,6 @@
                         console.log(error)
                 }) 
             }
-        },
-        mounted() { 
-            
-            this.hasWish = this.has;            
-            
         }
     };
 </script>

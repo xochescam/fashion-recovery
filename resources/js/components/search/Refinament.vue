@@ -68,9 +68,6 @@
                 this.responsive = window.screen.width > 576;
                 
             }
-        },
-        mounted() {
-            console.log(window.screen.width );
         }
     }
 </script>

@@ -15,7 +15,9 @@
         :searchdata="search"
     ></header-component>
 
-    <hits></hits>
+    <hits 
+        :wishlistdata="{ wishlistdata }"
+        :authdata="auth"></hits>
 
   </ais-instant-search>
 </template>
@@ -26,6 +28,7 @@ import algoliasearch from 'algoliasearch/lite';
 
 export default {
     props: {
+        wishlistdata: Array,
         searchdata: String,
         sellerurl: String,
         authdata: Object,
@@ -50,7 +53,6 @@ export default {
             notifications: this.notificationsdata,
             search: this.searchdata
         };
-
     }
 };
 </script>
