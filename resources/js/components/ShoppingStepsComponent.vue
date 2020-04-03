@@ -58,10 +58,7 @@
         methods: {
 
         },
-        mounted() {
-
-            console.log(this.urlone);
-            
+        mounted() {            
             this.current = JSON.parse(this.step);
         }
     };
