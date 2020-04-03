@@ -12,41 +12,6 @@ import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate)
 Vue.use(InstantSearch);
 
-
-
-
-
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component(
-    'example-component',
-    require('./components/ExampleComponent.vue').default
-);
-
-Vue.component(
-    'select-component',
-    require('./components/SelectComponent.vue').default
-);
-
-Vue.component(
-    'brands-component',
-    require('./components/BrandsComponent.vue').default
-);
-
-Vue.component(
-    'guardarropa-component',
-    require('./components/GuardarropaStatusComponent.vue').default
-);
-
 Vue.component(
     'heart-wishlist-component',
     require('./components/HeartWishlistComponent.vue').default
@@ -57,38 +22,6 @@ Vue.component(
     require('./components/ItemToShoppingCartComponent.vue').default
 );
 
-
-
-Vue.component(
-    'item-list-component',
-    require('./components/ItemListComponent.vue').default
-);
-
-Vue.component(
-    'shopping-steps-component',
-    require('./components/ShoppingStepsComponent.vue').default
-);
-
-Vue.component(
-    'confirm-buy',
-    require('./components/ConfirmBuy.vue').default
-);
-
-Vue.component(
-    'cancel-order',
-    require('./components/CancelOrderComponent.vue').default
-);
-
-Vue.component(
-    'create-seller',
-    require('./components/CreateSeller.vue').default
-);
-
-Vue.component(
-    'address-form',
-    require('./components/AddressForm.vue').default
-);
-
 // Search
 Vue.component('header-component', require('./components/header/Header.vue').default);
 
@@ -96,7 +29,6 @@ Vue.component(
     'search-filter',
     require('./components/search/Filters.vue').default
 );
-
 
 // Search
 Vue.component('search-page', require('./components/search/SearchPage.vue').default);
