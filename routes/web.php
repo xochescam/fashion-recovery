@@ -72,6 +72,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('summary/{ShippingAddID}', 'PaymentController@summary');
 	Route::get('confirmation/{ShippingAddID}', 'PaymentController@confirmation');
 
+	Route::post('payment-card', 'PaymentController@paymentCard');
+
+
 	//Route::get('confirm/{ShippingAddID}', 'ConfirmBuyController@confirm');
 
 
