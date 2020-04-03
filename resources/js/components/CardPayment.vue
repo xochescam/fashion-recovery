@@ -51,7 +51,7 @@
                 id="cardNumber" 
                 class="form-control" 
                 data-checkout="cardNumber" 
-                placeholder="4509 9535 6623 3704" 
+                placeholder="4075595716483764" 
                 onselectstart="return false" 
                 onpaste="return false" 
                 onCopy="return false" 
@@ -243,7 +243,7 @@ export default {
             doSubmit: false,
             paymentMethodId: '',
             isClicked: false,
-            cardnumber: '4075595716483764',
+            cardnumber: '',
             month: '',
             year: '',
             cvv: '',
