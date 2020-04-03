@@ -27,8 +27,8 @@ class OrderController extends Controller
     	$user      = Auth::User();
 
     	$orders = DB::table($this->table)
-                    ->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
-                    ->join('fashionrecovery.GR_013', 'GR_022.OrderStatusID', '=', 'GR_013.OrderStatusID')
+                    //->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
+                    ->join('fashionrecovery.GR_013', 'GR_021.OrderStatusID', '=', 'GR_013.OrderStatusID')
                     ->where('UserID',Auth::User()->id)
                     ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name')
                     ->get();
@@ -66,6 +66,8 @@ class OrderController extends Controller
             return $item;
 
         })->groupBy('OrderID');
+
+        
 
 
     	return view('orders.index',
