@@ -182,9 +182,10 @@ class PaymentController extends Controller
 
             DB::table('fashionrecovery.GR_022')
                 ->insert([
-                    'OrderID'      => $last,
-                    'ItemID'       => $value->ItemID,
-                    'CreationDate' => date("Y-m-d H:i:s")
+                    'OrderID'         => $last,
+                    'OrderStatusID'   => 1,
+                    'ItemID'          => $value->ItemID,
+                    'CreationDate'    => date("Y-m-d H:i:s")
                 ]);
 
             DB::table('fashionrecovery.GR_029')
