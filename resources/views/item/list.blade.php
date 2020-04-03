@@ -15,7 +15,7 @@
           <a href="{{ url('item') }}" class="btn btn-fr mb-4">Subir prenda</a>
         </div>
 
-          <div class="row justify-content-start p-3" id="app">
+          <div class="row justify-content-start p-3">
             @include('item.partials.card-auth')
           </div>
         </div>

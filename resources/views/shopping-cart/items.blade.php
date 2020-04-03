@@ -3,7 +3,7 @@
 @section('content')
 
 	<main id="main">
-      	<div class="container py-5" id="app">
+      	<div class="container py-5">
 
 			<shopping-steps-component
 			  	step="1"

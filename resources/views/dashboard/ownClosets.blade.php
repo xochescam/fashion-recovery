@@ -14,7 +14,7 @@
 					<div class="float-right w-100">
 						<div class="form-group row float-right">
 							<label class="col-form-label mr-2">Pausar Clóset</label>
-							<div class="col-form-label text-left d-flex align-top mr-3" id="app">
+							<div class="col-form-label text-left d-flex align-top mr-3">
 								<guardarropa-component
 									initial="{{ Auth::User()->IsPaused }}"
 									type="all"

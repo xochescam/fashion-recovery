@@ -4,7 +4,7 @@
 
 	 <main id="main">
       <div class="container py-5">
-        <div class="row" id="app" >
+        <div class="row">
           <div class="col-md-10 offset-md-1">
             <h2 class="text-center TituloFR my-4 mb-5">Registro de vendedor</h2>
 

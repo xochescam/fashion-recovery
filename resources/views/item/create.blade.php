@@ -14,7 +14,7 @@
 
               <p><small>Todos los campos con * son obligatorios.</small></p>
 
-              <div id="app">
+              <div>
               @include('item.form')
               </div>
 

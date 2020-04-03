@@ -15,7 +15,7 @@
       @include('alerts.success')
       @include('alerts.warning')
 
-      <div class="row" id="app">
+      <div class="row" >
           
         @foreach($closets as $closet)
           <div class="col-sm-4 mb-4">

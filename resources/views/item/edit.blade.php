@@ -20,7 +20,7 @@
 
             
 
-              <div id="app">
+              <div>
               @include('item.form')
               </div>
 

@@ -5,7 +5,7 @@
 	<main id="main">
       	<div class="container py-5">
 
-		  	<div id="app">
+		  	<div>
 			  	<shopping-steps-component
 			  		step="4"
 					urlone=""

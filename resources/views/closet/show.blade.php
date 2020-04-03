@@ -15,7 +15,7 @@
         @include('alerts.success')
         @include('alerts.warning')
 
-        <div class="row justify-content-start p-3" id="app">
+        <div class="row justify-content-start p-3">
           @include('item.partials.card-auth')        
         </div>
 

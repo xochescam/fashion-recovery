@@ -17,7 +17,7 @@
 
         <div class="col-md-8 offset-md-2">
 
-          <form method="POST" id="app" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
+          <form method="POST" action="{{ url('shipping',$isNew ? '' : $address->ShippingAddID)  }}" class="needs-validation" novalidate>
             {!! csrf_field() !!}
 
             <input type="hidden" value="{{ $type_url }}" name="type_url">

@@ -2,7 +2,7 @@
 
 @section('content')
 
-<main id="app">
+<main>
     <div class="container py-5">
 
 		<div>
@@ -32,20 +32,24 @@
 				<div class="accordion" id="accordionExample">
 					<div class="card">
 						<div class="card-header p-0" id="headingOne">
-							<a class="btn green-link w-100 p-3 d-flex justify-content-start align-items-center" type="button" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">
-								<img src="{{ url('/img/logos/credit.png') }}" class="mr-1 height-15" alt="">
+							<a class="btn green-link w-100 p-3 d-flex justify-content-start align-items-center" type="button" aria-expanded="true" data-toggle="collapse" data-target="#collapseOne" aria-controls="collapseOne">
+								<img src="{{ url('/img/logos/mercadopago.png') }}" class="mr-2 height-15" alt="">
 								<span>Tarjetas de Crédito y Débito</span>	
 							</a>
 						</div>
 
-						<div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+						<div id="collapseOne" class="collapse show border-bottom" aria-labelledby="headingOne" data-parent="#accordionExample">
 							<div class="card-body">
-								@include('payment.card')				
+								<card-payment
+									csrf="{{ csrf_token() }}"
+									shipping="{{ $address->ShippingAddID }}"
+								>
+								</card-payment>			
 							</div>
 						</div>
 					</div>
-					<div class="card">
-						<div class="card-header p-0" id="headingTwo">
+					<!--<div class="card">
+						 <div class="card-header p-0" id="headingTwo">
 							<a class="btn green-link w-100 p-3 d-flex justify-content-start align-items-center" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-controls="collapseTwo">
 								<img src="{{ url('/img/logos/paypal-logo.png') }}" class="mr-1 height-15" alt="">
 								<span>PayPal</span>	
@@ -60,8 +64,8 @@
 									Ir
 								</a>
 							</div>
-						</div>
-					</div>
+						</div> 
+					</div>-->
 				</div>					
 		</div>
 		<div class="col-md-3 order-1 order-md-2 mb-4">
@@ -93,13 +97,6 @@
 			</div>
 		</div>	
     </div>
-
-	<div class="row mt-4"> 
-		<confirm-buy
-			shipping="{{ $address->ShippingAddID }}"
-			shipping="{{ $address->ShippingAddID }}"
-		></confirm-buy>
-	</div>	
 </main>
 
 
@@ -119,3 +116,7 @@
   </div>
 </div>
 @endsection
+
+@push('mercadopago')
+<script src="https://secure.mlstatic.com/sdk/javascript/v1/mercadopago.js"></script>
+@endpush

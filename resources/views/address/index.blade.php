@@ -2,7 +2,7 @@
 
 @section('content')
 
-	<main id="app">
+	<main>
       	<div class="container py-5" >
 			
 		  <div>

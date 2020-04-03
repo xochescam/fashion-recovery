@@ -8,7 +8,7 @@
 
         <p class="mb-5 text-center w-100">Encuentra las prendas que más te gustaron y que has marcado como favoritas, pero apresúrate, alguien te las puede ganar. </p>
 
-        <div class="row" id="app">
+        <div class="row">
 
             @include('item.partials.card') 
 

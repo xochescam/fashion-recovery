@@ -139,7 +139,7 @@
 					</table>
 
 					<div class="card w-100">
-		          		<div class="card-body" id="app">
+		          		<div class="card-body">
 		          			<a href="{{ url('payment/'.$info->ItemID.'/true') }}" class="btn btn-fr my-2 w-100">
 		          				Comprar
 		          			</a>

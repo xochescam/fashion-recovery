@@ -16,13 +16,15 @@
 
     <title>FASHION RECOVERY</title>
   </head>
-  <body>
+  <body data-root="{{ url('/') }}">
 
-    @include('dashboard.header')
+    <div id="dashboard">
+      @include('dashboard.header')
 
-    @yield('content')
+      @yield('content')
 
-    @include('layout.footer')
+      @include('layout.footer')
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -31,10 +33,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="{{ url('js/sha256.min.js') }} "></script>
 
-    <script  type="text/javascript" src="{{ url('js/app.js?1.14') }} "></script>
+    @stack('mercadopago')
+
+    <script type="text/javascript" src="{{ url('js/private-components.js?1.13') }} "></script>
     <script  type="text/javascript" src="{{ url('js/dashboard.js?1.1') }} "></script>
-
   </body>
 </html>
