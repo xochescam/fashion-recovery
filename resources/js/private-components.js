@@ -77,6 +77,11 @@ Vue.component(
     require('./components/CardPayment.vue').default
 );
 
+Vue.component(
+    'select-component',
+    require('./components/SelectComponent.vue').default
+);
+
 
 
 /**
