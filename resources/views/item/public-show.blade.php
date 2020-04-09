@@ -161,36 +161,12 @@
 		          	</div>
 	          	</div>
 
-	          	<div class="col-sm-8 col-12 mt-5">
-					<h5>Preguntas y respuestas</h5>
-
-            		<form method="POST" action="{{ url('question') }}" class="needs-validation my-5" novalidate>
-            			@csrf
-
-            			<input type="hidden" name="id" value="{{ $id }}">
-
-						<div class="form-group">
-						    <label for="question">¿Tienes una pregunta?</label>
-						    <textarea class="form-control" name="question" id="question" rows="2" required></textarea>
-
-						    @if ($errors->has('question'))
-			                    <div class="invalid-validation">
-			                      {{ $errors->first('question') }}
-			                    </div>
-			                @else
-			                    <div class="invalid-feedback">
-			                      Ingresa una pregunta.
-			                    </div>
-			                @endif
-
-						</div>
-					  	<button type="submit" class="btn btn-fr">Preguntar</button>
-					</form>
-
-					@include('item.partials.question-parent')
-
-				</div>
-
+				<question
+					:item="{{ $item->ItemID }}"
+          			:errors="{{ $errors }}"
+          			:questions="{{ $questions }}"
+					:auth="{{ isset(Auth::User()->id) ? 'true' : 'false' }}"
+				></question>
 	        </div>
       	</div>
     </main>
