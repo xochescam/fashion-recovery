@@ -167,8 +167,4 @@ class RegisterController extends Controller
 
         return $user === null ? false : true;
     }
-
-
-
-
 }
