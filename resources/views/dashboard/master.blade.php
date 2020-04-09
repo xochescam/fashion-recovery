@@ -36,7 +36,7 @@
 
     @stack('mercadopago')
 
-    <script type="text/javascript" src="{{ url('js/private-components.js?1.14') }} "></script>
-    <script  type="text/javascript" src="{{ url('js/dashboard.js?1.2') }} "></script>
+    <script type="text/javascript" src="{{ url('js/private-components.js?1.15') }} "></script>
+    <script  type="text/javascript" src="{{ url('js/dashboard.js?1.3') }} "></script>
   </body>
 </html>
