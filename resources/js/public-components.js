@@ -35,6 +35,20 @@ Vue.component('search-page', require('./components/search/SearchPage.vue').defau
 Vue.component('search-input', require('./components/search/SearchInput.vue').default);
 Vue.component('hits', require('./components/search/Hits.vue').default);
 Vue.component('refinament', require('./components/search/Refinament.vue').default);
+Vue.component(
+    'question',
+    require('./components/question/Question.vue').default
+);
+
+Vue.component(
+    'question-parent',
+    require('./components/question/QuestionParent.vue').default
+);
+
+Vue.component(
+    'question-son',
+    require('./components/question/QuestionSon.vue').default
+);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

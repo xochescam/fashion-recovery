@@ -81,6 +81,25 @@ Vue.component(
     'select-component',
     require('./components/SelectComponent.vue').default
 );
+Vue.component(
+    'question',
+    require('./components/question/Question.vue').default
+);
+
+Vue.component(
+    'question-page',
+    require('./components/question/QuestionPage.vue').default
+);
+
+Vue.component(
+    'question-parent',
+    require('./components/question/QuestionParent.vue').default
+);
+
+Vue.component(
+    'question-son',
+    require('./components/question/QuestionSon.vue').default
+);
 
 
 
