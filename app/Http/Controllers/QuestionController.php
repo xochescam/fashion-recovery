@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Mail\NewQuestion;
 use App\Mail\AnswerQuestion;
 
+use App\Item;
 
 use DB;
 use Auth;
@@ -20,37 +21,30 @@ class QuestionController extends Controller
 
     public function question(Request $request) {
 
-    	$this->validator($request, true);
+        $owner = Item::findOrfail($request->ItemID)->OwnerID;
 
-        DB::beginTransaction();
-
-        try {
-
-            $data = $this->getData($request->toArray(),true);
-
-            DB::table($this->table)->insert($data);
-
-            $question = $this->getLast();
-
-            $user = $this->getUser($request->id);
-
-            $this->saveNotifications($user, $question, 'question');
-
-            Mail::to($user)
-                 ->send(new NewQuestion($user, Auth::User(), $question));
-
-            DB::commit();
-
-            Session::flash('success','Se ha enviado tu pregunta.');
-            return Redirect::to('/items/'.$request->id.'/public');
-
-        } catch (\Exception $ex) {
-
-            DB::rollback();
-
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/items/'.$request->id.'/public');
+        if(Auth::User()->id  === $owner) { //modificar
+            return response()->json([
+                'status' => 205,
+                'error' => 'warning',
+                "message" => 'No puedes realizar preguntas en tus prendas.'
+            ]);
         }
+
+        $data = $this->getData($request,true);
+
+        DB::table($this->table)->insert($data);
+
+        $question = $this->getLast();
+
+        $user = $this->getUser($request->ItemID);
+
+        $this->saveNotifications($user, $question, 'question');
+
+        Mail::to($user)
+            ->send(new NewQuestion($user, Auth::User(), $question));
+
+        return response()->json($question);
     }
 
     public function answer($QuestionID, $type) {
@@ -59,7 +53,7 @@ class QuestionController extends Controller
 
         if(!$question) {
             Session::flash('warning','No tienes permisos de contestar la pregunta.');
-            return Redirect::to('items');
+            return Redirect::back();
         }
 
         $question = $this->getAnswerQuestion($question, $QuestionID);
@@ -69,42 +63,27 @@ class QuestionController extends Controller
 
     public function storeAnswer(Request $request, $type) {
 
-        $this->validator($request, false);
 
-        DB::beginTransaction();
+        $data = $this->getData($request, false);
 
-        try {
+        DB::table($this->table)->insert($data);
 
-            $data = $this->getData($request->toArray(), false);
+        $answer = $this->getLast();
 
-            DB::table($this->table)->insert($data);
+        $user = $type == 'answer' ?
+                DB::table('fashionrecovery.GR_001')
+                    ->where('GR_001.id',$request->questionUser)
+                    ->select('GR_001.email','GR_001.Alias','GR_001.id')
+                    ->first() : $this->getUser($request->ItemID);
+            
 
-            $answer = $this->getLast();
+        $this->saveNotifications($user, $answer, 'answer');
 
-            $user = $type == 'answer' ?
-                    DB::table('fashionrecovery.GR_001')
-                        ->where('GR_001.id',$request->questionUser)
-                        ->select('GR_001.email','GR_001.Alias','GR_001.id')
-                        ->first() : $this->getUser($request->id);
+        Mail::to($user)
+            ->send(new AnswerQuestion($user, Auth::User(), $answer, $type));
 
-            $this->saveNotifications($user, $answer, 'answer');
 
-            Mail::to($user)
-                ->send(new AnswerQuestion($user, Auth::User(), $answer, $type));
-
-            DB::commit();
-
-            Session::flash('success','Se ha enviado tu respuesta.');
-            return Redirect::to('/question/'.$answer->ParentID.'/'.$type);
-
-        } catch (\Exception $ex) {
-
-            DB::rollback();
-
-            Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('/question/'.$answer->ParentID.'/'.$type);
-        }
-
+        return response()->json($answer);
     }
 
     public function saveNotifications($user, $answer, $type) {
@@ -161,37 +140,62 @@ class QuestionController extends Controller
                              $sons[$QuestionID] :
                              [];
 
-        $question->filterAnsw = $question->answers !== [] ?
-            $question->answers->filter(function ($value, $key) {
-                return $key > 0;
-            }) : [];
+        $question->filterAnsw = [];
+
+        if(count($question->answers) > 1) {
+            $answers = $question->answers->toArray();
+            $question->filterAnsw = $answers;
+            array_shift($question->filterAnsw);
+        }
 
         return $question;
     }
 
-    public function getUser($id) {
+    public function getUser($ItemID) {
 
         return DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
-                    ->where('GR_029.ItemID',$id)
+                    ->where('GR_029.ItemID',$ItemID)
                     ->select('GR_001.email','GR_001.Alias','GR_001.id')
                     ->first();
     }
 
     public function getLast() {
 
-        return DB::table($this->table)
-                    ->where('UserID',Auth::User()->id)
-                    ->orderBy('CreationDate', 'desc')
+        $answer = DB::table($this->table)
+                    ->join('fashionrecovery.GR_001', 'GR_039.UserID', '=', 'GR_001.id')
+                    ->where('GR_039.UserID',Auth::User()->id)
+                    ->select("GR_039.*",'GR_001.Name','GR_001.ProfileID','GR_001.Alias')
+                    ->orderBy('GR_039.CreationDate', 'desc')
                     ->first();
+
+        $answer->date = $this->getDate($answer->CreationDate);
+        $answer->answers = [];
+
+        return $answer;
     }
 
     public function getDate($date) {
+        $meses = array(
+            "enero",
+            "febrero",
+            "marzo",
+            "abril",
+            "mayo",
+            "junio",
+            "julio",
+            "agosto",
+            "septiembre",
+            "octubre",
+            "noviembre",
+            "diciembre");
+
+
         $year  = date('Y', strtotime($date));
-        $month = date('m', strtotime($date));
+        $month = date('n', strtotime($date));
         $day   = date('j', strtotime($date));
 
-        return $day.'/'.$month.'/'.$year;
+        return $day.' de '.$meses[$month - 1].' '.$year;
     }
 
     /**
@@ -216,10 +220,10 @@ class QuestionController extends Controller
 
         return [
              'UserID' 		=> Auth::User()->id,
-             'ItemID'   	=> $data['id'],
-             'ParentID' 	=> $isParent ? Null : $data['QuestionID'],
+             'ItemID'   	=> $data->ItemID,
+             'ParentID' 	=> $isParent ? Null : $data->QuestionID,
              'IsParent' 	=> $isParent,
-             'Question'     => $isParent ? $data['question'] : $data['answer'],
+             'Question'     => $isParent ? $data->question : $data->answer,
              'CreationDate' => date("Y-m-d H:i:s")
         ];
     }
