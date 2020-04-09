@@ -511,8 +511,6 @@ class ItemController extends Controller
 
         $questions = $this->getQuestions($id);
 
-       
-
         return view('item.public-show',compact(
             'questions',
             'id',
@@ -564,8 +562,7 @@ class ItemController extends Controller
                              $sons[$item->QuestionID] :
                              [];
 
-            $item->filterAnsw = $item->answers !== [] ?
-                            $item->answers->filter(function ($value, $key) {
+            $item->filterAnsw = count($item->answers) > 0 ? $item->answers->filter(function ($value, $key) {
                 return $key > 0;
             }) : [];
 
@@ -573,15 +570,30 @@ class ItemController extends Controller
 
         })->sortByDesc('CreationDate');
 
-        return $questions;
+        return count($questions) > 0 ? $questions : '{}';
     }
 
     public function getDate($date) {
+        $meses = array(
+            "enero",
+            "febrero",
+            "marzo",
+            "abril",
+            "mayo",
+            "junio",
+            "julio",
+            "agosto",
+            "septiembre",
+            "octubre",
+            "noviembre",
+            "diciembre");
+
+
         $year  = date('Y', strtotime($date));
-        $month = date('m', strtotime($date));
+        $month = date('n', strtotime($date));
         $day   = date('j', strtotime($date));
 
-        return $day.'/'.$month.'/'.$year;
+        return $day.' de '.$meses[$month - 1].' '.$year;
     }
 
     /**
