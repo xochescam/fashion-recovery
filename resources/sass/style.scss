@@ -145,6 +145,26 @@ body{
 
 .dropdown-menu--notifications {
   left: -150px;
+  font-size: 13px;
+}
+
+.size-14 {
+  font-size: 14px;
+}
+
+.dropdown-option {
+  width: auto;
+  background-color: initial;
+
+
+  @media (min-width: 575px) {
+    width: 100%;
+    background-color: #009c77;
+  }
+}
+
+.check-all:hover {
+  text-decoration: none;
 }
 
 .cursor-pointer {

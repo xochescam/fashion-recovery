@@ -66,6 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Notifications
 	Route::get('notification', 'NotificationController@show');
+	Route::post('notification-delete', 'NotificationController@destroy');
 
 	//payment
 	Route::get('payment/{ShippingAddID}/{IsBuy}', 'PaymentController@payment');

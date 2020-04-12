@@ -101,6 +101,11 @@ Vue.component(
     require('./components/question/QuestionSon.vue').default
 );
 
+Vue.component(
+    'notifications',
+    require('./components/header/Notifications.vue').default
+);
+
 
 
 /**

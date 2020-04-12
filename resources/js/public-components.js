@@ -24,6 +24,11 @@ Vue.component(
 
 // Search
 Vue.component('header-component', require('./components/header/Header.vue').default);
+Vue.component(
+    'notifications',
+    require('./components/header/Notifications.vue').default
+);
+
 
 Vue.component(
     'search-filter',

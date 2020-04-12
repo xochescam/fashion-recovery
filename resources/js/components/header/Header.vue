@@ -40,7 +40,7 @@
                 </a>
             </li>
     
-            <a class="nav-link order-1 order-sm-1 text-left text-sm-center" 
+            <a class="nav-link order-1 order-sm-2 text-left text-sm-center pl-2 pl-sm-0" 
                 :href="this.$root.path+'/shopping-cart'" 
                 role="button" 
                 aria-haspopup="true" 
@@ -52,8 +52,8 @@
             </a>
 
 
-            <li class="nav-item dropdown order-3 order-sm-2">
-                <a class="nav-link dropdown-toggle float-left float-sm-none" 
+            <li class="nav-item dropdown order-3 order-sm-3">
+                <a class="nav-link dropdown-toggle float-left float-sm-none dropdown-option pl-2 pl-sm-0 text-left" 
                     id="navbarDropdown" role="button" data-toggle="dropdown" 
                     aria-haspopup="true" aria-expanded="false"
                     v-if="auth.id">
@@ -62,21 +62,21 @@
                     
                 </a>
 
-                <div class="dropdown-menu btn-fr border-0" aria-labelledby="navbarDropdown" v-if="auth.id">
-                    <a class="dropdown-item text-left" :href="this.$root.path+'/auth/'+auth.id">Mi Cuenta</a>
-                    <a class="dropdown-item text-left" :href="this.$root.path+'/orders'">Mis Pedidos</a>
+                <div class="dropdown-menu bg-light size-14 mt-sm-3" aria-labelledby="navbarDropdown" v-if="auth.id">
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/auth/'+auth.id">Mi Cuenta</a>
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/orders'">Mis Pedidos</a>
                 <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
                 -->
                     <div class="dropdown-divider" 
                         v-if="auth.id && auth.ProfileID === 2">
                     </div>
-                    <a  class="dropdown-item text-left" 
+                    <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/item'"
                         v-if="auth.id  && auth.ProfileID === 2">Subir Prenda</a>
-                    <a  class="dropdown-item text-left" 
+                    <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/guardarropa'"
                         v-if="auth.id  && auth.ProfileID === 2">Mi Clóset</a>
-                    <a  class="dropdown-item text-left" 
+                    <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/wishlists'"
                         v-if="auth.id  && auth.ProfileID === 2">Mis Favoritos</a>
                 <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
@@ -84,31 +84,20 @@
                     <div class="dropdown-divider" 
                         v-if="auth.id  && auth.ProfileID > 2">
                     </div>
-                    <a  class="dropdown-item text-left" 
+                    <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/dashboard'"  
                         v-if="auth.id  && auth.ProfileID > 2">Administración</a>
 
 
                     <div class="dropdown-divider"></div>
             <!--     <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
-            -->    <a class="dropdown-item text-left" :href="this.$root.path+'/logout'">Cerrar Sesión</a>
+            -->    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/logout'">Cerrar Sesión</a>
                 </div>
             </li>
 
-            <li class="nav-item dropdown order-2 order-sm-3" v-if="auth.id">
-                <a class="nav-link dropdown-toggle float-left float-sm-none" 
-                    data-toggle="dropdown" href="#" role="button" 
-                    aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell" v-if="Object.keys(this.notifications).length > 0"></i>
-                    <span class="badge badge-pill badge-light badge-notifications" v-if="Object.keys(this.notifications).length > 0">
-                        {{ Object.keys(this.notifications).length }}</span>
-                    <i class="fas fa-bell" v-else></i>
-                    <span class="ml-1 d-inline-block d-sm-none">Notificaciones</span>
-                </a>
-                <div class="dropdown-menu btn-fr text-white dropdown-menu--notifications border-0">
-                    <a href="#" class="dropdown-item text-left">No tienes notificaciones</a>
-                </div>
-            </li>
+            <notifications
+                :notifications="this.notifications"
+            ></notifications>
 
             <li class="nav-item active" v-if="!auth.id">
                 <a class="nav-link" :href="this.$root.path+'/login/0'">Iniciar sesión</a>
