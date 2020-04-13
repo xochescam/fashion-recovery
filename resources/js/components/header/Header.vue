@@ -96,6 +96,7 @@
             </li>
 
             <notifications
+                v-if="auth.id"
                 :notifications="this.notifications"
             ></notifications>
 

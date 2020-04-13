@@ -39,6 +39,8 @@
   </div>
 </li>
 
-<notifications
-  :notifications="{{ Auth::User()->getNotifications() }}"
-></notifications>
+@if(isset(Auth::User()->id))
+  <notifications
+    :notifications="{{ Auth::User()->getNotifications() }}"
+  ></notifications>
+@endif
