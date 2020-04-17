@@ -34,7 +34,7 @@
         </div>   
 
         <ul class="navbar-nav ml-auto" >
-            <li class="nav-item" v-if="sellerurl">
+            <li class="nav-item" v-if="sellerurl && canbuyitem">
                 <a class="nav-link" :href="sellerurl">
                     ¿Quieres vender?
                 </a>
@@ -45,7 +45,7 @@
                 role="button" 
                 aria-haspopup="true" 
                 aria-expanded="false"
-                v-if="auth.id">
+                v-if="auth.id && canbuyitem">
                     <i class="fas fa-shopping-cart"></i>
                     <span class="badge badge-pill badge-light badge-notifications">{{ countitems }}</span>
                     <span class="ml-1 d-inline-block d-sm-none">Carrito</span>
@@ -63,40 +63,41 @@
                 </a>
 
                 <div class="dropdown-menu bg-light size-14 mt-sm-3" aria-labelledby="navbarDropdown" v-if="auth.id">
-                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/auth/'+auth.id">Mi Cuenta</a>
-                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/orders'">Mis Pedidos</a>
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/auth/'+auth.id" v-if="canpersonalinfo">Mi Cuenta</a>
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/orders'" v-if="canorders">Mis Pedidos</a>
                 <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
                 -->
                     <div class="dropdown-divider" 
-                        v-if="auth.id && auth.ProfileID === 2">
+                        v-if="auth.id && (canitem || canwishlist)">
                     </div>
                     <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/item'"
-                        v-if="auth.id  && auth.ProfileID === 2">Subir Prenda</a>
+                        v-if="auth.id  && canitem">Subir Prenda</a>
                     <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/guardarropa'"
-                        v-if="auth.id  && auth.ProfileID === 2">Mi Clóset</a>
+                        v-if="auth.id  && canitem">Mi Clóset</a>
                     <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/wishlists'"
-                        v-if="auth.id  && auth.ProfileID === 2">Mis Favoritos</a>
+                        v-if="auth.id  && canwishlist">Mis Favoritos</a>
                 <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
 
                     <div class="dropdown-divider" 
-                        v-if="auth.id  && auth.ProfileID > 2">
+                        v-if="auth.id && cancategory">
                     </div>
                     <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/dashboard'"  
-                        v-if="auth.id  && auth.ProfileID > 2">Administración</a>
+                        v-if="auth.id  && cancategory">Administración</a>
 
 
                     <div class="dropdown-divider"></div>
-            <!--     <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
-            -->    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/logout'">Cerrar Sesión</a>
+                    <a class="dropdown-item text-left" :href="this.$root.path+'/update-password'">Cambiar contraseña</a>
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/logout'">Cerrar sesión</a>
                 </div>
             </li>
 
+
             <notifications
-                v-if="auth.id"
+                v-if="auth.id && cannotifications"
                 :notifications="this.notifications"
             ></notifications>
 
@@ -115,6 +116,14 @@
 
 export default {
     props: {
+        cancategory: String,
+        canseller: String,
+        canbuyitem: String,
+        canpersonalinfo: String,
+        canorders: String,
+        canitem: String,
+        canwishlist: String,
+        cannotifications: String,
         instantsearch: Boolean,
         sellerurl: String,
         authdata: Object,
@@ -143,6 +152,7 @@ export default {
         }
     },
     mounted() {
+
     }
 };
 </script>
