@@ -7,6 +7,8 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\MailResetPasswordNotification;
 
+use App\Module;
+
 use Auth;
 use DB;
 
@@ -33,6 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password','remember_token',
     ];
+    
 
     /**
      * Send a password reset email to the user
@@ -40,6 +43,45 @@ class User extends Authenticatable
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new MailResetPasswordNotification($token));
+    }
+
+        /**
+     * Determine if the user may perform the given permission.
+     *
+     * @param  Module $permission
+     * @return boolean
+     */
+    public function hasPermission(Module $module)
+    {
+        return $this->hasModule($module->ModuleName);
+    }
+
+
+
+   /**
+     * Determine if the user has the given role.
+     *
+     * @param  mixed $role
+     * @return boolean
+     */
+    public function hasModule($moduleName)
+    {
+        if (is_string($moduleName)) {
+
+            $access = $this->access($moduleName);
+
+            return isset($access->AccessRightID) ? true : false;
+
+        }
+    }
+
+    public function access($moduleName)
+    {
+        $module = Module::where('ModuleName',$moduleName)->first();
+
+        return Access::where('ModuleID',$module->ModulesID)
+                ->where('ProfileID',Auth::User()->ProfileID)
+                ->first();
     }
 
     public function infoWishlist() {
@@ -141,6 +183,18 @@ class User extends Authenticatable
         $profile = Auth::User()->ProfileID;
 
         return $profile == 2 ? true : false;
+    }
+
+    public function isAdmin() {
+        $profile = Auth::User()->ProfileID;
+
+        return $profile == 4 ? true : false;
+    }
+
+    public function isSuperAdmin() {
+        $profile = Auth::User()->ProfileID;
+
+        return $profile == 3 ? true : false;
     }
 
     public function getShippingAddress() {
