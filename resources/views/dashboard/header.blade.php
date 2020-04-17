@@ -6,11 +6,9 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-    
-      @if(Auth::User()->ProfileID == 4)
+    @can('create-category')
         <ul class="navbar-nav">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Catálogos</a>
@@ -28,15 +26,15 @@
             </div>
           </li>
         </ul>
-      @endif
+      @endcan
 
       <ul class="navbar-nav ml-auto">
 
-        @if(Auth::User()->ProfileID == 1)
+        @can('create-seller')
           <li class="nav-item">
             <a class="nav-link" href="{{ url('seller') }}">¿Quieres Vender?</a>
           </li>
-        @endif
+        @endcan
 
         @include('dashboard.auth-menu')
         
