@@ -11,6 +11,7 @@ use Redirect;
 use Session;
 use Auth;
 use Mail;
+use Gate;
 
 class AuthController extends Controller
 {
@@ -55,6 +56,9 @@ class AuthController extends Controller
      */
     public function show($id)
     {
+        if (Gate::denies('show-personal-info')) {
+            abort(403);
+        }
 
         $user             = Auth::User();
         $seller           = null;
@@ -149,6 +153,10 @@ class AuthController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-personal-info')) {
+            abort(403);
+        }
+
         $auth = DB::table($this->table)
                     ->where('id',$id)
                     ->first();
@@ -165,6 +173,9 @@ class AuthController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-personal-info')) {
+            abort(403);
+        }
 
         $this->validator($request);
 

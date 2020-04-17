@@ -8,6 +8,7 @@ use DB;
 use Redirect;
 use Session;
 use Auth;
+use Gate;
 
 use App\Item;
 
@@ -78,6 +79,10 @@ class ClosetController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create-collection')) {
+            abort(403);
+        }
+
         return view('closet.create');
     }
 
@@ -89,6 +94,9 @@ class ClosetController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('create-collection')) {
+            abort(403);
+        }
 
         DB::beginTransaction();
 
@@ -120,6 +128,10 @@ class ClosetController extends Controller
      */
     public function show($id)
     {
+        if (Gate::denies('show-collection')) {
+            abort(403);
+        }
+
         $closet = DB::table($this->table)->where('ClosetID',$id)->first();
 
         $items  = $this->getMyItems($id);
@@ -133,7 +145,6 @@ class ClosetController extends Controller
             return $item;
         });
         
-
         return view('closet.show',compact('items','closet'));
     }
 
@@ -145,6 +156,10 @@ class ClosetController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-collection')) {
+            abort(403);
+        }
+
         $closet = DB::table($this->table)
                     ->where('ClosetID',$id)
                     ->first();
@@ -161,6 +176,10 @@ class ClosetController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-collection')) {
+            abort(403);
+        }
+
         DB::beginTransaction();
 
         try {
@@ -195,6 +214,10 @@ class ClosetController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('delete-collection')) {
+            abort(403);
+        }
+
         $name = DB::table($this->table)
                     ->where('ClosetID',$id)
                     ->first()

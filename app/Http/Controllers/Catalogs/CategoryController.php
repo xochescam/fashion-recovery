@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use Session;
 use Redirect;
+use Gate;
 
 class CategoryController extends Controller
 {
@@ -21,6 +22,10 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('show-category')) {
+            abort(403);
+        }
+
         $categories = DB::table($this->table)
                         ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
                         ->select('GR_026.CategoryID','GR_026.CategoryName', 'GR_026.Active','GR_025.DepName')
@@ -37,6 +42,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         $departments = DB::table('fashionrecovery.GR_025') 
                         ->where('Active',1)       
                         ->orderBy('DepName')
@@ -53,6 +62,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -96,6 +109,10 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $category = DB::table($this->table)
                     ->where('CategoryID',$id)
                     ->first();
@@ -118,6 +135,10 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -152,6 +173,10 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('delete-category')) {
+            abort(403);
+        }
+        
         DB::beginTransaction();
 
         try {

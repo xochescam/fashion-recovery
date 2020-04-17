@@ -14,12 +14,17 @@ use Auth;
 use Session;
 use Redirect;
 use Mail;
+use Gate;
 
 class QuestionController extends Controller
 {
 	protected $table = 'fashionrecovery.GR_039';
 
     public function question(Request $request) {
+
+        if (Gate::denies('create-comments')) {
+            abort(403);
+        }
 
         $owner = Item::findOrfail($request->ItemID)->OwnerID;
 
@@ -49,6 +54,10 @@ class QuestionController extends Controller
 
     public function answer($QuestionID, $type) {
 
+        if (Gate::denies('answer-comments')) {
+            abort(403);
+        }
+
         $question = $this->getQuestion($QuestionID, $type);
 
         if(!$question) {
@@ -63,6 +72,9 @@ class QuestionController extends Controller
 
     public function storeAnswer(Request $request, $type) {
 
+        if (Gate::denies('answer-comments')) {
+            abort(403);
+        }
 
         $data = $this->getData($request, false);
 

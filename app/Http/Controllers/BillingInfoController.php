@@ -8,6 +8,7 @@ use Auth;
 use DB;
 use Session;
 use Redirect;
+use Gate;
 
 class BillingInfoController extends Controller
 {
@@ -41,6 +42,10 @@ class BillingInfoController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('billing-info')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -135,6 +140,10 @@ class BillingInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('billing-info')) {
+            abort(403);
+        }
+        
         $this->validator($request);
 
         DB::beginTransaction();

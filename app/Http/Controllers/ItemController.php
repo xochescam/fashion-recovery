@@ -22,6 +22,7 @@ use Redirect;
 use Session;
 use Auth;
 use Image;
+use Gate;
 
 class ItemController extends Controller
 {
@@ -65,6 +66,10 @@ class ItemController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create-item')) {
+            abort(403);
+        }
+
         $item = false;
 
         $departments    = Department::getAll();
@@ -110,6 +115,10 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
+        if (Gate::denies('create-item')) {
+            abort(403);
+        }
+
         DB::beginTransaction();
 
         try {
@@ -693,6 +702,10 @@ class ItemController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-item')) {
+            abort(403);
+        }
+
         $item          = DB::table($this->table)->where('ItemID',$id)->first();
         $colors        = DB::table('fashionrecovery.GR_018')->where('Active',1)->get();
         $sizes         = DB::table('fashionrecovery.GR_020')->where('Active',1)->get();
@@ -727,6 +740,10 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, $id)
     {
+        if (Gate::denies('update-item')) {
+            abort(403);
+        }
+
         $names = [
             'front'  => 0,
             'label'  => 1,
@@ -826,7 +843,11 @@ class ItemController extends Controller
      */
     public function destroy($id, $itemId)
     {
-       DB::beginTransaction();
+        if (Gate::denies('delete-item')) {
+            abort(403);
+        }
+
+        DB::beginTransaction();
 
         try {
 
@@ -857,6 +878,10 @@ class ItemController extends Controller
      */
     public function fullDestroy($id)
     {
+        if (Gate::denies('delete-item')) {
+            abort(403);
+        }
+
        DB::beginTransaction();
 
         try {
@@ -879,6 +904,10 @@ class ItemController extends Controller
     }
 
     public function addItem(Request $request, $itemId) {
+
+        if (Gate::denies('update-item')) {
+            abort(403);
+        }
 
         DB::beginTransaction();
 

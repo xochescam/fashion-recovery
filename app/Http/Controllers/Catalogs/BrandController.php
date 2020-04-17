@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use Session;
 use Redirect;
+use Gate;
 
 class BrandController extends Controller
 {
@@ -21,6 +22,10 @@ class BrandController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('show-category')) {
+            abort(403);
+        }
+
         $brands = DB::table($this->table)
                     //->join('fashionrecovery.GR_025', 'GR_017.DepartmentID', '=', 'GR_025.DepartmentID')
                     ->select('GR_017.BrandID',
@@ -47,6 +52,10 @@ class BrandController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         $departments = DB::table('fashionrecovery.GR_025') 
                         ->where('Active',1)       
                         ->orderBy('DepName')
@@ -57,6 +66,10 @@ class BrandController extends Controller
 
     public function verify($id)
     {
+        if (Gate::denies('accept-brand')) {
+            abort(403);
+        }
+
         DB::beginTransaction();
 
         try {
@@ -91,6 +104,10 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -135,6 +152,10 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $brand = DB::table($this->table)
                     ->where('BrandID',$id)
                     ->first();
@@ -155,6 +176,10 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -191,6 +216,10 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('delete-category')) {
+            abort(403);
+        }
+
          DB::beginTransaction();
 
         try {
@@ -229,7 +258,6 @@ class BrandController extends Controller
             'name'         => ['required'],
         ]);
     }
-
 
     public function getData($data) {
 

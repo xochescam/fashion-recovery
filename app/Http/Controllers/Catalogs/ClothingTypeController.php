@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use Session;
 use Redirect;
+use Gate;
 
 class ClothingTypeController extends Controller
 {
@@ -21,6 +22,10 @@ class ClothingTypeController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('show-category')) {
+            abort(403);
+        }
+
         $clothingTypes = DB::table($this->table)
                             ->join('fashionrecovery.GR_026', 'GR_019.CategoryID', '=', 'GR_026.CategoryID')
                             ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
@@ -38,6 +43,10 @@ class ClothingTypeController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         $categories  = DB::table('fashionrecovery.GR_026')
                         ->join('fashionrecovery.GR_025', 'GR_026.DepartmentID', '=', 'GR_025.DepartmentID')
                         ->where('GR_026.Active',1) 
@@ -56,6 +65,10 @@ class ClothingTypeController extends Controller
      */
     public function store(Request $request)
     {        
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         $exist = DB::table($this->table)
                 ->where('ClothingTypeName',$request->name)
                 ->where('CategoryID',$request->categoryId)
@@ -107,6 +120,10 @@ class ClothingTypeController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $clothingType = DB::table($this->table)
                             ->where('ClothingTypeID',$id)
                             ->first();
@@ -130,6 +147,10 @@ class ClothingTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         DB::beginTransaction();
 
         try {
@@ -162,6 +183,10 @@ class ClothingTypeController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('delete-category')) {
+            abort(403);
+        }
+        
         DB::beginTransaction();
 
         try {

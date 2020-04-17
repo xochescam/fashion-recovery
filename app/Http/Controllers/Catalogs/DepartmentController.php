@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use Session;
 use Redirect;
+use Gate;
 
 class DepartmentController extends Controller
 {
@@ -21,6 +22,10 @@ class DepartmentController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('show-category')) {
+            abort(403);
+        }
+
         $departments = DB::table($this->table)
                         ->orderBy('DepName')
                         ->get();
@@ -35,6 +40,10 @@ class DepartmentController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         return view('catalogs.department.create');
     }
 
@@ -46,6 +55,10 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -89,6 +102,10 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $department = DB::table($this->table)
                         ->where('DepartmentID',$id)
                         ->first();
@@ -105,6 +122,10 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -139,6 +160,10 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('delete-category')) {
+            abort(403);
+        }
+        
         DB::beginTransaction();
 
         try {

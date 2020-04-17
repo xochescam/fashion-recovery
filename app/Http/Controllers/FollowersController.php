@@ -11,6 +11,7 @@ use Auth;
 use Session;
 use Redirect;
 use Mail;
+use Gate;
 
 class FollowersController extends Controller
 {
@@ -26,6 +27,10 @@ class FollowersController extends Controller
     }
 
     public function follow($sellerID) {
+
+        if (Gate::denies('follow-seller')) {
+            abort(403);
+        }
 
     	if(!$this->exists($sellerID)) {
     		Session::flash('warning','El vendedor no existe en nuestros registros.');
@@ -65,6 +70,10 @@ class FollowersController extends Controller
     }
 
     public function unfollow($sellerID) {
+
+        if (Gate::denies('follow-seller')) {
+            abort(403);
+        }
 
     	if(!$this->exists($sellerID)) {
     		Session::flash('warning','El vendedor no existe en nuestros registros.');

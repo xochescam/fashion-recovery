@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use Session;
 use Redirect;
+use Gate;
 
 class CalendarSaleController extends Controller
 {
@@ -21,6 +22,10 @@ class CalendarSaleController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('show-category')) {
+            abort(403);
+        }
+
         $calendarSales = DB::table($this->table)
                             ->orderBy('Holiday')
                             ->get();
@@ -35,6 +40,10 @@ class CalendarSaleController extends Controller
      */
     public function create()
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
+
         return view('catalogs.calendar-sale.create');
     }
 
@@ -46,6 +55,9 @@ class CalendarSaleController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('create-category')) {
+            abort(403);
+        }
         $this->validator($request);
 
         DB::beginTransaction();
@@ -89,6 +101,10 @@ class CalendarSaleController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $calendarSale = DB::table($this->table)
                             ->where('CalendarSalesID',$id)
                             ->first();
@@ -105,6 +121,10 @@ class CalendarSaleController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-category')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -139,6 +159,10 @@ class CalendarSaleController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('delete-category')) {
+            abort(403);
+        }
+        
         DB::beginTransaction();
 
         try {

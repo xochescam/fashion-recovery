@@ -10,6 +10,7 @@ use Session;
 use Auth;
 use Image;
 use File;
+use Gate;
 
 use App\States;
 
@@ -34,7 +35,7 @@ class SellerController extends Controller
      */
     public function create()
     {
-        if(!Auth::User()->isBuyerProfile()) {
+        if (Gate::denies('create-seller')) {
             abort(403);
         }
 
@@ -53,6 +54,10 @@ class SellerController extends Controller
      */
     public function store(Request $request)
     {
+        if (Gate::denies('create-seller')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -113,6 +118,10 @@ class SellerController extends Controller
      */
     public function show($alias)
     {
+        if (Gate::denies('show-personal-info')) {
+            abort(403);
+        }
+
         $isFollower = false;
         $seller = DB::table('fashionrecovery.GR_001')
                     ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
@@ -183,6 +192,10 @@ class SellerController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('update-personal-info')) {
+            abort(403);
+        }
+
         $seller = DB::table($this->table)
                     ->where('SellerID',$id)
                     ->first();
@@ -199,6 +212,10 @@ class SellerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('update-personal-info')) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         DB::beginTransaction();
@@ -427,6 +444,10 @@ class SellerController extends Controller
 
     public function updateSelfie(Request $request, $id) {
 
+        if (Gate::denies('update-personal-info')) {
+            abort(403);
+        }
+        
         DB::beginTransaction();
 
         try {

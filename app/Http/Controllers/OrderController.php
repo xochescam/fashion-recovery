@@ -8,6 +8,7 @@ use DB;
 use Redirect;
 use Session;
 use Auth;
+use Gate;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -19,6 +20,10 @@ class OrderController extends Controller
 
 
     public function index() { //ordenar pedidos por usuarios
+
+        if (Gate::denies('show-orders')) {
+            abort(403);
+        }
 
         $orders    = null;
         $pending   = null;
@@ -66,9 +71,6 @@ class OrderController extends Controller
             return $item;
 
         })->groupBy('OrderID');
-
-        
-
 
     	return view('orders.index',
             compact('orders',

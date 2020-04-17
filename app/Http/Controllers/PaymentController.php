@@ -8,10 +8,15 @@ use Auth;
 use DB;
 use Session;
 use Redirect;
+use Gate;
 
 class PaymentController extends Controller
 {
     public function payment($ShippingAddID, $IsBuy) {
+
+        if (Gate::denies('buy-item')) {
+            abort(403);
+        }
 
         $user = Auth::User();
 
@@ -146,6 +151,10 @@ class PaymentController extends Controller
 
     public function summary($ShippingAddID) {
 
+        if (Gate::denies('buy-item')) {
+            abort(403);
+        }
+
         $items   = Auth::User()->getOrdered();
         $address = Auth::User()->getShippingAddress()
                                 ->where('ShippingAddID',$ShippingAddID)
@@ -155,6 +164,10 @@ class PaymentController extends Controller
     }
 
     public function confirmation($ShippingAddID) {
+
+        if (Gate::denies('buy-item')) {
+            abort(403);
+        }
 
         $user    = Auth::User();
         $items   = $user->getItems();

@@ -8,6 +8,7 @@ use DB;
 use Redirect;
 use Session;
 use Auth;
+use Gate;
 
 use App\Item;
 
@@ -21,6 +22,10 @@ class WishlistController extends Controller
      */
     public function index()
     {
+        if (Gate::denies('show-favoritos')) {
+            abort(403);
+        }
+
         $type = 'card';
         $items = [];
         $wishlist = Auth::User()->getWishlists() !== null ? 
@@ -107,6 +112,10 @@ class WishlistController extends Controller
      */
     public function store($ItemID)
     {
+        if (Gate::denies('show-favoritos')) {
+            abort(403);
+        }
+
         DB::beginTransaction();
 
         try {
@@ -196,6 +205,10 @@ class WishlistController extends Controller
      */
     public function show($id)
     {
+        if (Gate::denies('show-favoritos')) {
+            abort(403);
+        }
+
          $wishlist = DB::table($this->table)
                     ->where('WishListID',$id)
                     ->first();
@@ -238,6 +251,10 @@ class WishlistController extends Controller
      */
     public function edit($id)
     {
+        if (Gate::denies('show-favoritos')) {
+            abort(403);
+        }
+
         $Wishlist = DB::table($this->table)
                     ->where('WishListID',$id)
                     ->first();
@@ -254,6 +271,10 @@ class WishlistController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Gate::denies('show-favoritos')) {
+            abort(403);
+        }
+
         DB::beginTransaction();
 
         try {
@@ -288,6 +309,10 @@ class WishlistController extends Controller
      */
     public function destroy($id)
     {
+        if (Gate::denies('delete-favoritos')) {
+            abort(403);
+        }
+
         DB::beginTransaction();
 
         try {
