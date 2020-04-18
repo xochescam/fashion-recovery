@@ -34,7 +34,7 @@
         </div>   
 
         <ul class="navbar-nav ml-auto" >
-            <li class="nav-item" v-if="sellerurl && canbuyitem">
+            <li class="nav-item" v-if="sellerurl || canbuyitem">
                 <a class="nav-link" :href="sellerurl">
                     ¿Quieres vender?
                 </a>
