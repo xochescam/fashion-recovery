@@ -11,6 +11,7 @@ use Auth;
 use Gate;
 
 use App\Item;
+use App\Closet;
 
 
 class ClosetController extends Controller
@@ -128,7 +129,9 @@ class ClosetController extends Controller
      */
     public function show($id)
     {
-        if (Gate::denies('show-collection')) {
+        $closet = Closet::where('ClosetID',$id)->first();
+
+        if(!$this->authorize('viewCloset',  $closet)) {
             abort(403);
         }
 
@@ -156,7 +159,9 @@ class ClosetController extends Controller
      */
     public function edit($id)
     {
-        if (Gate::denies('update-collection')) {
+        $closet = Closet::where('ClosetID',$id)->first();
+
+        if(!$this->authorize('updateCloset',  $closet)) {
             abort(403);
         }
 
@@ -176,7 +181,9 @@ class ClosetController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Gate::denies('update-collection')) {
+        $closet = Closet::where('ClosetID',$id)->first();
+
+        if(!$this->authorize('updateCloset',  $closet)) {
             abort(403);
         }
 
@@ -214,7 +221,9 @@ class ClosetController extends Controller
      */
     public function destroy($id)
     {
-        if (Gate::denies('delete-collection')) {
+        $closet = Closet::where('ClosetID',$id)->first();
+
+        if(!$this->authorize('deleteCloset',  $closet)) {
             abort(403);
         }
 
