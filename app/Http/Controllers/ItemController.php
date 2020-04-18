@@ -613,6 +613,12 @@ class ItemController extends Controller
      */
     public function show($id)
     {
+        $item = Item::where('ItemID',$id)->first();
+
+        if(!$this->authorize('updateItem',  $item)) {
+            abort(403);
+        } 
+
         $ValidFrom     = '';
         $ValidUntil    = '';
         $priceOffer    = Null;
@@ -702,9 +708,11 @@ class ItemController extends Controller
      */
     public function edit($id)
     {
-        if (Gate::denies('update-item')) {
+        $item = Item::where('ItemID',$id)->first();
+
+        if(!$this->authorize('updateItem',  $item)) {
             abort(403);
-        }
+        } 
 
         $item          = DB::table($this->table)->where('ItemID',$id)->first();
         $colors        = DB::table('fashionrecovery.GR_018')->where('Active',1)->get();
@@ -740,9 +748,11 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, $id)
     {
-        if (Gate::denies('update-item')) {
+        $item = Item::where('ItemID',$id)->first();
+
+        if(!$this->authorize('updateItem',  $item)) {
             abort(403);
-        }
+        } 
 
         $names = [
             'front'  => 0,
@@ -843,7 +853,9 @@ class ItemController extends Controller
      */
     public function destroy($id, $itemId)
     {
-        if (Gate::denies('delete-item')) {
+        $item = Item::where('ItemID',$itemId)->first();
+
+        if(!$this->authorize('deleteItem',  $item)) {
             abort(403);
         }
 
@@ -878,7 +890,9 @@ class ItemController extends Controller
      */
     public function fullDestroy($id)
     {
-        if (Gate::denies('delete-item')) {
+        $item = Item::where('ItemID',$id)->first();
+
+        if(!$this->authorize('deleteItem', $item)) {
             abort(403);
         }
 
