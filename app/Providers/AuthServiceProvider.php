@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 use App\Module;
+use App\Item;
+use App\Closet;
+use App\User;
+
+use App\Policies\ItemPolicy;
+use App\Policies\ClosetPolicy;
+use App\Policies\UserPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -17,6 +24,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        Item::class => ItemPolicy::class,
+        Closet::class => ClosetPolicy::class,
+        User::class => UserPolicy::class,
     ];
 
     /**
