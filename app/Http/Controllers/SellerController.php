@@ -118,10 +118,6 @@ class SellerController extends Controller
      */
     public function show($alias)
     {
-        if (Gate::denies('show-personal-info')) {
-            abort(403);
-        }
-
         $isFollower = false;
         $seller = DB::table('fashionrecovery.GR_001')
                     ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
@@ -192,7 +188,9 @@ class SellerController extends Controller
      */
     public function edit($id)
     {
-        if (Gate::denies('update-personal-info')) {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('updateUser',  $user)) {
             abort(403);
         }
 
@@ -212,7 +210,9 @@ class SellerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Gate::denies('update-personal-info')) {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('updateUser',  $user)) {
             abort(403);
         }
 
@@ -444,7 +444,9 @@ class SellerController extends Controller
 
     public function updateSelfie(Request $request, $id) {
 
-        if (Gate::denies('update-personal-info')) {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('updateUser',  $user)) {
             abort(403);
         }
         

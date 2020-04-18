@@ -13,6 +13,8 @@ use Auth;
 use Mail;
 use Gate;
 
+use App\User;
+
 class AuthController extends Controller
 {
     protected $table = 'fashionrecovery.GR_001';
@@ -56,7 +58,9 @@ class AuthController extends Controller
      */
     public function show($id)
     {
-        if (Gate::denies('show-personal-info')) {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('viewUser',  $user)) {
             abort(403);
         }
 
@@ -153,7 +157,9 @@ class AuthController extends Controller
      */
     public function edit($id)
     {
-        if (Gate::denies('update-personal-info')) {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('updateUser',  $user)) {
             abort(403);
         }
 
@@ -173,7 +179,9 @@ class AuthController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Gate::denies('update-personal-info')) {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('updateUser',  $user)) {
             abort(403);
         }
 

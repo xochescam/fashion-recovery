@@ -173,6 +173,12 @@ class ShippingAddressController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('updateUser',  $user)) {
+            abort(403);
+        }
+
         $this->validator($request);
 
         $urltype = [
@@ -216,8 +222,10 @@ class ShippingAddressController extends Controller
      */
     public function destroy($id)
     {
-        if(!Auth::User()->isBuyerProfile()) {
-            return abort(403);
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('deleteUser',  $user)) {
+            abort(403);
         }
 
         DB::beginTransaction();

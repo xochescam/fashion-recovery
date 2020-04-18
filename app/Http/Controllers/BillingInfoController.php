@@ -140,7 +140,9 @@ class BillingInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (Gate::denies('billing-info')) {
+        $user = User::findOrfail($id);
+
+        if(!$this->authorize('updateUser',  $user)) {
             abort(403);
         }
         
