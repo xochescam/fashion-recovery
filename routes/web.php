@@ -156,7 +156,6 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('item', 'ItemController@create');
 	Route::post('item', 'ItemController@store');
 	Route::get('item/{itemId}', 'ItemController@show');
-	Route::get('item/{itemId}/edit', 'ItemController@edit');
 	Route::post('item/{itemId}', 'ItemController@update')->name('item.update');
 	Route::get('item/{id}/{itemId}/delete', 'ItemController@destroy')->name('item.destroy');
 	Route::get('item/{itemId}/full-delete', 'ItemController@fullDestroy')->name('item.fullDestroy');
