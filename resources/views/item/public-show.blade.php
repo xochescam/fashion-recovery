@@ -161,14 +161,12 @@
 		          	</div>
 	          	</div>
 
-				@can('create-comments' || 'answer-comments')
-					<question
-						:item="{{ $item->ItemID }}"
-						:errors="{{ $errors }}"
-						:questions="{{ $questions }}"
-						:auth="{{ isset(Auth::User()->id) ? 'true' : 'false' }}"
-					></question>
-				@endcan
+				<question
+					:item="{{ $item->ItemID }}"
+					:errors="{{ $errors }}"
+					:questions="{{ $questions }}"
+					:auth="{{ isset(Auth::User()->id) ? 'true' : 'false' }}"
+				></question>
 	        </div>
       	</div>
     </main>
