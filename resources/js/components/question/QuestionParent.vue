@@ -9,7 +9,7 @@
                 <small>Por
                     <a 
                         class="green-link" 
-                        :href="this.$root.path+'/seller/'+current.Alias"
+                        :href="url+'/seller/'+current.Alias"
                         v-if="current.ProfileID === 2">
                         {{ current.Name }}
                     </a>
@@ -32,7 +32,7 @@
                 <small>Por
                     <a 
                         class="green-link" 
-                        :href="this.$root.path+'/seller/'+question.Alias"
+                        :href="url+'/seller/'+question.Alias"
                         v-if="question.ProfileID === 2">
                         {{ question.Name }}
                     </a>
@@ -63,8 +63,10 @@
                 required: false
             },
         },
-        mounted() {
-            console.log('question parent');
+        data() {
+            return {
+                url: this.$root.path
+            }
         }
     };
 </script>
