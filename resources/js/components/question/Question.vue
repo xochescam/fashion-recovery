@@ -94,6 +94,8 @@
             formData.append('question', this.$refs.question.value);
             formData.append('ItemID', this.item);
 
+
+
             axios
               .post(this.$root.path+'/question', formData)
               .then(response => {
@@ -126,10 +128,6 @@
             this.$refs.spin.removeAttribute('style');
             
           }
-        },
-        mounted() {
-            console.log('question');         
-            console.log(this.auth);   
         }
     };
 </script>

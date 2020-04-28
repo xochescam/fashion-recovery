@@ -65,10 +65,6 @@
             return {
                 current: this.question
             }
-        },
-        mounted() {
-            console.log('question son');
-            console.log(this.question);
         }
     };
 </script>

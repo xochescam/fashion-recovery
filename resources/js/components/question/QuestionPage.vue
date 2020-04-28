@@ -131,11 +131,6 @@
             this.$refs.answer.value = '';
             this.saving = false;
           }
-        },
-        mounted() {
-            console.log('question');
-
-            console.log(this.q);
         }
     };
 </script>
