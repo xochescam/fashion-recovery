@@ -38,7 +38,7 @@
             </div>
 
               <div class="text-center mt-5">
-                <button type="submit" class="btn btn-fr w-25"
+                <button type="submit" class="btn btn-fr"
                 :disabled="saving">
                   <span 
                     class="spinner-border spinner-border-sm" 
