@@ -81,7 +81,7 @@
         </div>
 
          <div class="row mb-5">
-             <div class="col-5 mb-3">
+             <div class="col-md-5 mb-3">
                 <label for="cardExpirationMonth">Mes</label>
                 <select 
                     class="form-control" 
@@ -120,7 +120,7 @@
                     El mes es inválido.
                 </div>
             </div>
-            <div class="col-5 mb-3">
+            <div class="col-md-5 mb-3">
                 <label for="cardExpirationYear">Año</label>
                 <select 
                     class="form-control" 
