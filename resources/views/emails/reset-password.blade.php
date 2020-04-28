@@ -3,7 +3,7 @@
 @section('content')
 
 	<tr>
-	    <td width="620" valign="top" style="background-color:#f7f7f7; border-bottom: 1px solid #eee; border-left: 1px solid #eee; border-right: 1px solid #eee; text-align: center;">
+	    <td width="620" valign="top" style="background-color:#f7f7f7; text-align: center;">
             <p style="color:#666; font:16px sans-serif; font-weight:700; line-height:1.5em; margin: 2em 0 0.5em; padding: 30px 40px 0; text-align: center;">
                 Has solicitado restablecer tu contraseña.
             </p>
