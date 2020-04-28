@@ -91,8 +91,6 @@
               return;
             }
 
-
-
             this.saving = true;
 
             const formData = new FormData();
@@ -105,8 +103,6 @@
             axios
               .post(this.$root.path+'/question/'+this.type, formData)
               .then(response => {
-
-
 
                 if(response.status == 200 || response.status == 201) {
 
