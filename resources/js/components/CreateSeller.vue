@@ -76,7 +76,7 @@
                     class="form-control" 
                     :class="{ 'is-invalid': $v.greeting.$error || errors.Greeting }"
                     @input="setGreeting($event.target.value)"
-                    placeholder="Deja un saludo para que tú perfil sea confiable y amigable a tus posibles clientes" 
+                    placeholder="Deja un saludo para que tú perfil sea confiable y amigable a tus posibles clientes; por ejemplo: ¡Hola amantes de la naturaleza!" 
                     rows="3" maxlength="50" required> </textarea>
                 <small>{{ count(50, $v.greeting.$model.length) }} caracteres.</small>
 
