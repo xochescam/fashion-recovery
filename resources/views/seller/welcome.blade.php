@@ -43,7 +43,7 @@
             </div>
 
             <div class="w-100 text-right mb-4">
-              <a href="{{ url('/item') }}" class="btn btn-fr btn-sm" role="button">Vende tu Guardarropa</a>
+              <a href="{{ url('/item') }}" class="btn btn-fr" role="button">Vende tu Guardarropa</a>
             </div>
 
             <hr class="my-5">
@@ -81,7 +81,7 @@
             </div>
 
             <div class="w-100 text-right">
-              <a href="{{ url('/') }}" class="btn btn-fr btn-sm" role="button">Buscar prendas</a>
+              <a href="{{ url('/') }}" class="btn btn-fr" role="button">Buscar prendas</a>
             </div>
 
 
