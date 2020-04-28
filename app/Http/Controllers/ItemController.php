@@ -474,8 +474,7 @@ class ItemController extends Controller
         $discount     = null;
         $urlWishlists = Item::getWishlistUrl($id);
 
-        
-
+    
         $info = DB::table($this->table)
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     ->join('fashionrecovery.GR_025', 'GR_029.DepartmentID', '=', 'GR_025.DepartmentID')
