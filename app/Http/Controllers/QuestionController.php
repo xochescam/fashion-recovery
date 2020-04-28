@@ -22,10 +22,6 @@ class QuestionController extends Controller
 
     public function question(Request $request) {
 
-        if (Gate::denies('create-comments')) {
-            abort(403);
-        }
-
         $owner = Item::findOrfail($request->ItemID)->OwnerID;
 
         if(Auth::User()->id  === $owner) { //modificar
