@@ -56,6 +56,11 @@ class QuestionController extends Controller
             return Redirect::back();
         }
 
+        $thumb = DB::table('fashionrecovery.GR_032')
+                ->where('ItemID','=',$question->ItemID)
+                ->where('IsCover',true)
+                ->first()->ThumbPath;
+
         DB::table('fashionrecovery.GR_040')
             ->where('UserID','=',Auth::User()->id)
             ->where('Type','=',$type == 'answer' ? 'question' : 'answer')
@@ -63,7 +68,7 @@ class QuestionController extends Controller
 
         $question = $this->getAnswerQuestion($question, $QuestionID);
 
-        return view('questions.answer',compact('question','type'));
+        return view('questions.answer',compact('question','type','thumb'));
     }
 
     public function storeAnswer(Request $request, $type) {
@@ -123,7 +128,7 @@ class QuestionController extends Controller
                         //->where($column,$temporalyUser)
                         ->where($column,Auth::User()->id)
                         ->where('GR_039.IsParent',true)
-                        ->select('GR_039.*','GR_001.Name','GR_001.ProfileID','GR_001.Alias','GR_001.id')
+                        ->select('GR_039.*','GR_001.Name','GR_001.ProfileID','GR_001.Alias','GR_001.id','GR_029.ItemID')
                         ->first();
     }
 

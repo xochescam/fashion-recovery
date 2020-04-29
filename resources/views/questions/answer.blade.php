@@ -6,6 +6,7 @@
       <div class="container py-5">
         <question-page
           type="{{ $type }}"
+          thumb="{{ $thumb }}"
           :errors="{{ $errors }}"
           :question="{{ json_encode($question) }}"
           warning="{{ Session::has('warning') ? Session::get('warning') : '' }}"

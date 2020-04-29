@@ -2,9 +2,14 @@
         <div class="row">
           <h2 class="text-center TituloFR my-4 mb-5 w-100"> {{ type == 'answer' ? 'Contestar pregunta' : 'Tienes una pregunta' }}</h2>
 
-          <p class="text-center mb-5 w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
+          <div class="w-100">
 
-          <div class="col-md-8 offset-md-2">
+            <div class="card m-auto card-thumb">
+              <img :src="this.$root.path+'/storage/'+thumb" >
+            </div>
+          </div>
+          
+          <div class="col-md-8 offset-md-2 mt-5">
             <form 
               method="POST" 
               :action="this.$root.path+'/question/'+type" 
@@ -73,6 +78,10 @@
                 required: false
             },
             warning: {
+                type: String,
+                required: false 
+            },
+            thumb: {
                 type: String,
                 required: false 
             }
