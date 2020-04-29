@@ -57,37 +57,38 @@
         },
          data() {
             return {
-                hasWish: this.has
+                hasWish: this.has,
+                newUrl: this.url
             };
         },
         methods: {
             removeFromWishlist() {    
 
                 axios
-                    .get(window.location.origin+'/'+this.url)
+                    .get(window.location.origin+'/'+this.newUrl)
                     .then(response => {
 
                         this.hasWish = 0;
-
-                        console.log(response.data)
+                        this.newUrl = response.data.url;
                     })
                     .catch(error => {
                         console.log(error)
                 }) 
             },
-            addToWishlist() {     
+            addToWishlist() {  
                 
-                if(this.url == 'login/0') {
-                    window.location.href = window.location.origin+'/'+this.url;
+                if(this.newUrl == 'login/0') {
+                    window.location.href = window.location.origin+'/'+this.newUrl;
                 }
         
                 axios
-                    .get(window.location.origin+'/'+this.url)
+                    .get(window.location.origin+'/'+this.newUrl)
                     .then(response => {
 
                         this.hasWish = 1;
 
-                        console.log(response.data)
+                        this.newUrl = response.data.url;
+
                     })
                     .catch(error => {
                         console.log(error)

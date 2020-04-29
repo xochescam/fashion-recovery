@@ -122,19 +122,26 @@ class WishlistController extends Controller
 
             $data = $this->getData();
 
-            DB::table($this->table)->insert($data);
+            $wishlist = DB::table($this->table)
+                        ->where("UserID",Auth::User()->id)
+                        ->first();
 
-            $lastWishlist = DB::table($this->table)
+            if(!isset($wishlist->WishListID)) {
+                DB::table($this->table)->insert($data);
+
+                $wishlist = DB::table($this->table)
                             ->where('UserID',Auth::User()->id)
                             ->orderBy('CreationDate', 'desc')
                             ->first();
+            }
+
 
             DB::table('fashionrecovery.GR_037')->insert([
                 'ItemID'     => $ItemID,
-                'WishlistID' => $lastWishlist->WishListID
+                'WishlistID' => $wishlist->WishListID
             ]);
 
-            $message = 'Prenda agregada correctamente a '.$lastWishlist->NameList;
+            $message = 'Prenda agregada correctamente a '.$wishlist->NameList;
             $url     = 'items/'.$ItemID.'/public';
             
             DB::commit();
@@ -156,7 +163,10 @@ class WishlistController extends Controller
                 'WishlistID' => $WishlistID
             ]);
 
-        return response()->json("success");
+        return response()->json([
+            'message' => "success", 
+            'url' => Item::getWishlistUrl($ItemID)
+        ]);
     }
 
     public function removeFromWishlist($WishlistID, $ItemID){ //where and delete
@@ -166,7 +176,10 @@ class WishlistController extends Controller
             ->where('WishlistID','=',$WishlistID)
             ->delete();
 
-        return response()->json("success");
+        return response()->json([
+            'message' => "success", 
+            'url' => Item::getWishlistUrl($ItemID)
+        ]);
     }
 
     public function existingWishlist($WishlistID, $ItemID){
