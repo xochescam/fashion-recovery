@@ -2,8 +2,6 @@
 
 @section('content')
 
-
-
    <main id="main">
         <div class="container py-5">
           
@@ -107,53 +105,16 @@
 
               <h5 class="mb-5">{{ $seller->TotalEvaluations  }} evaluaciones</h5>
 
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item">
-                  <div class="media">
-                    <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                    <div class="media-body">
-                      <h5 class="mt-0">Username</h5>
-                      Nulla vel metus scelerisque ante sollicitudin.
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media">
-                    <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                    <div class="media-body">
-                      <h5 class="mt-0">Username</h5>
-                      Donec lacinia congue felis in faucibus.
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media">
-                    <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                    <div class="media-body">
-                      <h5 class="mt-0">Username</h5>
-                      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media">
-                    <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                    <div class="media-body">
-                      <h5 class="mt-0">Username</h5>
-                      Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item">
-                  <div class="media">
-                    <img src="{{ url('https://via.placeholder.com/64.png') }}" class="mr-3" alt="...">
-                    <div class="media-body">
-                      <h5 class="mt-0">Username</h5>
-                      Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin.
-                    </div>
-                  </div>
-                </li>
-              </ul>
+              <hr class="my-4">
+
+              <div class="d-flex align-content-center flex-wrap">
+                @foreach($items as $item)
+                  <a href="{{ url('items/'.$item->ItemID.'/public') }}" class="img-thumb">
+                    <img src="{{ url('storage/'.$item->ThumbPath) }}" class="rounded">
+                  </a>
+                @endforeach
+              </div>
+            
             </div>
           </div>
         </div>

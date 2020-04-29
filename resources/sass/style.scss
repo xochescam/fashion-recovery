@@ -887,3 +887,15 @@ div a{
 .card-thumb {
   max-width: 300px;
 }
+
+.img-thumb {
+  height: 100px;
+  width: 100px;
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.img-thumb img {
+  height: 100%;
+  width: 100%;
+}

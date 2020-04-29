@@ -132,13 +132,12 @@ class SellerController extends Controller
                     ->select('GR_030.ClosetID','GR_030.ClosetName','GR_030.CreationDate','GR_030.ClosetDescription')
                     ->get();
 
-        $items = DB::table('fashionrecovery.GR_032')
-                    ->join('fashionrecovery.GR_029', 'GR_032.ItemID', '=', 'GR_029.ItemID')
-                    ->whereIn('GR_029.ClosetID',$closets->groupBy('ClosetID')->keys())
-                    ->select('GR_032.ItemID','GR_032.ThumbPath','GR_032.ItemPictureID')
-                    ->get()
-                    ->groupBy('ItemID');
-
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->where('GR_032.IsCover',true)
+                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->select('GR_032.ThumbPath','GR_029.ItemID')
+                    ->get();
 
         if(isset(Auth::User()->id)) {
 
