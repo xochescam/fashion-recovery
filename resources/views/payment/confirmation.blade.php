@@ -37,8 +37,10 @@
 									<b>Dirección de envío</b>
 								</p>
 
-								<p> <b>{{ count($items) }} producto{{ count($items) > 1 ? 's' : '' }} se enviar{{ count($items) > 1 ? 'án' : 'á' }} a {{ Auth::User()->Alias }} </b> en {{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }} por parte de fashionrecovery.com</p>
-
+								<p> 
+									<b> {{ count($items) }} producto{{ count($items) > 1 ? 's' : '' }} se enviar{{ count($items) > 1 ? 'án' : 'á' }} a {{ Auth::User()->Alias }} </b> 
+									<br> En {{ $address->Street }} {{ $address->Suburb }} {{ $address->City }} {{ $address->ZipCode }} por parte de fashionrecovery.com
+								</p>
 							</div>
 							<div class="col-md-6">
 								<p>
