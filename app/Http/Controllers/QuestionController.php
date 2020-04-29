@@ -49,17 +49,17 @@ class QuestionController extends Controller
     }
 
     public function answer($QuestionID, $type) {
-
-        if (Gate::denies('answer-comments')) {
-            abort(403);
-        }
-
         $question = $this->getQuestion($QuestionID, $type);
 
         if(!$question) {
             Session::flash('warning','No tienes permisos de contestar la pregunta.');
             return Redirect::back();
         }
+
+        DB::table('fashionrecovery.GR_040')
+            ->where('UserID','=',Auth::User()->id)
+            ->where('Type','=',$type == 'answer' ? 'question' : 'answer')
+            ->delete();
 
         $question = $this->getAnswerQuestion($question, $QuestionID);
 

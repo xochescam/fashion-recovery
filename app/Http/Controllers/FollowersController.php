@@ -23,6 +23,11 @@ class FollowersController extends Controller
 
         $following  = $this->following();
 
+        DB::table('fashionrecovery.GR_040')
+            ->where('UserID','=',Auth::User()->id)
+            ->where('Type','=','follower')
+            ->delete();
+
         return view('seller.followers',compact('followers','following'));
     }
 
