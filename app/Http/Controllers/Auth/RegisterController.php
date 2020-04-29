@@ -79,13 +79,13 @@ class RegisterController extends Controller
         if($this->existsEmail($request->email)) {
 
             Session::flash('warning','Esta cuenta ya existe. Accede a tu cuenta.');
-            return Redirect::to('register/'.$beSeller);
+            return Redirect::back()->withInput();
         }
 
         if($this->existsAlias($request->alias)) {
 
             Session::flash('warning','El alias ya existe. Intenta con otro.');
-            return Redirect::to('register/'.$beSeller);
+            return Redirect::back()->withInput();
         }
 
         DB::beginTransaction();
@@ -111,7 +111,7 @@ class RegisterController extends Controller
              DB::rollback();
 
              Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-             return Redirect::to('register/'.$beSeller);
+             return Redirect::back()->withInput();
         }
     }
 

@@ -71,7 +71,7 @@
 
                 <div class="form-group col-md-6">
                   <label for="password">Contraseña *</label>
-                  <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" value="{{ old('password') }}" required>
+                  <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" required>
 
                   @if ($errors->has('password'))
                     <div class="invalid-validation">
@@ -86,7 +86,7 @@
 
                 <div class="form-group col-md-6">
                   <label for="password_confirmation">Repite tu contraseña *</label>
-                  <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Repetir contraseña" value="{{ old('password') }}" required>
+                  <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Repetir contraseña" required>
 
                   <div class="invalid-feedback">
                     El campo recuperar contraseña es requerido.
@@ -97,7 +97,7 @@
               <div class="form-row">
                 <div class="form-group col-md-6">
                   <label for="gender">Género</label>
-                  <select id="gender" class="form-control" name="gender" >
+                  <select id="gender" class="form-control" name="gender">
                     <option value="" selected>- Seleccionar -</option>
                     <option value="Masculino" {{ old('gender') == 'Masculino' ? 'selected' : ''}}>Masculino</option>
                     <option value="Femenino" {{ old('gender') == 'Femenino' ? 'selected' : ''}}>Femenino</option>
@@ -111,8 +111,8 @@
                   @endif
                 </div>
 
-                <div class="form-group col-md-6"  {{ old('birth_date[2]') == 'Masculino' ? 'selected' : ''}}>
-                <label for="birth_date"  {{ old('birth_date[2]') == 'Masculino' ? 'selected' : ''}}>Fecha de nacimiento</label>
+                <div class="form-group col-md-6">
+                <label for="birth_date">Fecha de nacimiento {{ old('birth_date')[0] }}</label>
 
                 @include('auth.partials.birthdate')
 
