@@ -146,6 +146,7 @@ class ItemController extends Controller
             $item->OtherBrand       = $data['OtherBrand'];
             $item->CreationDate     = $data['CreationDate'];
             $item->IsPaused         = $data['IsPaused'];
+            $item->IsSold           = false;
 
             $item->save();
 
