@@ -10,6 +10,8 @@ use Session;
 use Redirect;
 use Gate;
 
+use App\Item;
+
 class PaymentController extends Controller
 {
     public function payment($ShippingAddID, $IsBuy) {
@@ -201,9 +203,12 @@ class PaymentController extends Controller
                     'CreationDate'    => date("Y-m-d H:i:s")
                 ]);
 
-            DB::table('fashionrecovery.GR_029')
-                ->where('ItemID',$value->ItemID)
-                ->update(['IsSold' => true]);
+
+            $item = Item::find($value->ItemID);
+            $item->IsSold  = true;
+            $item->save();
+
+            $item->unsearchable();
         }
 
         DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
