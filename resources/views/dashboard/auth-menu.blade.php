@@ -17,13 +17,19 @@
 
   <div class="dropdown-menu bg-light size-14 mt-sm-3" aria-labelledby="navbarDropdown">
     @can('show-personal-info')
-      <a class="dropdown-item text-left bg-light" href="{{ url('auth',Auth::User()->id) }}">Mi Cuenta</a>
+      <a class="dropdown-item text-left bg-light" href="{{ url('account') }}">Mi Cuenta</a>
+    @endcan
+
+    @can('create-item')
+    <a class="dropdown-item text-left bg-light" href="{{ url('sales') }}">Mis Ventas</a>
     @endcan
 
     @can('show-orders')
       <a class="dropdown-item text-left bg-light" href="{{ url('orders') }}">Mis Pedidos</a>
       <div class="dropdown-divider"></div>
     @endcan
+
+    
 <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
  -->
     
@@ -37,6 +43,7 @@
       <a class="dropdown-item text-left bg-light" href="{{ url('wishlists') }}">Mis Favoritos</a>
       <div class="dropdown-divider"></div>
     @endcan
+    
   <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
 
     @can('create-category')

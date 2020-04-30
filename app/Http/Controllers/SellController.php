@@ -60,11 +60,73 @@ class SellController extends Controller
 
         });
 
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
+                    ->where('GR_032.IsCover',true)
+                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->select('GR_032.ThumbPath','GR_029.ItemID')
+                    ->count();
+
+        $seller = DB::table('fashionrecovery.GR_001')
+                    ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
+                    ->where('GR_001.Alias',Auth::User()->Alias)
+                    ->where('GR_001.Confirmed',1)
+                    ->where('GR_001.ProfileID',2)
+                    ->select('GR_001.Alias',
+                             'GR_001.Name',
+                             'GR_001.Lastname',
+                             'GR_033.Greeting',
+                             'GR_033.AboutMe',
+                             'GR_033.LiveIn',
+                             'GR_033.WorkIn',
+                             'GR_033.TotalEvaluations',
+                             'GR_033.ItemsSold',
+                             'GR_033.ItemsReturned',
+                             'GR_033.Ranking',
+                             'GR_033.SelfiePath',
+                             'GR_033.SelfieThumbPath',
+                             'GR_001.id',
+                             'GR_033.SellerSince',
+                             'GR_033.UserID',
+                             'GR_033.Phone',
+                             'GR_033.IdentityDocumentPath')
+                    ->first();
+
+                    $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
+
     	return view('sells.index',
-            compact('pending',
+            compact(
+                    'pending',
                     'finalized',
                     'canceled',
-                    'sells'));
+                    'sells',
+                    'seller',
+                    'items',
+                    'sellerSince'));
+    }
+
+    protected function formatDate($format, $date) {
+
+        $date    = date($format, strtotime($date));
+        $explode = explode(" ", $date);
+        $format = [];
+
+        $months = [
+                'January'   =>'enero',
+                'February'  =>'febrero',
+                'March'     =>'marzo',
+                'April'     =>'abril',
+                'May'       =>'Mayo',
+                'June'      =>'junio',
+                'July'      =>'julio',
+                'August'    =>'agosto',
+                'September' =>'septiembre',
+                'October'   =>'octubre',
+                'November'  =>'noviembre',
+                'December'  =>'diciembre',
+            ];
+
+        return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
     }
 
     public function update(Request $request, $id) {

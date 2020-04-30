@@ -13,6 +13,7 @@ use File;
 use Gate;
 
 use App\States;
+use App\User;
 
 class SellerController extends Controller
 {
@@ -242,7 +243,7 @@ class SellerController extends Controller
             DB::commit();
 
             Session::flash('success','Se han modificado correctamente los datos del vendedor.');
-            return Redirect::to('auth/'.$id);
+            return Redirect::back();
             return redirect()->action('AuthController@show', ['id' => $id]);
 
         } catch (\Exception $ex) {
@@ -250,7 +251,7 @@ class SellerController extends Controller
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('auth/'.$id);
+            return Redirect::back();
         }
     }
 

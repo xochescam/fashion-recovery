@@ -48,9 +48,9 @@
               <a href="#followersData" class="list-group-item list-group-item-action text-left">
                 Mis seguidores
               </a>
-              <a href="#sellerData" class="list-group-item list-group-item-action text-left">
+              <!-- <a href="#sellerData" class="list-group-item list-group-item-action text-left">
                 Mis ventas
-              </a>
+              </a> -->
 <!--               <a href="#personalData" class="list-group-item list-group-item-action text-left">
                 Mis datos
               </a>
@@ -78,9 +78,9 @@
 
             @include('auth.partials.billing-info')
 
-            @if(Auth::User()->ProfileID == 2)
+            <!-- @if(Auth::User()->ProfileID == 2)
               @include('auth.partials.seller-data')
-            @endif
+            @endif -->
           </div>
 
         </div>

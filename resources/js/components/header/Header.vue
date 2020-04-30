@@ -63,7 +63,8 @@
                 </a>
 
                 <div class="dropdown-menu bg-light size-14 mt-sm-3" aria-labelledby="navbarDropdown" v-if="auth.id">
-                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/auth/'+auth.id" v-if="canpersonalinfo">Mi Cuenta</a>
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/account'" v-if="canpersonalinfo">Mi Cuenta</a>
+                    <a  class="dropdown-item text-left bg-light" :href="this.$root.path+'/sales'" v-if="auth.id  && canitem">Mis Ventas</a>
                     <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/orders'" v-if="canorders">Mis Pedidos</a>
                 <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
                 -->
@@ -72,7 +73,7 @@
                     </div>
                     <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/item'"
-                        v-if="auth.id  && canitem">Subir Prenda</a>
+                        v-if="auth.id && canitem">Subir Prenda</a>
                     <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/guardarropa'"
                         v-if="auth.id  && canitem">Mi Clóset</a>

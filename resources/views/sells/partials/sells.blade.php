@@ -26,7 +26,7 @@
 						    </div>
 						    
 							<div class="col-md-3">
-							    <form method="GET" action="{{ url('sell/'.$order->OrderID.'/update') }}" class="form" class="was-validated">
+							    <!-- <form method="GET" action="{{ url('sell/'.$order->OrderID.'/update') }}" class="form" class="was-validated">
 							    	<div class="form-group">
 									    <label for="exampleFormControlSelect1">Estado de la venta</label>
 									    <select class="form-control" id="OrderID" name="OrderID" required>
@@ -48,7 +48,7 @@
 
 									    <button class="btn btn-fr w-100 mt-4" >Actualizar</a>							    			
 							    	</div>
-						    	</form>
+						    	</form> -->
 							</div>
 						</div>
 			  		</li>

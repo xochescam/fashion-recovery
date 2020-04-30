@@ -56,8 +56,9 @@ class AuthController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
+        $id = Auth::User()->id;
         $user = User::findOrfail($id);
 
         if(!$this->authorize('viewUser',  $user)) {

@@ -57,7 +57,7 @@ Route::get('search/{search}', 'SearchController@search');
 Route::group(['middleware' => ['auth']], function () {
 
 	//sells
-	Route::get('sells', 'SellController@index');
+	Route::get('sales', 'SellController@index');
 	Route::get('sell/{SellID}/update', 'SellController@update');
 
 	//orders
@@ -135,7 +135,7 @@ Route::group(['middleware' => ['auth']], function () {
 	//Auth user
 	Route::get('auth/{authId}/edit', 'AuthController@edit');
 	Route::post('auth/{authId}', 'AuthController@update');
-	Route::get('auth/{authId}', 'AuthController@show');
+	Route::get('account', 'AuthController@show');
 
 	//Seller
 	Route::get('seller', 'SellerController@create');

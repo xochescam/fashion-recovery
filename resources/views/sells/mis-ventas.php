@@ -8,15 +8,16 @@
 
         	<p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 
+			<!-- <div class="w-100">
+				@include('alerts.success')
+				@include('alerts.warning')
+			</div> -->
+
+			<div class="row">
 
 				@include('auth.partials.seller-data')
-
-				<hr class="my-5">
-
-				<div class="container">
-
-
-				<ul class="nav nav-tabs flex-md-row flex-column p-0 mt-5 orders-list w-100" id="myTab" role="tablist">
+				
+				<!-- <ul class="nav nav-tabs flex-md-row flex-column p-0 col-md-9 m-auto orders-list" id="myTab" role="tablist">
 				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link active" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Ventas</a>
 				  	</li>
@@ -31,7 +32,7 @@
 				  	</li>
 				</ul>
 
-				<div class="tab-content w-100" id="myTabContent">
+				<div class="tab-content col-md-9 m-auto" id="myTabContent">
 				  	<div class="tab-pane fade show mt-4 active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
 				  		@include('sells.partials.sells')
 					</div>
@@ -44,9 +45,9 @@
 				  	<div class="tab-pane fade mt-4" id="canceled" role="tabpanel" aria-labelledby="canceled-tab">
 				  		@include('sells.partials.canceled')
 				  	</div>
-				</div> 
-				
+				</div> -->
 			</div>
+
       </div>
     </main>
 
