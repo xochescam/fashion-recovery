@@ -87,48 +87,7 @@ class Item extends Model
         $array['ColorName']        = $this->color->ColorName;
         $array['ThumbPath']        = $this->info->where('IsCover',true)->first()->ThumbPath;
 
-    
         return $array;
-
-        /* $array = $this->transform(Item::getMyItems());
-
-        return $array;
-
-        $array = Item::all()->filter(function ($data) {
-
-            $data['BrandID'] = DB::table('fashionrecovery.GR_017')
-                                ->where('BrandID',$data['BrandID'])
-                                ->first()->BrandName;
-
-            return $data;
-
-        })->toArray();
-
-        return $array; */
-
-        //dd(Item::all());
-            
-        
-        //return Item::getMyItems()->toArray();
-
-
-
-
-
-        //$items = $allItems;
-        
-
-/*         $thumbs = Item::thumbs($items);
-        
-        $items = $items->map(function ($item, $key) use($thumbs) {
-
-            $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-
-            return $item;
-        }); */
-
-
-        //return $items;
     }
 
     public static function getMyItems() {
