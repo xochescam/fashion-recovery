@@ -11,6 +11,9 @@ use DB;
 use Session;
 use Redirect;
 
+use App\Item;
+use App\Order;
+
 class PaymentController extends Controller {
 
     public function paymentCard(Request $request) {
@@ -212,37 +215,35 @@ class PaymentController extends Controller {
         $items   = $user->getItems();
         $arrayIt = []; 
 
-        DB::table('fashionrecovery.GR_021')
-            ->insert([
-                'UserID'          => $user->id,
-                'OrderStatusID'   => 1,
-                'ShippingID'      => $ShippingAddID,
-                'TotalAmount'     => Auth::User()->getTotal(), //agregar lo del envío
-                'PaymentOptionID' => 2, //agregar lo del pago
-                'CreationDate' => date("Y-m-d H:i:s")
-            ]);
+        $order = new Order;
+        $order->UserID = $user->id;
+        $order->OrderStatusID = 1;
+        $order->ShippingID = $ShippingAddID;
+        $order->TotalAmount = Auth::User()->getTotal();
+        $order->PaymentOptionID = 2;
+        $order->CreationDate = date("Y-m-d H:i:s");
+        $order->save();
 
+        $s = strtoupper(substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5));
 
-        $last = DB::table('fashionrecovery.GR_021')
-                    ->where('UserID',$user->id)
-                    ->orderBy('CreationDate', 'desc')
-                    ->first()
-                    ->OrderID;
-
+        $order->NoOrder = $s.$order->OrderID;
+        $order->save();
 
         foreach ($items as $key => $value) {
 
             DB::table('fashionrecovery.GR_022')
                 ->insert([
-                    'OrderID'      => $last,
+                    'OrderID'      => $order->OrderID,
                     'OrderStatusID'   => 1,
                     'ItemID'       => $value->ItemID,
                     'CreationDate' => date("Y-m-d H:i:s")
                 ]);
+            
+            $item = Item::find($value->ItemID);
+            $item->IsSold  = true;
+            $item->save();
 
-            DB::table('fashionrecovery.GR_029')
-                ->where('ItemID',$value->ItemID)
-                ->update(['IsSold' => true]);
+            $item->unsearchable();
         }
 
         DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
