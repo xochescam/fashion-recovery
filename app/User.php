@@ -15,6 +15,8 @@ use DB;
 class User extends Authenticatable
 {
     use Notifiable;
+    public $timestamps = false;
+
 
     protected $table = 'fashionrecovery.GR_001';
 
