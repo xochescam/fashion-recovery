@@ -38,6 +38,8 @@ class SellController extends Controller
                                  'GR_029.SizeID',
                                  'GR_029.BrandID',
                                  'GR_021.TotalAmount',
+                                 'GR_021.NoOrder',
+                                 'GR_022.FolioID',
                                  'GR_001.Alias as Buyer',
                                  'GR_013.Name',
                                  'GR_022.OrderID'
