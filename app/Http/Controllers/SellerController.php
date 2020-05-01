@@ -14,6 +14,7 @@ use Gate;
 
 use App\States;
 use App\User;
+use App\Item;
 
 class SellerController extends Controller
 {
@@ -362,6 +363,14 @@ class SellerController extends Controller
                     ->update([
                         'IsPaused' => $IsPaused
                     ]);
+
+        if($Type == 'item' && !$IsPaused) {
+            Item::find($id)->unsearchable();
+
+        } else if ($Type == 'item' && $IsPaused) {
+
+            Item::find($id)->searchable();
+        }
         
         return response()->json("success");
     }
