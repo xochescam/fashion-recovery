@@ -152,9 +152,5 @@ export default {
             window.location.href = this.$root.path+'/search/'+val;
         }
     },
-    mounted() {
-        console.log(this.sellerurl)
-        console.log(this.canbuyitem)
-    }
 };
 </script>
