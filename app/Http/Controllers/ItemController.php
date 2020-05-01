@@ -903,6 +903,8 @@ class ItemController extends Controller
             DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
             DB::delete('DELETE FROM fashionrecovery."GR_029" WHERE "ItemID"='.$id);
 
+            $item->unsearchable();
+
             DB::commit();
 
             Session::flash('success','Se ha eliminado correctamente la prenda.');
