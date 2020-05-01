@@ -21,8 +21,11 @@
 									</h5>
 
 						      		<span class="badge badge-warning mb-3">{{ $order->Name }}</span>
-									<p><small>No. Orden: {{ $order->NoOrder }}</small> <br>
-									<p><small>No. Guía: {{ $item->FolioID }}</small> <br><br>
+									<p>
+										<small>No. Orden: {{ $order->NoOrder }}</small><br>
+										<small>No. Guía: {{ $item->FolioID }}</small><br>
+									</p>
+									<p>
 										<small>Talla: {{ $item->SizeID }}</small> <br>
 										<small>Marca: {{ $item->BrandID }}</small> <br>
 										<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a></small> <br>
