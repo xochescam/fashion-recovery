@@ -137,7 +137,8 @@ class SellerController extends Controller
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
                     ->where('GR_032.IsCover',true)
                     ->where('GR_029.IsSold',false)
-                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->where('GR_029.IsPaused',false)
+                    ->where('GR_029.OwnerID',$seller->id)
                     ->select('GR_032.ThumbPath','GR_029.ItemID')
                     ->get();
 
