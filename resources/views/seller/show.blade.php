@@ -10,7 +10,7 @@
 
           <div class="row">
 
-            <div class="col-sm-4">
+            <div class="col-md-4">
               <div class="card mb-5">
                 
                 <h2 class="mt-4 text-center"> {{ $seller->Alias }} </h2>
@@ -90,7 +90,7 @@
 
             </div>
 
-            <div class="col-sm-8">
+            <div class="col-md-8">
 
               <h3> {{ $seller->Greeting }} </h3>
               <small>Miembro desde {{ $sellerSince }}</small>
