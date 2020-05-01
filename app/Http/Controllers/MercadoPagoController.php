@@ -6,9 +6,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use MercadoPago;
 
+use App\Mail\SoldItem;
+
 use Auth;
 use DB;
 use Session;
+use Mail;
 use Redirect;
 
 use App\Item;
@@ -247,6 +250,12 @@ class PaymentController extends Controller {
         }
 
         DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
+
+        $address = Auth::User()->getShippingAddress()
+                                ->where('ShippingAddID',$ShippingAddID);
+
+        Mail::to(Auth::User()->email)
+            ->send(new SoldItem(Auth::User(), $order, $items, $address));
 
         return response()->json('success');
     }
