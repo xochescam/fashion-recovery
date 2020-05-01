@@ -21,7 +21,7 @@
 									</h5>
 
 						      		<span class="badge badge-warning mb-3">{{ $order->Name }}</span>
-									<p><small>No. Orden: {{ $item->NoOrder }}</small> <br>
+									<p><small>No. Orden: {{ $order->NoOrder }}</small> <br>
 									<p><small>No. Guía: {{ $item->FolioID }}</small> <br><br>
 										<small>Talla: {{ $item->SizeID }}</small> <br>
 										<small>Marca: {{ $item->BrandID }}</small> <br>
