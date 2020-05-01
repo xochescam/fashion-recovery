@@ -65,7 +65,7 @@
             removeFromWishlist() {    
 
                 axios
-                    .get(window.location.origin+'/'+this.newUrl)
+                    .get(this.$root.path+'/'+this.newUrl)
                     .then(response => {
 
                         this.hasWish = 0;
@@ -78,11 +78,11 @@
             addToWishlist() {  
                 
                 if(this.newUrl == 'login/0') {
-                    window.location.href = window.location.origin+'/'+this.newUrl;
+                    window.location.href = this.$root.path+'/'+this.newUrl;
                 }
         
                 axios
-                    .get(window.location.origin+'/'+this.newUrl)
+                    .get(this.$root.path+'/'+this.newUrl)
                     .then(response => {
 
                         this.hasWish = 1;
