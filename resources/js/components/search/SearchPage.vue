@@ -7,6 +7,14 @@
     <ais-configure v-bind="initial" :distinct="true"/>
 
     <header-component
+        :cancategory="cancategory"
+        :canseller="canseller"
+        :canbuyitem="canbuyitem"
+        :canpersonalinfo="canpersonalinfo"
+        :canorders="canorders"
+        :canitem="canitem"
+        :canwishlist="canwishlist"
+        :cannotifications="cannotifications"
         :authdata="auth"
         :countitemsdata="countitems"
         :notificationsdata="notifications"
@@ -33,7 +41,15 @@ export default {
         sellerurl: String,
         authdata: Object,
         countitemsdata: Number,
-        notificationsdata: Array
+        notificationsdata: Array,
+        cancategory: String,
+        canseller: String,
+        canbuyitem: String,
+        canpersonalinfo: String,
+        canorders: String,
+        canitem: String,
+        canwishlist: String,
+        cannotifications: String,
     },
     data() {
         return {

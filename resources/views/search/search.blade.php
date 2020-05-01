@@ -26,6 +26,14 @@
     <div id="app">
 
       <search-page
+        cancategory="{{ Auth::User() !== null && Auth::User()->isAdmin() }}"
+        canseller="{{ Auth::User() !== null && Auth::User()->isBuyerProfile() }}"
+        canbuyitem="{{ Auth::User() !== null && (Auth::User()->isBuyerProfile() || Auth::User()->isSellerProfile()) }}"
+        canpersonalinfo="{{ Auth::User() !== null && (Auth::User()->isBuyerProfile() || Auth::User()->isSellerProfile()) }}"
+        canorders="{{ Auth::User() !== null && (Auth::User()->isBuyerProfile() || Auth::User()->isSellerProfile()) }}"
+        canitem="{{ Auth::User() !== null && Auth::User()->isSellerProfile() }}"
+        canwishlist="{{ Auth::User() !== null && (Auth::User()->isBuyerProfile() || Auth::User()->isSellerProfile()) }}"
+        cannotifications="{{ Auth::User() !== null && (Auth::User()->isBuyerProfile() || Auth::User()->isSellerProfile()) }}"
         :wishlistdata="{{ $wishlist === [] ? '[]' : $wishlist }}"
         searchdata="{{ $search }}"
         :authdata="{{ Auth::User() !== null ? Auth::User() : '{}' }}"
