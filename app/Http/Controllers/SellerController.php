@@ -136,6 +136,7 @@ class SellerController extends Controller
         $items = DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
                     ->where('GR_032.IsCover',true)
+                    ->where('GR_029.IsSold',false)
                     ->where('GR_029.OwnerID',Auth::User()->id)
                     ->select('GR_032.ThumbPath','GR_029.ItemID')
                     ->get();
