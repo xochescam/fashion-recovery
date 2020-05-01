@@ -14,13 +14,23 @@
 						    <div class="col-md-3">
 						      <img src="{{ url('storage/'.$order->ThumbPath) }}" class="card-img" alt="{{ $order->ItemDescription }}">
 						    </div>
-						    <div class="col-md-6">
+						    <div class="col-md-9">
 						      	<div class="card-body">
-						      		<h5 class="card-title">{{ $order->ItemDescription }}</h5>
-						      		<span class="badge badge-warning mb-3">{{ $order->Name }}</span>
+						      		<h5 class="card-title">
+									  {{ $order->ItemDescription }}
+									  <a href="{{ url( isset($item->GuideURL) ? $item->GuideURL : '#' ) }}" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">Rastrear pedido</a>
+									</h5>
+									<span class="badge badge-warning mb-3">{{ $order->Name }}</span>
+								<p>
+									<small>No. Orden: {{ $order->NoOrder }}</small><br>
+									<small>No. Guía: {{ $order->FolioID }}</small><br>
+									<small><a class="green-link" href="#">Descargar guía</a></small> 
+								</p>
 						      	<p>
 						      		<small>Talla: {{ $order->SizeID }}</small> <br>
-						      		<small>Marca: {{ $order->BrandID }}</small>
+						      		<small>Marca: {{ $order->BrandID }}</small> <br>
+									<small>Comprador: {{ $order->Buyer }}</small> <br>
+
 						      	</p>
 						      </div>
 						    </div>
