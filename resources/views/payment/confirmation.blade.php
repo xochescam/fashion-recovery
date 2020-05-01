@@ -113,6 +113,10 @@
 						</div>
 					</div>
 
+					<a href="{{ url('/') }}" class="btn btn-fr w-100 mt-5">
+						Seguir comprando
+					</a>
+
 				</div>
 
 			</div>
