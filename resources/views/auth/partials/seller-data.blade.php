@@ -214,6 +214,8 @@
             </div>
           </div>
 
+          <hr class="my-5 w-100 d-block d-md-none">
+
           <div class="col-md-6">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Evaluaciones</label>
