@@ -31,10 +31,7 @@ class PaymentController extends Controller
                 Session::flash('warning',$item['message']);
                 return Redirect::back();
             }
-
         }
-
-        
 
         //cuando no hay direccion // pasar a agregar la dirección
         //cuando hay dirección y no hay nada en el carrito // tomar la dirección default y agregar al carrito
@@ -79,9 +76,7 @@ class PaymentController extends Controller
 
         } */
 
-
         //$address = $this->addToCart($ShippingAddID, $user);
-
     }
 
     public function getItem($ItemID) {
@@ -192,6 +187,13 @@ class PaymentController extends Controller
                     ->first()
                     ->OrderID;
 
+        $s = strtoupper(substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5));
+
+        DB::table('fashionrecovery.GR_021')
+            ->where('OrderID',$last)
+            ->update([
+                'NoOrder' => $s.$last,
+            ]);
 
         foreach ($items as $key => $value) {
 

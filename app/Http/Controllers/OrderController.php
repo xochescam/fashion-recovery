@@ -35,7 +35,7 @@ class OrderController extends Controller
                     //->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
                     ->join('fashionrecovery.GR_013', 'GR_021.OrderStatusID', '=', 'GR_013.OrderStatusID')
                     ->where('UserID',Auth::User()->id)
-                    ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name')
+                    ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name','GR_021.NoOrder')
                     ->get();
 
         $pending   = $orders->where('Name','!==','Entregado')
