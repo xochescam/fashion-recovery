@@ -103,9 +103,11 @@
 
               <hr class="my-4">
 
-              <h5 class="mb-5">{{ $seller->TotalEvaluations  }} evaluaciones</h5>
+              <h5>{{ $seller->TotalEvaluations  }} evaluaciones</h5>
 
               <hr class="my-4">
+
+              <h5 class="mb-3">El Closet de {{ $seller->Alias }}</h5>
 
               <div class="d-flex align-content-center flex-wrap">
                 @foreach($items as $item)
