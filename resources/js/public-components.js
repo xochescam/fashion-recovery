@@ -6,27 +6,17 @@
  */
 window.Vue = require('vue');
 
-(function() {
+Vue.component('heart-wishlist-component',require('./components/HeartWishlistComponent.vue').default);
+Vue.component('item-to-shopping-cart',require('./components/ItemToShoppingCartComponent.vue').default);
 
-    Vue.component('heart-wishlist-component',require('./components/HeartWishlistComponent.vue'));
-    Vue.component('item-to-shopping-cart',require('./components/ItemToShoppingCartComponent.vue'));
-    
-    // Search
-    Vue.component('header-component', require('./components/header/Header.vue'));
-    Vue.component('notifications',require('./components/header/Notifications.vue'));
-    Vue.component('search-filter',require('./components/search/Filters.vue'));
-    
-    // Search
-    Vue.component('search-page', require('./components/search/SearchPage.vue'));
-    Vue.component('search-input', require('./components/search/SearchInput.vue'));
-    Vue.component('hits', require('./components/search/Hits.vue'));
-    Vue.component('refinament', require('./components/search/Refinament.vue'));
-    Vue.component('question',require('./components/question/Question.vue'));
-    
-    Vue.component('question-parent',require('./components/question/QuestionParent.vue'));
-    Vue.component('question-son',require('./components/question/QuestionSon.vue'));
+// Search
+Vue.component('header-component', require('./components/header/Header.vue').default);
+Vue.component('notifications',require('./components/header/Notifications.vue').default);
+Vue.component('search-filter',require('./components/search/Filters.vue').default);
 
-})();
+Vue.component('question',require('./components/question/Question.vue').default);
+Vue.component('question-parent',require('./components/question/QuestionParent.vue').default);
+Vue.component('question-son',require('./components/question/QuestionSon.vue').default);
 
 
 /**
