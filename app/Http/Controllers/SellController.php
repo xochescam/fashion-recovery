@@ -9,6 +9,8 @@ use DB;
 use Session;
 use Redirect;
 
+use App\States;
+
 class SellController extends Controller
 {
     public function index() { //ordenar pedidos por usuarios
@@ -96,8 +98,11 @@ class SellController extends Controller
 
                     $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
 
+        $states = States::get();
+
     	return view('sells.index',
             compact(
+                    'states',
                     'pending',
                     'finalized',
                     'canceled',

@@ -8,13 +8,12 @@
 
         	<p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 
+			@include('auth.partials.seller-data')
 
-				@include('auth.partials.seller-data')
 
-				<hr class="my-5">
+			<div class="container">
 
-				<div class="container">
-
+				<hr>
 
 				<ul class="nav nav-tabs flex-md-row flex-column p-0 mt-5 orders-list w-100" id="myTab" role="tablist">
 				  	<li class="nav-item px-md-0 px-4">
@@ -45,9 +44,8 @@
 				  		@include('sells.partials.canceled')
 				  	</div>
 				</div> 
-				
 			</div>
-      </div>
+    	</div>
     </main>
 
 @endsection
