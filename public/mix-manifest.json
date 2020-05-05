@@ -3,5 +3,6 @@
     "/js/private-components.js": "/js/private-components.js",
     "/js/public.js": "/js/public.js",
     "/js/public-components.js": "/js/public-components.js",
-    "/css/app.css": "/css/app.css"
+    "/css/app.css": "/css/app.css",
+    "/js/search-components.js": "/js/search-components.js"
 }
