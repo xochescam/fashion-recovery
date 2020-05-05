@@ -63,6 +63,11 @@ Vue.component(
 );
 
 Vue.component(
+    'edit-seller',
+    require('./components/EditSeller.vue').default
+);
+
+Vue.component(
     'create-seller',
     require('./components/CreateSeller.vue').default
 );
