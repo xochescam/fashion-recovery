@@ -79,7 +79,7 @@ class ItemController extends Controller
         $sizes          = Size::getByCategory();
         $colors         = Color::getAll(); 
         $types          = Type::getAll();
-        $closets        = Closet::getByAuth();
+        $closets        = Closet::where('UserID',Auth::User()->id)->get();
         $front  = null;
         $label  = null;
         $back   = null;
@@ -186,7 +186,7 @@ class ItemController extends Controller
 
             DB::commit();
 
-            Session::flash('success','Se ha guardado correctamente');
+        Session::flash('success','Se ha guardado correctamente');
             return Redirect::to('items'); //cambiar
  
         } catch (\Exception $ex) {
@@ -204,9 +204,10 @@ class ItemController extends Controller
       /*   $data['ValidFrom'] = date("Y-m-d H:i:s",strtotime($data['ValidFrom']));
         $data['ValidUntil'] = date("Y-m-d H:i:s",strtotime($data['ValidUntil'])); */
 
-        $closet = !isset($data['ClosetID']) || $data['ClosetID'] == "default" ?
-                    $this->saveDefaultCloset()->ClosetID :
-                    $data['ClosetID'];
+        $closet   = $data['ClosetID'] == "crear" ? 
+                    $this->saveNewCloset($data['ClosetName'])->ClosetID  : 
+                    (!isset($data['ClosetID']) || $data['ClosetID'] == "default" ?
+                        $this->saveDefaultCloset()->ClosetID : $data['ClosetID']);
 
 /*         $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
  */        $brand     = $this->getBrand($data['BrandID']);;
@@ -229,9 +230,12 @@ class ItemController extends Controller
     protected function itemData($data) {
 
         $countImg = 0;
-        $closet   = !isset($data['ClosetID']) || $data['ClosetID'] == "default" ?
-                    $this->saveDefaultCloset()->ClosetID :
-                    $data['ClosetID'];
+
+        $closet   = $data['ClosetID'] == "crear" && isset($data['ClosetName']) ? 
+                    $this->saveNewCloset($data['ClosetName'])->ClosetID  : 
+                    (!isset($data['ClosetID']) || $data['ClosetID'] == "default" ?
+                        $this->saveDefaultCloset()->ClosetID : $data['ClosetID']);
+                        
         $OffSaleID = isset($data['offer']) ? $this->saveOffer($data) : null;
         $brand     = $this->getBrand($data['BrandID']);
 
@@ -358,21 +362,41 @@ class ItemController extends Controller
                         ->get()->last()->OfferID;
     }
 
+    protected function saveNewCloset($name) {
+        $table = 'fashionrecovery.GR_030';
+        $userID = Auth::User()->id;
+
+        $closet = new Closet;
+        $closet->ClosetName   = $name;
+        $closet->UserID       = $userID;
+        $closet->CreationDate = date("Y-m-d H:i:s");
+        $closet->IsPaused     = false;
+        $closet->save();
+
+        return  $closet;
+    }
+
     protected function saveDefaultCloset() {
         $table = 'fashionrecovery.GR_030';
         $userID = Auth::User()->id;
 
-        DB::table($table)
-            ->insert([
-                'ClosetName'   => 'Colección por defecto',
-                'UserID'       => $userID,
-                'CreationDate' => date("Y-m-d H:i:s"),
-                'IsPaused' => false,
-            ]);
+        $exists = Closet::where('UserID',$userID)->get();
 
-        return  DB::table($table)
-                    ->where('UserID',$userID)
-                    ->first();
+        if(count($exists) > 0) {
+
+            $closet = $exists->first();
+
+        } else {
+
+            $closet = new Closet;
+            $closet->ClosetName   = 'Colección por defecto';
+            $closet->UserID       = $userID;
+            $closet->CreationDate = date("Y-m-d H:i:s");
+            $closet->IsPaused     = false;
+            $closet->save();
+        }
+
+        return  $closet;
     }
 
     public function deleteItems($data,$item) {
@@ -667,7 +691,7 @@ class ItemController extends Controller
         $back   = $this->getImage($images, 'back');
         $selfie = $this->getImage($images, 'selfie');
         $in     = $this->getImage($images, 'in');
-        $extra  = $this->getImage($images, 'extra'); 
+        $extra  = $this->getImage($images, 'extra');
         
         return view('item.edit',compact(
             'front',
