@@ -15,6 +15,9 @@ class Closet extends Model
      * @var string
      */
     protected $table = 'fashionrecovery.GR_030';
+    protected $primaryKey = 'ClosetID';
+    public $timestamps = false;
+
 
     public static function getByAuth() {
 
