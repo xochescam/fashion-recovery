@@ -111,6 +111,11 @@ Vue.component(
     require('./components/header/Notifications.vue').default
 );
 
+Vue.component(
+    'create-collection',
+    require('./components/CreateCollection.vue').default
+);
+
 
 
 /**
