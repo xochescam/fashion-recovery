@@ -21,13 +21,6 @@
 						      		<small>Talla: {{ $item->SizeID }}</small> <br>
 						      		<small>Marca: {{ $item->BrandID }}</small> <br>
 									<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a> </small>
-									<small>
-										<cancel-order 
-											guide="{{ $item->PackingOrderID }}"
-											class="text-danger cursor-pointer"
-										>Cancelar pedido
-										<cancel-order/>
-									</small>
 								</p>
 
 								  

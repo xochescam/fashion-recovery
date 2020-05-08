@@ -13,7 +13,7 @@ export default {
     /**
     * Receive an initial selected value.
     */
-    guide: {
+    order: {
       type: String,
       required: false,
       default: ''
@@ -23,10 +23,10 @@ export default {
     cancel() {
 
         window.axios
-            .get(window.location.origin+"/cancel-order/"+this.guide)
+            .get(this.$root.path+"/cancel-order/"+this.order)
             .then(response => {
 
-                console.log(response)
+              window.location.href = this.$root.path + '/orders';
             
             })
             .catch(error => {

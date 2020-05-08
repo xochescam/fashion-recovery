@@ -18,11 +18,14 @@
 						      	<div class="card-body">
 						      		<h5 class="card-title">{{ $item->ItemDescription }}</h5>
 						      		<span class="badge badge-danger mb-3">{{ $order->Name }}</span>
-						      	<p>
-						      		<small>Talla: {{ $item->SizeID }}</small> <br>
-						      		<small>Marca: {{ $item->BrandID }}</small> <br>
-									<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a></small>
-						      	</p>
+									<p>
+										<small>No. Orden: {{ $item->NoOrder }}</small><br>
+									</p>
+									<p>
+										<small>Talla: {{ $item->SizeID }}</small> <br>
+										<small>Marca: {{ $item->BrandID }}</small> <br>
+										<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a></small>
+									</p>
 						      </div>
 						    </div>
 						</div>

@@ -16,6 +16,7 @@ use Redirect;
 
 use App\Item;
 use App\Order;
+use App\InfoOrder;
 
 class PaymentController extends Controller {
 
@@ -227,19 +228,18 @@ class PaymentController extends Controller {
         $order->CreationDate = date("Y-m-d H:i:s");
         $order->save();
 
-        $s = strtoupper(substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5));
-
-        $order->NoOrder = $s.$order->OrderID;
-        $order->save();
-
         foreach ($items as $key => $value) {
+
+            $s = strtoupper(substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5));
 
             DB::table('fashionrecovery.GR_022')
                 ->insert([
-                    'OrderID'      => $order->OrderID,
-                    'OrderStatusID'   => 1,
-                    'ItemID'       => $value->ItemID,
-                    'CreationDate' => date("Y-m-d H:i:s")
+                    'OrderID'       => $order->OrderID,
+                    'NoOrder'       => $s.$order->OrderID,
+                    'OrderStatusID' => 1,
+                    'ItemID'        => $value->ItemID,
+                    'IsCanceled'    => false,
+                    'CreationDate'  => date("Y-m-d H:i:s")
                 ]);
             
             $item = Item::find($value->ItemID);

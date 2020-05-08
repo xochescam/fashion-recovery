@@ -10,6 +10,10 @@ use Session;
 use Auth;
 use Gate;
 
+use App\Order;
+use App\InfoOrder;
+use App\Item;
+
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 
@@ -32,10 +36,10 @@ class OrderController extends Controller
     	$user      = Auth::User();
 
     	$orders = DB::table($this->table)
-                    //->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
-                    ->join('fashionrecovery.GR_013', 'GR_021.OrderStatusID', '=', 'GR_013.OrderStatusID')
+                    ->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
+                    ->join('fashionrecovery.GR_013', 'GR_022.OrderStatusID', '=', 'GR_013.OrderStatusID')
                     ->where('UserID',Auth::User()->id)
-                    ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name','GR_021.NoOrder')
+                    ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name')
                     ->get();
 
         $pending   = $orders->where('Name','!==','Entregado')
@@ -59,7 +63,8 @@ class OrderController extends Controller
                              'GR_022.GuideID',
                              'GR_022.PackingOrderID',
                              'GR_022.FolioID',
-                             'GR_022.GuideURL'
+                             'GR_022.GuideURL',
+                             'GR_022.NoOrder'
                     )->get();
                     
         $items = $items->map(function ($item, $key) use ($user){
@@ -72,6 +77,7 @@ class OrderController extends Controller
 
         })->groupBy('OrderID');
 
+
     	return view('orders.index',
             compact('orders',
                     'pending',
@@ -80,37 +86,48 @@ class OrderController extends Controller
                     'items'));
     }
 
-    public function cancel($GuideID) {
+    public function cancel($OrderID) {
 
-        $data = $this->login();
-        $url  = '/orders/cancel/';
-        $body = '{}';
-        $key  = '';
+        $info = InfoOrder::where('NoOrder',$OrderID)->first();
 
-        if($data->success) {
+        $info->IsCanceled = true;
+        $info->save();
 
-            $key = $this->key($data, $url, $body);
+        $item = Item::find($info->ItemID);
+        $item->IsSold = false;
+        $item->save(); 
+        $item->searchable();
 
-            $client = new Client();
+        if(isset($info->FolioID)) {
 
-            $response = $client->request('PUT', 
-            'https://pp-users-integrations-api-test.herokuapp.com'.$url.$GuideID,[
-                'headers' => [
-                    'user_id' => $data->data->user_id,
-                    'token' => $key
-                ]
-            ]);
+            $data = $this->login();
+            $url  = '/orders/cancel/';
+            $body = '{}';
+            $key  = '';
 
-            $orderId = DB::table('fashionrecovery.GR_022')
-                ->where('PackingOrderID','=',$GuideID)
-                ->update(["OrderStatusID" => 6]);
-            
+            if($data->success) {
 
-                    ;
+                $key = $this->key($data, $url, $body);
 
-            return response()->json($response->getStatusCode());
+                $client = new Client();
+
+                $response = $client->request('PUT', 
+                'https://pp-users-integrations-api-test.herokuapp.com'.$url.$info->PackingOrderID,[
+                    'headers' => [
+                        'user_id' => $data->data->user_id,
+                        'token' => $key
+                    ]
+                ]);
+
+                $orderId = DB::table('fashionrecovery.GR_022')
+                    ->where('PackingOrderID','=',$info->PackingOrderID)
+                    ->update(["OrderStatusID" => 6]);
+
+                return response()->json($response->getStatusCode());
+            }
         }
 
+        return response()->json('success');
     }
 
     public function login() {
