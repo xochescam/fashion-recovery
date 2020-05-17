@@ -98,6 +98,10 @@ class OrderController extends Controller
         $item->save(); 
         $item->searchable();
 
+        $orderId = DB::table('fashionrecovery.GR_022')
+                    ->where('PackingOrderID','=',$info->PackingOrderID)
+                    ->update(["OrderStatusID" => 6]);
+
         if(isset($info->FolioID)) {
 
             $data = $this->login();
@@ -118,10 +122,6 @@ class OrderController extends Controller
                         'token' => $key
                     ]
                 ]);
-
-                $orderId = DB::table('fashionrecovery.GR_022')
-                    ->where('PackingOrderID','=',$info->PackingOrderID)
-                    ->update(["OrderStatusID" => 6]);
 
                 return response()->json($response->getStatusCode());
             }
