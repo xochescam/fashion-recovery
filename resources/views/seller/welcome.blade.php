@@ -10,7 +10,7 @@
 
             <p class="mb-5">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis nemo eaque nihil odio? Molestiae eligendi omnis laudantium, est quis blanditiis aliquid tempora. Nam autem a facilis non tempore velit! Hic?</p>
             
-            <h5 class="mb-4 TituloFR">Cuida al planeta vendiendo tu Guardarropa</h5>
+            <h5 class="mb-4 TituloFR">Cuida al planeta vendiendo tu Closet</h5>
 
             <div class="row">
               <div class="col-sm-4 mb-4">
@@ -43,7 +43,7 @@
             </div>
 
             <div class="w-100 text-right mb-4">
-              <a href="{{ url('/item') }}" class="btn btn-fr" role="button">Vende tu Guardarropa</a>
+              <a href="{{ url('/item') }}" class="btn btn-fr" role="button">Vende tu Closet</a>
             </div>
 
             <hr class="my-5">

@@ -3,14 +3,14 @@
       <div class="row">
         <div class="col text-center text-uppercase mb-4">
           <small>Echa un vistazo a nuestros</small>
-          <h2>Guardarropas Destacados</h2>
+          <h2>Closets Destacados</h2>
         </div>
       </div>
       <div class="row justify-content-around shadow-lg p-3 mb-5 bg-light rounded mx-md-5">
 
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
-            <img class="card-img-top img-thumbnail" src="{{ url('img/important/women.jpg') }}" alt="Guardarropa para Mujer">
+            <img class="card-img-top img-thumbnail" src="{{ url('img/important/women.jpg') }}" alt="Closet para Mujer">
             <div class="card-body">
               <h5 class="card-title">Mujeres</h5>
               <p class="card-text">Encuentra aquí los mejores estilos y los look más chic & hot del momento.</p>
@@ -21,7 +21,7 @@
 
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
-            <img class="card-img-top img-thumbnail" src="{{ url('img/important/men.jpg') }}" alt="Guardarropa para Hombre">
+            <img class="card-img-top img-thumbnail" src="{{ url('img/important/men.jpg') }}" alt="Closet para Hombre">
             <div class="card-body">
               <h5 class="card-title">Hombres</h5>
               <p class="card-text">¿Casual? ¿Negocios? ¿Relajado? ¿Deportivo?  ¡Tú elijes! Arma tu look aquí.</p>
@@ -32,7 +32,7 @@
 
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
-            <img class="card-img-top img-thumbnail" src="{{ url('img/important/kid.jpg') }}" alt="Guardarropa para Niños">
+            <img class="card-img-top img-thumbnail" src="{{ url('img/important/kid.jpg') }}" alt="Closet para Niños">
             <div class="card-body">
               <h5 class="card-title">Niños</h5>
               <p class="card-text">Vístelos ideal para cada ocasión, encuentras las mejores prendas y accesosios para los pequeñitos del hogar.</p>
@@ -43,7 +43,7 @@
 
         <div class="col-lg-3 col-md-4 col-sm-6 mb-4 d-flex">
           <div class="card card--public shadow p-3 mb-5 bg-white rounded">
-            <img class="card-img-top img-thumbnail" src="{{ url('img/important/maternity.jpg') }}" alt="Guardarropa para Bebés y Maternidad">
+            <img class="card-img-top img-thumbnail" src="{{ url('img/important/maternity.jpg') }}" alt="Closet para Bebés y Maternidad">
             <div class="card-body">
               <h5 class="card-title">Bebés y Maternidad</h5>
               <p class="card-text">Prepara lo necesario para el gran momento, encuentra los mejores conjuntos para ti y para tu bebé.</p>
