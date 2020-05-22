@@ -19,7 +19,7 @@
                 "La prenda más verde es la que ya existe." Juntos vamos a crear conciencia y cuidar el planeta. Sé parte de este gran movimiento.
                 <br/>¡Te esperamos!
               </p>
-              <a href="{{ url('/register/1') }}" class="btn btn-outline-light">Vende tu Closet</a>
+              <a href="{{ url( isset(Auth::User()->id) ? '/item' : '/register/1') }}" class="btn btn-outline-light">Vende tu Closet</a>
               <a href="{{ url('#offersDeLaSemana') }}" class="btn btn-fr" role="button">Comprar</a>
             </div>
           </div>
