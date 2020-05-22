@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row text-center">
       <div class="col-md col-12 my-3">
-        <a href="{{ url('support') }}">Ayuda</a>
+        <a href="{{ url('support') }}">¿Cómo funciona Fashion Recovery?</a>
       </div>
       <div class="col-md col-12 my-3">
         <a href="{{ url('faq') }}">Preguntas Frecuentes</a>
