@@ -16,10 +16,11 @@
             <div class="col-md-6 offset-md-5 text-center text-md-right">
               <h1 class="fCooperHewitt"><b>FASHION RECOVERY</b></h1>
               <p class="d-none d-md-block">
-                "La prenda más verde es la que ya existe." Juntos vamos a crear conciencia y cuidar el planeta. Sé parte de este gran movimiento.
-                <br/>¡Te esperamos!
+                Dale una segunda oportunidad a esas fabulosas prendas
+                <br/>que tienes en tu clóset y dale un respiro al planeta.
+                <br/>¡Viste verde!
               </p>
-              <a href="{{ url( isset(Auth::User()->id) ? '/item' : '/register/1') }}" class="btn btn-outline-light">Vende tu Closet</a>
+              <a href="{{ url( isset(Auth::User()->id) ? '/item' : '/register/1') }}" class="btn btn-outline-light">Vende tus prendas</a>
               <a href="{{ url('#offersDeLaSemana') }}" class="btn btn-fr" role="button">Comprar</a>
             </div>
           </div>
