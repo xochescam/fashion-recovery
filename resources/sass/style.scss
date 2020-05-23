@@ -942,6 +942,14 @@ div a{
   }
 }
 
+.banner-important a img{
+  border: 3.5px solid transparent;
+}
+
+.banner-important a:hover > img {
+  border: 3.5px solid #009c77;
+}
+
 .banner-important__title {
   bottom: 50%;
   color: #fff;
