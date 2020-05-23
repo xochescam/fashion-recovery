@@ -25,7 +25,9 @@
 
     <hits 
         :wishlistdata="{ wishlistdata }"
-        :authdata="auth"></hits>
+        :authdata="auth"
+        :searchdata="searchdata"
+        ></hits>
 
   </ais-instant-search>
 </template>
@@ -69,6 +71,6 @@ export default {
             notifications: this.notificationsdata,
             search: this.searchdata
         };
-    }
+    },
 };
 </script>

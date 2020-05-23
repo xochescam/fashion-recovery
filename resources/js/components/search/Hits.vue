@@ -1,7 +1,7 @@
 <template>
     <main id="main">
         <div class="container pt-4">
-            <h2 class="text-left TituloFR my-4 mb-5">Resultados de la búsqueda</h2>
+            <h2 class="text-center TituloFR py-5 mb-5 title-search">{{ search }}</h2>
         </div>
         
         <section class="container">
@@ -69,13 +69,15 @@ import algoliasearch from 'algoliasearch/lite';
 export default {
     props: {
         wishlistdata: Object,
-        authdata: Object
+        authdata: Object,
+        searchdata: String
     },
     data() {
         return {
             path: this.$root.path,
             wishlist: this.wishlistdata,
-            auth: this.authdata
+            auth: this.authdata,
+            search: this.searchdata,
         }
     },
     methods: {
