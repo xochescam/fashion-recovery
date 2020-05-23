@@ -932,3 +932,23 @@ div a{
     width: 700px;
   }
 }
+
+.banner-important {
+  margin-bottom: 15px;
+  position: relative;
+
+  @media (min-width: 1000px) {
+    margin-bottom: 0px;
+  }
+}
+
+.banner-important__title {
+  bottom: 50%;
+  color: #fff;
+  margin-bottom: 0px;
+  padding-right: 60px;
+  position: absolute;
+  text-align: right;
+  text-shadow: 1px 1px 1px #0000007a;
+  width: 100%;
+}
