@@ -99,7 +99,7 @@ class LoginController extends Controller
             }
 
             $route = Auth::User()->isBuyerProfile() ? '/' : 
-            (Auth::User()->isSellerProfile() ? 'welcome/seller' : $route);
+            (Auth::User()->isSellerProfile() ? '/' : $route);
 
             return Redirect::to($route);
 

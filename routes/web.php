@@ -146,7 +146,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('resend-confirm-account/{userId}', 'AuthController@resend');
 
 	Route::post('update-selfie/{userId}', 'SellerController@updateSelfie');
-	Route::get('welcome/seller', 'SellerController@sellerWelcome');
+	//Route::get('welcome/seller', 'SellerController@sellerWelcome');
 
 	Route::get('update/{Type}/{IsPaused}/{ItemID}', 'SellerController@guardarropaStatus');
 	Route::get('closet/update/{Type}/{IsPaused}/{ItemID}', 'SellerController@guardarropaStatus');

@@ -84,7 +84,7 @@ class SellerController extends Controller
             DB::commit();
             //return response()->json('success', 200);
 
-            return Redirect::to('welcome/seller');
+            return Redirect::to('/support');
 
         } catch (\Exception $ex) {
 

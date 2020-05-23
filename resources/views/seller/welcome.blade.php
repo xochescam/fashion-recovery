@@ -1,4 +1,4 @@
-@extends('dashboard.master')
+@extends('layout.master')
 
 @section('content')
 
@@ -6,7 +6,7 @@
       <div class="container py-5">
         <div class="row">
           <div class="col-md-10 offset-md-1">
-            <h2 class="text-center TituloFR my-4 mb-5">¡Únete al movimiento!</h2>
+            <h2 class="text-center TituloFR my-4 mb-5">¿Cómo funciona FASHION RECOVERY?”</h2>
 
             <p class="mb-5">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis nemo eaque nihil odio? Molestiae eligendi omnis laudantium, est quis blanditiis aliquid tempora. Nam autem a facilis non tempore velit! Hic?</p>
             
