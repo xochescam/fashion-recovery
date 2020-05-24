@@ -39,7 +39,7 @@
 										<small>Marca: {{ $item->BrandID }}</small> <br>
 										<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a></small> <br>
 									</p>
-									@if($order->Name == 'Solicitado')
+				<!-- 					@if($order->Name == 'Solicitado')
 										<p>
 											<small>
 												<cancel-order 
@@ -49,7 +49,7 @@
 												<cancel-order/>
 											</small>
 										</p>
-									@endif
+									@endif -->
 
 									<a href="{{ url( isset($item->GuideURL) ? $item->GuideURL : '#' ) }}" class="btn btn-outline-green btn-sm d-block d-sm-none" role="button" aria-pressed="true">Rastrear pedido</a>
 
