@@ -6,7 +6,8 @@
       <div class="container py-5">
         <div class="row">
           <div class="col-md-10 m-auto">
-            <h2 class="text-center mb-5">Crear cuenta</h2>
+            <h5 class="text-center mb-3">Estás a un paso de un estilo de vida más sustentable</h5>
+            <h1 class="text-center mb-5 h2"> ¡Crea tu cuenta!</h1>
 
             <form method="POST" action="{{ url('register/'.$beSeller) }}" class="needs-validation mb-4" novalidate>
               @csrf
@@ -40,7 +41,7 @@
 
               <div class="form-row">
                 <div class="form-group col-md-6">
-                  <label for="alias">Alias *</label>
+                  <label for="alias">Nombre de usuario *</label>
                   <input type="text" class="form-control" name="alias" id="inputCity" placeholder="Alias" value="{{ old('alias') }}" required>
 
                   @if ($errors->has('alias'))
