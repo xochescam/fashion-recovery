@@ -5,7 +5,6 @@
 	 <main id="main">
       <div class="container py-5">
         <div class="row">
-          <div class="col-md-10 offset-md-1">
             <h2 class="text-center TituloFR my-4 mb-5">¿Cómo funciona FASHION RECOVERY?”</h2>
 
             <p class="mb-5">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis nemo eaque nihil odio? Molestiae eligendi omnis laudantium, est quis blanditiis aliquid tempora. Nam autem a facilis non tempore velit! Hic?</p>
@@ -83,9 +82,6 @@
             <div class="w-100 text-right">
               <a href="{{ url('/') }}" class="btn btn-fr" role="button">Buscar prendas</a>
             </div>
-
-
-          </div>
         </div>
       </div>
     </main>
