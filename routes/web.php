@@ -50,6 +50,8 @@ Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');
 
 Route::get('delete-secret/{id}/', 'SellerController@deleteSecret');
 
+Route::post('newsletter', 'HomeController@newsletter');
+
 	
 //Search
 Route::get('search/{search}', 'SearchController@search');

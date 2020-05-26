@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 
 use Auth;
 use DB;
+use Session;
+use Redirect;
 
 use App\Item;
+use App\Newsletter;
 
 class HomeController extends Controller
 {
@@ -18,6 +21,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+/*         $name = "Xoch";
+        $UserID = 1;
+        $beSeller = 1;
+
+        return view('emails.account.confirm',compact('name','UserID','beSeller')); */
+
         $all  = $this->getAllItems();
         $type = "card";
 
@@ -27,15 +36,42 @@ class HomeController extends Controller
         return view('home',compact('items','type'));
     }
 
+    public function newsletter(Request $request)
+    {
+        $this->validator($request);
+
+        $exists = Newsletter::where('email',$request->email)->first();
+
+        if(!isset($exists->email)) {
+            DB::table('fashionrecovery.GR_043')
+                ->insert([
+                    'email' => $request->email,
+                ]);
+        }
+
+        Session::flash('success','¡Te mantendrémos informado de las noticias!');
+        return Redirect::to('/');
+    }
+
+    protected function validator($request)
+    {
+        $request->validate([
+            'email' => ['required','email'],
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+
+        
     }
+
+   
 
     /**
      * Store a newly created resource in storage.
