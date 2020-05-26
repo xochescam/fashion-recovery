@@ -89,8 +89,9 @@ class ShoppingCartController extends Controller
     public function items() {
 
         $items = Auth::User()->getItems();
+        $total = Auth::User()->getTotal();
 
-        return view('shopping-cart.items',compact('items'));
+        return view('shopping-cart.items',compact('items','total'));
     }
 
     public function getItem($ItemID) {

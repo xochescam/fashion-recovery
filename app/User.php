@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\MailResetPasswordNotification;
 
 use App\Module;
+use App\ShoppingCart;
 
 use Auth;
 use DB;
@@ -106,6 +107,13 @@ class User extends Authenticatable
 
     public function getTotal() {
 
+        /* $shoppingCart = ShoppingCart::where('GR_041.UserID',Auth::User()->id)
+                                    ->select(['ItemID'])
+                                    ->get()->toArray();
+
+        return Item::whereIn('ItemID',$shoppingCart)
+                    ->sum('ActualPrice'); */
+
         $items = DB::table('fashionrecovery.GR_041')
             ->join('fashionrecovery.GR_029', 'GR_041.ItemID', '=', 'GR_029.ItemID')
             ->where('GR_041.UserID',Auth::User()->id)
@@ -113,7 +121,7 @@ class User extends Authenticatable
             ->get(); 
 
         return $items->sum(function ($item) {
-            return substr($item->ActualPrice, 1);
+            return str_replace(',', '', substr($item->ActualPrice, 1));
         });
     }
 
@@ -228,7 +236,7 @@ class User extends Authenticatable
         $itemIds = DB::table('fashionrecovery.GR_041')
                     ->where('GR_041.UserID',Auth::User()->id)
                     ->get()->groupBy('ItemID')->keys();
-
+                    
         return $this->items($itemIds);
     }
 

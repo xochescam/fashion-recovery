@@ -38,6 +38,7 @@
 
 			<item-list-component
 				items="{{ $items }}"
+				amount="{{ $total }}"
 			 ></item-list-component>
 
       	</div>

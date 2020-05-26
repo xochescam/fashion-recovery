@@ -53,7 +53,7 @@
 					<table class="w-100 mt-4">
 						<tr>
 							<td>Subtotal:</td>
-							<td class="text-right">${{ total }}</td>
+							<td class="text-right">{{ total }}</td>
 						</tr>
 						<tr>
 							<td>Envio:</td>
@@ -66,7 +66,7 @@
 						<tr>
 							<td>Total:</td>
 							<td class="text-right green-color">
-								<h5><b>${{ total }}</b></h5>
+								<h5><b>{{ total }}</b></h5>
 						    </td>
 						</tr>
 					</table>
@@ -91,12 +91,17 @@
                 type: String,
                 required: true,
                 default: ''
+            },
+            amount: {
+                type: String,
+                required: true,
+                default: ''
             }
         },
         data() {
             return {
                 allItems: {},
-                total: 0,
+                total: this.amount,
                 url: ''
             };
         },
@@ -138,10 +143,12 @@
                     totalSum += parseFloat(obj.ActualPrice.substr(1));
                 });
 
-                this.total = totalSum;
+               //this.total = totalSum;
             },
         },
-        mounted() {             
+        mounted() {       
+            
+            
             this.allItems = JSON.parse(this.items);  
             this.url = window.location.origin;
             this.sumTotal();            
