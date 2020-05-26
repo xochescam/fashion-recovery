@@ -40,9 +40,9 @@
 				<hr>
 
 				<ul class="nav nav-tabs flex-md-row flex-column p-0 mt-5 orders-list w-100" id="myTab" role="tablist">
-			<!-- 	  	<li class="nav-item px-md-0 px-4">
+				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link active" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Ventas</a>
-				  	</li> -->
+				  	</li>
 				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Ventas en curso</a>
 				  	</li>
@@ -55,9 +55,9 @@
 				</ul>
 
 				<div class="tab-content w-100 mb-5" id="myTabContent">
-				  	<!-- <div class="tab-pane fade show mt-4 active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+				  	<div class="tab-pane fade show mt-4 active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
 				  		@include('sells.partials.sells')
-					</div> -->
+					</div> 
 				  	<div class="tab-pane fade show mt-4 active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
 				  		@include('sells.partials.pending')
 				  	</div>

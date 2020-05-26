@@ -36,8 +36,8 @@ class OrderController extends Controller
     	$user      = Auth::User();
 
     	$orders = DB::table($this->table)
-                    ->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
-                    ->join('fashionrecovery.GR_013', 'GR_022.OrderStatusID', '=', 'GR_013.OrderStatusID')
+                    //->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
+                    ->join('fashionrecovery.GR_013', 'GR_021.OrderStatusID', '=', 'GR_013.OrderStatusID')
                     ->where('UserID',Auth::User()->id)
                     ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name')
                     ->get();
@@ -58,13 +58,15 @@ class OrderController extends Controller
                              'GR_029.ItemDescription',
                              'GR_029.SizeID',
                              'GR_029.BrandID',
+                             'GR_029.ActualPrice',
                              'GR_001.Alias',
                              'GR_022.OrderID',
                              'GR_022.GuideID',
                              'GR_022.PackingOrderID',
                              'GR_022.FolioID',
                              'GR_022.GuideURL',
-                             'GR_022.NoOrder'
+                             'GR_022.NoOrder',
+                             'GR_022.CreationDate'
                     )->get();
                     
         $items = $items->map(function ($item, $key) use ($user){
@@ -72,11 +74,11 @@ class OrderController extends Controller
             $item->ThumbPath = $user->getThumbPath($item);
             $item->BrandID   = $user->getBrand($item);
             $item->SizeID    = $user->getSize($item);
+            $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
 
             return $item;
 
         })->groupBy('OrderID');
-
 
     	return view('orders.index',
             compact('orders',
@@ -84,6 +86,30 @@ class OrderController extends Controller
                     'finalized',
                     'canceled',
                     'items'));
+    }
+
+    protected function formatDate($format, $date) {
+
+        $date    = date($format, strtotime($date));
+        $explode = explode(" ", $date);
+        $format = [];
+
+        $months = [
+                'January'   =>'enero',
+                'February'  =>'febrero',
+                'March'     =>'marzo',
+                'April'     =>'abril',
+                'May'       =>'Mayo',
+                'June'      =>'junio',
+                'July'      =>'julio',
+                'August'    =>'agosto',
+                'September' =>'septiembre',
+                'October'   =>'octubre',
+                'November'  =>'noviembre',
+                'December'  =>'diciembre',
+            ];
+
+        return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
     }
 
     public function cancel($OrderID) {

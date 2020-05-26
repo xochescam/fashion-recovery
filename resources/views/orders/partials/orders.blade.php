@@ -25,8 +25,12 @@
 											</a>
 										@endif
 									</h5>
-
-						      		<span class="badge mb-3 {{ $order->Name == 'Cancelado' ? 'badge-danger' : 'badge-warning' }} ">{{ $order->Name }}</span>
+									
+									<span class="green-color">{{ $item->ActualPrice }}</span><br>
+						      		<span class="badge mb-3 mt-3 {{ $order->Name == 'Cancelado' ? 'badge-danger' : 'badge-warning' }} ">
+									  {{ $order->Name }}
+									</span>
+									
 									<p>
 										<small>No. Orden: {{ $item->NoOrder }}</small><br>
 
@@ -34,10 +38,12 @@
 											<small>No. Guía: {{ $item->FolioID }}</small><br>
 										@endif
 									</p>
+
 									<p>
 										<small>Talla: {{ $item->SizeID }}</small> <br>
 										<small>Marca: {{ $item->BrandID }}</small> <br>
 										<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a></small> <br>
+										<small>Fecha: {{ $item->CreationDate }}</small> <br>
 									</p>
 				<!-- 					@if($order->Name == 'Solicitado')
 										<p>

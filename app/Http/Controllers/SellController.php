@@ -40,7 +40,8 @@ class SellController extends Controller
                                  'GR_029.SizeID',
                                  'GR_029.BrandID',
                                  'GR_021.TotalAmount',
-                                 'GR_021.NoOrder',
+                                 'GR_022.NoOrder',
+                                 'GR_022.CreationDate',
                                  'GR_022.FolioID',
                                  'GR_001.Alias as Buyer',
                                  'GR_013.Name',
@@ -56,9 +57,10 @@ class SellController extends Controller
 
         $sells = $sells->map(function ($item, $key) use ($user){
 
-            $item->ThumbPath = $user->getThumbPath($item);
-            $item->BrandID   = $user->getBrand($item);
-            $item->SizeID    = $user->getSize($item);
+            $item->ThumbPath     = $user->getThumbPath($item);
+            $item->BrandID       = $user->getBrand($item);
+            $item->SizeID        = $user->getSize($item);
+            $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
 
             return $item;
 

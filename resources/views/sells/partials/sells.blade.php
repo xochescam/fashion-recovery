@@ -20,18 +20,19 @@
 									  {{ $order->ItemDescription }}
 									  <a href="{{ url( isset($item->GuideURL) ? $item->GuideURL : '#' ) }}" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">Rastrear pedido</a>
 									</h5>
-									<span class="badge badge-warning mb-3">{{ $order->Name }}</span>
-								<p>
-									<small>No. Orden: {{ $order->NoOrder }}</small><br>
-									<small>No. Guía: {{ $order->FolioID }}</small><br>
-									<small><a class="green-link" href="#">Descargar guía</a></small> 
-								</p>
-						      	<p>
-						      		<small>Talla: {{ $order->SizeID }}</small> <br>
-						      		<small>Marca: {{ $order->BrandID }}</small> <br>
-									<small>Comprador: {{ $order->Buyer }}</small> <br>
 
-						      	</p>
+									<span class="green-color">{{ $order->ActualPrice }}</span><br>
+									<p class="badge badge-warning mt-3">{{ $order->Name }}</p> 
+
+									<p>
+										<small>No. Orden: {{ $order->NoOrder }}</small><br>
+										<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="#">Descargar</a> </small> 
+									</p>
+									<p>
+										<small>Comprador: {{ $order->Buyer }}</small> <br>
+										<small>Ganancia: $96.60</small> <br>
+										<small>Fecha: {{ $order->CreationDate }}</small> <br>
+									</p>
 						      </div>
 						    </div>
 						    
