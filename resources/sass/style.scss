@@ -458,14 +458,29 @@ div a{
 }
 
 
-#footer{
+.footer-main {
   background: linear-gradient(90deg, #1c3643, #273b47 25%, #1e5372);
-  /* background: #1c3643; */
-  /* background: linear-gradient(90deg, #333, #333 25%, #eee); */
 }
 
-#footer a{
-  color: white;
+.footer-main a,
+.footer-main p,
+.footer-main label{
+  color: #f8f9fa;
+  font-size: 14px;
+}
+
+.font-15 {
+  font-size: 15px;
+}
+
+.footer-info {
+  background: #ededee;
+}
+
+.footer-info a,
+.footer-info p {
+  color: #565555;
+  font-size: 14px;
 }
 
 .custom-file-label--profile {
