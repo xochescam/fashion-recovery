@@ -4,7 +4,7 @@
   		{{ $question->answers->first()->Question }}<br>
     	<small>Por 
 			@if( $question->answers->first()->ProfileID === 2)
-				<a class="green-link" href="{{ url('seller',$question->answers->first()->Alias) }}">{{ $question->answers->first()->Name }}</a>
+				<a class="green-link" href="{{ url('user',$question->answers->first()->Alias) }}">{{ $question->answers->first()->Name }}</a>
 			@else
 				{{ $question->answers->first()->Name }}
 			@endif
@@ -33,7 +33,7 @@
 		      		{{ $asnwer->Question }}<br>
 		        	<small>Por 
 						@if($asnwer->ProfileID === 2)
-							<a class="green-link" href="{{ url('seller',$asnwer->Alias) }}">{{ $asnwer->Name }}</a>
+							<a class="green-link" href="{{ url('user',$asnwer->Alias) }}">{{ $asnwer->Name }}</a>
 						@else
 							{{ $asnwer->Name }}
 						@endif

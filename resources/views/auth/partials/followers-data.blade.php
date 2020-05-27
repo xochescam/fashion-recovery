@@ -20,7 +20,7 @@
                 <ul class="list-group list-group-flush mt-5">
                   @foreach(Auth::User()->getFollowers()['followers'] as $follower)
                     <li class="list-group-item d-flex align-items-center"> 
-                      <a href="{{ url('seller',$follower->Alias) }}" class="no-text-decoration green-link align-items-center row">
+                      <a href="{{ url('user',$follower->Alias) }}" class="no-text-decoration green-link align-items-center row">
                         <img src="{{ url($follower->SelfieThumbPath) }}" alt="{{ $follower->Alias }} " class="rounded-circle col-md-3 col-3">
                         <p class="col-md-8 col-9 text-left m-0">{{ $follower->Alias }}</p>
                       </a>
@@ -38,7 +38,7 @@
                 <ul class="list-group list-group-flush mt-5">
                   @foreach(Auth::User()->getFollowers()['following'] as $follow)
                     <li class="list-group-item d-flex align-items-center"> 
-                      <a href="{{ url('seller',$follow->Alias) }}" class="no-text-decoration green-link align-items-center row">
+                      <a href="{{ url('user',$follow->Alias) }}" class="no-text-decoration green-link align-items-center row">
                         <img src="{{ url($follow->SelfieThumbPath) }}" alt="{{ $follow->Alias }} " class="rounded-circle col-md-5 col-5">
                         <p class="col-md-7 col-7 text-left m-0">{{ $follow->Alias }}</p>
                       </a>

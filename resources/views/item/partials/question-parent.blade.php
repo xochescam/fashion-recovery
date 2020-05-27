@@ -7,7 +7,7 @@
 				<small>Por
 
 					@if($question->ProfileID === 2)
-						<a class="green-link" href="{{ url('seller',$question->Alias) }}">{{ $question->Name }}</a>
+						<a class="green-link" href="{{ url('user',$question->Alias) }}">{{ $question->Name }}</a>
 					@else
 						{{ $question->Name }}
 					@endif
@@ -32,7 +32,7 @@
 			<small>Por
 
 				@if($question->ProfileID === 2)
-					<a class="green-link" href="{{ url('seller',$question->Alias) }}">{{ $question->Name }}</a>
+					<a class="green-link" href="{{ url('user',$question->Alias) }}">{{ $question->Name }}</a>
 				@else
 					{{ $question->Name }}
 				@endif

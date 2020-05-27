@@ -121,41 +121,69 @@ class SellerController extends Controller
     public function show($alias)
     {
         $isFollower = false;
-        $seller = DB::table('fashionrecovery.GR_001')
-                    ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
+        $closets    = [];
+        $items      = [];
+        $since      = '';
+
+        $user = DB::table('fashionrecovery.GR_001')
                     ->where('GR_001.Alias',$alias)
                     ->where('GR_001.Confirmed',1)
-                    ->where('GR_001.ProfileID',2)
-                    ->select('GR_001.Alias','GR_001.Name','GR_001.Lastname','GR_033.Greeting','GR_033.AboutMe','GR_033.LiveIn','GR_033.WorkIn','GR_033.TotalEvaluations','GR_033.ItemsSold','GR_033.ItemsReturned','GR_033.Ranking','GR_033.SelfiePath','GR_033.SelfieThumbPath','GR_001.id','GR_033.SellerSince')
+                    ->select('GR_001.Alias',
+                                'GR_001.ProfileID',
+                                'GR_001.Name',
+                                'GR_001.Lastname',
+                                'GR_001.id',
+                                'GR_001.CreationDate')
                     ->first();
+        
+        $since = $this->formatDate("d F Y", $user->CreationDate);
+        
+        if($user->ProfileID == 2) {
 
-        $closets = DB::table('fashionrecovery.GR_030')
-                    ->where('UserID',$seller->id)
+            $seller = DB::table('fashionrecovery.GR_033')
+                    ->where('UserID',$user->id)
+                    ->select('GR_033.Greeting',
+                             'GR_033.AboutMe',
+                             'GR_033.LiveIn',
+                             'GR_033.WorkIn',
+                             'GR_033.TotalEvaluations',
+                             'GR_033.ItemsSold',
+                             'GR_033.ItemsReturned',
+                             'GR_033.Ranking',
+                             'GR_033.SelfiePath',
+                             'GR_033.SelfieThumbPath',
+                             'GR_033.SellerSince')
+                    ->first();
+            
+            $since = $this->formatDate("d F Y", $seller->SellerSince);
+
+            $closets = DB::table('fashionrecovery.GR_030')
+                    ->where('UserID',$user->id)
                     ->select('GR_030.ClosetID','GR_030.ClosetName','GR_030.CreationDate','GR_030.ClosetDescription')
                     ->get();
 
-        $items = DB::table('fashionrecovery.GR_029')
+            $items = DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
                     ->where('GR_032.IsCover',true)
                     ->where('GR_029.IsSold',false)
                     ->where('GR_029.IsPaused',false)
-                    ->where('GR_029.OwnerID',$seller->id)
+                    ->where('GR_029.OwnerID',$user->id)
                     ->select('GR_032.ThumbPath','GR_029.ItemID')
                     ->get();
+        }
 
         if(isset(Auth::User()->id)) {
 
            $follower = DB::table('fashionrecovery.GR_038')
                         ->where('GR_038.UserID',Auth::User()->id)
-                        ->where('GR_038.SellerID',$seller->id)
+                        ->where('GR_038.SellerID',$user->id)
                         ->get(); 
 
             $isFollower = $follower->count() > 0 ? true : false;
         }
 
-        $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
 
-        return view('seller.show',compact('seller','closets','items','sellerSince','isFollower'));
+        return view('seller.show',compact('user','seller','closets','items','since','isFollower'));
     }
 
     protected function formatDate($format, $date) {

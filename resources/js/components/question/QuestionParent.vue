@@ -9,7 +9,7 @@
                 <small>Por
                     <a 
                         class="green-link" 
-                        :href="url+'/seller/'+current.Alias"
+                        :href="url+'/user/'+current.Alias"
                         v-if="current.ProfileID === 2">
                         {{ current.Name }}
                     </a>
@@ -32,7 +32,7 @@
                 <small>Por
                     <a 
                         class="green-link" 
-                        :href="url+'/seller/'+question.Alias"
+                        :href="url+'/user/'+question.Alias"
                         v-if="question.ProfileID === 2">
                         {{ question.Name }}
                     </a>

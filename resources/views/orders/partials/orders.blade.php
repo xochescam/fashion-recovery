@@ -42,7 +42,7 @@
 									<p>
 										<small>Talla: {{ $item->SizeID }}</small> <br>
 										<small>Marca: {{ $item->BrandID }}</small> <br>
-										<small>Vendedor:  <a class="green-link" href="{{ url('seller/'.$item->Alias) }}">{{ $item->Alias }}</a></small> <br>
+										<small>Vendedor:  <a class="green-link" href="{{ url('user/'.$item->Alias) }}">{{ $item->Alias }}</a></small> <br>
 										<small>Fecha: {{ $item->CreationDate }}</small> <br>
 									</p>
 				<!-- 					@if($order->Name == 'Solicitado')

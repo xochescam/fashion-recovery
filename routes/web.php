@@ -37,7 +37,7 @@ Route::post('register/{beSeller}','Auth\RegisterController@register');
 
 Route::get('items/{itemId}/public', 'ItemController@publicShow');
 
-Route::get('seller/{alias}', 'SellerController@show');
+Route::get('user/{alias}', 'SellerController@show');
 
 //Filter
 Route::post('filter', 'SearchController@filter');
@@ -249,4 +249,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('calendar-sales/{calendarSaleId}', 'Catalogs\CalendarSaleController@update')->name('calendar-sales.update');
     Route::get('calendar-sales/{calendarSaleId}/delete', 'Catalogs\CalendarSaleController@destroy')->name('calendar-sales.destroy');
 
+	Route::get('users', 'UserController@index');
+	Route::get('block/{user}', 'UserController@block');
+	Route::get('unblock/{user}', 'UserController@unblock');
 });

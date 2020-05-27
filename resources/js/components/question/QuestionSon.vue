@@ -4,7 +4,7 @@
             <div class="mr-5">
                 <p>
                     {{ current.answers[0].Question }}<br>
-                    <small >
+                    <small>
                         Por 
                         <a 
                             class="green-link" 
@@ -38,7 +38,7 @@
                         <small>Por
                             <a 
                                 class="green-link" 
-                                :href="'/seller/'+asnwer.Alias"
+                                :href="'/user/'+asnwer.Alias"
                                 v-if="asnwer.ProfileID === 2">
                                 {{ asnwer.Name }}
                             </a>
