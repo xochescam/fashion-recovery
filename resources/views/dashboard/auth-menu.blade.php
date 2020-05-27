@@ -48,9 +48,9 @@
 
     @can('create-category')
       <a class="dropdown-item text-left" href="{{ url('dashboard') }}">Administración</a>
-      <div class="dropdown-divider"></div>
+      
     @endcan
-    
+      <div class="dropdown-divider"></div>
       <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
       <a class="dropdown-item text-left bg-light" href="{{ route('logout') }}">Cerrar sesión</a>
   </div>

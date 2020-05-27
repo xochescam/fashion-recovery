@@ -83,11 +83,11 @@
                 <!--     <a class="dropdown-item text-left" href="{{ url('followers') }}">Mis seguidores</a> -->
 
                     <div class="dropdown-divider" 
-                        v-if="auth.id && cancategory">
+                        v-if="auth.id && cancategory && canitem">
                     </div>
                     <a  class="dropdown-item text-left bg-light" 
                         :href="this.$root.path+'/dashboard'"  
-                        v-if="auth.id  && cancategory">Administración</a>
+                        v-if="auth.id && cancategory">Administración</a>
 
 
                     <div class="dropdown-divider"></div>
