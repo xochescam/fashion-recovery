@@ -8,9 +8,15 @@
         </div>
 
         <div style="height: 50px;display: flex;align-items: center;justify-content: space-around;margin-left: 300px;margin-right: 300px;">
-            <a href="#">FB</a>
-            <a href="#">T</a>
-            <a href="#">IG</a>
+            <a href="#">
+                <img src="http://127.0.0.1:8000/img/facebook.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
+            </a>
+            <a href="#">
+                <img src="http://127.0.0.1:8000/img/twitter.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
+            </a>
+            <a href="#">
+                <img src="http://127.0.0.1:8000/img/instagram.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
+            </a>
         </div>
 
         <p style="font: 400 14px sans-serif;color: #969696;margin-top: 30px;">©FASHION RECOVERY, todos los derechos reservados.</p>
