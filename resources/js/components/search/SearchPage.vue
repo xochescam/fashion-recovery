@@ -52,6 +52,7 @@ export default {
         canitem: String,
         canwishlist: String,
         cannotifications: String,
+        brands: String,
     },
     data() {
         return {
@@ -64,13 +65,18 @@ export default {
                 disjunctiveFacetsRefinements: {
                     DepName: ['Hombres', 'Mujeres', 'Niños', 'Maternidad'].includes(this.searchdata) 
                             ? [this.searchdata] : false,
+                    BrandName: JSON.parse(this.brands).includes(this.searchdata) 
+                            ? [this.searchdata] : false,
                 },
             },
             auth: this.authdata,
             countitems: this.countitemsdata,
             notifications: this.notificationsdata,
-            search: this.searchdata
+            search: this.searchdata,
+            arrBrands:JSON.parse(this.brands)
         };
     },
+    mounted() {
+    }
 };
 </script>

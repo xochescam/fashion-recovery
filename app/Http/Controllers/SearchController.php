@@ -7,6 +7,7 @@ use DB;
 use Auth;
 
 use App\Item;
+use App\Brand;
 
 class SearchController extends Controller
 {
@@ -18,8 +19,9 @@ class SearchController extends Controller
     public function search(Request $request, $search)
     {
         $wishlist = isset(Auth::User()->id) ? Auth::User()->infoWishlist() : [];
+        $brands = Brand::all()->pluck('BrandName');
 
-        return view('search.search', compact('search','wishlist'));
+        return view('search.search', compact('search','wishlist','brands'));
     }
 
     public function getItemThumbs($all) {

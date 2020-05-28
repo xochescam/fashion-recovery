@@ -35,6 +35,7 @@
         canwishlist="{{ Auth::User() !== null && (Auth::User()->isBuyerProfile() || Auth::User()->isSellerProfile()) }}"
         cannotifications="{{ Auth::User() !== null && (Auth::User()->isBuyerProfile() || Auth::User()->isSellerProfile()) }}"
         :wishlistdata="{{ $wishlist === [] ? '[]' : $wishlist }}"
+        brands="{{ json_encode($brands) }}"
         searchdata="{{ $search }}"
         :authdata="{{ Auth::User() !== null ? Auth::User() : '{}' }}"
         :countitemsdata="{{ Auth::User() !== null  ? count(Auth::User()->getItems()) : 0 }}"
