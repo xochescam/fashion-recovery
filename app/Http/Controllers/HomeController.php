@@ -11,6 +11,7 @@ use Redirect;
 
 use App\Item;
 use App\Newsletter;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -21,12 +22,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-/*         $name = "Xoch";
-        $UserID = 1;
-        $beSeller = 1;
-
-        return view('emails.account.confirm',compact('name','UserID','beSeller')); */
-
         $all  = $this->getAllItems();
         $type = "card";
 
@@ -171,6 +166,7 @@ class HomeController extends Controller
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->where('GR_001.IsPaused',0)
+                    ->where('GR_001.IsBlocked',false)
                     ->where('GR_029.IsPaused',0)
                     ->where('GR_030.IsPaused',0)
                     ->where('GR_029.IsSold',0)
