@@ -169,6 +169,7 @@ class User extends Authenticatable
                 ->join('fashionrecovery.GR_001', 'GR_038.UserID', '=', 'GR_001.id')
                 ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
                 ->where('fashionrecovery.GR_038.SellerID',Auth::User()->id)
+                ->where('fashionrecovery.GR_001.IsBlocked',false)
                 ->select('GR_001.id','GR_001.Alias','GR_033.SelfieThumbPath')
                 ->get();
     }
@@ -179,6 +180,7 @@ class User extends Authenticatable
                 ->join('fashionrecovery.GR_001', 'GR_038.SellerID', '=', 'GR_001.id')
                 ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
                 ->where('fashionrecovery.GR_038.UserID',Auth::User()->id)
+                ->where('fashionrecovery.GR_001.IsBlocked',false)
                 ->select('GR_001.id','GR_001.Alias','GR_033.SelfieThumbPath')
                 ->get();
     }
@@ -205,6 +207,11 @@ class User extends Authenticatable
         $profile = Auth::User()->ProfileID;
 
         return $profile == 3 ? true : false;
+    }
+
+    public function item()
+    {
+        return $this->hasOne('App\Item', 'ItemID');
     }
 
     public function getShippingAddress() {
@@ -234,7 +241,9 @@ class User extends Authenticatable
     public function  getItems() {
 
         $itemIds = DB::table('fashionrecovery.GR_041')
+                    ->join('fashionrecovery.GR_001', 'GR_041.UserID', '=', 'GR_001.id')
                     ->where('GR_041.UserID',Auth::User()->id)
+                    ->where('GR_001.IsBlocked',true)
                     ->get()->groupBy('ItemID')->keys();
                     
         return $this->items($itemIds);

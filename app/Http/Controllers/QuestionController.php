@@ -51,6 +51,12 @@ class QuestionController extends Controller
     public function answer($QuestionID, $type) {
         $question = $this->getQuestion($QuestionID, $type);
 
+        $user = Item::findOrfail($question->ItemID)->user;
+
+        if($user->IsBlocked) {
+            abort(404);
+        }
+
         if(!$question) {
             Session::flash('warning','No tienes permisos de contestar la pregunta.');
             return Redirect::back();

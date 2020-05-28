@@ -81,6 +81,7 @@ class DashboardController extends Controller
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->where('GR_001.IsPaused',0)
+                    ->where('GR_001.IsBlocked',false)
                     ->where('GR_029.IsPaused',0)
                     ->where('GR_029.IsSold',0)
                     ->where('GR_030.IsPaused',0)

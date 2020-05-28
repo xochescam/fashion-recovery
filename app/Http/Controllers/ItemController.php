@@ -491,6 +491,12 @@ class ItemController extends Controller
      */
     public function publicShow($id)
     {
+        $user = Item::findOrfail($id)->user;
+
+        if($user->IsBlocked) {
+            abort(404);
+        }
+
         $priceOffer   = null;
         $clothingType = null;
         $size         = null;
@@ -498,7 +504,6 @@ class ItemController extends Controller
         $otherBrand   = null;
         $discount     = null;
         $urlWishlists = Item::getWishlistUrl($id);
-
     
         $info = DB::table($this->table)
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
@@ -511,7 +516,7 @@ class ItemController extends Controller
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->where('GR_029.ItemID',$id)
                     ->select('GR_029.ItemID',
-                              'GR_029.OffSaleID',
+                             'GR_029.OffSaleID',
                              'GR_029.ItemDescription',
                              'GR_029.OriginalPrice',
                              'GR_029.ActualPrice',

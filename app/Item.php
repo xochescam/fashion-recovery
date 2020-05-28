@@ -22,6 +22,11 @@ class Item extends Model
     protected $table = 'fashionrecovery.GR_029';
     protected $primaryKey = 'ItemID';
 
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'OwnerID');
+    }
+
     public function info()
     {
         return $this->hasMany('App\ItemInfo', 'ItemID');

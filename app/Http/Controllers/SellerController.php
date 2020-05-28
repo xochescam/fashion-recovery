@@ -133,8 +133,13 @@ class SellerController extends Controller
                                 'GR_001.Name',
                                 'GR_001.Lastname',
                                 'GR_001.id',
-                                'GR_001.CreationDate')
+                                'GR_001.CreationDate',
+                                'GR_001.IsBlocked')
                     ->first();
+
+        if($user->IsBlocked) {
+            abort(404);
+        }
         
         $since = $this->formatDate("d F Y", $user->CreationDate);
         

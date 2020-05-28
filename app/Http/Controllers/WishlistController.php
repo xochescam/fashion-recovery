@@ -35,8 +35,8 @@ class WishlistController extends Controller
         if($wishlist) {
 
             $itemsWishlist = DB::table('fashionrecovery.GR_037')
-                        ->where('WishlistID',$wishlist->WishListID)
-                        ->get()->groupBy('ItemID')->keys();
+                                ->where('WishlistID',$wishlist->WishListID)
+                                ->get()->groupBy('ItemID')->keys();
         
             $all = $this->getAllItems($itemsWishlist); 
             $thumbs = Item::getThumbs($all);
@@ -55,6 +55,7 @@ class WishlistController extends Controller
                     ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
                     ->whereIn('GR_029.ItemID',$itemsWishlist)
                     ->where('GR_001.IsPaused',0)
+                    ->where('GR_001.IsBlocked',false)
                     ->where('GR_029.IsPaused',0)
                     ->where('GR_030.IsPaused',0)
                     ->select('GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate',
