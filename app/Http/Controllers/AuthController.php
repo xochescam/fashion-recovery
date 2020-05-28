@@ -14,6 +14,7 @@ use Mail;
 use Gate;
 
 use App\User;
+use App\States;
 
 class AuthController extends Controller
 {
@@ -60,6 +61,7 @@ class AuthController extends Controller
     {
         $id = Auth::User()->id;
         $user = User::findOrfail($id);
+        $states    = States::get();
 
         if(!$this->authorize('viewUser',  $user)) {
             abort(403);
@@ -122,7 +124,8 @@ class AuthController extends Controller
                     'sellerSince',
                     'items',
                     'invoice',
-                    'shipping'));
+                    'shipping',
+                    'states'));
     }
 
 
