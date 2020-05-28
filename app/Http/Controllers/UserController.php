@@ -73,7 +73,7 @@ class UserController extends Controller
         $user->IsBlocked = true;
         $user->save();
 
-        Session::flash('success','Se ha bloqueado el usuario '.$user);
+        Session::flash('success','Se ha bloqueado el usuario '.$user->Alias);
         return Redirect::back();
     }
 
