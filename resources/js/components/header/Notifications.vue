@@ -75,8 +75,8 @@ export default {
         getHref(notification) {
 
             const hrefs = {
-                'follower' : '/followers',
-                'question' : '/question/'+notification.TableID+'/answer',
+                'follower' : 'followers',
+                'question' : 'question/'+notification.TableID+'/answer',
                 'answer' : 'question/'+notification.TableID+'/question'
             };
 
