@@ -146,7 +146,8 @@ class RegisterController extends Controller
              'CreationDate'  => date("Y-m-d H:i:s"),
              'Confirmed'     => false,
              'Notifications' => false,
-             'IsPaused'      => false
+             'IsPaused'      => false,
+             'IsBlocked'     => false
         ]);
     }
 
