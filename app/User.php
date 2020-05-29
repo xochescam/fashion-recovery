@@ -351,7 +351,6 @@ class User extends Authenticatable
 
     public static function getCommission() {
 
-        $commission = 0;
         $count = Item::where('OwnerID',Auth::User()->id)
                     ->where('IsSold',true)->count();
 
@@ -363,7 +362,7 @@ class User extends Authenticatable
 
             $commission = 0.19;
 
-        } else if($count >= 1) {
+        } else if($count >= 0) {
 
             $commission = 0.20;
         }
