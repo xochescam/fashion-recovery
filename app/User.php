@@ -9,6 +9,7 @@ use App\Notifications\MailResetPasswordNotification;
 
 use App\Module;
 use App\ShoppingCart;
+use App\Item;
 
 use Auth;
 use DB;
@@ -346,6 +347,28 @@ class User extends Authenticatable
                  DB::table('fashionrecovery.GR_036')
                      ->where('ItemID',$item->ItemID)
                      ->first()->OtherSize;
+    }
+
+    public static function getCommission() {
+
+        $commission = 0;
+        $count = Item::where('OwnerID',Auth::User()->id)
+                    ->where('IsSold',true)->count();
+
+        if($count >= 301) {
+
+            $commission = 0.18;
+
+        } else if($count >= 101) {
+
+            $commission = 0.19;
+
+        } else if($count >= 1) {
+
+            $commission = 0.20;
+        }
+
+        return $commission;
     }
 
 

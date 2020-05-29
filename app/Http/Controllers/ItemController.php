@@ -16,6 +16,7 @@ use App\Offer;
 use App\Closet;
 use App\Item;
 use App\ItemInfo;
+use App\User;
 
 use DB;
 use Redirect;
@@ -80,6 +81,8 @@ class ItemController extends Controller
         $colors         = Color::getAll(); 
         $types          = Type::getAll();
         $closets        = Closet::where('UserID',Auth::User()->id)->get();
+        $commission      = User::getCommission();
+        
         $front  = null;
         $label  = null;
         $back   = null;
@@ -103,7 +106,8 @@ class ItemController extends Controller
             'colors',
             'types',
             'offers',
-            'closets'
+            'closets',
+            'commission'
         ));
     }
 
