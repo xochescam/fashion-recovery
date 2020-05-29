@@ -13,7 +13,6 @@ const brandsSelect        = document.querySelector('.js-brands-select');
 const otherBrandSelect    = document.querySelector('.js-other-brand');
 const clothingTypesSelect = document.querySelector('.js-clothing-type-select');
 const sizesSelect         = document.querySelector('.js-sizes-select');
-const currencyInputs      = document.querySelectorAll('.js-currency-input');
 const itemFiles1          = document.querySelector('.js-item-file-opt1');
 const itemFiles2          = document.querySelector('.js-item-file-opt2');
 const acceptPrice         = document.querySelector('.js-accept-price');
