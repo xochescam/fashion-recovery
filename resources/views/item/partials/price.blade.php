@@ -19,9 +19,10 @@
     <div class="form-group col-md-6">
       <label for="ActualPrice">Precio Fashion Recovery *</label>
 
-      <input type="text" class="form-control js-currency-input js-accept-price" data-type="currency" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" name="ActualPrice" id="ActualPrice" 
-      value="{{ old('ActualPrice') ? old('ActualPrice') : ($item && $item->ActualPrice ? $item->ActualPrice  : '' ) }}" required>
-      <small>¿En cuánto venderás la prenda?</small>
+      <commission-component
+        value="{{ old('ActualPrice') ? old('ActualPrice') : ($item && $item->ActualPrice ? $item->ActualPrice  : '' ) }}"
+        :commission="{{ $commission }}"
+      ></commission-component>
 
       @if($errors->first('ActualPrice'))
         <div class="invalid-feedback d-block">
@@ -29,7 +30,7 @@
           {{ $errors->first('ActualPrice') }}
         </div>
       @else
-        <div class="invalid-feedback js-invalid-feedback">
+        <div class="invalid-feedback">
           El campo Precio Fashion Recovery es obligatorio.
         </div>
       @endif

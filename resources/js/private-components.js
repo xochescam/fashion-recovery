@@ -116,6 +116,9 @@ Vue.component(
     require('./components/CreateCollection.vue').default
 );
 
+Vue.component('commission-component',require('./components/CommissionComponent.vue').default);
+
+
 
 
 /**
