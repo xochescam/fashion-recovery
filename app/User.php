@@ -369,6 +369,4 @@ class User extends Authenticatable
 
         return $commission;
     }
-
-
 }
