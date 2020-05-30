@@ -15,6 +15,7 @@ use Gate;
 use App\States;
 use App\User;
 use App\Item;
+use App\Seller;
 
 class SellerController extends Controller
 {
@@ -28,6 +29,49 @@ class SellerController extends Controller
     public function index()
     {
         //
+    }
+
+    public function transfer()
+    {
+        $itemIds = DB::table('fashionrecovery.GR_029')
+                    ->where('GR_029.OwnerID',Auth::User()->id)
+                    ->where('GR_029.IsSold',true)
+                    ->get()->groupBy('ItemID')->keys();
+
+        $items = DB::table('fashionrecovery.GR_029')
+                    ->join('fashionrecovery.GR_022', 'GR_029.ItemID', '=', 'GR_022.ItemID')
+                    ->whereIn('GR_029.ItemID',$itemIds)
+                    ->where('GR_022.OrderStatusID',4)
+                    ->select('GR_022.UpdateDate',
+                             'GR_029.IsPaid',
+                             'GR_029.ActualPrice'
+                    )->get();
+
+        $sum = $items->filter(function ($item, $key) {
+
+            $price = str_replace(',', '', substr($item->ActualPrice, 1));
+            $item->Gain = $price - ($price * User::getCommission());
+
+            $current = strtotime(date("Y-m-d H:i:s"));
+            $update  = strtotime($item->UpdateDate);
+            $segs    = $current - $update;
+            $days    = $segs / 86400;
+                
+            return $days > 1 && !$item->IsPaid;
+                
+        })->sum('Gain');
+
+        if($sum <= 0) {
+            abort(403);
+        }
+
+        $seller = Seller::where('UserID',Auth::User()->id)->first();
+
+        $seller->IsTransfer = true;
+        $seller->save();
+
+        Session::flash('success','Hemos recibido tu petición. En breve nos podremos en contacto contigo.');
+        return Redirect::back();
     }
 
     /**
@@ -90,7 +134,7 @@ class SellerController extends Controller
 
             DB::rollback();
 
-            Session::flash('warning','Ha ocurrido un error'.$ex);
+            Session::flash('warning','Ha ocurrido un error');
             //return response()->json(null, $ex->getCode());
             return Redirect::to('seller');
         }
