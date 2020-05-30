@@ -6,8 +6,6 @@
     <form method="POST" action="{{ url('seller',$seller->UserID) }}" class="needs-validation col-md-6" enctype="multipart/form-data" novalidate>
 
       {!! csrf_field() !!}
-      @include('alerts.success')
-      @include('alerts.warning')
 
         <edit-seller
           :seller="{{ json_encode($seller) }}"
