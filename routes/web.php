@@ -58,6 +58,9 @@ Route::get('search/{search}', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	
+	Route::get('transfer', 'SellerController@transfer');
+
 	//sells
 	Route::get('sales', 'SellController@index');
 	Route::get('sell/{SellID}/update', 'SellController@update');
