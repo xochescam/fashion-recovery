@@ -10,6 +10,8 @@ use Session;
 use Redirect;
 
 use App\States;
+use App\User;
+use App\Seller;
 
 class SellController extends Controller
 {
@@ -19,7 +21,9 @@ class SellController extends Controller
         $pending   = null;
         $finalized = null;
         $canceled  = null;
-    	$user      = Auth::User();
+        $user      = Auth::User();
+        $pendingWallet   = 0;
+        $avaliableWallet = 0;
 
     	$itemIds = DB::table('fashionrecovery.GR_029')
                     ->where('GR_029.OwnerID',Auth::User()->id)
@@ -30,7 +34,7 @@ class SellController extends Controller
                         ->join('fashionrecovery.GR_022', 'GR_029.ItemID', '=', 'GR_022.ItemID')
                         ->join('fashionrecovery.GR_021', 'GR_022.OrderID', '=', 'GR_021.OrderID')
                         ->join('fashionrecovery.GR_001', 'GR_021.UserID', '=', 'GR_001.id')
-                        ->join('fashionrecovery.GR_013', 'GR_021.OrderStatusID', '=', 'GR_013.OrderStatusID')
+                        ->join('fashionrecovery.GR_013', 'GR_022.OrderStatusID', '=', 'GR_013.OrderStatusID')
                         ->whereIn('GR_029.ItemID',$itemIds)
                         ->select('GR_029.ItemID',
                                  'GR_029.OffSaleID',
@@ -42,29 +46,63 @@ class SellController extends Controller
                                  'GR_021.TotalAmount',
                                  'GR_022.NoOrder',
                                  'GR_022.CreationDate',
+                                 'GR_022.UpdateDate',
                                  'GR_022.FolioID',
                                  'GR_001.Alias as Buyer',
                                  'GR_013.Name',
-                                 'GR_022.OrderID'
+                                 'GR_022.OrderID',
+                                 'GR_029.IsPaid'
                              )->get();
 
-         $pending   = $sells->where('Name','!==','Entregado')
-                             ->where('Name','!==','Cancelado')
-                             ->where('Name','!==','Solicitado'); 
-         $finalized = $sells->where('Name','Entregado'); 
-         $canceled  = $sells->where('Name','Cancelado');           
-
-
         $sells = $sells->map(function ($item, $key) use ($user){
+
+            $current = str_replace(',', '', substr($item->ActualPrice, 1));
 
             $item->ThumbPath     = $user->getThumbPath($item);
             $item->BrandID       = $user->getBrand($item);
             $item->SizeID        = $user->getSize($item);
             $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
+            $item->update        = $this->formatDate("d F Y", $item->UpdateDate);
+            $item->Gain          = $current - ($current * User::getCommission());
 
             return $item;
-
         });
+
+        $pending   = $sells->where('Name','!==','Entregado')
+                            ->where('Name','!==','Cancelado')
+                            ->where('Name','!==','Devuelto')
+                            ->where('Name','!==','Reembolsado');
+        $finalized     = $sells->where('Name','Entregado');
+        $canceled      = $sells->where('Name','Cancelado');
+
+        $pendingWallet = $sells->where('Name','!==','Cancelado')
+                                ->where('Name','!==','Devuelto')
+                                ->where('Name','!==','Reembolsado')
+                                ->where('Name','!==','Reembolsado');
+        
+        $pendingWallet = $pendingWallet->filter(function ($item, $key) {
+
+            $current = strtotime(date("Y-m-d H:i:s"));
+            $update  = strtotime($item->UpdateDate);
+            $segs    = $current - $update;
+            $days    = $segs / 86400;
+
+            return $days < 1 && !$item->IsPaid;
+
+        })->sum('Gain'); 
+
+        $avaliableWallet = $finalized->filter(function ($item, $key) {
+
+            $current = strtotime(date("Y-m-d H:i:s"));
+            $update  = strtotime($item->UpdateDate);
+            $segs    = $current - $update;
+            $days    = $segs / 86400;
+
+            return $days > 1 && !$item->IsPaid;
+
+        })->sum('Gain');   
+        
+        $IsTransfer = Seller::where('UserID',Auth::User()->id)->first()->IsTransfer;
 
         $items = DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
@@ -98,7 +136,7 @@ class SellController extends Controller
                              'GR_033.IdentityDocumentPath')
                     ->first();
 
-                    $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
+        $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
 
         $states = States::get();
 
@@ -111,7 +149,10 @@ class SellController extends Controller
                     'sells',
                     'seller',
                     'items',
-                    'sellerSince'));
+                    'sellerSince',
+                    'pendingWallet',
+                    'avaliableWallet',
+                    'IsTransfer'));
     }
 
     protected function formatDate($format, $date) {
