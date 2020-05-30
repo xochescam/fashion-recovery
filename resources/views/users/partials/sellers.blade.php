@@ -5,6 +5,7 @@
             <th scope="col">Nombre</th>
             <th scope="col">Miembro desde</th>
             <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
     </thead>
     <tbody>
@@ -14,6 +15,15 @@
                 <td> {{ $user->Name }} {{ $user->Lastname }} </td>
                 <td> {{ $user->CreationDate }} </td>
                 <td>
+                    @if($user->IsTransfer)
+                        <a class="btn btn-info btn-sm" href="{{ url('transaction',$user->Alias) }}" role="button">
+                            Transferir
+                        </a>
+                    @endif
+
+                </td>
+                <td>
+
                     @if($user->IsBlocked)
                         <a class="btn btn-danger btn-sm" href="{{ url('unblock',$user->Alias) }}" role="button">
                             Desloquear
