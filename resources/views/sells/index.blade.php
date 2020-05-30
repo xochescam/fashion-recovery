@@ -8,6 +8,11 @@
 
         	<p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit qui ad, commodi nostrum repudiandae ipsam soluta excepturi.</p>
 
+			<div class="w-100 mb-5">
+				@include('alerts.success')
+				@include('alerts.warning')
+			</div>
+
 			<div class="card mb-5 p-3 bg-light text-center">
 				<h4 class="card-title green-color mb-4">
 					<i class="fas fa-wallet mr-1"></i>
@@ -17,15 +22,18 @@
 
 					<div class="col-md-6 mb-4 mb-md-0">
 						<p class="h6 mb-3">Disponible:
-							<span class="green-color"><b>$400.00</b></span>
+							<span class="green-color"><b>${{ $avaliableWallet }}</b></span>
 						</p>
-						<button class="btn btn-sm btn-fr" type="button">
-							Retirar
-						</button>
+
+						@if($avaliableWallet > 0 && !$IsTransfer) 
+							<a class="btn btn-sm btn-fr" href="{{ url('transfer') }}" type="button">
+								Retirar
+							</a>
+						@endif
 					</div>
 					<div class="col-md-6">
 						<p class="h6">Pendiente:
-							<span><b>$100.00</b></span>
+							<span><b>${{ $pendingWallet }}</b></span>
 						</p>
 					</div>
 
@@ -40,9 +48,9 @@
 				<hr>
 
 				<ul class="nav nav-tabs flex-md-row flex-column p-0 mt-5 orders-list w-100" id="myTab" role="tablist">
-				  	<li class="nav-item px-md-0 px-4">
+				  	<!-- <li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link active" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Ventas</a>
-				  	</li>
+				  	</li> -->
 				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Ventas en curso</a>
 				  	</li>
@@ -55,9 +63,9 @@
 				</ul>
 
 				<div class="tab-content w-100 mb-5" id="myTabContent">
-				  	<div class="tab-pane fade show mt-4 active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+				  <!-- 	<div class="tab-pane fade show mt-4 active" id="orders" role="tabpanel" aria-labelledby="orders-tab">
 				  		@include('sells.partials.sells')
-					</div> 
+					</div>  -->
 				  	<div class="tab-pane fade show mt-4 active" id="pending" role="tabpanel" aria-labelledby="pending-tab">
 				  		@include('sells.partials.pending')
 				  	</div>
