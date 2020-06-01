@@ -29,6 +29,10 @@
 							<a class="btn btn-sm btn-fr" href="{{ url('transfer') }}" type="button">
 								Retirar
 							</a>
+						@else
+							<div class="alert alert-success show">
+								Hemos recibido tu petición. En breve nos podremos en contacto contigo.
+							</div>
 						@endif
 					</div>
 					<div class="col-md-6">
