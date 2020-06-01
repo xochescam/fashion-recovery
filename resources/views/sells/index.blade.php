@@ -31,7 +31,8 @@
 							</a>
 						@else
 							<div class="alert alert-success show">
-								Hemos recibido tu petición. En breve nos podremos en contacto contigo.
+								Hemos recibido tu petición. <br>
+								En breve nos podremos en contacto contigo.
 							</div>
 						@endif
 					</div>
