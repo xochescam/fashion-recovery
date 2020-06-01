@@ -30,7 +30,7 @@
 								Retirar
 							</a>
 						@else
-							<div class="alert alert-success show">
+							<div class="alert alert-success show col-md-10">
 								Hemos recibido tu petición. <br>
 								En breve nos podremos en contacto contigo.
 							</div>
