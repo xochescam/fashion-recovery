@@ -53,8 +53,6 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('NotificatiON.')
-        }
+        
     }
 </script>

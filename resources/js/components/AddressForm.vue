@@ -400,8 +400,6 @@ export default {
         touch () {
             this.$v.$touch()
         }
-    }, mounted() {
-        console.log(this.address);
     }
 };
 </script>

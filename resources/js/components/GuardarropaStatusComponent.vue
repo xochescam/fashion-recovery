@@ -41,8 +41,6 @@
                 const el = document.getElementById('IsPaused'+this.item);
                 const IsPaused = el.checked;
 
-                console.log(this.item);
-
                 window.axios
                     .get('update/'+this.type+'/'+IsPaused+'/'+this.item)
                     .then(response => {
@@ -54,10 +52,7 @@
                     })
             }
         },
-        mounted() {
-
-            //console.log(this.item);
-            
+        mounted() {            
 
             if(this.initial) {
                 const el = document.getElementById('IsPaused'+this.item);

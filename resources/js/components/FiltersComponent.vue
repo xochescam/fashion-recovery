@@ -34,10 +34,7 @@
             changeStatus() {
 
                 const el = document.getElementById('IsPaused');
-                const IsPaused = el.checked;
-
-                console.log(this.type);
-                
+                const IsPaused = el.checked;                
 
                 window.axios
                     .get('update/'+this.type+'/'+IsPaused)

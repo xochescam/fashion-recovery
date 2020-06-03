@@ -113,9 +113,6 @@
                     }
                 }
 
-                console.log(response.data);
-                console.log(this.all);
-
               })
               .catch(error => {
                 console.log(error);
