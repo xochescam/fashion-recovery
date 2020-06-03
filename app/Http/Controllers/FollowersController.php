@@ -19,9 +19,9 @@ class FollowersController extends Controller
 
     public function getFollowers() {
 
-        $followers  = $this->followers();
+        $followers  = Auth::User()->getFollowers()['followers'];
 
-        $following  = $this->following();
+        $following  = Auth::User()->getFollowers()['following'];
 
         DB::table('fashionrecovery.GR_040')
             ->where('UserID','=',Auth::User()->id)
