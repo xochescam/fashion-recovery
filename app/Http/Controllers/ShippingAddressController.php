@@ -10,6 +10,7 @@ use Session;
 use Redirect;
 
 use App\States;
+use App\User;
 
 class ShippingAddressController extends Controller
 {
@@ -57,6 +58,7 @@ class ShippingAddressController extends Controller
      */
     public function store(Request $request)
     {
+
         if(!Auth::User()->isBuyerProfile()) {
             return abort(403);
         }
@@ -65,7 +67,7 @@ class ShippingAddressController extends Controller
 
         $urltype = [
             'address'      => 'address',
-            'auth'         => 'auth/'.Auth::User()->id,
+            'auth'         => 'account',
         ];
 
         $url = $urltype[$request->type_url];
@@ -173,7 +175,7 @@ class ShippingAddressController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrfail($id);
+        $user = User::findOrfail(Auth::User()->id);
 
         if(!$this->authorize('updateUser',  $user)) {
             abort(403);
@@ -183,7 +185,7 @@ class ShippingAddressController extends Controller
 
         $urltype = [
             'address'      => 'address',
-            'auth'         => 'auth/'.Auth::User()->id,
+            'auth'         => 'account',
             'confirmation' => 'confirmation/'.$id
         ];
 
@@ -221,8 +223,8 @@ class ShippingAddressController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        $user = User::findOrfail($id);
+    {        
+        $user = User::findOrfail(Auth::User()->id);
 
         if(!$this->authorize('deleteUser',  $user)) {
             abort(403);
