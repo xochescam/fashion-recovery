@@ -74,7 +74,16 @@
 
             @include('auth.partials.shipping-data')
 
-            @include('auth.partials.followers-data')
+
+            @if(Auth::User()->isBuyerProfile()) 
+
+              @include('auth.partials.following-data')
+
+            @elseif(Auth::User()->isSellerProfile())
+
+              @include('auth.partials.followers-data')
+
+            @endif
 
             @include('auth.partials.billing-info')
 

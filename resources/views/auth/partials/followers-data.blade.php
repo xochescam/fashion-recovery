@@ -2,29 +2,28 @@
   <h5 class="card-header">Mis seguidores</h5>
 
   <div class="card-body">
-
-  <nav>
+    <nav>
               <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <a class="green-link nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Seguidores</a>
                 <a class="green-link nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Seguidos</a>
               </div>
-            </nav>
+    </nav>
 
-            <div class="tab-content col-md-10 mx-auto" id="nav-tabContent">
+            <div class="tab-content" id="nav-tabContent">
               <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
                 @if(count(Auth::User()->getFollowers()['followers']) === 0)
                   <p class="h6 my-5 text-center"> No tienes seguidores. </p>                      
                 @endif
 
-                <ul class="list-group list-group-flush mt-5">
+                <ul class="list-group list-group-flush mt-3">
                   @foreach(Auth::User()->getFollowers()['followers'] as $follower)
                     <li class="list-group-item d-flex align-items-center"> 
                       <a href="{{ url('user',$follower->Alias) }}" class="no-text-decoration green-link align-items-center row">
-                        <img src="{{ url($follower->SelfieThumbPath) }}" alt="{{ $follower->Alias }} " class="rounded-circle col-md-3 col-3">
-                        <p class="col-md-8 col-9 text-left m-0">{{ $follower->Alias }}</p>
+                       {{ $follower->Alias }}
                       </a>
-                    </li>                     
+                    </li> 
+                     
                   @endforeach
                 </ul>
 
@@ -35,12 +34,11 @@
                   <p class="h6 my-5 text-center"> No sigues a ningún vendedor. </p>                      
                 @endif
                 
-                <ul class="list-group list-group-flush mt-5">
+                <ul class="list-group list-group-flush mt-3">
                   @foreach(Auth::User()->getFollowers()['following'] as $follow)
                     <li class="list-group-item d-flex align-items-center"> 
-                      <a href="{{ url('user',$follow->Alias) }}" class="no-text-decoration green-link align-items-center row">
-                        <img src="{{ url($follow->SelfieThumbPath) }}" alt="{{ $follow->Alias }} " class="rounded-circle col-md-5 col-5">
-                        <p class="col-md-7 col-7 text-left m-0">{{ $follow->Alias }}</p>
+                      <a href="{{ url('user',$follow->Alias) }}" class="w-100 no-text-decoration green-link align-items-center row">                       
+                      {{ $follow->Alias }}
                       </a>
                       <div class="w-100 text-right">
                         <a href="{{ url('unfollow',$follow->id) }}" class="btn btn-fr btn-sm d-inline-flex align-items-center">
@@ -48,7 +46,7 @@
                           <p class="pl-1 m-0 d-md-block d-none">Dejar de seguir</p>
                         </a>
                       </div>
-                    </li>                          
+                    </li>                           
                   @endforeach
                 </ul>
               </div>

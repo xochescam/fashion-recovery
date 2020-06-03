@@ -18,19 +18,18 @@
               </div>
             </nav>
 
-            <div class="tab-content col-md-10 mx-auto" id="nav-tabContent">
+            <div class="tab-content" id="nav-tabContent">
               <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
                 @if(count($followers) === 0)
                   <p class="h6 my-5 text-center"> No tienes seguidores. </p>                      
                 @endif
 
-                <ul class="list-group list-group-flush mt-5">
+                <ul class="list-group list-group-flush mt-3">
                   @foreach($followers as $follower)
                     <li class="list-group-item d-flex align-items-center"> 
                       <a href="{{ url('user',$follower->Alias) }}" class="no-text-decoration green-link align-items-center row">
-                        <img src="{{ url($follower->SelfieThumbPath) }}" alt="{{ $follower->Alias }} " class="rounded-circle col-md-3 col-3">
-                        <p class="col-md-8 col-9 text-left m-0">{{ $follower->Alias }}</p>
+                        {{ $follower->Alias }}
                       </a>
                     </li>                     
                   @endforeach
@@ -43,12 +42,11 @@
                   <p class="h6 my-5 text-center"> No sigues a ningún vendedor. </p>                      
                 @endif
                 
-                <ul class="list-group list-group-flush mt-5">
+                <ul class="list-group list-group-flush mt-3">
                   @foreach($following as $follow)
                     <li class="list-group-item d-flex align-items-center"> 
                       <a href="{{ url('user',$follow->Alias) }}" class="no-text-decoration green-link align-items-center row">
-                        <img src="{{ url($follow->SelfieThumbPath) }}" alt="{{ $follow->Alias }} " class="rounded-circle col-md-5 col-5">
-                        <p class="col-md-7 col-7 text-left m-0">{{ $follow->Alias }}</p>
+                        {{ $follow->Alias }}
                       </a>
                       <div class="w-100 text-right">
                         <a href="{{ url('unfollow',$follow->id) }}" class="btn btn-fr btn-sm d-inline-flex align-items-center">
