@@ -66,15 +66,19 @@ class OrderController extends Controller
                              'GR_022.FolioID',
                              'GR_022.GuideURL',
                              'GR_022.NoOrder',
-                             'GR_022.CreationDate'
+                             'GR_022.CreationDate',
+                             'GR_022.UpdateDate'
                     )->get();
                     
         $items = $items->map(function ($item, $key) use ($user){
+
+            
 
             $item->ThumbPath = $user->getThumbPath($item);
             $item->BrandID   = $user->getBrand($item);
             $item->SizeID    = $user->getSize($item);
             $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
+            $item->update        = $this->formatDate("d F Y", $item->UpdateDate);
 
             return $item;
 
