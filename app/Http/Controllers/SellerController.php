@@ -33,39 +33,13 @@ class SellerController extends Controller
 
     public function transfer()
     {
-        $itemIds = DB::table('fashionrecovery.GR_029')
-                    ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->where('GR_029.IsSold',true)
-                    ->get()->groupBy('ItemID')->keys();
+        $user = Auth::User();
 
-        $items = DB::table('fashionrecovery.GR_029')
-                    ->join('fashionrecovery.GR_022', 'GR_029.ItemID', '=', 'GR_022.ItemID')
-                    ->whereIn('GR_029.ItemID',$itemIds)
-                    ->where('GR_022.OrderStatusID',4)
-                    ->select('GR_022.UpdateDate',
-                             'GR_029.IsPaid',
-                             'GR_029.ActualPrice'
-                    )->get();
-
-        $sum = $items->filter(function ($item, $key) {
-
-            $price = str_replace(',', '', substr($item->ActualPrice, 1));
-            $item->Gain = $price - ($price * User::getCommission());
-
-            $current = strtotime(date("Y-m-d H:i:s"));
-            $update  = strtotime($item->UpdateDate);
-            $segs    = $current - $update;
-            $days    = $segs / 86400;
-                
-            return $days > 1 && !$item->IsPaid;
-                
-        })->sum('Gain');
-
-        if($sum <= 0) {
+        if(User::getSum($user) <= 0) {
             abort(403);
         }
 
-        $seller = Seller::where('UserID',Auth::User()->id)->first();
+        $seller = Seller::where('UserID',$user)->first();
 
         $seller->IsTransfer = true;
         $seller->save();
@@ -73,6 +47,34 @@ class SellerController extends Controller
         Session::flash('success','Hemos recibido tu petición. En breve nos podremos en contacto contigo.');
         return Redirect::back();
     }
+
+    public function ConfirmTransfer($seller) {
+
+        $user = User::where('Alias',$seller)->first();
+
+        if(User::getSum($user) <= 0) {
+            abort(403);
+        }
+
+        $seller = Seller::where('UserID',$user->id)->first();
+        $seller->IsTransfer = false;
+        $seller->save();
+
+        $items = Item::where('OwnerID',$user->id)
+                    ->where('IsPaid',false)
+                    ->where('IsSold',true)
+                    ->get();  
+
+        foreach ($items as $value) {
+            $value->IsPaid = true;
+            $value->save();
+        }
+
+        Session::flash('success','Se ha confirmado la transacción.');
+        return Redirect::back();
+    }
+
+    
 
     /**
      * Show the form for creating a new resource.

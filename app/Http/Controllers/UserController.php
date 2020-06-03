@@ -12,6 +12,7 @@ use Redirect;
 use Gate;
 
 use App\User;
+use App\Seller;
 
 class UserController extends Controller
 {
@@ -28,15 +29,29 @@ class UserController extends Controller
             abort(403);
         }
 
-        $users = User::all();
+        $users   = User::all();
+        $sellers = Seller::all();
 
-        $users = $users->map(function ($item, $key) {
+        $users = $users->map(function ($item, $key) use($sellers) {
+            $seller = $sellers->where('UserID',$item->id)->first();
             $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
+
+            if(isset($seller->UserID)) {
+
+                $item->IsTransfer =  $seller->IsTransfer;
+                $item->Sum        =  User::getSum($item);
+                $item->Sold        =  User::getSoldItems($item);
+
+            } else {
+
+                $item->Buy = User::getBuyItems($item);
+            }
+
             return $item;
 
         })->groupBy('ProfileID');
 
-        return view('users.list',compact('users'));
+        return view('users.list',compact('users','sellers'));
     }
 
     protected function formatDate($format, $date) {

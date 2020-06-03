@@ -63,7 +63,7 @@ class SellController extends Controller
             $item->SizeID        = $user->getSize($item);
             $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
             $item->update        = $this->formatDate("d F Y", $item->UpdateDate);
-            $item->Gain          = $current - ($current * User::getCommission());
+            $item->Gain          = $current - ($current * User::getCommission($user));
 
             return $item;
         });

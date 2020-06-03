@@ -2,8 +2,7 @@
     <thead>
         <tr>
             <th scope="col">Alias</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Miembro desde</th>
+            <th scope="col">No. compras</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -11,8 +10,7 @@
         @foreach($users[1] as $user)
             <tr>
                 <th> <a href="{{ url('user',$user->Alias) }}" class="green-link">{{ $user->Alias }}</a> </th>
-                <td> {{ $user->Name }} {{ $user->Lastname }} </td>
-                <td> {{ $user->CreationDate }} </td>
+                <td> {{ $user->Buy }} </td>
                 <td>
                     @if($user->IsBlocked)
                         <a class="btn btn-danger btn-sm" href="{{ url('unblock',$user->Alias) }}" role="button">

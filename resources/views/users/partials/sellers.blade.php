@@ -2,9 +2,9 @@
     <thead>
         <tr>
             <th scope="col">Alias</th>
-            <th scope="col">Nombre</th>
-            <th scope="col">Miembro desde</th>
-            <th scope="col"></th>
+            <th scope="col">Ventas</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Transferencia</th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -12,15 +12,14 @@
         @foreach($users[2] as $user)
             <tr>
                 <th> <a href="{{ url('user',$user->Alias) }}" class="green-link">{{ $user->Alias }}</a> </th>
-                <td> {{ $user->Name }} {{ $user->Lastname }} </td>
-                <td> {{ $user->CreationDate }} </td>
+                <td> {{ $user->Sold }} </td>
+                <td> ${{ $user->Sum }} </td>
                 <td>
                     @if($user->IsTransfer)
-                        <a class="btn btn-info btn-sm" href="{{ url('transaction',$user->Alias) }}" role="button">
+                        <a class="btn btn-info btn-sm" href="{{ url('transfer',$user->Alias) }}" role="button">
                             Transferir
                         </a>
                     @endif
-
                 </td>
                 <td>
 

@@ -58,7 +58,7 @@ Route::get('search/{search}', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
-	
+	Route::get('transfer/{Alias}', 'SellerController@ConfirmTransfer');
 	Route::get('transfer', 'SellerController@transfer');
 
 	//sells

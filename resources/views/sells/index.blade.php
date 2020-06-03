@@ -29,8 +29,8 @@
 							<a class="btn btn-sm btn-fr" href="{{ url('transfer') }}" type="button">
 								Retirar
 							</a>
-						@else
-							<div class="alert alert-success show col-md-10">
+						@elseif($avaliableWallet > 0 && $IsTransfer)
+							<div class="alert alert-success show">
 								Hemos recibido tu petición. <br>
 								En breve nos podremos en contacto contigo.
 							</div>
