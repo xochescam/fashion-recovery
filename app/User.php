@@ -126,6 +126,37 @@ class User extends Authenticatable
         });
     }
 
+    public static function getSum($user) {
+
+        $itemIds = DB::table('fashionrecovery.GR_029')
+            ->where('GR_029.OwnerID',$user->id)
+            ->where('GR_029.IsSold',true)
+            ->get()->groupBy('ItemID')->keys();
+
+        $items = DB::table('fashionrecovery.GR_029')
+                ->join('fashionrecovery.GR_022', 'GR_029.ItemID', '=', 'GR_022.ItemID')
+                ->whereIn('GR_029.ItemID',$itemIds)
+                ->where('GR_022.OrderStatusID',4)
+                ->select('GR_022.UpdateDate',
+                        'GR_029.IsPaid',
+                        'GR_029.ActualPrice'
+                )->get();
+
+        return $items->filter(function ($item, $key) use ($user){
+
+            $price = str_replace(',', '', substr($item->ActualPrice, 1));
+            $item->Gain = $price - ($price * $user->getCommission($user));
+
+            $current = strtotime(date("Y-m-d H:i:s"));
+            $update  = strtotime($item->UpdateDate);
+            $segs    = $current - $update;
+            $days    = $segs / 86400;
+                
+            return $days > 1 && !$item->IsPaid;
+            
+        })->sum('Gain');
+    }
+
     public function inCart($ItemID) {
 
         $item = DB::table('fashionrecovery.GR_041')
@@ -154,10 +185,6 @@ class User extends Authenticatable
 
     public function getFollowers() {
 
-/*         $followers  = $this->followers();
-
-        $following  = $this->following(); */
-
         return [
             'followers' => $this->followers(),
             'following' => $this->following()
@@ -167,22 +194,22 @@ class User extends Authenticatable
     public function followers() {
 
         return DB::table('fashionrecovery.GR_038')
-                ->join('fashionrecovery.GR_001', 'GR_038.UserID', '=', 'GR_001.id')
-                ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
-                ->where('fashionrecovery.GR_038.SellerID',Auth::User()->id)
+                 ->join('fashionrecovery.GR_001', 'GR_038.UserID', '=', 'GR_001.id')
+/*                 ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')*/
+                 ->where('fashionrecovery.GR_038.SellerID',Auth::User()->id)
                 ->where('fashionrecovery.GR_001.IsBlocked',false)
-                ->select('GR_001.id','GR_001.Alias','GR_033.SelfieThumbPath')
+                ->select('GR_001.id','GR_001.Alias')
                 ->get();
     }
 
     public function following() {
 
         return DB::table('fashionrecovery.GR_038')
-                ->join('fashionrecovery.GR_001', 'GR_038.SellerID', '=', 'GR_001.id')
-                ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')
-                ->where('fashionrecovery.GR_038.UserID',Auth::User()->id)
+                 ->join('fashionrecovery.GR_001', 'GR_038.SellerID', '=', 'GR_001.id')
+            /*    ->join('fashionrecovery.GR_033', 'GR_001.id', '=', 'GR_033.UserID')*/
+                ->where('fashionrecovery.GR_038.UserID',Auth::User()->id) 
                 ->where('fashionrecovery.GR_001.IsBlocked',false)
-                ->select('GR_001.id','GR_001.Alias','GR_033.SelfieThumbPath')
+                ->select('GR_001.id','GR_001.Alias')
                 ->get();
     }
 
@@ -349,10 +376,29 @@ class User extends Authenticatable
                      ->first()->OtherSize;
     }
 
-    public static function getCommission() {
+    public static function getBuyItems($user) {
+        
+        $order = DB::table('fashionrecovery.GR_021')
+                    ->where('UserID',$user->id)
+                    ->get()->groupBy('OrderID')->keys();
+        
+        return DB::table('fashionrecovery.GR_022')
+                    ->whereIn('OrderID',$order)
+                    ->where('OrderStatusID',4)
+                    ->count();
+    }
 
-        $count = Item::where('OwnerID',Auth::User()->id)
+    public static function getSoldItems($user) {
+
+        return Item::where('OwnerID',$user->id)
                     ->where('IsSold',true)->count();
+    }
+
+    public static function getCommission($user) {
+
+        $user = !$user ? Auth::User() : $user;
+
+        $count = User::getSoldItems($user);
 
         if($count >= 301) {
 
