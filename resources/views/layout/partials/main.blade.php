@@ -20,7 +20,7 @@
                 <br/>que tienes en tu clóset y dale un respiro al planeta.
                 <br/>¡Viste verde!
               </p>
-              <a href="{{ url( isset(Auth::User()->id) ? '/item' : '/register/1') }}" class="btn btn-outline-light">Vende tus prendas</a>
+              <a href="{{ url( isset(Auth::User()->id) && Auth::User()->isSellerProfile() ? '/item' : ( isset(Auth::User()->id) && Auth::User()->isBuyerProfile() ? '/seller' : '/register/1' ) ) }}" class="btn btn-outline-light">Vende tus prendas</a>
               <a href="{{ url('#offersDeLaSemana') }}" class="btn btn-fr" role="button">Comprar</a>
             </div>
           </div>
