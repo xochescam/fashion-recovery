@@ -54,8 +54,7 @@ class ItemController extends Controller
             $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
 
             return $item;
-        });
-        
+        });        
 
         return view('item.list',compact('items'));
     }
@@ -533,7 +532,8 @@ class ItemController extends Controller
                              'GR_027.TypeName',
                              'GR_001.Alias',
                              'GR_020.SizeName',
-                             'GR_029.OtherBrand' 
+                             'GR_029.OtherBrand',
+                             'GR_029.IsSold' 
                          )->first(); 
 
         $items = DB::table('fashionrecovery.GR_032')
@@ -648,7 +648,7 @@ class ItemController extends Controller
     {
         $item = Item::where('ItemID',$id)->first();
 
-        if(!$this->authorize('updateItem',  $item)) {
+        if(!$this->authorize('updateItem',  $item) || $item->IsSold) {
             abort(403);
         } 
 
@@ -701,6 +701,7 @@ class ItemController extends Controller
         $selfie = $this->getImage($images, 'selfie');
         $in     = $this->getImage($images, 'in');
         $extra  = $this->getImage($images, 'extra');
+        $commission = User::getCommission(Auth::User());
         
         return view('item.edit',compact(
             'front',
@@ -723,7 +724,8 @@ class ItemController extends Controller
             'categories',
             'types',
             'closets',
-            'brand'
+            'brand',
+            'commission'
         ));
     }
 
@@ -1038,7 +1040,17 @@ class ItemController extends Controller
                     ->join('fashionrecovery.GR_018', 'GR_029.ColorID', '=', 'GR_018.ColorID')
                     //->join('fashionrecovery.GR_017', 'GR_029.BrandID', '=', 'GR_017.BrandID')
                     ->where('GR_029.OwnerID',Auth::User()->id)
-                    ->select('GR_029.IsPaused','GR_029.ItemID','GR_029.OffSaleID','GR_029.CreationDate','GR_029.ItemDescription','GR_029.OriginalPrice','GR_029.ActualPrice','GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
+                    ->select('GR_029.IsPaused',
+                             'GR_029.ItemID',
+                             'GR_029.OffSaleID',
+                             'GR_029.CreationDate',
+                             'GR_029.ItemDescription',
+                             'GR_029.OriginalPrice',
+                             'GR_029.ActualPrice',
+                             'GR_018.ColorName',
+                             'GR_029.BrandID',
+                             'GR_029.SizeID',
+                             'GR_029.IsSold')
                     ->get();
 
         return $items->map(function ($item, $key) {

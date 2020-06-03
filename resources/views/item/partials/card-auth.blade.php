@@ -1,7 +1,7 @@
 @foreach($items as $item)
 
     <div class="col-lg-3 col-md-4 col-sm-6 mb-4 mt-4">
-        <a href="{{ url('item',$item->ItemID) }}" class="link-card">
+        <a href="{{ url($item->IsSold ? 'items/'.$item->ItemID.'/public' : 'item/'.$item->ItemID) }}" class="link-card">
 
         <div class="card card--public card--item shadow mb-5 bg-white rounded d-flex w-100 align-items-stretch">
             <img class="card-img-top" src="{{ url('storage',$item->ThumbPath) }}" alt="{{ $item->brand }}" height="200px;">
@@ -18,18 +18,27 @@
                     </p>
                 </div>
 
-                <div class="float-right w-100">
-                    <div class="form-group m-0 row float-right">
-                        <label class="col-form-label my-auto mr-2">Pausar prenda</label>
-                        <div class="col-form-label text-left d-flex align-top">
-                          <guardarropa-component
-                            initial="{{ $item->IsPaused }}"
-                            type="item"
-                            item="{{ $item->ItemID }}"
-                          ></guardarropa-component>
-                        </div>
-                    </div>
-                </div>
+                
+                  <div class="float-right w-100">
+                    @if(!$item->IsSold)
+                      <div class="form-group m-0 row float-right">
+                        
+                          <label class="col-form-label my-auto mr-2">Pausar prenda</label>
+                          <div class="col-form-label text-left d-flex align-top">
+                            <guardarropa-component
+                              initial="{{ $item->IsPaused }}"
+                              type="item"
+                              item="{{ $item->ItemID }}"
+                            ></guardarropa-component>
+                          </div>
+                      </div>
+                    @else
+                      <div class="alert alert-success mb-0" role="alert">
+                        Vendida
+                      </div>
+                    @endif
+                  </div>
+                
 
             </div>
         </div>

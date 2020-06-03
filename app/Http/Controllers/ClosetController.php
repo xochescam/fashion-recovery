@@ -68,8 +68,8 @@ class ClosetController extends Controller
 
         $thumbs = Item::getThumbs($all);
         $items  = Item::getItemThumbs($all, $thumbs)
-                        ->groupBy('ClosetID')->toArray();  
-
+                        ->groupBy('ClosetID')->toArray();
+                        
         return view('closet.list',compact('closets','items'));
     }
 

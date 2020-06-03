@@ -69,6 +69,10 @@
 
  					<p>por <a href=" {{ url('user',$info->Alias) }} " class="green-link">{{ $info->Alias }}</a></p>
 
+					@if($info->IsSold)
+						<span class="badge badge-success">Vendida</span>
+
+					@endif
 					<hr>
 
 					<p>Precio original: <small class="line-through">{{ $info->OriginalPrice }}</small> </p>
@@ -137,36 +141,40 @@
 					    	</tr>
 					  	</tbody>
 					</table>
+					
+					@if(!$info->IsSold)
+						<div class="card w-100">
+							<div class="card-body">
+								<a href="{{ url('payment/'.$info->ItemID.'/true') }}" class="btn btn-fr my-2 w-100">
+									Comprar
+								</a>
+								<item-to-shopping-cart
+									item_id="{{ $info->ItemID }}"
+									url="{{ isset(Auth::User()->id) }}"
+									in_cart="{{ isset(Auth::User()->id) ? Auth::User()->inCart($info->ItemID) : 0 }}"
+									>
+								</item-to-shopping-cart>
+								
+								<heart-wishlist-component
+									has="{{ Auth::User() && isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
+									url="{{ $urlWishlists }}"
+									type="full"
+								></heart-wishlist-component>
 
-					<div class="card w-100">
-		          		<div class="card-body">
-		          			<a href="{{ url('payment/'.$info->ItemID.'/true') }}" class="btn btn-fr my-2 w-100">
-		          				Comprar
-		          			</a>
-							<item-to-shopping-cart
-								item_id="{{ $info->ItemID }}"
-								url="{{ isset(Auth::User()->id) }}"
-								in_cart="{{ isset(Auth::User()->id) ? Auth::User()->inCart($info->ItemID) : 0 }}"
-								>
-							</item-to-shopping-cart>
-							  
-							<heart-wishlist-component
-								has="{{ Auth::User() && isset( Auth::User()->inWishlist($item->ItemID)->WishlistID ) > 0 ? true : false }}"
-								url="{{ $urlWishlists }}"
-								type="full"
-							></heart-wishlist-component>
-
+								</div>
 							</div>
-		          		</div>
-		          	</div>
+						</div>
+					@endif
 	          	</div>
 
-				<question
-					:item="{{ $item->ItemID }}"
-					:errors="{{ $errors }}"
-					:questions="{{ $questions }}"
-					:auth="{{ isset(Auth::User()->id) ? 'true' : 'false' }}"
-				></question>
+				@if(!$info->IsSold)
+					<question
+						:item="{{ $item->ItemID }}"
+						:errors="{{ $errors }}"
+						:questions="{{ $questions }}"
+						:auth="{{ isset(Auth::User()->id) ? 'true' : 'false' }}"
+					></question>
+				@endif
 	        </div>
       	</div>
     </main>

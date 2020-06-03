@@ -16,15 +16,15 @@ class PaymentController extends Controller
 {
     public function payment($ShippingAddID, $IsBuy) {
 
-        if (Gate::denies('buy-item')) {
+        $item = $this->getItem($ShippingAddID);
+
+        if (Gate::denies('buy-item') || $item->IsSold) {
             abort(403);
         }
 
         $user = Auth::User();
 
         if($IsBuy === "true") {
-
-            $item = $this->getItem($ShippingAddID);
 
             if(!isset($item->ItemID)) {
     
@@ -93,7 +93,8 @@ class PaymentController extends Controller
                                  'GR_029.BrandID',
                                  'GR_032.PicturePath',
                                  'GR_032.ThumbPath',
-                                 'GR_029.OwnerID'
+                                 'GR_029.OwnerID',
+                                 'GR_029.IsSold'
                              )->get()->first();
 
         if(!isset($item)) {
@@ -105,6 +106,10 @@ class PaymentController extends Controller
 
             return [
                 'message' => 'No puedes adquirir una prenda de tu colección.'
+            ];
+        } else if($item->IsSold) {
+            return [
+                'message' => 'La prenda ya fue vendida.'
             ];
         }
 
