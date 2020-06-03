@@ -20,7 +20,7 @@
                     v-for="notification in all" 
                     :key="notification.NotificationID" 
                     :value="notification.NotificationID"
-                    :href="getHref(notification)">
+                    :href="$root.path+getHref(notification)">
                     <i class="far fa-user pr-1"></i>
 
                     <span>{{ getText(notification)  }}</span>
@@ -75,9 +75,9 @@ export default {
         getHref(notification) {
 
             const hrefs = {
-                'follower' : 'followers',
-                'question' : 'question/'+notification.TableID+'/answer',
-                'answer' : 'question/'+notification.TableID+'/question'
+                'follower' : '/followers',
+                'question' : '/question/'+notification.TableID+'/answer',
+                'answer' : '/question/'+notification.TableID+'/question'
             };
 
             return hrefs[notification.Type];
@@ -93,6 +93,8 @@ export default {
             return texts[notification.Type];
         }
 
+    }, mounted() {
+        console.log(this.notifications);
     }
 };
 </script>

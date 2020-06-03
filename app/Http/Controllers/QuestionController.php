@@ -40,7 +40,17 @@ class QuestionController extends Controller
 
         $user = $this->getUser($request->ItemID);
 
-        $this->saveNotifications($user, $question, 'question');
+        DB::table('fashionrecovery.GR_040')->insert([
+            'Type'        => 'question',
+            'UserID'      => $user->id,
+            'TableID'     => $question->QuestionID,
+            'TableNameID' => 'QuestionID',
+            'TableName'   => 'GR_039'
+        ]);
+
+        DB::table('fashionrecovery.GR_001')
+            ->where('id', $user->id)
+            ->update(['Notifications' => True]);
 
         Mail::to($user)
             ->send(new NewQuestion($user, Auth::User(), $question));
@@ -50,7 +60,6 @@ class QuestionController extends Controller
 
     public function answer($QuestionID, $type) {
         $question = $this->getQuestion($QuestionID, $type);
-
         $user = Item::findOrfail($question->ItemID)->user;
 
         if($user->IsBlocked) {
@@ -96,7 +105,7 @@ class QuestionController extends Controller
                     ->first() : $this->getUser($request->ItemID);
             
 
-        $this->saveNotifications($user, $answer, 'answer');
+        $this->saveNotifications($user, $answer, $type);
 
         Mail::to($user)
             ->send(new AnswerQuestion($user, Auth::User(), $answer, $type));
@@ -110,7 +119,8 @@ class QuestionController extends Controller
         DB::table('fashionrecovery.GR_040')->insert([
             'Type'        => $type,
             'UserID'      => $user->id,
-            'TableID'     => $type == 'answer' ? $answer->ParentID : $answer->QuestionID,
+/*             'TableID'     => $type == 'answer' ? $answer->ParentID : $answer->QuestionID,
+ */            'TableID'  => $answer->ParentID,
             'TableNameID' => 'QuestionID',
             'TableName'   => 'GR_039'
         ]);
@@ -125,17 +135,16 @@ class QuestionController extends Controller
     public function getQuestion($QuestionID, $type) {
 
         $column        = $type == 'answer' ? 'GR_029.OwnerID' : 'GR_039.UserID';
-        $temporalyUser =  $type == 'answer' ? 135 : 118;
 
         return DB::table($this->table)
                         ->join('fashionrecovery.GR_001', 'GR_039.UserID', '=', 'GR_001.id')
                         ->join('fashionrecovery.GR_029', 'GR_039.ItemID', '=', 'GR_029.ItemID')
                         ->where('GR_039.QuestionID',$QuestionID)
-                        //->where($column,$temporalyUser)
                         ->where($column,Auth::User()->id)
-                        ->where('GR_039.IsParent',true)
-                        ->select('GR_039.*','GR_001.Name','GR_001.ProfileID','GR_001.Alias','GR_001.id','GR_029.ItemID')
+                         ->where('GR_039.IsParent',true)
+                         ->select('GR_039.*','GR_001.Name','GR_001.ProfileID','GR_001.Alias','GR_001.id','GR_029.ItemID')
                         ->first();
+
     }
 
     public function getAnswerQuestion($question, $QuestionID) {
