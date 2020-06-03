@@ -81,7 +81,7 @@ class ItemController extends Controller
         $colors         = Color::getAll(); 
         $types          = Type::getAll();
         $closets        = Closet::where('UserID',Auth::User()->id)->get();
-        $commission      = User::getCommission();
+        $commission      = User::getCommission(Auth::User());
         
         $front  = null;
         $label  = null;
