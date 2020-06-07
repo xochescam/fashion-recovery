@@ -51,7 +51,6 @@ Route::post('filter/{clothingFilter}/', 'SearchController@ClothingFilter');
 Route::get('delete-secret/{id}/', 'SellerController@deleteSecret');
 
 Route::post('newsletter', 'HomeController@newsletter');
-
 	
 //Search
 Route::get('search/{search}', 'SearchController@search');
@@ -73,15 +72,11 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('notification', 'NotificationController@show');
 	Route::post('notification-delete', 'NotificationController@destroy');
 
-	//payment
-	Route::get('payment/{ShippingAddID}/{IsBuy}', 'PaymentController@payment');
-	Route::get('summary/{ShippingAddID}', 'PaymentController@summary');
-	Route::get('confirmation/{ShippingAddID}', 'PaymentController@confirmation');
-
-	Route::post('payment-card', 'PaymentController@paymentCard');
-
-
-	//Route::get('confirm/{ShippingAddID}', 'ConfirmBuyController@confirm');
+	//MercadoPago
+	Route::get('payment/{ShippingAddID}/{IsBuy}', 'MercadoPagoController@payment');
+	Route::get('summary/{ShippingAddID}', 'MercadoPagoController@summary');
+	Route::get('confirmation/{ShippingAddID}', 'MercadoPagoController@confirmation');
+	Route::post('payment-card', 'MercadoPagoController@paymentCard');
 
 
 	//Shopping cart

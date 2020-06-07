@@ -53,12 +53,9 @@
 					<table class="w-100 mt-4">
 						<tr>
 							<td>Subtotal:</td>
-							<td class="text-right">{{ total }}</td>
+							<td class="text-right">${{ total }}</td>
 						</tr>
-						<tr>
-							<td>Envio:</td>
-							<td class="text-right">$0</td>
-						</tr>
+						
 					</table>
 					<hr>
 
@@ -66,7 +63,7 @@
 						<tr>
 							<td>Total:</td>
 							<td class="text-right green-color">
-								<h5><b>{{ total }}</b></h5>
+								<h5><b>${{ total }}</b></h5>
 						    </td>
 						</tr>
 					</table>

@@ -271,7 +271,7 @@ class User extends Authenticatable
         $itemIds = DB::table('fashionrecovery.GR_041')
                     ->join('fashionrecovery.GR_001', 'GR_041.UserID', '=', 'GR_001.id')
                     ->where('GR_041.UserID',Auth::User()->id)
-                    ->where('GR_001.IsBlocked',true)
+                    ->where('GR_001.IsBlocked',false)
                     ->get()->groupBy('ItemID')->keys();
                     
         return $this->items($itemIds);

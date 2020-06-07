@@ -52,18 +52,19 @@ class ConfirmBuyController extends Controller
     }
 
     public function login() {
-
+        
         $client = new Client();
         
         $response = $client->request('POST', 
-        'https://pp-users-integrations-api-test.herokuapp.com/signin/email',
+        'https://pp-users-integrations-api-prod.herokuapp.com/signin/email',
         [
             'form_params' => [
-                    'email' => 'heavyjra@gmail.com',
-                    'password' => 'F12345678R'
+                    'email' => env('ALGOLIA_EMAIL'),
+                    'password' => env('ALGOLIA_PASSWORD')
                 
             ]
         ]);
+
 
         if($response->getStatusCode() === 200) {
 
@@ -79,7 +80,7 @@ class ConfirmBuyController extends Controller
         $userData = json_decode($response->getBody());
         
         $key    = $userData->data->key;
-        $result = $body.$url.$key;
+        $result =$response->getBody().$url.$key;
         $hash   = hash('sha256', $result);
 
         return $hash;
@@ -90,7 +91,7 @@ class ConfirmBuyController extends Controller
         $userData = json_decode($user->getBody());
 
         $client = new Client(); 
-        $response = $client->request('GET', 'https://pp-users-integrations-api-test.herokuapp.com/keys/'.$userData->key->_id.'/verify');
+        $response = $client->request('GET', 'https://pp-users-integrations-api-prod.herokuapp.com/keys/'.$userData->key->_id.'/verify');
 
         if($response->getStatusCode() === 200) {
 
@@ -107,7 +108,7 @@ class ConfirmBuyController extends Controller
 
         $key  = '';
         $url  = '/quotation/native';
-        $body = '{"delivery_zip_code":72000,"pickup_zip_code":75763,"type":"package","insurance":10,"size":{"width":10,"height":10,"deep":2,"weight":10}}';
+        $body = '{"delivery_zip_code":34030,"pickup_zip_code":34030,"type":"package","insurance":0,"size":{"width":32,"height":33,"deep":18,"weight":4}}';
         $data = $this->validateKey($user);
 
         if(!$data) {
@@ -117,22 +118,37 @@ class ConfirmBuyController extends Controller
         $key     = $this->key($data, $url, $body);
         $user_id = json_decode($data->getBody())->data->user_id;
 
-        dd($body);
 
         $client = new Client(); 
-        $response = $client->request('POST', 
-        'https://pp-users-integrations-api-test.herokuapp.com/quotation/native',[
-            'headers' => [
-                "Content-Type" => "application/json",
-                'user_id' => $user_id,
-                'token' => $key
-            ],
-            'form_params' => [
-                $body
-            ]
-        ]);
 
-        dd($response);
+        $response = $client->request(
+            'POST',
+            'https://pp-users-integrations-api-prod.herokuapp.com/quotation/native',
+            [
+                'headers' => [
+                    'user_id' => $user_id,
+                    'token' => $key,
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json'
+                ],
+                'json' => [
+                    'delivery_zip_code' => '34030',
+                    'pickup_zip_code' => '34040',
+                    'type' => 'package',
+                    'insurance' => 0,
+                    "size" => [
+                        "width" => 32,
+                        "height" => 33,
+                        "deep" => 18,
+                        "weight" => 4
+                    ]
+                ]
+            ]
+        );
+
+
+
+        dd(json_decode($response->getBody())->data);
 
         if($response->getStatusCode() === 200) {
 

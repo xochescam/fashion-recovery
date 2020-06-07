@@ -43,6 +43,7 @@
 								<card-payment
 									csrf="{{ csrf_token() }}"
 									shipping="{{ $address->ShippingAddID }}"
+									:shippingcost="{{ $shippingCost }}"
 								>
 								</card-payment>			
 							</div>
@@ -76,11 +77,11 @@
 					<table class="w-100 mt-4">
 						<tr>
 							<td>Subtotal:</td>
-							<td class="text-right">{{ Auth::User()->getTotal() }} </td>
+							<td class="text-right">${{ Auth::User()->getTotal() }} </td>
 						</tr>
 						<tr>
 							<td>Envio:</td>
-							<td class="text-right">$0</td>
+							<td class="text-right">${{ $shippingCost }}</td>
 						</tr>
 					</table>
 					<hr>
@@ -89,7 +90,7 @@
 						<tr>
 							<td>Total:</td>
 							<td class="text-right green-color">
-								<h5><b>{{ Auth::User()->getTotal() }}</b></h5>
+								<h5><b>${{ Auth::User()->getTotal() + $shippingCost}}</b></h5>
 							</td>
 						</tr>
 					</table>

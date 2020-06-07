@@ -47,7 +47,7 @@
 									<b>Método de pago</b>
 								</p>
 
-								<p>xxxx xxxx xxxx x245 BBVA </p>
+								<p>Mercado Pago</p>
 							</div>
 						</div>
 					</div>
@@ -97,7 +97,7 @@
 								</tr>
 								<tr>
 									<td>Envio:</td>
-									<td class="text-right">$0</td>
+									<td class="text-right">${{ $ShippingAmount }} </td>
 								</tr>
 							</table>
 							<hr>
@@ -105,7 +105,7 @@
 							<table class="w-100">
 								<tr>
 									<td class="text-right green-color">
-										<h5><b>${{ $items->first()->sub }}</b></h5>
+										<h5><b>${{ $items->first()->sub + $ShippingAmount }}</b></h5>
 									</td>
 								</tr>
 							</table>

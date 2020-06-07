@@ -772,7 +772,7 @@ if(paymentBtn) {
             redirect: 'follow'
             };
     
-            fetch("https://pp-users-integrations-api-test.herokuapp.com/signin/email", requestOptions)
+            fetch("https://pp-users-integrations-api-prod.herokuapp.com/signin/email", requestOptions)
             .then(response => response.text())
             .then(function(result) {
 
@@ -825,7 +825,7 @@ function verify(data, url, body) {
       redirect: 'follow'
     };
     
-    fetch("https://pp-users-integrations-api-test.herokuapp.com/keys/"+data.key._id+"/verify", requestOptions)
+    fetch("https://pp-users-integrations-api-prod.herokuapp.com/keys/"+data.key._id+"/verify", requestOptions)
       .then(response => response.text())
       .then(function(response) {
 
@@ -868,7 +868,7 @@ function enviar(data, index) {
     redirect: 'follow'
     };
 
-    fetch("https://pp-users-integrations-api-test.herokuapp.com"+url, requestOptions)
+    fetch("https://pp-users-integrations-api-prod.herokuapp.com"+url, requestOptions)
     .then(response => response.text())
     .then(result => console.log(result))
     .catch(error => console.log('error', error));
@@ -906,13 +906,10 @@ function cotizar(data, a) {
 
     
 
-    fetch("https://pp-users-integrations-api-test.herokuapp.com"+url, requestOptions)
+    fetch("https://pp-users-integrations-api-prod.herokuapp.com"+url, requestOptions)
     .then(response => response.text())
     .then(function(result) {
 
-        //enviar(data);
-
-               
         console.log('index '+a);
                 
         

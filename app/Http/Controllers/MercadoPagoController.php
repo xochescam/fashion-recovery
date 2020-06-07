@@ -17,14 +17,20 @@ use Redirect;
 use App\Item;
 use App\Order;
 use App\InfoOrder;
+use App\PackPack;
+use App\Address;
 
-class PaymentController extends Controller {
+class MercadoPagoController extends Controller {
 
     public function paymentCard(Request $request) {
+
+        $delivery = Address::findOrFail($request->shipping)->ZipCode;
+        $shippingCost = PackPack::quotation($delivery);
+
         MercadoPago\SDK::setAccessToken(env('MP_SECRET'));
 
         $payment = new MercadoPago\Payment();
-        $payment->transaction_amount = Auth::User()->getTotal(); 
+        $payment->transaction_amount = Auth::User()->getTotal() + $shippingCost; 
         $payment->token = $request->token;
         $payment->payment_method_id = $request->paymentMethodId;
         $payment->installments= 1;
@@ -74,8 +80,8 @@ class PaymentController extends Controller {
 
         $user = Auth::User();
 
-        if($IsBuy === "true") {
 
+        if($IsBuy === "true") {
             $item = $this->getItem($ShippingAddID);
 
             if(!isset($item->ItemID)) {
@@ -86,14 +92,13 @@ class PaymentController extends Controller {
 
         }
 
-        
-
         //cuando no hay direccion // pasar a agregar la dirección
         //cuando hay dirección y no hay nada en el carrito // tomar la dirección default y agregar al carrito
         //cuando hay dirección y ya hay items en el carrito // tomar la dirección default y agregar al carrito que ya tiene items
         $address = $user->getDefaultAddress() !== null ? $user->getDefaultAddress() : false;
         $addToCart  = $this->addToCart($ShippingAddID, $user);
-
+        $shippingCost = PackPack::quotation($address->ZipCode);
+        
         if (!$addToCart && $IsBuy === "true") {
             Session::flash('warning','La prenda ya está en el carrito.');
             return Redirect::back();
@@ -101,39 +106,12 @@ class PaymentController extends Controller {
 
         if($address) {
 
-            return view('payment.index',compact('address','IsBuy','ShippingAddID'));
+            return view('payment.index',compact('address','IsBuy','ShippingAddID','shippingCost'));
 
         } else {
 
             return Redirect::to('address');
         }
-
-    /*     if(!$exists) {
-
-        }
-
-        $address = $IsBuy === "true" ?
-                    $this->addToCart($ShippingAddID, $user) :
-                    $user->getDefaultAddress();
-
-        
-        if(!isset($address->IsDefault)) {
-
-            return Redirect::to('address');
-
-        } else if (!$address && $IsBuy === "true") {
-            
-            Session::flash('warning','La prenda ya está en el carrito.');
-            return Redirect::back();
-        } else {
-
-            return view('payment.index',compact('address'));
-
-        } */
-
-
-        //$address = $this->addToCart($ShippingAddID, $user);
-
     }
 
     public function getItem($ItemID) {
@@ -205,25 +183,36 @@ class PaymentController extends Controller {
 
     public function summary($ShippingAddID) {
 
+        $ShippingAmount = Order::where('ShippingID',$ShippingAddID)
+                            ->get()->sortByDesc('CreationDate')
+                            ->first()->ShippingAmount;
+
+        $ShippingAmount = str_replace(',', '', substr($ShippingAmount, 1));
+
         $items   = Auth::User()->getOrdered();
         $address = Auth::User()->getShippingAddress()
                                 ->where('ShippingAddID',$ShippingAddID)
                                 ->first();
 
-        return view('payment.confirmation',compact('items','address'));
+        return view('payment.confirmation',compact('items','address','ShippingAmount'));
     }
 
     public function confirmation($ShippingAddID) {
 
+        $delivery = Address::findOrFail($ShippingAddID)->ZipCode;
+        $shippingCost = PackPack::quotation($delivery);
+
         $user    = Auth::User();
         $items   = $user->getItems();
         $arrayIt = []; 
+        
 
         $order = new Order;
         $order->UserID = $user->id;
         $order->OrderStatusID = 1;
         $order->ShippingID = $ShippingAddID;
         $order->TotalAmount = Auth::User()->getTotal();
+        $order->ShippingAmount = $shippingCost;
         $order->PaymentOptionID = 2;
         $order->CreationDate = date("Y-m-d H:i:s");
         $order->save();

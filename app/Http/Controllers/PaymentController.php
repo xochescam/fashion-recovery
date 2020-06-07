@@ -52,31 +52,6 @@ class PaymentController extends Controller
 
             return Redirect::to('address');
         }
-
-    /*     if(!$exists) {
-
-        }
-
-        $address = $IsBuy === "true" ?
-                    $this->addToCart($ShippingAddID, $user) :
-                    $user->getDefaultAddress();
-
-        
-        if(!isset($address->IsDefault)) {
-
-            return Redirect::to('address');
-
-        } else if (!$address && $IsBuy === "true") {
-            
-            Session::flash('warning','La prenda ya está en el carrito.');
-            return Redirect::back();
-        } else {
-
-            return view('payment.index',compact('address'));
-
-        } */
-
-        //$address = $this->addToCart($ShippingAddID, $user);
     }
 
     public function getItem($ItemID) {

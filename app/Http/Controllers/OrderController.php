@@ -146,7 +146,7 @@ class OrderController extends Controller
                 $client = new Client();
 
                 $response = $client->request('PUT', 
-                'https://pp-users-integrations-api-test.herokuapp.com'.$url.$info->PackingOrderID,[
+                'https://pp-users-integrations-api-prod.herokuapp.com'.$url.$info->PackingOrderID,[
                     'headers' => [
                         'user_id' => $data->data->user_id,
                         'token' => $key
@@ -166,11 +166,11 @@ class OrderController extends Controller
         $client = new Client();
         
         $response = $client->request('POST', 
-        'https://pp-users-integrations-api-test.herokuapp.com/signin/email',
+        'https://pp-users-integrations-api-prod.herokuapp.com/signin/email',
         [
             'form_params' => [
-                    'email' => 'heavyjra@gmail.com',
-                    'password' => 'F12345678R'
+                'email' => env('ALGOLIA_EMAIL'),
+                'password' => env('ALGOLIA_PASSWORD')
 
             ]
         ]);
@@ -196,7 +196,7 @@ class OrderController extends Controller
         $userData = json_decode($user->getBody());
 
         $client = new Client(); 
-        $response = $client->request('GET', 'https://pp-users-integrations-api-test.herokuapp.com/keys/'.$userData->key->_id.'/verify');
+        $response = $client->request('GET', 'https://pp-users-integrations-api-prod.herokuapp.com/keys/'.$userData->key->_id.'/verify');
 
         return json_decode($response->getBody());
     }

@@ -216,6 +216,11 @@ export default {
             required: false,
             default: ''
         },
+        shippingcost : {
+            type: Number,
+            required: false,
+            default: ''
+        },
     },
     validations: {
         cardnumber: {
@@ -326,6 +331,7 @@ export default {
                 const data = {
                     "token" : response.id,
                     "paymentMethodId" : this.paymentMethodId,
+                    "shipping" : this.shipping
                 };
 
                 axios
@@ -364,7 +370,7 @@ export default {
             axios
                 .get(this.$root.path+'/confirmation/'+this.shipping)
                 .then(response => {
-                    window.location.href = this.$root.path+'/summary/'+this.shipping;                    
+                    window.location.href = this.$root.path+'/summary/'+this.shipping+'/';                    
                 }).catch(error => {
                     this.reset();
                 })
@@ -397,6 +403,10 @@ export default {
                 this.reset();
             }
         },
+        
+    },
+    mounted() {
+        console.log(this.shipping);
         
     }
 };
