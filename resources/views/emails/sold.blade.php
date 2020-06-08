@@ -18,13 +18,18 @@
 							<br> En {{ $address[0]->Street }} {{ $address[0]->Suburb }} {{ $address[0]->Suburb }} {{ $address[0]->ZipCode }} por parte de fashionrecovery.com
 	                    </p>
 
-                        <p style="color: #444;font: 300 15px sans-serif;margin-left: 50px;text-align: left; margin-bottom: 30px; margin-top: 20px;">
-                            <b>Método de pago:</b> xxxx xxxx xxxx x245 BBVA 
+                        <p style="color: #444;font: 300 15px sans-serif;margin-left: 50px;text-align: left; margin-bottom: 10px; margin-top: 20px;">
+                            <b>Método de pago:</b> Mercado Pago
+	                    </p>
+
+						<p style="color: #444;font: 300 15px sans-serif;margin-left: 50px;text-align: left; margin-bottom: 10px; margin-top: 20px;">
+                            <b>Envío:</b> ${{ $Envio }}
 	                    </p>
 
                         <p style="color: #444;font: 300 15px sans-serif;margin-left: 50px;text-align: left; margin-bottom: 30px; margin-top: 20px;">
-                            <b>Total del pedido:</b> ${{ $Total }}
+                            <b>Total del pedido:</b> ${{ $Sum }}
 	                    </p>
+						
 
 						<ul style="font: 200 14px sans-serif;border-top: 1px solid rgba(0,0,0,.125); margin-left: 50px; margin-right: 50px; padding: 0px;  width: 700px; margin-top: 20px;">
 
@@ -32,10 +37,10 @@
 
 			          			<li style="display:block; border-bottom: 1px solid rgba(0,0,0,.125);">
 							  		<div style="display: flex;">
-									    <div style="width: 30%;">
+									    <div style="width: 200px;">
 									      <img src="{{ url('storage/'.$item->ThumbPath) }}" alt="">
 									    </div>
-									    <div style="width: 70%; padding-left: 20px;">
+									    <div style="width: 500px; padding-left: 20px;">
 									      <div>
 									      	<div>
 												<p>{{ $item->ItemDescription }}</p>

@@ -9,13 +9,13 @@
 
         <div style="height: 50px;display: flex;align-items: center;justify-content: space-around;margin-left: 300px;margin-right: 300px;">
             <a href="#">
-                <img src="http://127.0.0.1:8000/img/facebook.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
+                <img src="https://fashionrecovery.com.mx/img/facebook.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
             </a>
             <a href="#">
-                <img src="http://127.0.0.1:8000/img/twitter.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
+                <img src="https://fashionrecovery.com.mx/img/twitter.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
             </a>
             <a href="#">
-                <img src="http://127.0.0.1:8000/img/instagram.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
+                <img src="https://fashionrecovery.com.mx/img/instagram.svg" style="height:20px;filter: invert(59%) sepia(0%) saturate(0%) hue-rotate(55deg) brightness(100%) contrast(97%);">
             </a>
         </div>
 
