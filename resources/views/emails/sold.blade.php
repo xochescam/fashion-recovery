@@ -37,10 +37,10 @@
 
 			          			<li style="display:block; border-bottom: 1px solid rgba(0,0,0,.125);">
 							  		<div style="display: flex;">
-									    <div style="width: 200px;">
+									    <div style="width: 300px;">
 									      <img src="{{ url('storage/'.$item->ThumbPath) }}" alt="">
 									    </div>
-									    <div style="width: 500px; padding-left: 20px;">
+									    <div style="width: 400px; padding-left: 20px;">
 									      <div>
 									      	<div>
 												<p>{{ $item->ItemDescription }}</p>
