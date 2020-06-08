@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'contacto@fashionrecovery.com.mx'),
-        'name' => env('MAIL_FROM_NAME', 'Fashion Recovery'),
+        'address' => env('MAIL_FROM_ADDRESS', 'guionbajodgo@outlook.com'),
+        'name' => env('MAIL_FROM_NAME', 'Guion Bajo'),
     ],
 
     /*
