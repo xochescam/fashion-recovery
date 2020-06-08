@@ -50,6 +50,8 @@ class SoldItem extends Mailable
                         'Alias'   => $this->user->Alias,
                         'address' => $this->address,
                         'Total' => $this->order->TotalAmount,
+                        'Envio' => $this->order->ShippingAmount,
+                        'Sum' => $this->order->TotalAmount + $this->order->ShippingAmount,
                     ]);
     }
 }
