@@ -97,7 +97,6 @@ class MercadoPagoController extends Controller {
         //cuando hay dirección y ya hay items en el carrito // tomar la dirección default y agregar al carrito que ya tiene items
         $address = $user->getDefaultAddress() !== null ? $user->getDefaultAddress() : false;
         $addToCart  = $this->addToCart($ShippingAddID, $user);
-        $shippingCost = PackPack::quotation($address->ZipCode);
         
         if (!$addToCart && $IsBuy === "true") {
             Session::flash('warning','La prenda ya está en el carrito.');
@@ -105,6 +104,9 @@ class MercadoPagoController extends Controller {
         }
 
         if($address) {
+
+            $shippingCost = PackPack::quotation($address->ZipCode);
+
 
             return view('payment.index',compact('address','IsBuy','ShippingAddID','shippingCost'));
 
