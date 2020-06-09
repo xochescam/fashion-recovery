@@ -9,7 +9,7 @@
 					{{ $item->ItemDescription }}
 
 					@if(isset($item->FolioID) && $order->Name !== 'Cancelado')
-						<a href='{{$item->GuideURL}}' class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">
+						<a href="{{ 'http://'.$item->GuideURL }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">
 							Rastrear pedido
 						</a>
 					@endif
