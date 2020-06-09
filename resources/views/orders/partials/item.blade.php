@@ -8,8 +8,8 @@
 				<h5 class="card-title">
 					{{ $item->ItemDescription }}
 
-					@if(isset($item->FolioID) && !$order->Name == 'Cancelado')
-						<a href="{{ url( isset($item->GuideURL) ? $item->GuideURL : '#' ) }}" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">
+					@if(isset($item->FolioID) && $order->Name !== 'Cancelado')
+						<a href='{{$item->GuideURL}}' class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">
 							Rastrear pedido
 						</a>
 					@endif
@@ -23,7 +23,7 @@
 				<p>
 					<small>No. Orden: {{ $item->NoOrder }}</small><br>
 
-					@if(isset($item->FolioID) && !$order->Name == 'Cancelado')
+					@if(isset($item->FolioID) && $order->Name !== 'Cancelado')
 						<small>No. Guía: {{ $item->FolioID }}</small><br>
 					@endif
 				</p>
@@ -46,7 +46,6 @@
 					</p>
 				@endif -->
 
-				<a href="{{ url( isset($item->GuideURL) ? $item->GuideURL : '#' ) }}" class="btn btn-outline-green btn-sm d-block d-sm-none" role="button" aria-pressed="true">Rastrear pedido</a>
 			</div>
 		</div>
 	</div>

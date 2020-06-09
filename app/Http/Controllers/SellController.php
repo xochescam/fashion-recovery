@@ -51,6 +51,8 @@ class SellController extends Controller
                                  'GR_001.Alias as Buyer',
                                  'GR_013.Name',
                                  'GR_022.OrderID',
+                                 'GR_022.GuideID',
+                                 'GR_022.GuideURL',
                                  'GR_029.IsPaid'
                              )->get();
 

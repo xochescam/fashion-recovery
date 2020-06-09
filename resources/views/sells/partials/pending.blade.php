@@ -17,7 +17,7 @@
 									  	{{ $order->ItemDescription }}
 
 									 	@if($order->FolioID)
-									  		<a href="{{ url( isset($item->GuideURL) ? $item->GuideURL : '#' ) }}" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">Rastrear pedido</a>
+									  		<a href="{{ $order->GuideURL }}" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">Rastrear pedido</a>
 									  	@endif
 									</h5>
 
@@ -28,7 +28,7 @@
 										<small>No. Orden: {{ $order->NoOrder }}</small><br>
 
 										@if($order->FolioID)
-											<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="#">Descargar</a> </small> 
+											<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="https://envios-nacionales-api.herokuapp.com/downloads/pdf/sendex/{{ $order->GuideID }}">Descargar</a> </small> 
 										@endif
 									</p>
 									<p>
