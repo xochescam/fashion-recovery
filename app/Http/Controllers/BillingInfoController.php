@@ -10,6 +10,8 @@ use Session;
 use Redirect;
 use Gate;
 
+use App\User;
+
 class BillingInfoController extends Controller
 {
     protected $table = 'fashionrecovery.GR_003';
@@ -59,14 +61,14 @@ class BillingInfoController extends Controller
             DB::commit();
 
             Session::flash('success','Se han guardado correctamente los datos de facturación.');
-            return Redirect::to('auth/'.Auth::User()->id); //cambiar
+            return Redirect::to('account'); //cambiar
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::to('auth/'.Auth::User()->id);
+            return Redirect::to('account');
         }
     }
 
@@ -77,6 +79,8 @@ class BillingInfoController extends Controller
              'Alias'           => $data['Alias'],
              'RFC'             => $data['RFC'],
              'Street'          => $data['Street'],
+             'Ext'             => $data['Ext'],
+             'Int'             => $data['Int'],
              'Suburb'          => $data['Suburb'],
              'ZipCode'         => $data['ZipCode'],
              'City'            => $data['City'],
@@ -140,7 +144,7 @@ class BillingInfoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $user = User::findOrfail($id);
+        $user = User::findOrfail(Auth::User()->id);
 
         if(!$this->authorize('updateUser',  $user)) {
             abort(403);
@@ -161,14 +165,14 @@ class BillingInfoController extends Controller
             DB::commit();
 
             Session::flash('success','Se han modificado correctamente los datos de facturación.');
-            return Redirect::to('auth/'.Auth::User()->id); //cambiar
+            return Redirect::to('account'); //cambiar
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::to('auth/'.Auth::User()->id);
+            return Redirect::to('account');
         }
     }
 

@@ -19,7 +19,7 @@
       @endif
 
       <div class="form-group row">
-        <label for="Alias" class="col-sm-3 col-form-label">Alias</label>
+        <label for="Alias" class="col-sm-3 col-form-label">Alias *</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="Alias" id="Alias" value="{{ $invoice !== null ? $invoice->Alias : old('Alias') }}" maxlength="30" required>
 
@@ -36,7 +36,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="RFC" class="col-sm-3 col-form-label">RFC</label>
+        <label for="RFC" class="col-sm-3 col-form-label">RFC *</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="RFC" id="RFC" value="{{ $invoice !== null ? $invoice->RFC : old('RFC') }}" maxlength="13" required>
 
@@ -53,7 +53,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="Street" class="col-sm-3 col-form-label">Calle</label>
+        <label for="Street" class="col-sm-3 col-form-label">Calle *</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="Street" id="Street" value="{{ $invoice !== null ? $invoice->Street : old('Street') }}" maxlength="50" required>
 
@@ -70,7 +70,37 @@
       </div>
 
       <div class="form-group row">
-        <label for="Suburb" class="col-sm-3 col-form-label">Colonia</label>
+        <label for="Ext" class="col-sm-3 col-form-label">Núm. Exterior *</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name="Ext" id="Ext" value="{{ $invoice !== null ? trim($invoice->Ext) : old('Ext') }}" maxlength="100" required>
+
+          @if ($errors->has('Ext'))
+            <div class="invalid-validation">
+              {{ $errors->first('Ext') }}
+            </div>
+          @else
+            <div class="invalid-feedback">
+              El campo núm. exterior es obligatorio.
+            </div>
+          @endif
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="Int" class="col-sm-3 col-form-label">Núm. Interior</label>
+        <div class="col-sm-9">
+          <input type="text" class="form-control" name="Int" id="Int" value="{{ $invoice !== null ? trim($invoice->Int) : old('Int') }}" maxlength="100">
+
+          @if ($errors->has('Int'))
+            <div class="invalid-validation">
+              {{ $errors->first('Int') }}
+            </div>
+          @endif
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <label for="Suburb" class="col-sm-3 col-form-label">Colonia *</label>
         <div class="col-sm-9">
           <input type="Suburb" class="form-control" name="Suburb" id="Suburb" value="{{ $invoice !== null ? $invoice->Suburb : old('Suburb') }}" maxlength="50" required>
 
@@ -87,7 +117,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="ZipCode" class="col-sm-3 col-form-label">Código postal</label>
+        <label for="ZipCode" class="col-sm-3 col-form-label">Código postal *</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="ZipCode" id="ZipCode" value="{{ $invoice !== null ? $invoice->ZipCode : old('ZipCode') }}" maxlength="5" required>
 
@@ -104,7 +134,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="State" class="col-sm-3 col-form-label">Estado</label>
+        <label for="State" class="col-sm-3 col-form-label">Estado *</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="State" id="State" value="{{ $invoice !== null ? $invoice->State : old('State') }}" maxlength="25" required>
 
@@ -121,7 +151,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="City" class="col-sm-3 col-form-label">Ciudad</label>
+        <label for="City" class="col-sm-3 col-form-label">Ciudad *</label>
         <div class="col-sm-9">
           <input type="text" class="form-control" name="City" id="City" value="{{ $invoice !== null ? $invoice->City : old('City') }}" maxlength="25" required>
 
@@ -138,7 +168,7 @@
       </div>
 
       <div class="form-group row">
-        <label for="Mail" class="col-sm-3 col-form-label">Correo electrónico</label>
+        <label for="Mail" class="col-sm-3 col-form-label">Correo electrónico *</label>
         <div class="col-sm-9">
           <input type="email" class="form-control" name="Mail" id="Mail" value="{{ $invoice !== null ? $invoice->Mail : old('Mail') }}" maxlength="80" required>
 
