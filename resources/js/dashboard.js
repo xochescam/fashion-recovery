@@ -549,7 +549,7 @@ function showItemPicture(e) {
 
         const isRequired = name === 'front' ? 'checked' : '';
 
-        const button = `<a class="close delete-item js-delete-item" aria-label="Close"  data-type="`+type+`" data-name="`+name+`">
+        const button = `<a class="close delete-item js-delete-item" aria-label="Close"  data-type="`+type+`" data-name="`+name+`" data-item="`+item+`">
         <i class="far fa-trash-alt"></i>
         </a>`;
 
@@ -563,9 +563,10 @@ function showItemPicture(e) {
 
         container.insertAdjacentHTML('afterbegin', button);
 
+        console.log('item');
         console.log(item);
 
-        if(item === true) {
+        if(item == 'true') {
             container.insertAdjacentHTML('beforeend', cover);
         }
 
