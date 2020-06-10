@@ -21,8 +21,9 @@
 
         <p style="font: 400 14px sans-serif;color: #969696;margin-top: 30px;">©FASHION RECOVERY, todos los derechos reservados.</p>
     </td>
+
+    <p style="color:transparent; font-size: 6px;">
+    {{ $string }}
+    </p>
 </tr>
 
-<p style="color:transparent; font-size: 6px;">
-   {{ $string }}
-</p>
