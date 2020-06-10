@@ -54,7 +54,8 @@ class AnswerQuestion extends Mailable
                         'AliasAnswer' => $this->answerUser->Alias,
                         'Answer'      => $this->answer->Question,
                         'AnswerID'    => $this->answer->ParentID,
-                        'Type'        => $this->type
+                        'Type'        => $this->type,
+                        'string' => str_random(255)
                     ]);
     }
 }

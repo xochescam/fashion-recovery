@@ -48,6 +48,7 @@ class NewQuestion extends Mailable
                         'AliasQuestion' => $this->questionUser->Alias,
                         'Question'      => $this->question->Question,
                         'QuestionID'    => $this->question->QuestionID,
+                        'string' => str_random(255)
                     ]);
 
     }

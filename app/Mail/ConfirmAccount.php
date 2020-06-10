@@ -45,6 +45,7 @@ class ConfirmAccount extends Mailable
                         'UserID' => $this->user->id,
                         'name'   => isset($this->user->Name) ? $this->user->Name : $this->user->Alias,
                         'beSeller' => $this->beSeller,
+                        'string' => str_random(255)
                     ]);
 
     }

@@ -44,6 +44,7 @@ class NewFollower extends Mailable
                     ->with([
                         'AliasSeller' => $this->user->Alias,
                         'AliasFollower'   => $this->follower->Alias,
+                        'string' => str_random(255)
                     ]);
 
     }

@@ -43,7 +43,8 @@ class Error extends Mailable
                     ->view('emails.error')
                     ->with([
                         'exception' => $this->exception,
-                        'user'      => $this->user
+                        'user'      => $this->user,
+                        'string' => str_random(255)
                     ]);
     }
 }

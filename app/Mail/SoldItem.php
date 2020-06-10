@@ -52,6 +52,7 @@ class SoldItem extends Mailable
                         'Total' => $this->order->TotalAmount,
                         'Envio' => $this->order->ShippingAmount,
                         'Sum' => $this->order->TotalAmount + $this->order->ShippingAmount,
+                        'string' => str_random(255)
                     ]);
     }
 }
