@@ -565,7 +565,7 @@ function showItemPicture(e) {
 
         console.log(item);
 
-        if(item) {
+        if(item === true) {
             container.insertAdjacentHTML('beforeend', cover);
         }
 
