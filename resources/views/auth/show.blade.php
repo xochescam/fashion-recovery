@@ -46,7 +46,7 @@
                 Mis preferencias
               </a>
               <a href="#followersData" class="list-group-item list-group-item-action text-left">
-                Mis seguidores
+                {{ Auth::User()->isBuyerProfile() ? 'Mis vendedores' : 'Mis seguidores' }}
               </a>
               <!-- <a href="#sellerData" class="list-group-item list-group-item-action text-left">
                 Mis ventas
