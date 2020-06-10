@@ -557,14 +557,14 @@ class SellerController extends Controller
             DB::commit();
 
             Session::flash('success','Se ha actualizado la foto de perfil exitosamente.');
-            return Redirect::to('auth/'.$id);
+            return Redirect::to('account');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente.');
-            return Redirect::to('auth/'.$id);
+            return Redirect::to('account');
         }
     }
 
