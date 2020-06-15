@@ -28,7 +28,7 @@
 										<small>No. Orden: {{ $order->NoOrder }}</small><br>
 
 										@if($order->FolioID)
-											<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="https://envios-nacionales-api.herokuapp.com/downloads/pdf/sendex/{{ $order->GuideID }}">Descargar</a> </small> 
+											<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="{{ 'http://'.$order->GuideURL }}" target="_blank" rel="noopener noreferrer" >Descargar</a> </small> 
 										@endif
 									</p>
 									<p>

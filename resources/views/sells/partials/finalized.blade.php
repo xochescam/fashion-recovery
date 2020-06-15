@@ -18,7 +18,7 @@
 									  	{{ $order->ItemDescription }}
 
 									 	@if($order->FolioID)
-									  		<a href="{{ url( isset($item->TrackingURL) ? $item->TrackingURL : '#' ) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">Rastrear pedido</a>
+									  		<a href="{{ url( isset($item->TrackingURL) ? $item->TrackingURL : '#' ) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true" target="_blank" rel="noopener noreferrer" >Rastrear pedido</a>
 									  	@endif
 									</h5>
 
@@ -29,7 +29,7 @@
 										<small>No. Orden: {{ $order->NoOrder }}</small><br>
 
 										@if($order->FolioID)
-											<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="#">Descargar</a> </small> 
+											<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="{{ 'http://'.$order->GuideURL }}" target="_blank" rel="noopener noreferrer" >Descargar</a> </small> 
 										@endif
 									</p>
 									<p>
