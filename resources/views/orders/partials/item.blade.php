@@ -8,10 +8,15 @@
 				<h5 class="card-title">
 					{{ $item->ItemDescription }}
 
-					@if(isset($item->FolioID) && $order->Name !== 'Cancelado')
+					@if(isset($item->FolioID) && $order->Name !== 'Cancelado' && $order->Name !== 'Entregado')
 						<a href="{{ 'http://'.$item->TrackingURL }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
 							Rastrear pedido
 						</a>
+
+					@elseif(isset($item->FolioID) && $order->Name === 'Entregado')
+						<button type="button" class="btn btn-fr btn-sm d-block float-lg-right d-block d-lg-inline mt-2 mt-lg-0" data-toggle="modal" data-target="#confirmOrder">
+							Confirmar pedido
+						</button>
 					@endif
 				</h5>
 									
@@ -34,6 +39,7 @@
 					<small>Vendedor:  <a class="green-link" href="{{ url('user/'.$item->Alias) }}">{{ $item->Alias }}</a></small> <br>
 					<small>Fecha de compra: {{ $item->CreationDate }}</small> <br>
 				</p>
+
 				<!--@if($order->Name == 'Solicitado')
 					<p>
 						<small>

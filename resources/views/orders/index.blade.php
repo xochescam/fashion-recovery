@@ -57,4 +57,62 @@
       </div>
     </main>
 
+	<!-- Modal -->
+<div class="modal fade" id="confirmOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Confirmar pedido</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+	  	<div class="row">
+			<p class="col-md-5 font-weight-light">Estado de las prendas</p>
+			<div class="text-left col-md-7">
+				<i class="fas fa-star yellow"></i> 
+				<i class="fas fa-star yellow"></i> 
+				<i class="fas fa-star yellow"></i> 
+				<i class="far fa-star gray"></i> 
+				<i class="far fa-star gray"></i>
+			</div>
+		</div>
+
+		<div class="row">
+			<p class="col-md-5 font-weight-light">Vendedor</p>
+			<div class="text-left col-md-7">
+				<i class="fas fa-star yellow"></i> 
+				<i class="fas fa-star yellow"></i> 
+				<i class="fas fa-star yellow"></i> 
+				<i class="far fa-star gray"></i> 
+				<i class="far fa-star gray"></i>
+			</div>
+		</div>
+
+		<div class="row">
+			<p class="col-md-5 font-weight-light">Envío</p>
+			<div class="text-left col-md-7">
+				<i class="fas fa-star yellow"></i> 
+				<i class="fas fa-star yellow"></i> 
+				<i class="fas fa-star yellow"></i> 
+				<i class="far fa-star gray"></i> 
+				<i class="far fa-star gray"></i>
+			</div>
+		</div>
+		
+
+
+      </div>
+      <div class="modal-footer">
+		<div class="m-auto">
+			<button type="button" class="btn btn-secondary m-auto" data-dismiss="modal">Cancelar</button>
+        	<button type="button" class="btn btn-fr m-auto">Confirmar</button>
+		</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
