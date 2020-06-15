@@ -65,6 +65,7 @@ class OrderController extends Controller
                              'GR_022.PackingOrderID',
                              'GR_022.FolioID',
                              'GR_022.GuideURL',
+                             'GR_022.TrackingURL',
                              'GR_022.NoOrder',
                              'GR_022.CreationDate',
                              'GR_022.UpdateDate'
