@@ -18,7 +18,7 @@
 									  	{{ $order->ItemDescription }}
 
 									 	@if($order->FolioID)
-									  		<a href="{{ url( isset($item->GuideURL) ? $item->GuideURL : '#' ) }}" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">Rastrear pedido</a>
+									  		<a href="{{ url( isset($item->TrackingURL) ? $item->TrackingURL : '#' ) }}" class="btn btn-outline-green btn-sm float-right d-none d-sm-block" role="button" aria-pressed="true">Rastrear pedido</a>
 									  	@endif
 									</h5>
 
