@@ -8,6 +8,9 @@ use Auth;
 use DB;
 use Session;
 use Redirect;
+use Mail;
+
+use App\Mail\ErrorPackPack;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -90,8 +93,8 @@ class PackPack extends Model
                         'Content-Type' => 'application/json'
                     ],
                     'json' => [
-                        'delivery_zip_code' => $delivery,
-                        'pickup_zip_code' => $pickup,
+                        'delivery_zip_code' => $delivery, //01030
+                        'pickup_zip_code' => $pickup, //34030
                         'type' => 'package',
                         'insurance' => 0,
                         "size" => [
@@ -107,6 +110,7 @@ class PackPack extends Model
             $res = json_decode($response->getBody())->data;
             $ordered = array_sort($res, 'price', SORT_ASC);
             return $ordered[0]->price - 60;
+            
         });
     }
 }

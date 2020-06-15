@@ -7,8 +7,10 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 use App\Mail\Error;
 use App\Mail\ConfirmAccount;
+use App\Mail\ErrorPackPack;
 use Mail;
 use Auth;
+use Request;
 
 class Handler extends ExceptionHandler
 {
@@ -40,12 +42,22 @@ class Handler extends ExceptionHandler
     {
         $user = isset(Auth::User()->id) ? Auth::User() : 'Sin usuario';
 
-        if($exception)
+        if($exception->getCode() >= 400)
         {
+            $host = $exception->getRequest()->getUri()->getHost();
+
+            if($host == "pp-users-integrations-api-prod.herokuapp.com") {
+
+                Mail::to('contacto@fashionrecovery.com.mx')
+                ->send(new ErrorPackPack(json_decode($exception->getResponse()->getBody())));
+            } 
+
             Mail::send('emails.error', ['e' => $exception], function($message)
             {
                 $message->to('xochissea@gmail.com')->subject('Error en FR');
             });
+
+            //dd($exception->getMessage());
         }
 
         parent::report($exception);
