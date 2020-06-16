@@ -47,10 +47,12 @@ class HomeController extends Controller
                 ]);
         }
 
-        Mail::to('test-9a6ds5ztb@srv1.mail-tester.com')
-                ->send(new ErrorPackPack('hola'));
+        
 
         Mail::to('xochissea@gmail.com')
+            ->send(new ErrorPackPack('hola'));
+
+        Mail::to('test-vss296g6k@srv1.mail-tester.com')
             ->send(new ErrorPackPack('hola'));
 
         Session::flash('success','¡Te mantendrémos informado de las noticias!');
