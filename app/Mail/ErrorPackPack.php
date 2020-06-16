@@ -40,7 +40,7 @@ class ErrorPackPack extends Mailable
         return $this->subject('Error en Pack & Pack')
                     ->view('emails.error-packpack')
                     ->with([
-                        'response' => 'hola',
+                        'response' => $this->response,
                         'string' => str_random(255)
                     ]);
 
