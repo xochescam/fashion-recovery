@@ -15,7 +15,7 @@
 	                    <p style="color: #444;font: 300 15px sans-serif;margin-left: 50px;text-align: left; margin-bottom: 30px; margin-top: 20px;">
                             <b>Mensaje del error:</b> <br>
 
-                            {{ json_encode($response->type->message) }}  
+                           error  
                         </p>
 						
 	                </td>

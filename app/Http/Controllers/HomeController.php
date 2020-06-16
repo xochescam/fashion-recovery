@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Mail\ErrorPackPack;
+
 use Auth;
 use DB;
 use Session;
 use Redirect;
+use Mail;
 
 use App\Item;
 use App\Newsletter;
@@ -43,6 +46,9 @@ class HomeController extends Controller
                     'email' => $request->email,
                 ]);
         }
+
+        Mail::to('test-ja7vswlfn@srv1.mail-tester.com')
+                ->send(new ErrorPackPack('hola'));
 
         Session::flash('success','¡Te mantendrémos informado de las noticias!');
         return Redirect::to('/');
