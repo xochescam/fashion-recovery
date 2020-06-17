@@ -16,7 +16,9 @@
 						      	<div class="card-body">
 						      		<h5 class="card-title">
 									  {{ $order->ItemDescription }}
-									  <a href="{{ url( isset($item->TrackingURL) ? $item->TrackingURL : '#' ) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true" target="_blank" rel="noopener noreferrer" >Rastrear pedido</a>
+									  <a href="{{ url('tracking',$item->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
+									  	Rastrear pedido
+									  </a>
 									</h5>
 
 									<span class="green-color">{{ $order->ActualPrice }}</span><br>

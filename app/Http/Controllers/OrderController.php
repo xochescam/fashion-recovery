@@ -13,6 +13,7 @@ use Gate;
 use App\Order;
 use App\InfoOrder;
 use App\Item;
+use App\PackPack;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -73,8 +74,6 @@ class OrderController extends Controller
                     
         $items = $items->map(function ($item, $key) use ($user){
 
-            
-
             $item->ThumbPath = $user->getThumbPath($item);
             $item->BrandID   = $user->getBrand($item);
             $item->SizeID    = $user->getSize($item);
@@ -115,6 +114,12 @@ class OrderController extends Controller
             ];
 
         return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
+    }
+
+    public function tracking($PackPackID) {
+        $tracking = PackPack::tracking($PackPackID);
+                
+        return view('orders.tracking',compact('tracking'));
     }
 
     public function cancel($OrderID) {

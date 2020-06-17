@@ -17,7 +17,9 @@
 									  	{{ $order->ItemDescription }}
 
 									 	@if($order->FolioID)
-									  		<a href="{{ 'http://'.$order->TrackingURL }}" target="_blank" rel="noopener noreferrer" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">Rastrear pedido</a>
+									  		<a href="{{ url('tracking',$item->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
+											  Rastrear pedido
+											</a>
 									  	@endif
 									</h5>
 

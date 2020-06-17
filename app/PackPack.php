@@ -34,7 +34,7 @@ class PackPack extends Model
         ]);
     }
 
-    public static function key($response, $url, $body) {
+    public static function key($response, $url) {
 
         $userData = json_decode($response->getBody());
         
@@ -51,6 +51,90 @@ class PackPack extends Model
 
         $client = new Client(); 
         return $client->request('GET', 'https://pp-users-integrations-api-prod.herokuapp.com/keys/'.$userData->key->_id.'/verify');
+    }
+
+    public static function tracking($PackPackID) {
+
+        $user = PackPack::login();
+
+        if($user->getStatusCode() !== 200) {
+            return $user->getStatusCode();
+        } 
+
+        $data = PackPack::validateKey($user);
+
+        if($data->getStatusCode() !== 200) {
+            return $data->getStatusCode();
+        }
+
+        $url  = '/orders';    
+        $key     = PackPack::key($data, $url);
+        $user_id = json_decode($data->getBody())->data->user_id;
+
+        $client = new Client(); 
+        $response = $client->request(
+            'GET',
+            'https://pp-users-integrations-api-prod.herokuapp.com/orders/'.$PackPackID,
+            [
+                'headers' => [
+                    'user_id' => $user_id,
+                    'token' => $key,
+                    'Accept' => 'application/json',
+                    'Content-Type' => 'application/json'
+                ]
+            ]
+        );
+
+        $res = json_decode($response->getBody())->data;
+        $history = collect($res->shipment->statusHistory);
+        $places = $res->shipment->places;
+        $pickup = [
+            'status' => 'Origen',
+            'location'  => $places->pickup->address->state,
+            'date'   => PackPack::formatDate("d F Y", $res->created) 
+        ];
+        $delivery = [
+            'status' => 'Destino',
+            'location' => $places->delivery->address->state,
+        ];
+
+        $map = $history->map(function ($item) use ($history){
+
+            return [
+                'status' => $item->name,
+                'location' => ucwords(strtolower($item->comment)),
+                'date' => PackPack::formatDate("d F Y", $item->date) 
+            ];
+        })->toArray();
+
+        array_unshift($map, $pickup);
+        array_push($map, $delivery);
+
+        return $map;
+    } 
+
+    public static function formatDate($format, $date) {
+
+        $date    = date($format, strtotime($date));
+        $explode = explode(" ", $date);
+        $format = [];
+
+        $months = [
+                'January'   =>'enero',
+                'February'  =>'febrero',
+                'March'     =>'marzo',
+                'April'     =>'abril',
+                'May'       =>'Mayo',
+                'June'      =>'junio',
+                'July'      =>'julio',
+                'August'    =>'agosto',
+                'September' =>'septiembre',
+                'October'   =>'octubre',
+                'November'  =>'noviembre',
+                'December'  =>'diciembre',
+            ];
+
+        return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
     }
 
     public static function quotation($delivery) {
@@ -76,9 +160,8 @@ class PackPack extends Model
            
             $pickup = $item->ZipCode;
             $url  = '/quotation/native';
-            $body = '{"delivery_zip_code":'.$delivery.',"pickup_zip_code":'.$pickup.',"type":"package","insurance":0,"size":{"width":32,"height":33,"deep":18,"weight":4}}';
             
-            $key     = PackPack::key($data, $url, $body);
+            $key     = PackPack::key($data, $url);
             $user_id = json_decode($data->getBody())->data->user_id;
 
             $client = new Client(); 

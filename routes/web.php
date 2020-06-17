@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('sell/{SellID}/update', 'SellController@update');
 
 	//orders
+	Route::get('tracking/{PackPackID}', 'OrderController@tracking');
 	Route::get('orders', 'OrderController@index');
 	Route::get('cancel-order/{GuideID}', 'OrderController@cancel');
 
