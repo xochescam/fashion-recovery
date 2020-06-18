@@ -69,47 +69,172 @@
       </div>
       <div class="modal-body">
 
-	  	<div class="row">
-			<p class="col-md-5 font-weight-light">Estado de las prendas</p>
-			<div class="text-left col-md-7">
-				<i class="fas fa-star yellow"></i> 
-				<i class="fas fa-star yellow"></i> 
-				<i class="fas fa-star yellow"></i> 
-				<i class="far fa-star gray"></i> 
-				<i class="far fa-star gray"></i>
+	  	<div class="form-group mb-4">
+			<label class="font-weight-light">¿Qué calificación le das a tu compra?</label>
+			<div class="rate">
+				<input type="radio" id="buy-5" name="buy" value="5" class="rate__input"/>
+				<label for="buy-5"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="buy-4" name="buy" value="4" class="rate__input"/>
+				<label for="buy-4"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="buy-3" name="buy" value="3" class="rate__input"/>
+				<label for="buy-3"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="buy-2" name="buy" value="2" class="rate__input"/>
+				<label for="buy-2"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="buy-1" name="buy" value="1" class="rate__input"/>
+				<label for="buy-1"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
 			</div>
 		</div>
 
-		<div class="row">
-			<p class="col-md-5 font-weight-light">Vendedor</p>
-			<div class="text-left col-md-7">
-				<i class="fas fa-star yellow"></i> 
-				<i class="fas fa-star yellow"></i> 
-				<i class="fas fa-star yellow"></i> 
-				<i class="far fa-star gray"></i> 
-				<i class="far fa-star gray"></i>
+		<div class="form-group mb-4">
+			<label class="font-weight-light">¿Qué tan rápido fue tu envío?</label>
+			<div class="rate">
+				<input type="radio" id="shipping-5" name="shipping" value="5" class="rate__input"/>
+				<label for="shipping-5"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="shipping-4" name="shipping" value="4" class="rate__input"/>
+				<label for="shipping-4"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="shipping-3" name="shipping" value="3" class="rate__input"/>
+				<label for="shipping-3"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="shipping-2" name="shipping" value="2" class="rate__input"/>
+				<label for="shipping-2"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="shipping-1" name="shipping" value="1" class="rate__input"/>
+				<label for="shipping-1"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
 			</div>
 		</div>
 
-		<div class="row">
-			<p class="col-md-5 font-weight-light">Envío</p>
-			<div class="text-left col-md-7">
-				<i class="fas fa-star yellow"></i> 
-				<i class="fas fa-star yellow"></i> 
-				<i class="fas fa-star yellow"></i> 
-				<i class="far fa-star gray"></i> 
-				<i class="far fa-star gray"></i>
+		<div class="form-group mb-4">
+			<label class="font-weight-light">¿La descripción fue apropiada?</label>
+			<div class="rate">
+				<input type="radio" id="info-5" name="info" value="5" class="rate__input"/>
+				<label for="info-5"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="info-4" name="info" value="4" class="rate__input"/>
+				<label for="info-4"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="info-3" name="info" value="3" class="rate__input"/>
+				<label for="info-3"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="info-2" name="info" value="2" class="rate__input"/>
+				<label for="info-2"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="info-1" name="info" value="1" class="rate__input"/>
+				<label for="info-1"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
 			</div>
 		</div>
-		
 
+		<div class="form-group mb-4">
+			<label class="font-weight-light">¿Qué tal fue la comunicación con la vendedora?</label>
+			<div class="rate">
+				<input type="radio" id="comunication-5" name="comunication" value="5" class="rate__input"/>
+				<label for="comunication-5"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="comunication-4" name="comunication" value="4" class="rate__input"/>
+				<label for="comunication-4"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="comunication-3" name="comunication" value="3" class="rate__input"/>
+				<label for="comunication-3"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="comunication-2" name="comunication" value="2" class="rate__input"/>
+				<label for="comunication-2"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="comunication-1" name="comunication" value="1" class="rate__input"/>
+				<label for="comunication-1"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+			</div>
+		</div>
 
-      </div>
-      <div class="modal-footer">
-		<div class="m-auto">
+		<div class="form-group mb-4">
+			<label class="font-weight-light">¿Cómo calificas la limpieza del producto?</label>
+			<div class="rate">
+				<input type="radio" id="cleaning-5" name="cleaning" value="5" class="rate__input"/>
+				<label for="cleaning-5"  class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="cleaning-4" name="cleaning" value="4" class="rate__input"/>
+				<label for="cleaning-4" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="cleaning-3" name="cleaning" value="3" class="rate__input"/>
+				<label for="cleaning-3" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="cleaning-2" name="cleaning" value="2" class="rate__input"/>
+				<label for="cleaning-2" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="cleaning-1" name="cleaning" value="1" class="rate__input"/>
+				<label for="cleaning-1" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group mb-4">
+			<label class="font-weight-light">¿Cómo calificas la presentación del paquete?</label>
+			<div class="rate">
+				<input type="radio" id="packaging-5" name="packaging" value="5" class="rate__input"/>
+				<label for="packaging-5" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="packaging-4" name="packaging" value="4" class="rate__input"/>
+				<label for="packaging-4" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="packaging-3" name="packaging" value="3" class="rate__input"/>
+				<label for="packaging-3" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="packaging-2" name="packaging" value="2" class="rate__input"/>
+				<label for="packaging-2" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+				<input type="radio" id="packaging-1" name="packaging" value="1" class="rate__input"/>
+				<label for="packaging-1" class="rate__star">
+					<i class="fas fa-star"></i> 
+				</label>
+			</div>
+		</div>
+
+		<div class="form-group">
+			<label for="comment">¿Tienes algún comentario?</label>
+			<textarea class="form-control" rows="3"></textarea>
+		</div>
+
+		<div class="text-center mt-5 mb-2">
 			<button type="button" class="btn btn-secondary m-auto" data-dismiss="modal">Cancelar</button>
         	<button type="button" class="btn btn-fr m-auto">Confirmar</button>
 		</div>
+
       </div>
     </div>
   </div>

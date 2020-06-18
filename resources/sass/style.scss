@@ -1030,8 +1030,41 @@ div a{
     &::after  {
       background-color: #ccc;
     }
-  }
-  
-  
-  
+  } 
 }
+
+.rate {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  max-width: 220px;
+  flex-direction: row-reverse;
+
+  & .rate__input {
+    display: none;
+  }
+}
+
+.rate__star {
+  cursor: pointer;
+  font-size: 25px;
+  color: #ccc;
+}
+
+.rate > .rate__input:checked ~ .rate__star {
+  color: #ffc700;
+}
+
+.rate:not(:checked) > .rate__star:hover,
+.rate:not(:checked) > .rate__star:hover ~ .rate__star {
+  color: #ffc700;  
+}
+
+.rate > .rate__input:checked + .rate__star:hover,
+.rate > .rate__input:checked + .rate__star:hover ~ .rate__star,
+.rate > .rate__input:checked ~ .rate__star:hover,
+.rate > .rate__input:checked ~ .rate__star:hover ~ .rate__star,
+.rate > .rate__star:hover ~ .rate__input:checked ~ .rate__star {
+  color: #ffc700;
+}
+
