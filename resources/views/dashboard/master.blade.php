@@ -11,7 +11,7 @@
     <!-- Fontawesome ICONS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.1/css/all.css" />
 
-    <link rel="stylesheet" href="{{ url('css/app.css?1.02') }}" />
+    <link rel="stylesheet" href="{{ url('css/app.css?1.03') }}" />
     <link rel="shortcut icon" href="{{ url('img/favicon.jpg') }}">
 
     <title>FASHION RECOVERY</title>
@@ -34,7 +34,7 @@
 
     @stack('mercadopago')
 
-    <script type="text/javascript" src="{{ url('js/private-components.js?1.18') }} "></script>
-    <script  type="text/javascript" src="{{ url('js/dashboard.js?1.4') }} "></script>
+    <script type="text/javascript" src="{{ url('js/private-components.js?1.19') }} "></script>
+    <script  type="text/javascript" src="{{ url('js/dashboard.js?1.5') }} "></script>
   </body>
 </html>
