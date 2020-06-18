@@ -985,3 +985,53 @@ div a{
   background: transparent;
   color: #009c77;
 }
+
+.tracking__place {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  & p {
+    line-height: normal;
+  }
+}
+
+.tracking__dot {
+  color: #fff;
+  height: 30px;
+  margin-right: 20px;
+  width: 30px;
+  display: flex;
+  border-radius: 50%;
+  background-color: #009c77;
+  justify-content: center;
+
+  &::after  {
+    content: '';
+    display: block;
+    height: 52px;
+    width: 3px;
+    top: 37px;
+    background-color: #009c77;
+    position: absolute;
+  }
+
+  &--gray {
+    background-color: #ccc;
+  
+    &::after  {
+      display: none;
+    }
+  }
+
+  &--penultimate {
+    border: 5px double #ffffff;
+
+    &::after  {
+      background-color: #ccc;
+    }
+  }
+  
+  
+  
+}
