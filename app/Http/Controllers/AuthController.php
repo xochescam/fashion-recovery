@@ -201,12 +201,12 @@ class AuthController extends Controller
         if($birthDate != null && !isset($request->birth_date)) {
 
             Session::flash('warning','Selecciona tu fecha de nacimiento.');
-            return Redirect::to('auth/'.$id);
+            return Redirect::to('account');
 
         } else if($gender != null && !isset($request->gender)) {
 
             Session::flash('warning','Selecciona tu género.');
-            return Redirect::to('auth/'.$id);
+            return Redirect::to('account');
         }
 
         DB::beginTransaction();
@@ -222,14 +222,14 @@ class AuthController extends Controller
             DB::commit();
 
             Session::flash('success','Se han actualizado los datos correctamente.');
-            return Redirect::to('auth/'.$id);
+            return Redirect::to('account');
 
         } catch (\Exception $ex) {
 
             DB::rollback();
 
             Session::flash('warning','Ha ocurrido un error, inténtalo nuevamente');
-            return Redirect::to('auth/'.$id);
+            return Redirect::to('account');
         }
     }
 
