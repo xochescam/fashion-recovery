@@ -57,13 +57,24 @@
 				    	<a class="nav-link green-link active" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="true">Ventas</a>
 				  	</li> -->
 				  	<li class="nav-item px-md-0 px-4">
-				    	<a class="nav-link green-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">Ventas en curso</a>
+				    	<a class="nav-link green-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">
+							En curso ({{ count($pending) }})
+						</a>
 				  	</li>
 				  	<li class="nav-item px-md-0 px-4">
-				    	<a class="nav-link green-link" id="finalized-tab" data-toggle="tab" href="#finalized" role="tab" aria-controls="finalized" aria-selected="false">Ventas finalizadas</a>
+				    	<a class="nav-link green-link" id="finalized-tab" data-toggle="tab" href="#finalized" role="tab" aria-controls="finalized" aria-selected="false">
+							Finalizadas  ({{ count($finalized) }})
+						</a>
 				  	</li>
 				  	<li class="nav-item px-md-0 px-4">
-				    	<a class="nav-link green-link" id="canceled-tab" data-toggle="tab" href="#canceled" role="tab" aria-controls="canceled" aria-selected="false">Ventas canceladas</a>
+				    	<a class="nav-link green-link" id="canceled-tab" data-toggle="tab" href="#canceled" role="tab" aria-controls="canceled" aria-selected="false">
+							Canceladas  ({{ count($canceled) }})
+						</a>
+				  	</li>
+					<li class="nav-item px-md-0 px-4">
+				    	<a class="nav-link green-link" id="return-tab" data-toggle="tab" href="#return" role="tab" aria-controls="return" aria-selected="false">
+							Devoluciones  ({{ count($return) }})
+						</a>
 				  	</li>
 				</ul>
 
@@ -80,9 +91,56 @@
 				  	<div class="tab-pane fade mt-4" id="canceled" role="tabpanel" aria-labelledby="canceled-tab">
 				  		@include('sells.partials.canceled')
 				  	</div>
+					<div class="tab-pane fade mt-4" id="return" role="tabpanel" aria-labelledby="return-tab">
+				  		@include('sells.partials.return')
+				  	</div>
 				</div> 
 			</div>
     	</div>
     </main>
 
+<!-- Modal -->
+@if(count($answers) > 0 )
+@foreach($finalized as $order)
+	<div class="modal fade js-results-rating-modal" id="modal-{{ $order->ItemID }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLongTitle">Evaluación de la experiencia de compra</h5>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+		<div class="modal-body">
+			@foreach($answers[$order->ItemID] as $answer)
+				<div class="form-group mb-4">
+					<p>{{ $answer->QuestionID }}</p>
+
+					@if(is_array($answer->Answer))
+						<div class="text-left">
+							@foreach($answer->Answer as $rank)
+								@if($rank === 1) 
+									<i class="fas fa-star yellow"></i>
+								@else
+									<i class="far fa-star gray"></i>
+								@endif
+							@endforeach
+						</div>
+					@else
+						<p class="text-black-50"> <em>{{ $answer->Answer }}</em> </p>
+
+					@endif
+
+				</div>
+			@endforeach
+
+			<div class="text-center mt-5 mb-2">
+				<button type="button" class="btn btn-secondary m-auto" data-dismiss="modal">Regresar</button>
+			</div>
+		</div>
+		</div>
+	</div>
+	</div>
+@endforeach
+@endif
 @endsection
