@@ -86,6 +86,7 @@ class PackPack extends Model
         );
 
         $res = json_decode($response->getBody())->data;
+
         $history = collect($res->shipment->statusHistory);
         $places = $res->shipment->places;
         $pickup = [
@@ -97,20 +98,33 @@ class PackPack extends Model
             'status' => 'Destino',
             'location' => $places->delivery->address->state,
         ];
+        
+        if($res->status === 'placed') {
+            $map = [];
+            $delivery['date'] = '¡El pedido se ha entregado!';
 
-        $map = $history->map(function ($item) use ($history){
+            array_unshift($map, $pickup);
+            array_push($map, $delivery);
 
-            return [
-                'status' => $item->name,
-                'location' => ucwords(strtolower($item->comment)),
-                'date' => PackPack::formatDate("d F Y", $item->date) 
-            ];
-        })->toArray();
+        } else {
 
-        array_unshift($map, $pickup);
-        array_push($map, $delivery);
+            $map = $history->map(function ($item) use ($history){
 
-        return $map;
+                return [
+                    'status' => $item->name,
+                    'location' => ucwords(strtolower($item->comment)),
+                    'date' => PackPack::formatDate("d F Y", $item->date) 
+                ];
+            })->toArray();
+    
+            array_unshift($map, $pickup);
+            array_push($map, $delivery);
+        }
+        
+        return [
+            'map' => $map,
+            'status' => $res->status
+        ];
     } 
 
     public static function formatDate($format, $date) {
