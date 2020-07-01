@@ -16,4 +16,5 @@ class Access extends Model
      */
     protected $table = 'fashionrecovery.GR_008';
     protected $primaryKey = 'AccessRightID';
+    public $timestamps = false;
 }
