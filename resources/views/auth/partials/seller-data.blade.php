@@ -22,32 +22,38 @@
           <div class="col-md-6">
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Evaluaciones</label>
-              <label class="col-sm-9 col-form-label text-left">{{ $seller->TotalEvaluations > 0 ? $seller->TotalEvaluations." evaluaciones." : "No cuenta con evaluaciones." }}</label>
+              <label class="col-sm-9 col-form-label text-left">{{ isset($evaluations) &&  $evaluations > 0 ? $evaluations." evaluaci".($evaluations > 1 ? 'ones.' : 'ón.') : "No cuenta con evaluaciones." }}</label>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Ventas</label>
-              <label class="col-sm-9 col-form-label text-left">{{ $seller->ItemsSold > 0 ? $seller->ItemsSold." ventas." : "No cuenta con ventas." }}</label>
+              <label class="col-sm-9 col-form-label text-left">{{ isset($finalized) && count($finalized) > 0 ? count($finalized)." venta".(count($finalized) > 1 ? 's.' : '.') : "No cuenta con ventas." }}</label>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Prendas</label>
-              <label class="col-sm-9 col-form-label text-left">{{ $items > 0 ? ($items == 1 ? $items." prenda subida." : $items." prendas subidas." ) : "No cuenta con prendas subidas." }}</label>
+              <label class="col-sm-9 col-form-label text-left">{{ isset($items) && $items > 0 ? ($items == 1 ? $items." prenda subida." : $items." prendas subidas." ) : "No cuenta con prendas subidas." }}</label>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Devoluciones</label>
-              <label class="col-sm-9 col-form-label text-left">{{ $seller->ItemsReturned > 0 ? $seller->ItemsReturned." devoluciones." : "No cuenta con devoluciones." }}</label>
+              <label class="col-sm-9 col-form-label text-left">{{ isset($seller->ItemsReturned) && $seller->ItemsReturned > 0 ? $seller->ItemsReturned." devoluciones." : "No cuenta con devoluciones." }}</label>
             </div>
 
             <div class="form-group row">
               <label class="col-sm-3 col-form-label">Ranking</label>
               <div class="col-sm-9 col-form-label text-left">
-                <i class="fas fa-star yellow"></i>
-                <i class="fas fa-star yellow"></i>
-                <i class="fas fa-star yellow"></i>
-                <i class="far fa-star gray"></i>
-                <i class="far fa-star gray"></i>
+
+                @if(isset($ranking))
+                  @foreach($ranking as $rank)
+                    @if($rank === 1) 
+                      <i class="fas fa-star yellow"></i>
+                    @else
+                      <i class="far fa-star gray"></i>
+                    @endif
+                  @endforeach
+                @endif
+
               </div>
             </div>
 
