@@ -17,11 +17,16 @@
 						      		<h5 class="card-title">
 									  	{{ $order->ItemDescription }}
 
-									 	@if($order->FolioID)
-									  		<a href="{{ url('tracking',$item->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
+										@if($order->FolioID && $order->Name === 'Confirmado')
+											<button type="button" class="btn btn-fr btn-sm d-block float-lg-right d-block d-lg-inline mt-2 mt-lg-0" data-toggle="modal" data-target="#modal-{{ $order->ItemID }}">
+												Ver evaluación
+											</button>
+										@elseif($order->FolioID)
+											<a href="{{ url('tracking',$order->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
 											  Rastrear pedido
 											</a>
-									  	@endif
+										@endif
+
 									</h5>
 
 									<span class="green-color">{{ $order->ActualPrice }} </span><br>
