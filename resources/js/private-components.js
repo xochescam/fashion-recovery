@@ -117,6 +117,9 @@ Vue.component(
 );
 
 Vue.component('commission-component',require('./components/CommissionComponent.vue').default);
+Vue.component('rating-modal',require('./components/RatingModal.vue').default);
+Vue.component('btn-rating-modal',require('./components/BtnRatingModal.vue').default);
+Vue.component('return-photos',require('./components/ReturnPhotos.vue').default);
 
 
 
