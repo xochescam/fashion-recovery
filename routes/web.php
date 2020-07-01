@@ -68,6 +68,15 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('tracking/{PackPackID}', 'OrderController@tracking');
 	Route::get('orders', 'OrderController@index');
 	Route::get('cancel-order/{GuideID}', 'OrderController@cancel');
+	Route::post('survey/{NoOrder}', 'OrderController@survey');
+	Route::get('return/{NoOrder}', 'OrderController@return');
+	Route::post('send-return/{NoOrder}', 'OrderController@saveReturn');
+	Route::get('returns', 'OrderController@returns');
+	Route::get('show-return/{ReturnID}', 'OrderController@showReturn');
+	Route::get('pre-return/{ReturnID}/{type}', 'OrderController@confirmPreReturn');
+	Route::get('form-return/{ReturnID}', 'OrderController@formReturn');
+	Route::post('send-answer/{ReturnID}', 'OrderController@sendAnswer');
+	Route::get('return/{ReturnID}/{type}', 'OrderController@confirmReturn');
 
 	//Notifications
 	Route::get('notification', 'NotificationController@show');
