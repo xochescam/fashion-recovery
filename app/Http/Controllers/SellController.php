@@ -12,11 +12,15 @@ use Redirect;
 use App\States;
 use App\User;
 use App\Seller;
+use App\Question;
+use App\Answer;
+use App\Devolution;
 
 class SellController extends Controller
 {
     public function index() { //ordenar pedidos por usuarios
-
+        $evaluations = 0;
+        $ranking = 0;
         $orders    = null;
         $pending   = null;
         $finalized = null;
@@ -24,6 +28,7 @@ class SellController extends Controller
         $user      = Auth::User();
         $pendingWallet   = 0;
         $avaliableWallet = 0;
+        $ranking     = [0,0,0,0,0]; 
 
     	$itemIds = DB::table('fashionrecovery.GR_029')
                     ->where('GR_029.OwnerID',Auth::User()->id)
@@ -54,12 +59,15 @@ class SellController extends Controller
                                  'GR_022.GuideID',
                                  'GR_022.GuideURL',
                                  'GR_022.TrackingURL',
+                                 'GR_022.PackingOrderID',
+                                 'GR_022.IsReturn',
                                  'GR_029.IsPaid'
                              )->get();
 
         $sells = $sells->map(function ($item, $key) use ($user){
 
             $current = str_replace(',', '', substr($item->ActualPrice, 1));
+            $devolution = Devolution::where('OrderID',$item->OrderID)->first();            
 
             $item->ThumbPath     = $user->getThumbPath($item);
             $item->BrandID       = $user->getBrand($item);
@@ -67,6 +75,7 @@ class SellController extends Controller
             $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
             $item->update        = $this->formatDate("d F Y", $item->UpdateDate);
             $item->Gain          = $current - ($current * User::getCommission($user));
+            $item->ReturnID      = isset($devolution->ReturnID) ? $devolution->ReturnID : Null;
 
             return $item;
         });
@@ -74,36 +83,44 @@ class SellController extends Controller
         $pending   = $sells->where('Name','!==','Entregado')
                             ->where('Name','!==','Cancelado')
                             ->where('Name','!==','Devuelto')
-                            ->where('Name','!==','Reembolsado');
-        $finalized     = $sells->where('Name','Entregado');
-        $canceled      = $sells->where('Name','Cancelado');
+                            ->where('Name','!==','Reembolsado')
+                            ->where('Name','!==','Confirmado')
+                            ->where('Name','!==','Devolución entregada');
+        $finalized = $sells->where('Name','!==','Cancelado')
+                            ->where('Name','!==','Solicitado')
+                            ->where('Name','!==','Devuelto')
+                            ->where('Name','!==','Devolución entregada');
+        $canceled  = $sells->where('Name','Cancelado');
+        $return    = $sells->where('Name','!==','Entregado')
+                            ->where('Name','!==','Cancelado')
+                            ->where('Name','!==','Confirmado'); 
 
         $pendingWallet = $sells->where('Name','!==','Cancelado')
-                                ->where('Name','!==','Devuelto')
-                                ->where('Name','!==','Reembolsado')
-                                ->where('Name','!==','Reembolsado');
+                               ->where('Name','!==','Devuelto')
+                               ->where('Name','!==','Reembolsado');
         
         $pendingWallet = $pendingWallet->filter(function ($item, $key) {
-
+        
             $current = strtotime(date("Y-m-d H:i:s"));
-            $update  = strtotime($item->UpdateDate);
+            $update  = strtotime(date("Y-m-d H:i:s",strtotime($item->UpdateDate)));
             $segs    = $current - $update;
-            $days    = $segs / 86400;
+            $hrs     = $segs / 3600;
 
-            return $days < 1 && !$item->IsPaid;
+            return $hrs < 24 && !$item->IsPaid;
 
         })->sum('Gain'); 
 
         $avaliableWallet = $finalized->filter(function ($item, $key) {
 
             $current = strtotime(date("Y-m-d H:i:s"));
-            $update  = strtotime($item->UpdateDate);
+            $update  = strtotime(date("Y-m-d H:i:s",strtotime($item->UpdateDate)));            
             $segs    = $current - $update;
-            $days    = $segs / 86400;
+            $hrs     = $segs / 3600;
+            
+            return $hrs > 24 && !$item->IsPaid;
 
-            return $days > 1 && !$item->IsPaid;
-
-        })->sum('Gain');   
+        })->sum('Gain');  
+        
         
         $IsTransfer = Seller::where('UserID',Auth::User()->id)->first()->IsTransfer;
 
@@ -140,8 +157,33 @@ class SellController extends Controller
                     ->first();
 
         $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
+        $states      = States::get();
+        $questions   = Question::where('Active',true)->get();
+        $answers     = Answer::whereIn('ItemID',$itemIds)->get();
 
-        $states = States::get();
+        if(count($answers) > 0) {
+            $evaluations = $answers->groupBy('ItemID')->count();
+            $mean        = $answers->where('QuestionID',1);
+            $result      = round($mean->sum('Answer')/$mean->count());
+    
+            for ($i=0; $i < $result; $i++) { 
+                $ranking[$i] = 1;
+            }
+    
+            $answers = $answers->map(function ($item, $key) use ($questions) {
+                $ranking = [0,0,0,0,0]; 
+    
+                for ($i=0; $i < $item->Answer; $i++) { 
+                    $ranking[$i] = 1;
+                }
+    
+                $item->Answer = is_numeric($item->Answer) ? $ranking :$item->Answer;
+                $item->QuestionID = $questions->where('QuestionID',$item->QuestionID)
+                                                ->first()->Question;
+                return $item;
+
+            })->groupBy('ItemID');
+        }
 
     	return view('sells.index',
             compact(
@@ -155,7 +197,12 @@ class SellController extends Controller
                     'sellerSince',
                     'pendingWallet',
                     'avaliableWallet',
-                    'IsTransfer'));
+                    'IsTransfer',
+                    'questions',
+                    'ranking',
+                    'evaluations',
+                    'answers',
+                    'return'));
     }
 
     protected function formatDate($format, $date) {
