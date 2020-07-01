@@ -8,13 +8,13 @@
         </div>
 
         <div style="height:50px; text-align: center;">
-            <a href="#">
+            <a href="#" style="text-decoration: none;">
                 <img src="https://fashionrecovery.com.mx/img/facebook.svg" style="height:20px;margin-right: 50px;">
             </a>
-            <a href="#">
+            <a href="#" style="text-decoration: none;">
                 <img src="https://fashionrecovery.com.mx/img/twitter.svg" style="height:20px; margin-right: 50px;">
             </a>
-            <a href="#">
+            <a href="#" style="text-decoration: none;">
                 <img src="https://fashionrecovery.com.mx/img/instagram.svg" style="height:20px;">
             </a>
         </div>
