@@ -8,20 +8,38 @@
 
 			<div class="col-md-10 m-auto">
 				<ul class="tracking mt-5">
-					@foreach($tracking as $track)
-						<li class="tracking__place mb-5">
-							<span 
-								class="tracking__dot {{ $track['status'] === 'Destino' ? 'tracking__dot--gray' : ($tracking[count($tracking) - 2]['location'] === $track['location'] ? 'tracking__dot--penultimate' : '') }}"></span>
-							<p class="mb-0"> 
-								{{ $track['status'] }} 
-								<br>
-								<small> 
-									{{ $track['location'] === '' ? $tracking[0]['location'] :  $track['location']  }} 
-									{{ isset($track['date']) ?  'el '.$track['date'] : '' }} 
-								</small>	
-							</p>
-						</li>
-					@endforeach
+					@if($status === 'placed')
+						@foreach($tracking as $track)
+							<li class="tracking__place mb-5">
+								<span 
+									class="tracking__dot {{ $track['status'] === 'Destino' ? 'tracking__dot--placed' : '' }}"></span>
+								<p class="mb-0"> 
+									{{ $track['status'] }} 
+									<br>
+									<small> 
+										{{ $track['location'] === '' ? $tracking[0]['location'] :  $track['location']  }} 
+										{{ $track['status'] === 'Destino' ?  $track['date'] : 'el '.$track['date']  }} 
+									</small>	
+								</p>
+							</li>
+						@endforeach
+					@else 
+						@foreach($tracking as $track)
+							<li class="tracking__place mb-5">
+								<span 
+									class="tracking__dot {{ $track['status'] === 'Destino' ? 'tracking__dot--gray' : ($tracking[count($tracking) - 2]['location'] === $track['location'] ? 'tracking__dot--penultimate' : '') }}"></span>
+								<p class="mb-0"> 
+									{{ $track['status'] }} 
+									<br>
+									<small> 
+										{{ $track['location'] === '' ? $tracking[0]['location'] :  $track['location']  }} 
+										{{ isset($track['date']) ?  'el '.$track['date'] : '' }} 
+									</small>	
+								</p>
+							</li>
+						@endforeach
+
+					@endif
 				</ul>
 			</div>
         </div>
