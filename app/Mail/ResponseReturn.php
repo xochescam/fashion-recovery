@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ResponseBuyerReturn extends Mailable
+class ResponseReturn extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -18,18 +18,18 @@ class ResponseBuyerReturn extends Mailable
      *
      * @var Order
      */
-    protected $type;
     protected $comment;
+    protected $return;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($type,$comment)
+    public function __construct($comment,$return)
     {
-        $this->type = $type;
         $this->comment = $comment;
+        $this->return = $return;
     }
 
     /**
@@ -39,11 +39,11 @@ class ResponseBuyerReturn extends Mailable
      */
     public function build()
     {
-        return $this->subject('Respuesta de solicitud de devolución')
-                    ->view('emails.return.response-buyer-return')
+        return $this->subject('Respuesta de proceso de devolución')
+                    ->view('emails.return.response-return')
                     ->with([
-                        'type'    => $this->type,
-                        'comments' => $this->comment,
+                        'comment' => $this->comment,
+                        'return' => $this->return,
                         'string'  => str_random(255)
                     ]);
 

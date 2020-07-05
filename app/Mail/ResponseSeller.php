@@ -18,18 +18,20 @@ class ResponseSeller extends Mailable
      *
      * @var Order
      */
-    protected $type;
     protected $rason;
+    protected $comments;
+    protected $return;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($type,$rason)
+    public function __construct($rason,$comments,$return)
     {
-        $this->type = $type;
         $this->rason = $rason;
+        $this->comments = $comments;
+        $this->return = $return;
     }
 
     /**
@@ -39,11 +41,12 @@ class ResponseSeller extends Mailable
      */
     public function build()
     {
-        return $this->subject('Han solicitado una devolución')
+        return $this->subject('El comprador ha solicitado proceso de devolución')
                     ->view('emails.return.response-seller')
                     ->with([
-                        'type'    => $this->type,
                         'rason'   => $this->rason,
+                        'comments'=> $this->comments,
+                        'return'  => $this->return,
                         'string'  => str_random(255)
                     ]);
 

@@ -19,15 +19,17 @@ class ResponseSellerReturn extends Mailable
      * @var Order
      */
     protected $type;
+    protected $comment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($type)
+    public function __construct($type,$comment)
     {
         $this->type = $type;
+        $this->comment = $comment;
     }
 
     /**
@@ -37,10 +39,11 @@ class ResponseSellerReturn extends Mailable
      */
     public function build()
     {
-        return $this->subject('Respuesta de evidencia de devolución')
+        return $this->subject('Respuesta de solicitud de devolución')
                     ->view('emails.return.response-seller-return')
                     ->with([
                         'type'    => $this->type,
+                        'comments' => $this->comment,
                         'string'  => str_random(255)
                     ]);
 
