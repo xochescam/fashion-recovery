@@ -8,6 +8,7 @@ use App\Mail\ResponseBuyer;
 use App\Mail\ResponseSeller;
 use App\Mail\ResponseSellerReturn;
 use App\Mail\ResponseBuyerReturn;
+use App\Mail\ResponseReturn;
 
 use DB;
 use Redirect;
@@ -28,7 +29,7 @@ use App\ReturnImg;
 use App\Devolution;
 use App\User;
 use App\Status;
-
+use App\ReturnComments;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -62,11 +63,13 @@ class OrderController extends Controller
                             ->where('Name','!==','Cancelado')
                             ->where('Name','!==','Devuelto')
                             ->where('Name','!==','Confirmado')
-                            ->where('Name','!==','Devolución entregada'); 
+                            ->where('Name','!==','Devolución entregada')
+                            ->where('Name','!==','Devolución confirmada'); 
         $finalized = $orders->where('Name','!==','Cancelado')
                             ->where('Name','!==','Solicitado')
                             ->where('Name','!==','Devuelto')
-                            ->where('Name','!==','Devolución entregada'); 
+                            ->where('Name','!==','Devolución entregada')
+                            ->where('Name','!==','Devolución confirmada'); 
         $canceled  = $orders->where('Name','Cancelado');  
         $return    = $orders->where('Name','!==','Entregado')
                             ->where('Name','!==','Cancelado')
@@ -100,8 +103,8 @@ class OrderController extends Controller
         $items = $items->map(function ($item, $key) use ($user){
 
             $devolution = Devolution::where('OrderID',$item->OrderID)->first();
-
-            $item->IsReturn      = isset($devolution->ReturnID);
+            $item->IsReturn      = isset($devolution->ReturnID) ? $devolution->ReturnID : Null;
+            $item->ReturnID      = isset($devolution->ReturnID) ? Devolution::where('OrderID',$item->OrderID)->first()->ReturnID : Null;
             $item->ThumbPath     = $user->getThumbPath($item);
             $item->BrandID       = $user->getBrand($item);
             $item->SizeID        = $user->getSize($item);
@@ -109,8 +112,9 @@ class OrderController extends Controller
             $item->update        = $this->formatDate("d F Y", $item->UpdateDate);
             $current             = strtotime(date("Y-m-d H:i:s"));
             $update              = strtotime(date("Y-m-d H:i:s",strtotime($item->UpdateDate)));
-            $segs         = $current - $update;
-            $hrs          = $segs / 3600;
+            $segs                = $current - $update;
+            $hrs                 = $segs / 3600;
+
 
             $item->isTime = $hrs < 24; // corregir con negativos
 
@@ -130,41 +134,41 @@ class OrderController extends Controller
                     'return'));
     }
 
-    public function formReturn($ReturnID) {
-        //Validar cuando ya se envio la evidencia
-        $OrderID = Devolution::findOrFail($ReturnID)->OrderID;
+    public function answerComment(Request $request, $ReturnID) {
 
-        return view('sells.form-return',compact('ReturnID'));
+        //permisos
+        $comments   = ReturnComments::where('ReturnID',$ReturnID)->get();
+        $ParentID   = $comments->where('IsParent',true)->first();
+        $user       = User::findOrFail($ParentID->UserID);
 
-    }
-
-    public function sendAnswer(Request $request, $ReturnID) {
-
-        //Validar cuando ya se envio la evidencia
-        $return = Devolution::findOrFail($ReturnID);
-
-        if(!isset($return->ReturnID)) {
-            abort(403);
-        }
-
-        $return->Answer = $request->Comments;
-        $return->UpdateDate = date("Y-m-d H:i:s");
-        $return->save();
+        $comment = new ReturnComments;
+        $comment->UserID = Auth::User()->id;
+        $comment->ReturnID = $ReturnID;
+        $comment->Comment = $request->Comment;
+        $comment->CreationDate = date("Y-m-d H:i:s");
+        $comment->IsParent = false;
+        $comment->ParentID = $ParentID->CommentID;
+        $comment->IsBuyer = Auth::User()->isBuyerProfile();
+        $comment->save();
 
         foreach ($request->Photos as $key => $value) {
 
-            $data = $this->saveImg($value, $key, $return->ReturnID);
+            $data = $this->saveImg($value, $key, $ReturnID);
 
             $img = new ReturnImg;
             $img->ReturnID = $ReturnID;
             $img->ReturnUrl = $data[0]['name'];
             $img->ReturnThumb = $data[0]['thumb'];
-            $img->IsBuyer = false;
+            $img->CommentID = $comment->CommentID;
             $img->save();
         }
 
-        Session::flash('success','Se ha enviado correctamente la evidencia de la prenda. La revisaremos y te daremos respuesta lo más pronto posible.');
-        return Redirect::to('sales');
+        //email to ??
+        Mail::to($user->email)
+            ->send(new ResponseReturn($request->Comment, $ReturnID));
+
+        Session::flash('success','Se ha enviado la respuesta exitosamente.');
+        return Redirect::back();
     }
 
     public function survey(Request $request, $NoOrder) {
@@ -231,7 +235,7 @@ class OrderController extends Controller
 
     public function returns() {
 
-        if (Gate::denies('show-users')) {
+        if (!Auth::User()->isAdmin()) {
             abort(403);
         }
 
@@ -252,6 +256,10 @@ class OrderController extends Controller
     }
 
     public function showReturn($ReturnID) {
+
+        if(!Auth::User()->isAdmin()) {
+            abort(403);
+        }
 
         $return               = Devolution::findOrFail($ReturnID);
         $return->CreatedDate  = $this->formatDate("d F Y", $return->CreatedDate);
@@ -282,89 +290,43 @@ class OrderController extends Controller
         return view('orders.show-return',compact('data'));
     }
 
-    public function confirmReturn($ReturnID,$type) {
+    public function confirmReturn(Request $request, $ReturnID) {
+
+        //permisos de admin
 
         $return     = Devolution::findOrFail($ReturnID);
+        $approved   = $request->Approved ? true : false;
         $order      = Order::findOrFail($return->OrderID);
         $infoOrder  = InfoOrder::where('OrderID',$return->OrderID)->first();
         $item       = Item::findOrFail($infoOrder->ItemID);
         $buyer      = User::findOrFail($order->UserID);
         $seller     = User::findOrFail($item->OwnerID);
-        $msg        = $type == "true" ? 'aprobada' : 'cancelada';
-        
-        /* if($infoOrder->OrderStatusID !== 9) {
-            abort(403);
-        } */
+        $msg        = $approved ? 'aprobado' : 'cancelado';        
 
-        $return->Approved = $type;
+        $return->Approved = $approved;
+        $return->Comment = $request->Comment;
         $return->save();
 
-        if($type == "true") {
+        if($approved) {
 
             $order->OrderStatusID = 10;
             $order->save(); 
 
             $infoOrder->OrderStatusID = 10;
-            $infoOrder->IsReturn = $type;
+            $infoOrder->IsReturn = $approved;
             $infoOrder->save(); 
-
-            //correo para vendedor
-            Mail::to($seller->email)
-            ->send(new ResponseSellerReturn($type));
         }
+
+        //correo para vendedor
+        Mail::to($seller->email)
+        ->send(new ResponseSellerReturn($approved,$request->Comment));
 
         //correo para comprador
         Mail::to($buyer->email)
-            ->send(new ResponseBuyerReturn($type));
+            ->send(new ResponseBuyerReturn($approved,$request->Comment));
 
         Session::flash('success','Se ha '.$msg.' la solicitud.');
-        return Redirect::to('returns');
-    }
-
-    public function confirmPreReturn($ReturnID,$type) {
-
-        $return     = Devolution::findOrFail($ReturnID);
-        $rason      = Rason::findOrFail($return->RasonID)->Rason;
-        $order      = Order::findOrFail($return->OrderID);
-        $infoOrder  = InfoOrder::where('OrderID',$return->OrderID)->first();
-        $item       = Item::findOrFail($infoOrder->ItemID);
-        $buyer      = User::findOrFail($order->UserID);
-        $seller     = User::findOrFail($item->OwnerID);
-        $msg        = $type ? 'pre-aprobado' : 'cancelado';
-        
-        if($infoOrder->OrderStatusID !== 4) {
-            abort(403);
-        }
-
-        $return->PreApproved = $type;
-        $return->save();
-
-        if($type == "true") {
-
-            $order->OrderStatusID = 5;
-            $order->save(); 
-
-            $infoOrder->OrderStatusID = 5;
-            $infoOrder->IsReturn = $type;
-            $infoOrder->TrackingURL = Null;
-            $infoOrder->PackingOrderID = Null;
-            $infoOrder->GuideID = Null;
-            $infoOrder->GuideURL = Null;
-            $infoOrder->PackingName = Null;
-            $infoOrder->TrackingURL = Null;
-            $infoOrder->save(); 
-
-            //correo para vendedor
-            Mail::to($seller->email)
-            ->send(new ResponseSeller($type, $rason));
-        }
-
-        //correo para comprador
-        Mail::to($buyer->email)
-            ->send(new ResponseBuyer($type, $rason));
-
-        Session::flash('success','Se ha '.$msg.' la solicitud.');
-        return Redirect::to('returns');
+        return Redirect::to('show-return/'.$ReturnID);
     }
 
     public function saveReturn(Request $request, $NoOrder) {
@@ -375,14 +337,26 @@ class OrderController extends Controller
 
         $this->validator($request);
 
-        $OrderID = InfoOrder::where('NoOrder',$NoOrder)->first()->OrderID;
+        $info = InfoOrder::where('NoOrder',$NoOrder)->first();
 
         $return = new Devolution;
         $return->RasonID = $request->RasonID;
-        $return->Comment = $request->Comments;
-        $return->OrderID = $OrderID;
+        $return->OrderID = $info->OrderID;
         $return->CreatedDate = date("Y-m-d H:i:s");
         $return->save();
+
+        $comments = new ReturnComments;
+        $comments->UserID = Auth::User()->id;
+        $comments->ReturnID = $return->ReturnID;
+        $comments->Comment = $request->Comments;
+        $comments->CreationDate = date("Y-m-d H:i:s");
+        $comments->IsParent = true;
+        $comments->IsBuyer = Auth::User()->isBuyerProfile();
+        $comments->save();
+
+        $item       = Item::findOrFail($info->ItemID);
+        $seller     = User::findOrFail($item->OwnerID);
+        $rason      = Rason::findOrFail($request->RasonID)->Rason;
 
         foreach ($request->Photos as $key => $value) {
 
@@ -392,9 +366,12 @@ class OrderController extends Controller
             $img->ReturnID = $return->ReturnID;
             $img->ReturnUrl = $data[0]['name'];
             $img->ReturnThumb = $data[0]['thumb'];
-            $img->IsBuyer = true;
+            $img->CommentID = $comments->CommentID;
             $img->save();
         }
+
+        Mail::to($seller->email)
+         ->send(new ResponseSeller($rason, $request->Comments,$return->ReturnID));
 
         Session::flash('success','Se ha enviado correctamente tu solicitud de devolución. La revisaremos y te daremos respuesta lo más pronto posible.');
         return Redirect::to('orders');
@@ -412,7 +389,7 @@ class OrderController extends Controller
         })->orientate();
 
         $realImg->stream();
-        $img = Image::make($value->getRealPath())->orientate()->fit(200);
+        $img = Image::make($value->getRealPath())->orientate()->fit(40);
         $img->stream();
 
 
@@ -440,6 +417,52 @@ class OrderController extends Controller
         return $request->validate($data);
     }
 
+    public function returnPermission($buyer, $seller) {
+
+        $isAdmin = Auth::User()->isAdmin();
+        $isBuyer = Auth::User()->id == $buyer->id;
+        $isSeller = Auth::User()->id == $seller->id;
+
+        return $isAdmin ? true : ($isBuyer || $isSeller);
+    }
+
+    public function showCommentsReturn($ReturnID) {
+
+        $comments   = ReturnComments::where('ReturnID',$ReturnID)->get();
+        $ParentID   = $comments->where('IsParent',true)->first()->CommentID;
+
+        $return     = Devolution::findOrFail($ReturnID);
+        $rason      = Rason::findOrFail($return->RasonID)->Rason;
+        $images     = ReturnImg::where('ReturnID',$ReturnID)->get();
+        
+        $order      = Order::findOrFail($return->OrderID);
+        $infoOrder  = InfoOrder::where('OrderID',$return->OrderID)->first();
+        $item       = Item::findOrFail($infoOrder->ItemID);
+        $buyer      = User::findOrFail($order->UserID);
+        $seller     = User::findOrFail($item->OwnerID);
+
+
+        if(!$this->returnPermission($buyer, $seller)) {
+            abort(403);
+        }
+ 
+        $comments = $comments->map(function ($item, $key) use ($images,$buyer,$seller) {
+
+            $item->images = $images->where('CommentID',$item->CommentID);
+            $item->date = $this->formatDate("d F Y", $item->CreationDate);
+            $item->alias = $buyer->id === $item->UserID ? $buyer->Alias : $seller->Alias;
+
+            return $item;
+        })->sortBy('CreationDate');
+
+        return view('orders.comments-return',
+            compact('comments',
+                    'ParentID',
+                    'rason',
+                    'buyer',
+                    'seller',
+                    'return'));
+    }
 
     protected function formatDate($format, $date) {
 
