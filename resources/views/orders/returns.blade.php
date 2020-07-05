@@ -15,10 +15,9 @@
 						<thead>
 						    <tr>
 							    <th scope="col">Motivo</th>
-								<th scope="col">Pre-aprobada</th>
-								<th scope="col">Aprobada</th>
+								<th scope="col">Estado</th>
                                 <th scope="col">Fecha</th>
-							    <th scope="col"></th>
+								<th scope="col"></th>
 						    </tr>
 						  </thead>
 						 <tbody>
@@ -27,19 +26,19 @@
 						 		<tr>
 								    <td> {{ $item->RasonID }}
 									<td> 
-										<span class="{{ isset($item->PreApproved) ? ($item->PreApproved ? 'text-success' : 'text-danger') : 'text-secondary' }} p-1">
-											<i class="{{ isset($item->PreApproved) ? ($item->PreApproved ? 'fas fa-check' : 'fas fa-times') : 'fas fa-question' }} "></i>
-										</span>
-									</td>
-									<td> 
-										<span class="{{ isset($item->Approved) ? ($item->Approved ? 'text-success' : 'text-danger') : 'text-secondary' }} p-1">
-											<i class="{{ isset($item->Approved) ? ($item->Approved ? 'fas fa-check' : 'fas fa-times') : 'fas fa-question' }} "></i>
-										</span>
+										@if(!isset($item->Approved))
+											<span class="badge badge-secondary">Sin respuesta</span>
+										@elseif($item->Approved)
+											<span class="badge badge-success">Aprobada</span>	
+										@elseif(!$item->Approved)
+											<span class="badge badge-danger">Declinada</span>
+										@endif
 									</td>
 									<td> {{ $item->CreationDate }} </td>
                                     <td class="text-center">
-                                        <a class="btn btn-sm btn-fr" href="{{ url('show-return',$item->ReturnID) }}" role="button">Ver petición</a>
-                                    </td>
+										<a class="btn btn-sm btn-outline-green" href="{{ url('show-return',$item->ReturnID) }}" role="button">Información</a>
+										<a class="btn btn-sm btn-fr" href="{{ url('comments-return',$item->ReturnID) }}" role="button">Disputa</a>
+									</td>
 							    </tr>
 						 	@endforeach
 

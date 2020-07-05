@@ -13,20 +13,30 @@
 						    </div>
 						    <div class="col-md-9">
 						      	<div class="card-body">
-						      		<h5 class="card-title">
-									  	{{ $order->ItemDescription }}
+								   <div class="d-md-flex">
+						      			<h5 class="card-title">
+									  		{{ $order->ItemDescription }}
+										</h5>
 
-                                        @if($order->FolioID && $order->Name === 'Devolución entregada')
-											<a href="{{ url('form-return',$order->ReturnID) }}" class="btn btn-fr btn-sm d-block float-lg-right d-block d-lg-inline mt-2 mt-lg-0">
-                                                Enviar evidencia
-											</a>
-										@elseif($order->FolioID)
-											<a href="{{ url('tracking',$order->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
-											  Rastrear pedido
-											</a>
-										@endif
-									</h5>
+										<div class="card-title-options">
+											@if($order->FolioID && $order->Name === 'Devolución entregada')
+												<a href="{{ url('form-return',$order->ReturnID) }}" class="btn btn-fr btn-sm d-block float-lg-right d-block d-lg-inline mt-2 mt-lg-0">
+													Enviar evidencia
+												</a>
+											@elseif($order->FolioID)
+												<a href="{{ url('tracking',$order->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
+												Rastrear pedido
+												</a>
 
+												@if($order->ReturnID)
+													<small class="mt-2 text-center">
+														<a href="{{ url('comments-return',$order->ReturnID ) }}" class="green-link">Disputa de devolución</a>
+													</small>
+												@endif
+											@endif
+										</div>
+									</div>
+								
 									<span class="green-color">{{ $order->ActualPrice }} </span><br>
 									<p class="badge badge-warning mt-3">{{ $order->Name === 'Devuelto' ? 'Devolución confirmada' : $order->Name }} el {{ $order->update }}</p> 
 

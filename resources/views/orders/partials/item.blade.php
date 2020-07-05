@@ -18,17 +18,29 @@
 							</a>
 
 						@elseif(isset($item->FolioID) && $order->Name === 'Entregado')
+
 							<btn-rating-modal
 								order="{{ $item->NoOrder }}"
 								text="Evalua tu experiencia"
 							></btn-rating-modal>
+						@endif
+
+						@if((isset($item->FolioID) && $order->Name === 'Entregado') || 
+							(isset($item->FolioID) && $order->Name === 'Devolución confirmada') ||
+							(isset($item->FolioID) && $order->Name === 'Devolución entregada'))
 
 							@if($item->isTime && !$item->IsReturn)
 								<small class="mt-2 text-center">
 									<a href="{{ url('return',$item->NoOrder ) }}" class="green-link"> Solicitar devolución</a>
 								</small>
+
+							@elseif($item->IsReturn)
+								<small class="mt-2 text-center">
+									<a href="{{ url('comments-return',$item->ReturnID ) }}" class="green-link">Disputa de devolución</a>
+								</small>
 							@endif
 						@endif
+						
 					</div>		
 				</div>
 								
