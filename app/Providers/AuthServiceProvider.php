@@ -14,6 +14,7 @@ use App\User;
 use App\Policies\ItemPolicy;
 use App\Policies\ClosetPolicy;
 use App\Policies\UserPolicy;
+use App\Policies\OrderPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -27,6 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         Item::class => ItemPolicy::class,
         Closet::class => ClosetPolicy::class,
         User::class => UserPolicy::class,
+        Order::class => OrderPolicy::class,
     ];
 
     /**
