@@ -1,8 +1,8 @@
 <template>
     <div class="form-group">
-        <label for="exampleFormControlSelect2">Fotos de la prenda</label>
+        <label for="exampleFormControlSelect2">Fotos de la prenda *</label>
         <div class="custom-file">
-        <input type="file" class="custom-file-input" name="Photos[]" id="Photos" accept=".png, .jpg, .jpeg" multiple @change="change($event.currentTarget.files)">
+        <input type="file" class="custom-file-input" ref="Photos"  name="Photos[]" id="Photos" accept=".png, .jpg, .jpeg" multiple @change="change($event.currentTarget.files)" required>
         <label class="custom-file-label" for="Photos">Seleccionar archivo</label>
 
         <ul class="list-pictures">
@@ -10,6 +10,10 @@
         </ul>
         <div class="invalid-validation" v-for="error in errors.Photos" :key="error.name">
             {{ error }}
+        </div>
+
+        <div class="invalid-validation" v-if="count">
+            No puedes agregar más de tres imagenes.
         </div>
         </div>
     </div>
@@ -26,18 +30,21 @@
         },
         data() {
             return {
-                files: []
+                files: [],
+                count: false
             };
         },
         methods: {
-
             change(files) {
-                this.files = files;
-                
+                if(files.length > 3) {
+                    this.count = true;  
+                    this.$refs.Photos.value = "";
+                    this.files = [];
+                } else {
+                    this.files = files;
+                    this.count = false; 
+                }
             }
-        },
-        mounted() {
-            console.log(this.errors.Photos);
         }
     };
 </script>

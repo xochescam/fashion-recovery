@@ -120,6 +120,8 @@ Vue.component('commission-component',require('./components/CommissionComponent.v
 Vue.component('rating-modal',require('./components/RatingModal.vue').default);
 Vue.component('btn-rating-modal',require('./components/BtnRatingModal.vue').default);
 Vue.component('return-photos',require('./components/ReturnPhotos.vue').default);
+Vue.component('modal-gallery',require('./components/ModalGallery.vue').default);
+Vue.component('open-gallery-btn',require('./components/OpenGalleryBtn.vue').default);
 
 
 
