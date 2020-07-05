@@ -13,8 +13,11 @@
 	                    </p>
 
                         <p style="line-height: 25px; color: #444;font: 300 15px sans-serif;text-align: center; margin-bottom: 30px; margin-top: 20px;">
-							Tu solicitud de devolución ha sido <b>{{ $type == 'true' ? 'aprobada.' : 'cancelada.' }} </b> <br>
-							{{ $type == 'true' ? 'Nos pondremos en contacto contigo para realizar tu rembolso.' : 'Lamentamos no tener evidencias suficientes para aprobarla.' }} 
+							La solicitud de la devolución ha sido <b>{{ $type == 'true' ? 'aprobado.' : 'cancelada.' }} </b>
+						</p>
+						
+						<p style="margin-bottom: 50px; border-radius: 2px; background-color: #fff; font-style: italic;line-height: 25px; color: #444;font: 300 14px sans-serif;text-align: center; padding: 30px;">
+							{{ $comments }} 
                         </p>
 						
 	                </td>
