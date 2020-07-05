@@ -68,7 +68,7 @@ class SellController extends Controller
 
             $current = str_replace(',', '', substr($item->ActualPrice, 1));
             $devolution = Devolution::where('OrderID',$item->OrderID)->first();            
-
+            
             $item->ThumbPath     = $user->getThumbPath($item);
             $item->BrandID       = $user->getBrand($item);
             $item->SizeID        = $user->getSize($item);
@@ -85,11 +85,13 @@ class SellController extends Controller
                             ->where('Name','!==','Devuelto')
                             ->where('Name','!==','Reembolsado')
                             ->where('Name','!==','Confirmado')
-                            ->where('Name','!==','Devolución entregada');
+                            ->where('Name','!==','Devolución entregada')
+                            ->where('Name','!==','Devolución confirmada');
         $finalized = $sells->where('Name','!==','Cancelado')
                             ->where('Name','!==','Solicitado')
                             ->where('Name','!==','Devuelto')
-                            ->where('Name','!==','Devolución entregada');
+                            ->where('Name','!==','Devolución entregada')
+                            ->where('Name','!==','Devolución confirmada');
         $canceled  = $sells->where('Name','Cancelado');
         $return    = $sells->where('Name','!==','Entregado')
                             ->where('Name','!==','Cancelado')
