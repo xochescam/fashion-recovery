@@ -751,7 +751,7 @@ div a{
 	height: 20px;
 	background: #fff;
 	border-radius: 20px;
-	transition: 0.3s;
+	transition: 0.2s;
 }
 
 .switch-checkbox:checked + .switch-label {
@@ -1094,3 +1094,41 @@ div a{
   margin-top: 10px;
 }
 
+
+.media-return {
+  font-size: 14px;
+  max-width: 600px;
+  width: 90%;
+
+  &--seller {
+    align-self: flex-end;
+
+    & .media {
+      background-color: #e4e4e4;
+    }
+  }
+
+  &--buyer {
+    float: left;
+
+    & .media {
+      background-color: #cee4df;
+    }
+  }
+}
+
+.media-thumb {
+  border: none;
+  border-radius: 5px;
+  height: 40px;
+  margin-right: 10px;
+  width: 40px;
+  
+  
+  padding: 0;
+
+  & img {
+    border-radius: 2px;
+    width: 100%;
+  }
+}
