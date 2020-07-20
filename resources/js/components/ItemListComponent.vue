@@ -39,7 +39,7 @@
                 </ul>
                             
                 <p class="w-100 text-right px-4 mt-3">Subtotal ({{ allItems.length }} producto{{ allItems.length > 1 ? 's' : '' }}): 
-                <span class="font-weight-bold green-color">${{ total }} </span></p>
+                <span class="font-weight-bold green-color">${{ subtotal }} </span></p>
             </div>
 
 			<p class="text-center green-color"  v-else>No tienes productos en el carrito.</p>
@@ -51,11 +51,14 @@
 					<h5 class="card-title"><b>Resumen del pedido</b></h5>
 
 					<table class="w-100 mt-4">
+                        <tr v-if="devolutions">
+                            <td>Cartera:</td>
+							<td class="text-right">${{ devolutions }}</td>
+                        </tr>
 						<tr>
 							<td>Subtotal:</td>
-							<td class="text-right">${{ total }}</td>
+							<td class="text-right">${{ subtotal }}</td>
 						</tr>
-						
 					</table>
 					<hr>
 
@@ -67,6 +70,11 @@
 						    </td>
 						</tr>
 					</table>
+
+                    <div class="alert alert-success w-100 p-2 mt-3 text-center font-13" role="alert" 
+                     v-if="devolutions && parseInt(devolutions) > parseInt(subtotal)">
+                        Te quedan ${{ devolutions - subtotal }} en cartera
+                    </div>
 
 					<a :href="url+'/address'" class="btn btn-fr w-100 mt-2">Proceder al pago</a>
 				</div>							
@@ -89,16 +97,25 @@
                 required: true,
                 default: ''
             },
-            amount: {
+            subtotal: {
                 type: String,
                 required: true,
+                default: ''
+            },
+            total: {
+                type: String,
+                required: true,
+                default: ''
+            },
+            devolutions: {
+                type: String,
+                required: false,
                 default: ''
             }
         },
         data() {
             return {
                 allItems: {},
-                total: this.amount,
                 url: ''
             };
         },
@@ -143,9 +160,7 @@
                //this.total = totalSum;
             },
         },
-        mounted() {       
-            
-            
+        mounted() {
             this.allItems = JSON.parse(this.items);  
             this.url = window.location.origin;
             this.sumTotal();            
