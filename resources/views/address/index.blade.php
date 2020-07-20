@@ -53,9 +53,15 @@
 							<h5 class="card-title"><b>Resumen del pedido</b></h5>
 
 							<table class="w-100 mt-4">
+								@if(isset($devTotal))
+									<tr>
+										<td>Cartera:</td>
+										<td class="text-right">${{ $devTotal }} </td>
+									</tr>
+								@endif
 								<tr>
 									<td>Subtotal:</td>
-									<td class="text-right">${{ Auth::User()->getTotal() }} </td>
+									<td class="text-right">${{ $subtotal }} </td>
 								</tr>
 							</table>
 							<hr>
@@ -64,10 +70,16 @@
 								<tr>
 									<td>Total:</td>
 									<td class="text-right green-color">
-									<h5><b>${{ Auth::User()->getTotal() }}</b></h5>
+									<h5><b>${{ $total }}</b></h5>
 									</td>
 								</tr>
 							</table>
+
+							@if(isset($devTotal) && $devTotal > $subtotal)
+								<div class="alert alert-success w-100 p-2 mt-3 text-center font-13" role="alert">
+									Te quedan ${{ $devTotal - $subtotal  }} en cartera.
+								</div>
+							@endif
 						</div>
 					</div>
 				</div>
