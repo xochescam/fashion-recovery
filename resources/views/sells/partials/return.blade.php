@@ -30,7 +30,7 @@
 
 												@if($order->ReturnID)
 													<small class="mt-2 text-center">
-														<a href="{{ url('comments-return',$order->ReturnID ) }}" class="green-link">Disputa de devolución</a>
+														<a href="{{ url('comments-return/'.$order->ReturnID.'/false') }}" class="green-link">Proceso de devolución</a>
 													</small>
 												@endif
 											@endif
