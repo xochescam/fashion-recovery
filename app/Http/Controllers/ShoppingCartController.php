@@ -10,6 +10,8 @@ use Session;
 use Auth;
 use Image;
 
+use App\Devolution;
+
 
 class ShoppingCartController extends Controller
 {
@@ -88,10 +90,23 @@ class ShoppingCartController extends Controller
 
     public function items() {
 
-        $items = Auth::User()->getItems();
-        $total = Auth::User()->getTotal();
+        $items      = Auth::User()->getItems();
+        $subtotal   = Auth::User()->getTotal();
+        $devTotal   = null;
+        $total      = $subtotal;
 
-        return view('shopping-cart.items',compact('items','total'));
+        $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+
+        if(count($devolution) > 0) {
+
+            $devTotal = $devolution->sum(function ($item) {
+                return str_replace(',', '', substr($item->Amount, 1));
+            });
+
+            $total = $devTotal > $subtotal ? 0 : $subtotal - $devTotal;
+        }         
+
+        return view('shopping-cart.items',compact('items','total','subtotal','devTotal'));
     }
 
     public function getItem($ItemID) {

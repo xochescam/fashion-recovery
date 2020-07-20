@@ -19,6 +19,7 @@ use App\Order;
 use App\InfoOrder;
 use App\PackPack;
 use App\Address;
+use App\Devolution;
 
 class MercadoPagoController extends Controller {
 
@@ -27,16 +28,33 @@ class MercadoPagoController extends Controller {
         $delivery = Address::findOrFail($request->shipping)->ZipCode;
         $shippingCost = PackPack::quotation($delivery);
 
+        $subtotal   = Auth::User()->getTotal();
+        $devTotal   = null;
+        $total      = $subtotal;
+
+        $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+
+        if(count($devolution) > 0) {
+
+            $devTotal = $devolution->sum(function ($item) {
+                return str_replace(',', '', substr($item->Amount, 1));
+            });
+
+            $total = $devTotal > ($subtotal + $shippingCost) ? 0 : $subtotal - $devTotal;
+        }  
+
         MercadoPago\SDK::setAccessToken(env('MP_SECRET'));
 
         $payment = new MercadoPago\Payment();
-        $payment->transaction_amount = Auth::User()->getTotal() + $shippingCost; 
+        $payment->transaction_amount = $total; 
         $payment->token = $request->token;
         $payment->payment_method_id = $request->paymentMethodId;
         $payment->installments= 1;
         $payment->payer = array(
             "email" => Auth::User()->email
         );
+
+        //Restar ese saldo en cartera para la siguiente compra
 
         if ($payment->save()) {
 
@@ -107,8 +125,22 @@ class MercadoPagoController extends Controller {
 
             $shippingCost = PackPack::quotation($address->ZipCode);
 
+            $subtotal   = Auth::User()->getTotal();
+            $devTotal   = null;
+            $total      = $subtotal;
 
-            return view('payment.index',compact('address','IsBuy','ShippingAddID','shippingCost'));
+            $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+
+            if(count($devolution) > 0) {
+
+                $devTotal = $devolution->sum(function ($item) {
+                    return str_replace(',', '', substr($item->Amount, 1));
+                });
+
+                $total = $devTotal > ($subtotal + $shippingCost) ? 0 : $subtotal - $devTotal;
+            }   
+
+            return view('payment.index',compact('address','IsBuy','ShippingAddID','shippingCost','subtotal','devTotal','total'));
 
         } else {
 

@@ -39,7 +39,6 @@ class OrderController extends Controller
 	protected $table = 'fashionrecovery.GR_021';
 	protected $detail = 'fashionrecovery.GR_022';
 
-
     public function index() { //ordenar pedidos por usuarios
 
         if (Gate::denies('show-orders')) {
@@ -75,7 +74,6 @@ class OrderController extends Controller
                             ->where('Name','!==','Cancelado')
                             ->where('Name','!==','Confirmado'); 
 
-        
         $keys = $orders->groupBy('OrderID')->keys();
 
 		$items = DB::table($this->detail)
@@ -134,43 +132,127 @@ class OrderController extends Controller
                     'return'));
     }
 
-    public function answerComment(Request $request, $ReturnID) {
+    public function returnDelivered($OrderID) {
 
-        //permisos
+        $order     = Order::findOrFail($OrderID);
+        $infoOrder = InfoOrder::where('OrderID',$OrderID)->first();
+
+        $order->OrderStatusID = 10;
+        $order->save();
+
+        $infoOrder->OrderStatusID = 10;
+        $infoOrder->save();
+
+        Session::flash('success','Se ha confirmado la devolución correctamente.');
+        return Redirect::back();
+    }
+
+    public function buyerReturn(Request $request, $ReturnID) {
+
+        $isAdmin = Auth::User()->isAdmin();
+
+        //permisos solo puede contestar el comprador y el admin
         $comments   = ReturnComments::where('ReturnID',$ReturnID)->get();
         $ParentID   = $comments->where('IsParent',true)->first();
         $user       = User::findOrFail($ParentID->UserID);
 
-        $comment = new ReturnComments;
-        $comment->UserID = Auth::User()->id;
-        $comment->ReturnID = $ReturnID;
-        $comment->Comment = $request->Comment;
-        $comment->CreationDate = date("Y-m-d H:i:s");
-        $comment->IsParent = false;
-        $comment->ParentID = $ParentID->CommentID;
-        $comment->IsBuyer = Auth::User()->isBuyerProfile();
-        $comment->save();
-
-        foreach ($request->Photos as $key => $value) {
-
-            $data = $this->saveImg($value, $key, $ReturnID);
-
-            $img = new ReturnImg;
-            $img->ReturnID = $ReturnID;
-            $img->ReturnUrl = $data[0]['name'];
-            $img->ReturnThumb = $data[0]['thumb'];
-            $img->CommentID = $comment->CommentID;
-            $img->save();
+        if(!isset($request->Approved)) {
+            $comment = new ReturnComments;
+            $comment->UserID = Auth::User()->id;
+            $comment->ReturnID = $ReturnID;
+            $comment->Comment = $request->Comment;
+            $comment->CreationDate = date("Y-m-d H:i:s");
+            $comment->IsParent = false;
+            $comment->ParentID = $ParentID->CommentID;
+            $comment->IsBuyer = true;
+            $comment->save();
         }
 
-        //email to ??
-        Mail::to($user->email)
-            ->send(new ResponseReturn($request->Comment, $ReturnID));
+        if($isAdmin && isset($request->Approved)) {
+            //Respuesta de la petición y validar si ya va a evaluar el pedido o únicamente contestar
+            $this->confirmReturn($request, $ReturnID);
+
+        } else if($isAdmin && !isset($request->Approved)){
+
+            Mail::to($user->email)
+                ->send(new ResponseBuyerReturn(null,$request->Comment,$ReturnID));
+        }
+
+        if(isset($request->Photos)) {
+            foreach ($request->Photos as $key => $value) {
+
+                $data = $this->saveImg($value, $key, $ReturnID);
+
+                $img = new ReturnImg;
+                $img->ReturnID = $ReturnID;
+                $img->ReturnUrl = $data[0]['name'];
+                $img->ReturnThumb = $data[0]['thumb'];
+                $img->CommentID = $comment->CommentID;
+                $img->save();
+            }
+        }
 
         Session::flash('success','Se ha enviado la respuesta exitosamente.');
         return Redirect::back();
     }
 
+    public function sellerReturn(Request $request, $ReturnID) {
+        $isAdmin = Auth::User()->isAdmin();
+
+        //permisos solo puede contestar el vendedor y el admin
+        $comments   = ReturnComments::where('ReturnID',$ReturnID)->get();
+        $return     = Devolution::findOrFail($ReturnID);
+        $infoOrder  = InfoOrder::where('OrderID',$return->OrderID)->first();
+        $item       = Item::findOrFail($infoOrder->ItemID);
+        $seller     = User::findOrFail($item->OwnerID);
+
+        $sellerComments = count($comments->where('UserID',$seller->id));
+        $IsParent = $sellerComments  === 0 ? true : false;
+        
+        if($sellerComments > 0) {
+            $ParentID   = $comments->where('IsParent',true)->first();
+            $user       = User::findOrFail($ParentID->UserID);
+        } 
+
+        if(!isset($request->Approved)) {
+            $comment = new ReturnComments;
+            $comment->UserID = Auth::User()->id;
+            $comment->ReturnID = $ReturnID;
+            $comment->Comment = $request->Comment;
+            $comment->CreationDate = date("Y-m-d H:i:s");
+            $comment->IsParent = $IsParent;
+            $comment->ParentID = $IsParent ? Null : $ParentID->CommentID;
+            $comment->IsBuyer = false;
+            $comment->save();
+        }
+
+        if($isAdmin && isset($request->Approved)) {
+            //Respuesta de la petición y validar si ya va a evaluar el pedido o únicamente contestar
+            $this->confirmReturn($request, $ReturnID);
+
+        } else if($isAdmin && !isset($request->Approved)){
+
+            Mail::to($seller->email)
+                ->send(new ResponseSellerReturn(null,$request->Comment,$ReturnID));
+        }
+
+        if(isset($request->Photos)) {
+            foreach ($request->Photos as $key => $value) {
+
+                $data = $this->saveImg($value, $key, $ReturnID);
+
+                $img = new ReturnImg;
+                $img->ReturnID = $ReturnID;
+                $img->ReturnUrl = $data[0]['name'];
+                $img->ReturnThumb = $data[0]['thumb'];
+                $img->CommentID = $comment->CommentID;
+                $img->save();
+            }
+        }
+
+        Session::flash('success','Se ha enviado la respuesta exitosamente.');
+        return Redirect::back();
+    }
     public function survey(Request $request, $NoOrder) {
 
         $questions = Question::where('Active',true)->get(['QuestionID','Slug']);
@@ -290,43 +372,43 @@ class OrderController extends Controller
         return view('orders.show-return',compact('data'));
     }
 
-    public function confirmReturn(Request $request, $ReturnID) {
+    public function confirmReturn($request, $ReturnID) {
 
         //permisos de admin
 
         $return     = Devolution::findOrFail($ReturnID);
-        $approved   = $request->Approved ? true : false;
+        $approved   = $request->Approved == "1" ? true : false;
         $order      = Order::findOrFail($return->OrderID);
         $infoOrder  = InfoOrder::where('OrderID',$return->OrderID)->first();
         $item       = Item::findOrFail($infoOrder->ItemID);
         $buyer      = User::findOrFail($order->UserID);
         $seller     = User::findOrFail($item->OwnerID);
-        $msg        = $approved ? 'aprobado' : 'cancelado';        
+        $msg        = $approved ? 'aprobada' : 'cancelada';        
 
-        $return->Approved = $approved;
+        $return->Approved = $approved ? true : false;
         $return->Comment = $request->Comment;
         $return->save();
 
         if($approved) {
 
-            $order->OrderStatusID = 10;
+            $order->OrderStatusID = 5;
             $order->save(); 
 
-            $infoOrder->OrderStatusID = 10;
+            $infoOrder->OrderStatusID = 5;
             $infoOrder->IsReturn = $approved;
             $infoOrder->save(); 
         }
 
         //correo para vendedor
         Mail::to($seller->email)
-        ->send(new ResponseSellerReturn($approved,$request->Comment));
+        ->send(new ResponseSellerReturn($approved,$request->Comment,$ReturnID));
 
         //correo para comprador
         Mail::to($buyer->email)
-            ->send(new ResponseBuyerReturn($approved,$request->Comment));
+            ->send(new ResponseBuyerReturn($approved,$request->Comment,$ReturnID));
 
-        Session::flash('success','Se ha '.$msg.' la solicitud.');
-        return Redirect::to('show-return/'.$ReturnID);
+      /*   Session::flash('success','Se ha '.$msg.' la solicitud.');
+        return Redirect::to('show-return/'.$ReturnID); */
     }
 
     public function saveReturn(Request $request, $NoOrder) {
@@ -337,11 +419,16 @@ class OrderController extends Controller
 
         $this->validator($request);
 
-        $info = InfoOrder::where('NoOrder',$NoOrder)->first();
+        $info   = InfoOrder::where('NoOrder',$NoOrder)->first();
+        $item   = Item::findOrFail($info->ItemID);
+        $seller = User::findOrFail($item->OwnerID);
 
         $return = new Devolution;
         $return->RasonID = $request->RasonID;
         $return->OrderID = $info->OrderID;
+        $return->ItemID  = $info->ItemID;
+        $return->Amount  = $item->ActualPrice; //Precio o menos la comisión de FR
+        $return->UserID  = Auth::User()->id;
         $return->CreatedDate = date("Y-m-d H:i:s");
         $return->save();
 
@@ -351,11 +438,10 @@ class OrderController extends Controller
         $comments->Comment = $request->Comments;
         $comments->CreationDate = date("Y-m-d H:i:s");
         $comments->IsParent = true;
-        $comments->IsBuyer = Auth::User()->isBuyerProfile();
+        $comments->IsBuyer = Auth::User()->id === $seller->id ? false : true;
         $comments->save();
 
-        $item       = Item::findOrFail($info->ItemID);
-        $seller     = User::findOrFail($item->OwnerID);
+        
         $rason      = Rason::findOrFail($request->RasonID)->Rason;
 
         foreach ($request->Photos as $key => $value) {
@@ -417,40 +503,59 @@ class OrderController extends Controller
         return $request->validate($data);
     }
 
-    public function returnPermission($buyer, $seller) {
+    public function returnPermission($buyer, $seller, $IsBuyer) {
 
         $isAdmin = Auth::User()->isAdmin();
-        $isBuyer = Auth::User()->id == $buyer->id;
-        $isSeller = Auth::User()->id == $seller->id;
+        $buy = Auth::User()->id == $buyer->id;
+        $sell = Auth::User()->id == $seller->id;
 
-        return $isAdmin ? true : ($isBuyer || $isSeller);
+        return $isAdmin ? true : ($IsBuyer === "true" ? $buy : $sell);
     }
 
-    public function showCommentsReturn($ReturnID) {
-
-        $comments   = ReturnComments::where('ReturnID',$ReturnID)->get();
-        $ParentID   = $comments->where('IsParent',true)->first()->CommentID;
-
+    public function showCommentsReturn($ReturnID,$IsBuyer) {
+        
+        $comments   = [];
+        $ParentID = '';
         $return     = Devolution::findOrFail($ReturnID);
         $rason      = Rason::findOrFail($return->RasonID)->Rason;
         $images     = ReturnImg::where('ReturnID',$ReturnID)->get();
-        
         $order      = Order::findOrFail($return->OrderID);
         $infoOrder  = InfoOrder::where('OrderID',$return->OrderID)->first();
         $item       = Item::findOrFail($infoOrder->ItemID);
         $buyer      = User::findOrFail($order->UserID);
         $seller     = User::findOrFail($item->OwnerID);
+        $opposite   = $IsBuyer === 'true' ? $seller->id : $buyer->id;
 
-
-        if(!$this->returnPermission($buyer, $seller)) {
+        if(!$this->returnPermission($buyer, $seller, $IsBuyer)) {
             abort(403);
         }
- 
+
+        $all = ReturnComments::where('ReturnID',$ReturnID)->get();
+        $sellerComments = count($all->where('UserID',$seller->id));
+
+        if(Auth::User()->id === $seller->id && $sellerComments === 0) {
+            return view('orders.comments-return',
+                    compact(
+                        'sellerComments',
+                        'comments',
+                        'ParentID',
+                        'rason',
+                        'buyer',
+                        'seller',
+                        'return',
+                        'IsBuyer'
+                    ));
+        }
+        
+        $comments = $all->where('IsBuyer',$IsBuyer === 'true' ? true : false);
+        $ParentID = count($comments) > 0 ? $comments->where('IsParent',true)->first()->CommentID : '';
+
         $comments = $comments->map(function ($item, $key) use ($images,$buyer,$seller) {
 
             $item->images = $images->where('CommentID',$item->CommentID);
             $item->date = $this->formatDate("d F Y", $item->CreationDate);
-            $item->alias = $buyer->id === $item->UserID ? $buyer->Alias : $seller->Alias;
+            $item->user = $buyer->id === $item->UserID ? 'Comprador' : 
+                         ($seller->id === $item->UserID ? 'Vendedor' : 'Fashion Recovery');
 
             return $item;
         })->sortBy('CreationDate');
@@ -461,7 +566,9 @@ class OrderController extends Controller
                     'rason',
                     'buyer',
                     'seller',
-                    'return'));
+                    'return',
+                    'IsBuyer',
+                    'sellerComments'));
     }
 
     protected function formatDate($format, $date) {

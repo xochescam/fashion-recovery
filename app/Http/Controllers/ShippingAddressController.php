@@ -11,6 +11,7 @@ use Redirect;
 
 use App\States;
 use App\User;
+use App\Devolution;
 
 class ShippingAddressController extends Controller
 {
@@ -27,7 +28,25 @@ class ShippingAddressController extends Controller
         $isNew     = count($addresses) > 0 ? false : true;
         $url       = $isNew ? 'address.create' : 'address.index';
         $type_url  = 'address';
-        $data      = $isNew ? compact('isNew','type_url','states') : compact('addresses','isNew','type_url','states');
+
+        if(!$isNew) {
+            $subtotal   = Auth::User()->getTotal();
+            $devTotal   = null;
+            $total      = $subtotal;
+
+            $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+
+            if(count($devolution) > 0) {
+
+                $devTotal = $devolution->sum(function ($item) {
+                    return str_replace(',', '', substr($item->Amount, 1));
+                });
+
+                $total = $devTotal > $subtotal ? 0 : $subtotal - $devTotal;
+            }   
+        }
+
+        $data  = $isNew ? compact('isNew','type_url','states') : compact('addresses','isNew','type_url','states','subtotal','devTotal','total');
 
         return view($url,$data);
     }

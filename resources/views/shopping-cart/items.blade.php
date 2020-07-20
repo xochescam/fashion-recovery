@@ -38,7 +38,9 @@
 
 			<item-list-component
 				items="{{ $items }}"
-				amount="{{ $total }}"
+				subtotal="{{ $subtotal }}"
+				devolutions="{{ $devTotal }}"
+				total="{{ $total }}"
 			 ></item-list-component>
 
       	</div>
