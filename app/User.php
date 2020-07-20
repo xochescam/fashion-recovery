@@ -10,6 +10,7 @@ use App\Notifications\MailResetPasswordNotification;
 use App\Module;
 use App\ShoppingCart;
 use App\Item;
+use App\Devolution;
 
 use Auth;
 use DB;
@@ -115,6 +116,7 @@ class User extends Authenticatable
 
         return Item::whereIn('ItemID',$shoppingCart)
                     ->sum('ActualPrice'); */
+           
 
         $items = DB::table('fashionrecovery.GR_041')
             ->join('fashionrecovery.GR_029', 'GR_041.ItemID', '=', 'GR_029.ItemID')
@@ -122,9 +124,11 @@ class User extends Authenticatable
             ->select('GR_029.ActualPrice')
             ->get(); 
 
-        return $items->sum(function ($item) {
+        $total = $items->sum(function ($item) {
             return str_replace(',', '', substr($item->ActualPrice, 1));
         });
+
+        return $total;
     }
 
     public static function getSum($user) {
