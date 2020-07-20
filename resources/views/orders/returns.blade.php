@@ -17,6 +17,7 @@
 							    <th scope="col">Motivo</th>
 								<th scope="col">Estado</th>
                                 <th scope="col">Fecha</th>
+								<th scope="col">Proceso</th>
 								<th scope="col"></th>
 						    </tr>
 						  </thead>
@@ -35,9 +36,13 @@
 										@endif
 									</td>
 									<td> {{ $item->CreationDate }} </td>
-                                    <td class="text-center">
-										<a class="btn btn-sm btn-outline-green" href="{{ url('show-return',$item->ReturnID) }}" role="button">Información</a>
-										<a class="btn btn-sm btn-fr" href="{{ url('comments-return',$item->ReturnID) }}" role="button">Disputa</a>
+									<td>
+										<a class="btn btn-sm btn-outline-green" href="{{ url('comments-return/'.$item->ReturnID.'/true') }}" role="button">Comprador</a>
+										<a class="btn btn-sm btn-outline-green " href="{{ url('comments-return/'.$item->ReturnID.'/false') }}" role="button">Vendedor</a>
+									
+									</td>
+                                    <td >
+										<a class="btn btn-sm btn-fr" href="{{ url('show-return',$item->ReturnID) }}" role="button">Información</a>
 									</td>
 							    </tr>
 						 	@endforeach

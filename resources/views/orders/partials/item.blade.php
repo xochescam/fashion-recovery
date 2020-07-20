@@ -36,7 +36,7 @@
 
 							@elseif($item->IsReturn)
 								<small class="mt-2 text-center">
-									<a href="{{ url('comments-return',$item->ReturnID ) }}" class="green-link">Disputa de devolución</a>
+									<a href="{{ url('comments-return/'.$item->ReturnID.'/true') }}" class="green-link">Proceso de devolución</a>
 								</small>
 							@endif
 						@endif

@@ -19,8 +19,12 @@
                                     Información
                                 </div>
                                 <div class="card-body">
-                                    <dl>
-                                        
+
+                                    <div class="d-flex float-right mb-3">
+                                        <a href="{{ url('comments-return/'.$data['return']['ReturnID'].'/false') }}" class="btn btn-outline-green btn-block">Vendedor</a>
+                                    </div>
+
+                                    <dl>    
                                         <dt>Prenda</dt>
                                         <dd class="mb-3">
                                             <a href="{{ url('items/'.$data['infoOrder']['ItemID'].'/public') }}" target="_blank" class="green-link"> 
@@ -60,7 +64,7 @@
                                 <div class="card-body">
 
                                     <div class="d-flex float-right mb-3">
-                                        <a href="{{ url('comments-return',$data['return']['ReturnID']) }}" class="btn btn-fr btn-block">Ver disputa</a>
+                                        <a href="{{ url('comments-return/'.$data['return']['ReturnID'].'/true') }}" class="btn btn-outline-green btn-block">Comprador</a>
                                     </div>
 
                                     <dl>
