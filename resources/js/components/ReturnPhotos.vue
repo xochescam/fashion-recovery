@@ -1,8 +1,8 @@
 <template>
     <div class="form-group">
-        <label for="exampleFormControlSelect2">Fotos de la prenda *</label>
+        <label for="exampleFormControlSelect2">Agrega una foto *</label>
         <div class="custom-file">
-        <input type="file" class="custom-file-input" ref="Photos"  name="Photos[]" id="Photos" accept=".png, .jpg, .jpeg" multiple @change="change($event.currentTarget.files)" required>
+        <input type="file" class="custom-file-input" ref="Photos"  name="Photos[]" id="Photos" accept=".png, .jpg, .jpeg" @change="change($event.currentTarget.files)" required>
         <label class="custom-file-label" for="Photos">Seleccionar archivo</label>
 
         <ul class="list-pictures">
