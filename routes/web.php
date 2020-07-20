@@ -73,9 +73,9 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('send-return/{NoOrder}', 'OrderController@saveReturn');
 	Route::get('returns', 'OrderController@returns');
 	Route::get('show-return/{ReturnID}', 'OrderController@showReturn');
-	Route::get('comments-return/{ReturnID}', 'OrderController@showCommentsReturn');
-	Route::post('return/{ReturnID}', 'OrderController@confirmReturn');
-	Route::post('answer-comment/{ReturnID}', 'OrderController@answerComment');
+	Route::get('comments-return/{ReturnID}/{IsBuyer}', 'OrderController@showCommentsReturn');
+	Route::post('buyer-return/{ReturnID}', 'OrderController@buyerReturn');
+	Route::post('seller-return/{ReturnID}', 'OrderController@sellerReturn');	
 
 	//Notifications
 	Route::get('notification', 'NotificationController@show');
