@@ -12,7 +12,12 @@
 					</h5>
 
 					<div class="card-title-options">
-						@if(isset($item->FolioID) && $order->Name !== 'Cancelado' && $order->Name !== 'Entregado' && $order->Name !== 'Confirmado')
+						@if(isset($item->FolioID) && 
+							$order->Name !== 'Cancelado' && 
+							$order->Name !== 'Entregado' && 
+							$order->Name !== 'Confirmado' &&
+							$order->Name !== 'Devolución entregada' &&
+							$order->Name !== 'Devolución confirmada')
 							<a href="{{ url('tracking',$item->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
 								Rastrear pedido
 							</a>
@@ -23,11 +28,18 @@
 								order="{{ $item->NoOrder }}"
 								text="Evalua tu experiencia"
 							></btn-rating-modal>
+
+						@elseif((isset($item->FolioID) && $order->Name === 'Devolución entregada'))
+
+							<a href="{{ url('delivered-return',$order->OrderID) }}" class="btn btn-fr btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
+								Confirmar devolución
+							</a>
+
 						@endif
 
-						@if((isset($item->FolioID) && $order->Name === 'Entregado') || 
-							(isset($item->FolioID) && $order->Name === 'Devolución confirmada') ||
-							(isset($item->FolioID) && $order->Name === 'Devolución entregada'))
+						@if((isset($item->FolioID) && $order->Name === 'Entregado') ||
+							(isset($item->FolioID) && $order->Name === 'Devolución entregada') ||
+							(isset($item->FolioID) && $order->Name === 'Devuelto'))
 
 							@if($item->isTime && !$item->IsReturn)
 								<small class="mt-2 text-center">
@@ -47,8 +59,8 @@
 				<span class="green-color">{{ $item->ActualPrice }}</span><br>
 
 				@if($item->IsReturn)
-					<span class="badge mb-3 mt-3 {{ $order->Name == 'Cancelado' ? 'badge-danger' : ($order->Name == 'Entregado' || $order->Name == 'Confirmado' ? 'badge-success' : 'badge-warning') }} ">
-						{{ $order->Name == 'Devuelto' ? 'Devolución confirmada' : $order->Name }} el {{ $item->update }}
+					<span class="badge mb-3 mt-3 {{ $order->Name == 'Cancelado' ? 'badge-danger' : ($order->Name === 'Devolución entregada' || $order->Name === 'Devolución confirmada'  || $order->Name === 'Devuelto' ? 'badge-success' : 'badge-warning') }} ">
+						{{ $order->Name == 'Devuelto' ? 'Devolución aprobada' : $order->Name }} el {{ $item->update }}
 					</span>
 				@else
 					<span class="badge mb-3 mt-3 {{ $order->Name == 'Cancelado' ? 'badge-danger' : ($order->Name == 'Entregado' || $order->Name == 'Confirmado' ? 'badge-success' : 'badge-warning') }} ">
@@ -56,7 +68,6 @@
 					</span>
 				@endif
 				
-									
 				<p>
 					<small>No. Orden: {{ $item->NoOrder }}</small><br>
 
