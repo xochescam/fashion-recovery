@@ -19,11 +19,7 @@
 										</h5>
 
 										<div class="card-title-options">
-											@if($order->FolioID && $order->Name === 'Devolución entregada')
-												<a href="{{ url('form-return',$order->ReturnID) }}" class="btn btn-fr btn-sm d-block float-lg-right d-block d-lg-inline mt-2 mt-lg-0">
-													Enviar evidencia
-												</a>
-											@elseif($order->FolioID)
+											@if($order->FolioID && $order->Name !== 'Devolución confirmada')
 												<a href="{{ url('tracking',$order->PackingOrderID) }}" class="btn btn-outline-green btn-sm float-lg-right d-block d-lg-inline mt-2 mt-lg-0" role="button" aria-pressed="true">
 												Rastrear pedido
 												</a>
@@ -38,7 +34,8 @@
 									</div>
 								
 									<span class="green-color">{{ $order->ActualPrice }} </span><br>
-									<p class="badge badge-warning mt-3">{{ $order->Name === 'Devuelto' ? 'Devolución confirmada' : $order->Name }} el {{ $order->update }}</p> 
+									<p class="badge badge-{{ $order->Name === 'Devolución confirmada' || $order->Name === 'Devolución entregada' || $order->Name === 'Devuelto' ? 'success' : 'warning'}} mt-3">
+										{{ $order->Name === 'Devuelto' ? 'Devolución aprobada' : $order->Name }} el {{ $order->update }}</p> 
 
 									<p>
 										<small>No. Orden: {{ $order->NoOrder }}</small><br>
