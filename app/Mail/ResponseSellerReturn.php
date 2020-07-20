@@ -20,16 +20,18 @@ class ResponseSellerReturn extends Mailable
      */
     protected $type;
     protected $comment;
+    protected $return;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($type,$comment)
+    public function __construct($type,$comment,$return)
     {
         $this->type = $type;
         $this->comment = $comment;
+        $this->return = $return;
     }
 
     /**
@@ -44,6 +46,7 @@ class ResponseSellerReturn extends Mailable
                     ->with([
                         'type'    => $this->type,
                         'comments' => $this->comment,
+                        'return' => $this->return,
                         'string'  => str_random(255)
                     ]);
 

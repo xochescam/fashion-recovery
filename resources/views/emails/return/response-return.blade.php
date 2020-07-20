@@ -19,7 +19,7 @@
                         <div style="text-align:center;margin:auto;display: block;width:700px; margin-bottom: 50px; margin-top: 50px;">
 	                        <a href="{{ url('comments-return',$return ) }}" target="_blank" style="background-color: #009c77;
     color: #fff;display: inline-block;font: 400 14px/1 &quot;Open Sans&quot;, sans-serif;font-size: 0.875rem;padding: 1.2em 1.3em; transition: background-color 200ms ease-out;text-decoration: none;cursor: pointer;">
-								Ver disputa
+								Ver proceso de devolución
 							</a>
 		                </div>
 						
