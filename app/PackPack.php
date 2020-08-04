@@ -67,14 +67,14 @@ class PackPack extends Model
             return $data->getStatusCode();
         }
 
-        $url  = '/orders';    
+        $url  = '/'.'orders/'.$PackPackID.'/tracking';    
         $key     = PackPack::key($data, $url);
         $user_id = json_decode($data->getBody())->data->user_id;
 
         $client = new Client(); 
         $response = $client->request(
             'GET',
-            'https://pp-users-integrations-api-prod.herokuapp.com/orders/'.$PackPackID,
+            'https://pp-users-integrations-api-prod.herokuapp.com/orders/'.$PackPackID.'/tracking',
             [
                 'headers' => [
                     'user_id' => $user_id,
@@ -85,9 +85,22 @@ class PackPack extends Model
             ]
         );
 
-        $res = json_decode($response->getBody())->data;
+        $res = json_decode($response->getBody());
 
-        $history = collect($res->shipment->statusHistory);
+        $history = collect($res->data)->sort();
+
+        $map = $history->map(function ($item) {
+
+            return [
+                'status' => $item->name,
+                'location' => ucwords(strtolower($item->comment)),
+                'date' => PackPack::formatDate("d F Y", $item->date) 
+            ];
+        })->toArray();
+
+        return $map;
+
+        
         $places = $res->shipment->places;
         $pickup = [
             'status' => 'Origen',
