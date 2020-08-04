@@ -12,7 +12,6 @@
     aria-haspopup="true" aria-expanded="false">
     <i class="fas fa-user d-inline-block d-sm-none"></i>
     <span class="ml-1">{{ Auth::User()->Alias }}</span>
-    
   </a>
 
   <div class="dropdown-menu bg-light size-14 mt-sm-3" aria-labelledby="navbarDropdown">
@@ -25,6 +24,7 @@
     @endcan
 
     @can('show-orders')
+      <a class="dropdown-item text-left bg-light" href="{{ url('wallet') }}">Mi Cartera</a>
       <a class="dropdown-item text-left bg-light" href="{{ url('orders') }}">Mis Pedidos</a>
       <div class="dropdown-divider"></div>
     @endcan
@@ -51,7 +51,7 @@
       <div class="dropdown-divider"></div>
     @endcan
       
-      <a class="dropdown-item text-left" href="{{ url('update-password') }}">Cambiar contraseña</a>
+      <a class="dropdown-item text-left bg-light" href="{{ url('update-password') }}">Cambiar contraseña</a>
       <a class="dropdown-item text-left bg-light" href="{{ route('logout') }}">Cerrar sesión</a>
   </div>
 </li>
