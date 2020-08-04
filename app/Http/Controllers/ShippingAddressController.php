@@ -34,7 +34,7 @@ class ShippingAddressController extends Controller
             $devTotal   = null;
             $total      = $subtotal;
 
-            $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+            /* $devolution = Devolution::where('UserID',Auth::User()->id)->get();
 
             if(count($devolution) > 0) {
 
@@ -43,10 +43,12 @@ class ShippingAddressController extends Controller
                 });
 
                 $total = $devTotal > $subtotal ? 0 : $subtotal - $devTotal;
-            }   
+            }  */  
         }
 
-        $data  = $isNew ? compact('isNew','type_url','states') : compact('addresses','isNew','type_url','states','subtotal','devTotal','total');
+        $data  = $isNew ? 
+                compact('isNew','type_url','states') : 
+                compact('addresses','isNew','type_url','states','subtotal','devTotal','total');
 
         return view($url,$data);
     }

@@ -95,7 +95,7 @@ class ShoppingCartController extends Controller
         $devTotal   = null;
         $total      = $subtotal;
 
-        $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+        /* $devolution = Devolution::where('UserID',Auth::User()->id)->get();
 
         if(count($devolution) > 0) {
 
@@ -104,7 +104,7 @@ class ShoppingCartController extends Controller
             });
 
             $total = $devTotal > $subtotal ? 0 : $subtotal - $devTotal;
-        }         
+        } */         
 
         return view('shopping-cart.items',compact('items','total','subtotal','devTotal'));
     }
