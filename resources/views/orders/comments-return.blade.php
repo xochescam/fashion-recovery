@@ -9,7 +9,7 @@
                       
                     <h2 class="text-center TituloFR mt-4 mb-5">Proceso de devolución</h2>
 
-                    <p class="mb-5 text-center w-100">Lorem ipsum dolor sit amet consectetur adipisicing elit. In consequuntur amet, ea possimus dolore quidem qui, hic ipsa eligendi ipsam porro.</p>
+                    <p class="mb-5 text-center w-100">Motivo: {{ $rason }}</p>
 
                     <div class="col-md-10 m-auto d-flex flex-column">
                         @include('alerts.success')
@@ -17,6 +17,36 @@
 
                         @if(count($comments) === 0 && Auth::User()->isAdmin())
                             <p class="text-center text-secondary">Sin evidencia del vendedor.</p>
+                        @endif
+
+                        @if($IsBuyer === 'false' && !Auth::User()->isAdmin())
+                            <div class="comments-return border-top {{ count($comments) > 0 ? '' : 'border-bottom mb-5' }} p-4">
+                                <div class="media">
+                                    <span class="mr-3 green-color">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                    <div class="media-body">    
+                                        <h6 class="mt-0">
+                                            <b class="green-color">Comprador</b>
+                                            <small class="float-right">{{ $firstComment->date }}</small>
+                                        </h6>
+                                        <p>{{ $firstComment->Comment }}</p>
+                                    
+                                        <div class="d-flex mt-2">
+
+                                            @foreach($firstComment->images as $image)
+                                                <open-gallery-btn
+                                                    :all="{{ $firstComment->images }}"
+                                                    :image="{{ $image }}"
+                                                >
+                                                </open-gallery-btn>
+                                            @endforeach
+
+                                        </div>                                 
+                                    </div>
+                                </div>
+                            </div>
+
                         @endif
 
                         @foreach($comments as $comment)
@@ -109,7 +139,7 @@
                                 </div>
                             </form>
 
-                        @elseif(!Auth::User()->isAdmin() && !isset($return->Approved))
+                        @elseif(!Auth::User()->isAdmin() && !isset($return->Approved) && $isTime)
                             <form method="POST" action="{{ url( ($IsBuyer === 'true' ? 'buyer' : 'seller').'-return/'.$return->ReturnID) }}" enctype="multipart/form-data"  novalidate class="col-md-11 m-auto needs-validation">
                                 @csrf
 
@@ -133,6 +163,10 @@
                                     </button>
                                 </div>
                             </form>
+                        @elseif(!Auth::User()->isAdmin() && !isset($return->Approved) && !$isTime) 
+                            <div class="alert alert-danger text-center" role="alert">
+                                Se ha agotado el tiempo para enviar evidencia.
+                            </div>
                         @endif
                     </div>
 				</div>
