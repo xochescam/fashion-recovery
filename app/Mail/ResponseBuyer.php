@@ -18,18 +18,20 @@ class ResponseBuyer extends Mailable
      *
      * @var Order
      */
-    protected $type;
+    protected $item;
     protected $rason;
+    protected $type;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($type,$rason)
+    public function __construct($item,$rason,$type)
     {
-        $this->type = $type;
+        $this->item = $item;
         $this->rason = $rason;
+        $this->type = $type;
     }
 
     /**
@@ -42,6 +44,7 @@ class ResponseBuyer extends Mailable
         return $this->subject('Respuesta de solicitud de devolución')
                     ->view('emails.return.response-buyer')
                     ->with([
+                        'item'    => $this->item,
                         'type'    => $this->type,
                         'rason'   => $this->rason,
                         'string'  => str_random(255)

@@ -18,6 +18,7 @@ class ResponseSeller extends Mailable
      *
      * @var Order
      */
+    protected $item;
     protected $rason;
     protected $comments;
     protected $return;
@@ -27,8 +28,9 @@ class ResponseSeller extends Mailable
      *
      * @return void
      */
-    public function __construct($rason,$comments,$return)
+    public function __construct($item,$rason,$comments,$return)
     {
+        $this->item = $item;
         $this->rason = $rason;
         $this->comments = $comments;
         $this->return = $return;
@@ -44,6 +46,7 @@ class ResponseSeller extends Mailable
         return $this->subject('El comprador ha solicitado proceso de devolución')
                     ->view('emails.return.response-seller')
                     ->with([
+                        'item'   => $this->item,
                         'rason'   => $this->rason,
                         'comments'=> $this->comments,
                         'return'  => $this->return,
