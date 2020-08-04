@@ -21,6 +21,7 @@ use Mail;
 use App\Order;
 use App\InfoOrder;
 use App\Item;
+use App\ItemInfo;
 use App\PackPack;
 use App\Question;
 use App\Answer;
@@ -30,6 +31,7 @@ use App\Devolution;
 use App\User;
 use App\Status;
 use App\ReturnComments;
+use App\Wallet;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
@@ -45,40 +47,20 @@ class OrderController extends Controller
             abort(403);
         }
 
-        $orders    = null;
-        $pending   = null;
-        $finalized = null;
-        $canceled  = null;
     	$user      = Auth::User();
 
     	$orders = DB::table($this->table)
-                    //->join('fashionrecovery.GR_022', 'GR_021.OrderID', '=', 'GR_022.OrderID')
                     ->join('fashionrecovery.GR_013', 'GR_021.OrderStatusID', '=', 'GR_013.OrderStatusID')
                     ->where('UserID',Auth::User()->id)
                     ->select('GR_021.TotalAmount','GR_021.OrderID','GR_013.Name')
                     ->get();
 
-        $pending   = $orders->where('Name','!==','Entregado')
-                            ->where('Name','!==','Cancelado')
-                            ->where('Name','!==','Devuelto')
-                            ->where('Name','!==','Confirmado')
-                            ->where('Name','!==','Devolución entregada')
-                            ->where('Name','!==','Devolución confirmada'); 
-        $finalized = $orders->where('Name','!==','Cancelado')
-                            ->where('Name','!==','Solicitado')
-                            ->where('Name','!==','Devuelto')
-                            ->where('Name','!==','Devolución entregada')
-                            ->where('Name','!==','Devolución confirmada'); 
-        $canceled  = $orders->where('Name','Cancelado');  
-        $return    = $orders->where('Name','!==','Entregado')
-                            ->where('Name','!==','Cancelado')
-                            ->where('Name','!==','Confirmado'); 
-
         $keys = $orders->groupBy('OrderID')->keys();
 
 		$items = DB::table($this->detail)
 		            ->join('fashionrecovery.GR_029', 'GR_022.ItemID', '=', 'GR_029.ItemID')
-                   	->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->join('fashionrecovery.GR_001', 'GR_029.OwnerID', '=', 'GR_001.id')
+                    ->join('fashionrecovery.GR_013', 'GR_022.OrderStatusID', '=', 'GR_013.OrderStatusID')
                     ->whereIn('GR_022.OrderID',$keys)
                     ->select('GR_029.ItemID',
                              'GR_029.ItemDescription',
@@ -95,12 +77,30 @@ class OrderController extends Controller
                              'GR_022.NoOrder',
                              'GR_022.IsReturn',
                              'GR_022.CreationDate',
-                             'GR_022.UpdateDate'
+                             'GR_022.UpdateDate',
+                             'GR_013.Name as StatusName',
+                             'GR_013.Name'
                     )->get();
                     
         $items = $items->map(function ($item, $key) use ($user){
 
+/*             if($item->StatusName === 'Transito' || $item->StatusName === 'Devuelto') {
+ */            if($item->StatusName === 'Transito' ) {
+
+                $tracking   = PackPack::tracking($item->PackingOrderID);
+                $last       = collect($tracking)->last()['status'];
+                $status     = $item->StatusName === 'Transito' ? 4 : 9;
+                $statusName = $item->StatusName === 'Transito' ? 'Entregado' : 'Devolución entregada';
+                /* $last = 'Entregado'; */
+                if($last === 'Entregado') {
+                    $this->UpdateOrderStatus($item->OrderID, $status);
+                    $item->StatusName = $statusName ;
+                    $item->Name = $statusName ;
+                }
+            }
+
             $devolution = Devolution::where('OrderID',$item->OrderID)->first();
+
             $item->IsReturn      = isset($devolution->ReturnID) ? $devolution->ReturnID : Null;
             $item->ReturnID      = isset($devolution->ReturnID) ? Devolution::where('OrderID',$item->OrderID)->first()->ReturnID : Null;
             $item->ThumbPath     = $user->getThumbPath($item);
@@ -113,12 +113,32 @@ class OrderController extends Controller
             $segs                = $current - $update;
             $hrs                 = $segs / 3600;
 
-
             $item->isTime = $hrs < 24; // corregir con negativos
 
             return $item;
 
-        })->groupBy('OrderID');
+        });
+
+        $pending   = $items->where('StatusName','!==','Entregado')
+                            ->where('StatusName','!==','Cancelado')
+                            ->where('StatusName','!==','Devuelto')
+                            ->where('StatusName','!==','Confirmado')
+                            ->where('StatusName','!==','Devolución entregada')
+                            ->where('StatusName','!==','Devolución confirmada');
+
+        $finalized = $items->where('StatusName','!==','Transito')
+                            ->where('StatusName','!==','Cancelado')
+                            ->where('StatusName','!==','Solicitado')
+                            ->where('StatusName','!==','Devuelto')
+                            ->where('StatusName','!==','Devolución entregada')
+                            ->where('StatusName','!==','Devolución confirmada');
+
+        $canceled  = $items->where('StatusName','Cancelado');
+        $return    = $items->where('StatusName','!==','Transito')
+                            ->where('StatusName','!==','Entregado')
+                            ->where('StatusName','!==','Cancelado')
+                            ->where('StatusName','!==','Confirmado');
+
 
         $questions  = Question::where('Active',true)->get();
 
@@ -132,16 +152,53 @@ class OrderController extends Controller
                     'return'));
     }
 
+    public function UpdateOrderStatus($OrderID, $status) {
+
+        $order = Order::findOrFail($OrderID);
+        $order->OrderStatusID = $status;
+        $order->save();
+
+        $info = InfoOrder::where('OrderID',$OrderID)->first();
+        $info->OrderStatusID = $status;
+        $info->UpdateDate    = date("Y-m-d H:i:s");
+        $info->save();
+    }
+
     public function returnDelivered($OrderID) {
 
         $order     = Order::findOrFail($OrderID);
         $infoOrder = InfoOrder::where('OrderID',$OrderID)->first();
+        $item      = Item::findOrFail($infoOrder->ItemID);
 
+        if($order->OrderStatusID === 10 || 
+           Auth::User()->id !== $item->OwnerID) {
+            abort(403);
+        }
+        
         $order->OrderStatusID = 10;
         $order->save();
 
         $infoOrder->OrderStatusID = 10;
         $infoOrder->save();
+
+        $existsWallet = Wallet::where('UserID',$order->UserID)->first();
+
+        if(isset($existsWallet->Amount)) {
+
+            $Amount = str_replace(',', '', ltrim($existsWallet->Amount, '$'));
+            $ActualPrice = str_replace(',', '', ltrim($item->ActualPrice, '$'));
+
+            $existsWallet->Amount = $Amount + $ActualPrice;
+            $existsWallet->save();
+            
+        } else {
+
+            $wallet = new Wallet;
+            $wallet->UserID = $order->UserID;
+            $wallet->CreatedDate = date("Y-m-d H:i:s");
+            $wallet->Amount = $item->ActualPrice;
+            $wallet->save();
+        }
 
         Session::flash('success','Se ha confirmado la devolución correctamente.');
         return Redirect::back();
@@ -174,8 +231,16 @@ class OrderController extends Controller
 
         } else if($isAdmin && !isset($request->Approved)){
 
+            $return     = Devolution::findOrFail($ReturnID);
+            $infoOrder  = InfoOrder::where('OrderID',$return->OrderID)->first();
+            $item       = Item::findOrFail($infoOrder->ItemID);
+            $rason      = Rason::findOrFail($return->RasonID)->Rason;
+            $item->ThumbPath = ItemInfo::where('ItemID',$item->ItemID)
+                                        ->where('IsCover',true)
+                                        ->get()->first()->ThumbPath; 
+
             Mail::to($user->email)
-                ->send(new ResponseBuyerReturn(null,$request->Comment,$ReturnID));
+                ->send(new ResponseBuyerReturn($item,$rason,null,$request->Comment,$ReturnID));
         }
 
         if(isset($request->Photos)) {
@@ -232,8 +297,13 @@ class OrderController extends Controller
 
         } else if($isAdmin && !isset($request->Approved)){
 
+            $rason = Rason::findOrFail($return->RasonID)->Rason;
+            $item->ThumbPath = ItemInfo::where('ItemID',$item->ItemID)
+                                    ->where('IsCover',true)
+                                    ->get()->first()->ThumbPath;
+
             Mail::to($seller->email)
-                ->send(new ResponseSellerReturn(null,$request->Comment,$ReturnID));
+                ->send(new ResponseSellerReturn($item,$rason,null,$request->Comment,$ReturnID));
         }
 
         if(isset($request->Photos)) {
@@ -298,7 +368,7 @@ class OrderController extends Controller
             abort(403);
         }
 
-        $rasons = Rason::all();
+        $rasons = Rason::where('Active',true)->get();
 
         return view('orders.return',compact('rasons','NoOrder'));
     }
@@ -383,7 +453,11 @@ class OrderController extends Controller
         $item       = Item::findOrFail($infoOrder->ItemID);
         $buyer      = User::findOrFail($order->UserID);
         $seller     = User::findOrFail($item->OwnerID);
-        $msg        = $approved ? 'aprobada' : 'cancelada';        
+        $msg        = $approved ? 'aprobada' : 'cancelada'; 
+        $rason      = Rason::findOrFail($return->RasonID)->Rason;
+        $item->ThumbPath = ItemInfo::where('ItemID',$item->ItemID)
+                                    ->where('IsCover',true)
+                                    ->get()->first()->ThumbPath;       
 
         $return->Approved = $approved ? true : false;
         $return->Comment = $request->Comment;
@@ -401,11 +475,11 @@ class OrderController extends Controller
 
         //correo para vendedor
         Mail::to($seller->email)
-        ->send(new ResponseSellerReturn($approved,$request->Comment,$ReturnID));
+        ->send(new ResponseSellerReturn($item,$rason,$approved,$request->Comment,$ReturnID));
 
         //correo para comprador
         Mail::to($buyer->email)
-            ->send(new ResponseBuyerReturn($approved,$request->Comment,$ReturnID));
+            ->send(new ResponseBuyerReturn($item,$rason,$approved,$request->Comment,$ReturnID));
 
       /*   Session::flash('success','Se ha '.$msg.' la solicitud.');
         return Redirect::to('show-return/'.$ReturnID); */
@@ -422,6 +496,10 @@ class OrderController extends Controller
         $info   = InfoOrder::where('NoOrder',$NoOrder)->first();
         $item   = Item::findOrFail($info->ItemID);
         $seller = User::findOrFail($item->OwnerID);
+        $item->ThumbPath = ItemInfo::where('ItemID',$info->ItemID)
+                                    ->where('IsCover',true)
+                                    ->get()->first()->ThumbPath;
+        
 
         $return = new Devolution;
         $return->RasonID = $request->RasonID;
@@ -457,7 +535,10 @@ class OrderController extends Controller
         }
 
         Mail::to($seller->email)
-         ->send(new ResponseSeller($rason, $request->Comments,$return->ReturnID));
+         ->send(new ResponseSeller($item, 
+                                   $rason, 
+                                   $request->Comments, 
+                                   $return->ReturnID));
 
         Session::flash('success','Se ha enviado correctamente tu solicitud de devolución. La revisaremos y te daremos respuesta lo más pronto posible.');
         return Redirect::to('orders');
@@ -512,8 +593,16 @@ class OrderController extends Controller
         return $isAdmin ? true : ($IsBuyer === "true" ? $buy : $sell);
     }
 
+    public function isTime($date) {
+        $current    = strtotime(date("Y-m-d H:i:s"));
+        $create     = strtotime(date("Y-m-d H:i:s",strtotime($date)));
+        $segs       = $current - $create;
+        $hrs        = $segs / 3600;
+        return $hrs < 24;
+    }
+
     public function showCommentsReturn($ReturnID,$IsBuyer) {
-        
+
         $comments   = [];
         $ParentID = '';
         $return     = Devolution::findOrFail($ReturnID);
@@ -525,17 +614,28 @@ class OrderController extends Controller
         $buyer      = User::findOrFail($order->UserID);
         $seller     = User::findOrFail($item->OwnerID);
         $opposite   = $IsBuyer === 'true' ? $seller->id : $buyer->id;
-
-        if(!$this->returnPermission($buyer, $seller, $IsBuyer)) {
+        $firstComment = [];
+        
+        if(!$this->returnPermission($buyer, $seller, $IsBuyer) || $order->OrderStatusID === 10) {
             abort(403);
         }
 
         $all = ReturnComments::where('ReturnID',$ReturnID)->get();
+
+        if(count($all) > 0) {
+            $firstComment = $all->where('UserID',$buyer->id)->first();
+            $firstComment->images = $images->where('CommentID',$firstComment->CommentID);
+        }
+        
         $sellerComments = count($all->where('UserID',$seller->id));
+        $isTime  = $IsBuyer === 'true' ? true : 
+                    (!$this->isTime($return->CreatedDate) && $sellerComments === 0 ? false : true) ;
 
         if(Auth::User()->id === $seller->id && $sellerComments === 0) {
             return view('orders.comments-return',
                     compact(
+                        'firstComment',
+                        'isTime',
                         'sellerComments',
                         'comments',
                         'ParentID',
@@ -561,7 +661,9 @@ class OrderController extends Controller
         })->sortBy('CreationDate');
 
         return view('orders.comments-return',
-            compact('comments',
+            compact('firstComment',
+                    'isTime',
+                    'comments',
                     'ParentID',
                     'rason',
                     'buyer',
@@ -597,8 +699,7 @@ class OrderController extends Controller
 
     public function tracking($PackPackID) {
         $packpack = PackPack::tracking($PackPackID);
-        $tracking = $packpack['map'];
-        $status   = $packpack['status'];
+        $tracking = $packpack;
                 
         return view('orders.tracking',compact('tracking','status'));
     }
