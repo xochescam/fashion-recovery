@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	Route::get('transfer/{Alias}', 'SellerController@ConfirmTransfer');
 	Route::get('transfer', 'SellerController@transfer');
+	
 
 	//sells
 	Route::get('sales', 'SellController@index');
@@ -76,7 +77,11 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('comments-return/{ReturnID}/{IsBuyer}', 'OrderController@showCommentsReturn');
 	Route::post('buyer-return/{ReturnID}', 'OrderController@buyerReturn');
 	Route::post('seller-return/{ReturnID}', 'OrderController@sellerReturn');
-	Route::get('delivered-return/{OrderID}', 'OrderController@returnDelivered');	
+	Route::get('delivered-return/{OrderID}', 'OrderController@returnDelivered');
+	
+	Route::get('wallet', 'WalletController@index');
+	Route::get('transfer-wallet', 'WalletController@transferWallet');
+	Route::get('transfer-wallet/{UserID}', 'WalletController@transferConfirm');
 
 	//Notifications
 	Route::get('notification', 'NotificationController@show');
