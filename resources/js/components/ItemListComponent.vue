@@ -51,10 +51,10 @@
 					<h5 class="card-title"><b>Resumen del pedido</b></h5>
 
 					<table class="w-100 mt-4">
-                        <tr v-if="devolutions">
+                        <!-- <tr v-if="devolutions">
                             <td>Cartera:</td>
 							<td class="text-right">${{ devolutions }}</td>
-                        </tr>
+                        </tr> -->
 						<tr>
 							<td>Subtotal:</td>
 							<td class="text-right">${{ subtotal }}</td>
@@ -71,10 +71,10 @@
 						</tr>
 					</table>
 
-                    <div class="alert alert-success w-100 p-2 mt-3 text-center font-13" role="alert" 
+                    <!-- <div class="alert alert-success w-100 p-2 mt-3 text-center font-13" role="alert" 
                      v-if="devolutions && parseInt(devolutions) > parseInt(subtotal)">
                         Te quedan ${{ devolutions - subtotal }} en cartera
-                    </div>
+                    </div> -->
 
 					<a :href="url+'/address'" class="btn btn-fr w-100 mt-2">Proceder al pago</a>
 				</div>							
