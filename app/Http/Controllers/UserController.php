@@ -13,6 +13,7 @@ use Gate;
 
 use App\User;
 use App\Seller;
+use App\Wallet;
 
 class UserController extends Controller
 {
@@ -40,10 +41,14 @@ class UserController extends Controller
 
                 $item->IsTransfer =  $seller->IsTransfer;
                 $item->Sum        =  User::getSum($item);
-                $item->Sold        =  User::getSoldItems($item);
+                $item->Sold       =  User::getSoldItems($item);
 
             } else {
 
+                $wallet = Wallet::where('UserID',$item->id)->first();
+
+                $item->Wallet     = isset($wallet->Amount) ? $wallet->Amount : '$0.00';
+                $item->IsTransfer = isset($wallet->IsTransfer) ? $wallet->IsTransfer : Null;
                 $item->Buy = User::getBuyItems($item);
             }
 
