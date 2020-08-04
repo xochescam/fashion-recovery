@@ -6,12 +6,10 @@
 
 	<div class="card">
   		<ul class="list-group list-group-flush w-100">
-			@foreach($canceled as $order)
-	      		@foreach($items[$order->OrderID] as $item)
+			@foreach($canceled as $item)
 
 				  @include('orders.partials.item')
 				  
-	      		@endforeach
       		@endforeach
 		</ul>
 	</div>			

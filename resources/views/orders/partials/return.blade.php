@@ -5,12 +5,10 @@
 
 	<div class="card">
   		<ul class="list-group list-group-flush w-100">
-			@foreach($return as $order)
-          		@foreach($items[$order->OrderID] as $item)
+			@foreach($return as $item)
 
 				  @include('orders.partials.item')
 
-          		@endforeach
           	@endforeach
 		</ul>
 	</div>	
