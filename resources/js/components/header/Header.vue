@@ -65,6 +65,7 @@
                 <div class="dropdown-menu bg-light size-14 mt-sm-3" aria-labelledby="navbarDropdown" v-if="auth.id">
                     <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/account'" v-if="canpersonalinfo">Mi Cuenta</a>
                     <a  class="dropdown-item text-left bg-light" :href="this.$root.path+'/sales'" v-if="auth.id  && canitem">Mis Ventas</a>
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/wallet'" v-if="canorders">Mi Cartera</a>
                     <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/orders'" v-if="canorders">Mis Pedidos</a>
                 <!--     <a class="dropdown-item text-left" href="{{ url('sells') }}">Mis ventas</a>
                 -->
@@ -91,7 +92,7 @@
 
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-left" :href="this.$root.path+'/update-password'">Cambiar contraseña</a>
+                    <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/update-password'">Cambiar contraseña</a>
                     <a class="dropdown-item text-left bg-light" :href="this.$root.path+'/logout'">Cerrar sesión</a>
                 </div>
             </li>
