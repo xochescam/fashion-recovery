@@ -153,7 +153,7 @@ class PaymentController extends Controller
         DB::table('fashionrecovery.GR_021')
             ->insert([
                 'UserID'          => $user->id,
-                'OrderStatusID'   => 1,
+                'OrderStatusID'   => 3,
                 'ShippingID'      => $ShippingAddID,
                 'TotalAmount'     => Auth::User()->getTotal(), //agregar lo del envío
                 'PaymentOptionID' => 2, //agregar lo del pago
@@ -180,7 +180,7 @@ class PaymentController extends Controller
             DB::table('fashionrecovery.GR_022')
                 ->insert([
                     'OrderID'         => $last,
-                    'OrderStatusID'   => 1,
+                    'OrderStatusID'   => 3,
                     'ItemID'          => $value->ItemID,
                     'CreationDate'    => date("Y-m-d H:i:s")
                 ]);
