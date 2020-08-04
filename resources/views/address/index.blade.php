@@ -54,10 +54,10 @@
 
 							<table class="w-100 mt-4">
 								@if(isset($devTotal))
-									<tr>
+								<!-- 	<tr>
 										<td>Cartera:</td>
 										<td class="text-right">${{ $devTotal }} </td>
-									</tr>
+									</tr> -->
 								@endif
 								<tr>
 									<td>Subtotal:</td>
@@ -76,9 +76,9 @@
 							</table>
 
 							@if(isset($devTotal) && $devTotal > $subtotal)
-								<div class="alert alert-success w-100 p-2 mt-3 text-center font-13" role="alert">
+							<!-- 	<div class="alert alert-success w-100 p-2 mt-3 text-center font-13" role="alert">
 									Te quedan ${{ $devTotal - $subtotal  }} en cartera.
-								</div>
+								</div> -->
 							@endif
 						</div>
 					</div>
