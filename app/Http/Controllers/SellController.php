@@ -9,16 +9,21 @@ use DB;
 use Session;
 use Redirect;
 
+use App\Order;
+use App\InfoOrder;
 use App\States;
 use App\User;
 use App\Seller;
 use App\Question;
 use App\Answer;
 use App\Devolution;
+use App\PackPack;
 
 class SellController extends Controller
 {
     public function index() { //ordenar pedidos por usuarios
+
+        /* Auth::loginUsingId(174); */
         $evaluations = 0;
         $ranking = 0;
         $orders    = null;
@@ -61,13 +66,29 @@ class SellController extends Controller
                                  'GR_022.TrackingURL',
                                  'GR_022.PackingOrderID',
                                  'GR_022.IsReturn',
-                                 'GR_029.IsPaid'
+                                 'GR_029.IsPaid',
+                                 'GR_013.Name as StatusName'
                              )->get();
 
         $sells = $sells->map(function ($item, $key) use ($user){
 
+            /*             if($item->StatusName === 'Transito' || $item->StatusName === 'Devuelto') {
+ */         if($item->StatusName === 'Transito' ) {
+
+                $tracking   = PackPack::tracking($item->PackingOrderID);
+                $last       = collect($tracking)->last()['status'];
+                $status     = $item->StatusName === 'Transito' ? 4 : 9;
+                $statusName = $item->StatusName === 'Transito' ? 'Entregado' : 'Devolución entregada';
+
+                if($last === 'Entregado') {
+                    $this->UpdateOrderStatus($item->OrderID, $status);
+                    $item->StatusName = $statusName;
+                    $item->Name = $statusName;
+                }
+            }
+
             $current = str_replace(',', '', substr($item->ActualPrice, 1));
-            $devolution = Devolution::where('OrderID',$item->OrderID)->first();            
+            $devolution = Devolution::where('OrderID',$item->OrderID)->first();
             
             $item->ThumbPath     = $user->getThumbPath($item);
             $item->BrandID       = $user->getBrand($item);
@@ -88,12 +109,14 @@ class SellController extends Controller
                             ->where('Name','!==','Devolución entregada')
                             ->where('Name','!==','Devolución confirmada');
         $finalized = $sells->where('Name','!==','Cancelado')
+                            ->where('StatusName','!==','Transito')
                             ->where('Name','!==','Solicitado')
                             ->where('Name','!==','Devuelto')
                             ->where('Name','!==','Devolución entregada')
                             ->where('Name','!==','Devolución confirmada');
         $canceled  = $sells->where('Name','Cancelado');
-        $return    = $sells->where('Name','!==','Entregado')
+        $return    = $sells->where('StatusName','!==','Transito')
+                            ->where('Name','!==','Entregado')
                             ->where('Name','!==','Cancelado')
                             ->where('Name','!==','Confirmado'); 
 
@@ -205,6 +228,18 @@ class SellController extends Controller
                     'evaluations',
                     'answers',
                     'return'));
+    }
+
+    public function UpdateOrderStatus($OrderID, $status) {
+
+        $order = Order::findOrFail($OrderID);
+        $order->OrderStatusID = $status;
+        $order->save();
+
+        $info = InfoOrder::where('OrderID',$OrderID)->first();
+        $info->OrderStatusID = $status;
+        $info->UpdateDate    = date("Y-m-d H:i:s");
+        $info->save();
     }
 
     protected function formatDate($format, $date) {
