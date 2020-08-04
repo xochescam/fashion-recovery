@@ -20,6 +20,7 @@ use App\InfoOrder;
 use App\PackPack;
 use App\Address;
 use App\Devolution;
+use App\Wallet;
 
 class MercadoPagoController extends Controller {
 
@@ -30,17 +31,17 @@ class MercadoPagoController extends Controller {
 
         $subtotal   = Auth::User()->getTotal();
         $devTotal   = null;
-        $total      = $subtotal;
+        $total      = $subtotal + $shippingCost;
 
-        $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+        if($request->amount && isset($devolution->Amount)) {
 
-        if(count($devolution) > 0) {
+            $devolution   = Wallet::where('UserID',Auth::User()->id)->first();
+            $wallet       = str_replace(',', '', ltrim($devolution->Amount, '$'));
+            $paymentTotal = $subtotal + $shippingCost;
+            $total        = $wallet > $paymentTotal ? 0 : $paymentTotal - $devTotal;
 
-            $devTotal = $devolution->sum(function ($item) {
-                return str_replace(',', '', substr($item->Amount, 1));
-            });
-
-            $total = $devTotal > ($subtotal + $shippingCost) ? 0 : $subtotal - $devTotal;
+            $devolution->Amount = $wallet > $paymentTotal ? ($wallet - $paymentTotal) : 0;
+            $devolution->save();
         }  
 
         MercadoPago\SDK::setAccessToken(env('MP_SECRET'));
@@ -97,7 +98,7 @@ class MercadoPagoController extends Controller {
     public function payment($ShippingAddID, $IsBuy) {
 
         $user = Auth::User();
-
+        $amount = $user->wallet->Amount;
 
         if($IsBuy === "true") {
             $item = $this->getItem($ShippingAddID);
@@ -129,18 +130,10 @@ class MercadoPagoController extends Controller {
             $devTotal   = null;
             $total      = $subtotal;
 
-            $devolution = Devolution::where('UserID',Auth::User()->id)->get();
+            $wallet = Wallet::where('UserID',Auth::User()->id)->first();
+            $devTotal = isset($wallet->Amount) ? str_replace(',', '', ltrim($wallet->Amount, '$')) : 0;
 
-            if(count($devolution) > 0) {
-
-                $devTotal = $devolution->sum(function ($item) {
-                    return str_replace(',', '', substr($item->Amount, 1));
-                });
-
-                $total = $devTotal > ($subtotal + $shippingCost) ? 0 : $subtotal - $devTotal;
-            }   
-
-            return view('payment.index',compact('address','IsBuy','ShippingAddID','shippingCost','subtotal','devTotal','total'));
+            return view('payment.index',compact('address','IsBuy','ShippingAddID','shippingCost','subtotal','devTotal','total','amount'));
 
         } else {
 
@@ -243,7 +236,7 @@ class MercadoPagoController extends Controller {
 
         $order = new Order;
         $order->UserID = $user->id;
-        $order->OrderStatusID = 1;
+        $order->OrderStatusID = 3;
         $order->ShippingID = $ShippingAddID;
         $order->TotalAmount = Auth::User()->getTotal();
         $order->ShippingAmount = $shippingCost;
@@ -259,7 +252,7 @@ class MercadoPagoController extends Controller {
                 ->insert([
                     'OrderID'       => $order->OrderID,
                     'NoOrder'       => $s.$order->OrderID,
-                    'OrderStatusID' => 1,
+                    'OrderStatusID' => 3,
                     'ItemID'        => $value->ItemID,
                     'IsCanceled'    => false,
                     'CreationDate'  => date("Y-m-d H:i:s")
