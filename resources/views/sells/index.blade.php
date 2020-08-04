@@ -58,22 +58,22 @@
 				  	</li> -->
 				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link active" id="pending-tab" data-toggle="tab" href="#pending" role="tab" aria-controls="pending" aria-selected="true">
-							En curso ({{ count($pending) }})
+							En curso {{ count($pending) > 0 ? '('.count($pending).')' : '' }}
 						</a>
 				  	</li>
 				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link" id="finalized-tab" data-toggle="tab" href="#finalized" role="tab" aria-controls="finalized" aria-selected="false">
-							Finalizadas  ({{ count($finalized) }})
+							Finalizadas {{ count($finalized) > 0 ? '('.count($finalized).')' : '' }}
 						</a>
 				  	</li>
 				  	<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link" id="canceled-tab" data-toggle="tab" href="#canceled" role="tab" aria-controls="canceled" aria-selected="false">
-							Canceladas  ({{ count($canceled) }})
+							Canceladas {{ count($canceled) > 0 ? '('.count($canceled).')' : '' }}
 						</a>
 				  	</li>
 					<li class="nav-item px-md-0 px-4">
 				    	<a class="nav-link green-link" id="return-tab" data-toggle="tab" href="#return" role="tab" aria-controls="return" aria-selected="false">
-							Devoluciones  ({{ count($return) }})
+							Devoluciones {{ count($return) > 0 ? '('.count($return).')' : '' }}
 						</a>
 				  	</li>
 				</ul>

@@ -40,13 +40,15 @@
 									
 
 									<span class="green-color">{{ $order->ActualPrice }} </span><br>
-									<p class="badge badge-success mt-3">{{ $order->Name }} el {{ $order->update }}</p> 
+									<p class="badge badge-success mt-3">
+										{{ $order->Name }}
+									</p> 
 
 									<p>
 										<small>No. Orden: {{ $order->NoOrder }}</small><br>
 
-										@if($order->FolioID)
-											<small>No. Guía: {{ $order->FolioID }} <a class="green-link" href="{{ 'http://'.$order->GuideURL }}" target="_blank" rel="noopener noreferrer" >Descargar</a> </small> 
+										@if($order->FolioID && $order->Name === 'Devuelto')
+											<small>No. Guía: {{ $order->FolioID }} </small> 
 										@endif
 									</p>
 									<p>
