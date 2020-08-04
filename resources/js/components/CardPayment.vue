@@ -23,6 +23,8 @@
             </button>
         </div>
 
+        <input type="hidden" :value="amount" name="amount">
+
         <div class="px-0 mb-3">
             <label for="cardholderName">Nombre como aparece en la tarjeta</label>
             <input 
@@ -212,12 +214,17 @@ export default {
         * Receive an initial selected value.
         */
         shipping: {
-            type: String,
+            type: Number,
             required: false,
             default: ''
         },
         shippingcost : {
             type: Number,
+            required: false,
+            default: ''
+        },
+        amount : {
+            type: Boolean,
             required: false,
             default: ''
         },
@@ -406,7 +413,7 @@ export default {
         
     },
     mounted() {
-        console.log(this.shipping);
+        console.log(this.csrf);
         
     }
 };
