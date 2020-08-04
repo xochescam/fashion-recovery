@@ -81,6 +81,11 @@ class User extends Authenticatable
         }
     }
 
+    public function wallet()
+    {
+        return $this->hasOne('App\Wallet', 'UserID');
+    }
+
     public function access($moduleName)
     {
         $module = Module::where('ModuleName',$moduleName)->first();
@@ -389,7 +394,7 @@ class User extends Authenticatable
         
         return DB::table('fashionrecovery.GR_022')
                     ->whereIn('OrderID',$order)
-                    ->where('OrderStatusID',4)
+                    ->whereIn('OrderStatusID',[4,5,9,10])
                     ->count();
     }
 
