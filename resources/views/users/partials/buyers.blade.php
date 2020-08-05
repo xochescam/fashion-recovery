@@ -15,6 +15,11 @@
                 <td> {{ $user->Buy }} </td>
                 <td> {{ $user->Wallet }} </td>
                 <td> 
+                    <transfer-btn
+                        data="{{ '/transfer-wallet/'.$user->id }}"
+                    >
+                    </transfer-btn>
+
                     @if(isset($user->IsTransfer) && !$user->IsTransfer)
                         <a class="btn btn-info btn-sm" href="{{ url('transfer-wallet',$user->id) }}" role="button">
                             Transferir
