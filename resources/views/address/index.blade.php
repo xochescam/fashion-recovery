@@ -63,6 +63,10 @@
 									<td>Subtotal:</td>
 									<td class="text-right">${{ $subtotal }} </td>
 								</tr>
+								<tr>
+									<td>Envio:</td>
+									<td class="text-right">$60</td>
+								</tr>
 							</table>
 							<hr>
 
