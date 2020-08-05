@@ -123,6 +123,7 @@ Vue.component('return-photos',require('./components/ReturnPhotos.vue').default);
 Vue.component('modal-gallery',require('./components/ModalGallery.vue').default);
 Vue.component('open-gallery-btn',require('./components/OpenGalleryBtn.vue').default);
 Vue.component('payment-component',require('./components/PaymentComponent.vue').default);
+Vue.component('transfer-btn',require('./components/TransferBtn.vue').default);
 
 
 
