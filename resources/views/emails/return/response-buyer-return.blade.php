@@ -44,10 +44,10 @@
 
 						<div style="text-align:center;margin:auto;display: block;width:700px; margin-bottom: 50px; margin-top: 50px;">
 							@if(isset($type))
-								<a href="{{ url('orders') }}" target="_blank" style="background-color: #009c77;
-		color: #fff;display: inline-block;font: 400 14px/1 &quot;Open Sans&quot;, sans-serif;font-size: 0.875rem;padding: 1.2em 1.3em; transition: background-color 200ms ease-out;text-decoration: none;cursor: pointer;">
-									Ir a mis pedidos
-								</a>
+								<p style="line-height: 28px; color: #444;font: 300 14px sans-serif;text-align: center; margin-bottom: 30px; margin-top: 20px;">
+									En un plazo de 5 minutos podrás descargar tu guía entrando a la sección de 
+									<a href="{{ url('orders') }}" style="color:#009c77;"> <b>Mis pedidos</b></a> en la pestalla de <b>Devoluciones</b>.
+								</p>
 							@else
 								<a href="{{ url('comments-return/'.$return.'/true') }}" target="_blank" style="background-color: #009c77;
 		color: #fff;display: inline-block;font: 400 14px/1 &quot;Open Sans&quot;, sans-serif;font-size: 0.875rem;padding: 1.2em 1.3em; transition: background-color 200ms ease-out;text-decoration: none;cursor: pointer;">
