@@ -21,6 +21,10 @@
 								Rastrear pedido
 							</a>
 
+							<small class="mt-2 text-center">
+								<a href="#" class="green-link" data-toggle="modal" data-target="#modalHelp">¿Necesitas ayuda?</a>
+							</small>
+
 						@elseif(isset($item->FolioID) && $item->Name === 'Entregado')
 
 							<btn-rating-modal

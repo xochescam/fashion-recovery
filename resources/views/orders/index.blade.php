@@ -58,6 +58,31 @@
       </div>
     </main>
 
+<!-- Modal help -->
+<div class="modal fade" id="modalHelp" tabindex="-1" aria-labelledby="modalHelp" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalHelp">¿Necesitas ayuda?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+	  	<p>
+			Para nosotros es muy importante tu opinión...  
+		</p>
+
+	  	<p>
+			Te invitamos a visitar nuestra sección de <a href="{{ url('faq') }}" class="green-link"> Preguntas Frecuentes </a>
+			o bien, escribirnos a <a href="mailto:contacto@fashionrecovery.com.mx" class="green-link">contacto@fashionrecovery.com.mx</a>  
+		</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 	<!-- Modal -->
 <div class="modal fade js-rating-modal" id="confirmOrder" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
