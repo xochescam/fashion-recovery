@@ -32,7 +32,7 @@ class ShippingAddressController extends Controller
         if(!$isNew) {
             $subtotal   = Auth::User()->getTotal();
             $devTotal   = null;
-            $total      = $subtotal;
+            $total      = $subtotal + 60;
 
             /* $devolution = Devolution::where('UserID',Auth::User()->id)->get();
 

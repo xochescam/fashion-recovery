@@ -59,6 +59,10 @@
 							<td>Subtotal:</td>
 							<td class="text-right">${{ subtotal }}</td>
 						</tr>
+                        <tr>
+							<td>Envio:</td>
+							<td class="text-right">$60</td>
+						</tr>
 					</table>
 					<hr>
 
@@ -116,7 +120,7 @@
         data() {
             return {
                 allItems: {},
-                url: ''
+                url: '',
             };
         },
         methods: {
@@ -163,6 +167,7 @@
         mounted() {
             this.allItems = JSON.parse(this.items);  
             this.url = window.location.origin;
+
             this.sumTotal();            
         }
     };

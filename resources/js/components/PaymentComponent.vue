@@ -77,7 +77,7 @@
                             </tr>
 
                             <tr v-if="walletBol">
-                                <td>Total con cartera:</td>
+                                <td>Total a pagar:</td>
                                 <td class="text-right green-color">
                                     <h5><b>${{ devtotal > (total + shippingcost) ? 0 : (total + shippingcost) - devtotal }} </b></h5>
                                 </td>
@@ -87,7 +87,7 @@
                         <div class="alert alert-success w-100 p-2 mt-3 text-center font-13" 
                             role="alert"
                             v-if="walletBol && devtotal > (total + shippingcost)">
-                            Te quedan ${{ devtotal - (subtotal + shippingcost)  }} en cartera.
+                            Te quedan ${{ devtotal - (subtotal + shippingcost) }} en cartera.
                         </div>
                     </div>
                 </div>

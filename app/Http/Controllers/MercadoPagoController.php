@@ -27,7 +27,8 @@ class MercadoPagoController extends Controller {
     public function paymentCard(Request $request) {
 
         $delivery = Address::findOrFail($request->shipping)->ZipCode;
-        $shippingCost = PackPack::quotation($delivery);
+        //$shippingCost = PackPack::quotation($delivery);
+        $shippingCost = 60;
 
         $subtotal   = Auth::User()->getTotal();
         $devTotal   = null;
@@ -98,7 +99,7 @@ class MercadoPagoController extends Controller {
     public function payment($ShippingAddID, $IsBuy) {
 
         $user = Auth::User();
-        $amount = $user->wallet->Amount;
+        $amount = isset($user->wallet->Amount) ? $user->wallet->Amount : 0;
 
         if($IsBuy === "true") {
             $item = $this->getItem($ShippingAddID);
@@ -124,7 +125,9 @@ class MercadoPagoController extends Controller {
 
         if($address) {
 
-            $shippingCost = PackPack::quotation($address->ZipCode);
+            //$shippingCost = PackPack::quotation($address->ZipCode);
+
+            $shippingCost = 60;
 
             $subtotal   = Auth::User()->getTotal();
             $devTotal   = null;
@@ -228,6 +231,7 @@ class MercadoPagoController extends Controller {
 
         $delivery = Address::findOrFail($ShippingAddID)->ZipCode;
         $shippingCost = PackPack::quotation($delivery);
+        $shippingCost = ($shippingCost - 60) < 0 ? 0 : ($shippingCost - 60);
 
         $user    = Auth::User();
         $items   = $user->getItems();

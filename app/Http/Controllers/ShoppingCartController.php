@@ -93,7 +93,7 @@ class ShoppingCartController extends Controller
         $items      = Auth::User()->getItems();
         $subtotal   = Auth::User()->getTotal();
         $devTotal   = null;
-        $total      = $subtotal;
+        $total      = $subtotal + 60;
 
         /* $devolution = Devolution::where('UserID',Auth::User()->id)->get();
 
