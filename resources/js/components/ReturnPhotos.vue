@@ -1,8 +1,8 @@
 <template>
     <div class="form-group">
-        <label for="exampleFormControlSelect2">Agrega una foto *</label>
+        <label for="exampleFormControlSelect2"> {{ type === 'return' ? 'Agrega una imagen *' : 'Subir evidencia *' }} </label>
         <div class="custom-file">
-        <input type="file" class="custom-file-input" ref="Photos"  name="Photos[]" id="Photos" accept=".png, .jpg, .jpeg" @change="change($event.currentTarget.files)" required>
+        <input type="file" class="custom-file-input" ref="Photos"  name="Photos[]" id="Photos" :accept="type === 'return' ? 'image/jpeg,image/gif,image/png' : 'image/jpeg,image/gif,image/png,application/pdf'" @change="change($event.currentTarget.files)" required>
         <label class="custom-file-label" for="Photos">Seleccionar archivo</label>
 
         <ul class="list-pictures">
@@ -26,6 +26,10 @@
         props: {
             errors: {
                 type: Object,
+                required: false
+            },
+            type: {
+                type: String,
             },
         },
         data() {

@@ -16,6 +16,7 @@
 
                     <return-photos
                         :errors="{{ $errors }}"
+                        type="return"
                     >
                     </return-photos>
                     
