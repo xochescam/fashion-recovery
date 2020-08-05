@@ -551,7 +551,7 @@ class OrderController extends Controller
         $names = [];
 
         $realImg = Image::make($value->getRealPath())
-                        ->resize(300, null, function ($constraint) {
+                        ->resize(600, null, function ($constraint) {
                     $constraint->aspectRatio();
         })->orientate();
 
