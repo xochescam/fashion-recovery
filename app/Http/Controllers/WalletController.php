@@ -11,9 +11,12 @@ use Gate;
 use App\Wallet;
 use App\Order;
 use App\InfoOrder;
+use App\Transfer;
 
 use Session;
+use Storage;
 use Redirect;
+use Image;
 
 class WalletController extends Controller
 {
@@ -33,6 +36,10 @@ class WalletController extends Controller
 
     public function transferWallet() {
 
+        if(!Auth::User()->isAdmin()) {
+            abort(403);
+        }
+
         $wallet = Wallet::where('UserID',Auth::User()->id)->first();
 
         $wallet->IsTransfer = false;
@@ -42,7 +49,23 @@ class WalletController extends Controller
         return Redirect::back();
     }
 
-    public function transferConfirm($id) {
+    public function transferConfirm(Request $request, $id) {
+
+        if(!Auth::User()->isAdmin()) {
+            abort(403);
+        }
+
+        foreach ($request->Photos as $key => $value) {
+
+            $data = $this->saveFile($value, $key, $id);
+
+            $transfer = new Transfer;
+            $transfer->UserID = $id;
+            $transfer->CreatedDate = date("Y-m-d H:i:s");
+            $transfer->FileUrl = $data[0]['name'];
+            $transfer->save();
+        }
+
         $wallet = Wallet::where('UserID',$id)->first();
 
         $wallet->IsTransfer = true;
@@ -52,4 +75,39 @@ class WalletController extends Controller
         Session::flash('success','Se ha confirmado la transacción.');
         return Redirect::back();
     }
+
+    public function saveFile($value, $key, $UserID) {
+
+        $date   = date("Ymd-His");
+        $dir = 'transfer/';
+        $names = [];
+
+        if($value->getMimeType() === "application/pdf") {
+
+            $name = $UserID.'-'.$date.'-'.$key.'.pdf';
+            $real = $value;
+
+        } else {
+
+            $name = $UserID.'-'.$date.'-'.$key.'.png';
+
+            $real = Image::make($value->getRealPath())
+                        ->resize(600, null, function ($constraint) {
+                    $constraint->aspectRatio();
+            })->orientate();
+
+            $real->stream();
+        }
+
+        \Storage::disk('public')->put($dir.$name, $real, 'public');
+
+        $items = [
+            'name' => $dir.$name,
+        ];
+
+        array_push($names,$items);
+
+        return $names;
+    }
+
 }
