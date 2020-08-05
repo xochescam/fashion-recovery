@@ -81,7 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
 	
 	Route::get('wallet', 'WalletController@index');
 	Route::get('transfer-wallet', 'WalletController@transferWallet');
-	Route::get('transfer-wallet/{UserID}', 'WalletController@transferConfirm');
+	Route::POST('transfer-wallet/{UserID}', 'WalletController@transferConfirm');
 
 	//Notifications
 	Route::get('notification', 'NotificationController@show');
