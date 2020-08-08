@@ -4,13 +4,13 @@
       <div class="row my-5">
 
         <div class="col-md-3 mb-4 mb-md-0">
-          <h5 class="text-light">Información general</h5>
-          <a href="{{ url('support') }}">¿Cómo funciona Fashion Recovery?</a> <br>
+          <h5 class="text-light">Fashion Recovery</h5>
+          <a href="{{ url('support') }}">¿Cómo funciona?</a> <br>
           <a href="{{ url('about') }}">Acerca de Nosotros</a>
         </div>
 
         <div class="col-md-3 mb-4 mb-md-0">
-          <h5 class="text-light">Ayuda</h5>
+          <h5 class="text-light">Información general</h5>
           <a href="{{ url('faq') }}">Preguntas Frecuentes</a> <br>
           <a href="{{ url('terms') }}">Términos y condiciones</a> <br>
           <a href="{{ url('privacy') }}">Aviso de Privacidad</a> <br>

@@ -209,7 +209,7 @@
                 denominaciones de cada nivel de vendedor, las condiciones para acceder a cada uno de ellos y los beneficios 
                 en el pago de comisión a FASHION RECOVERY:</li>
 
-                <table class="table table-sells my-5">
+                <table class="table table-sells my-5" id="commission">
                   <thead>
                     <tr >
                       <th scope="col">NIVEL DE VENDEDOR</th>
