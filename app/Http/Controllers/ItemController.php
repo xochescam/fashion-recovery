@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreItemRequest;
+use Illuminate\Support\Facades\Validator;
 
 use App\Department;
 use App\Category;
@@ -118,6 +119,18 @@ class ItemController extends Controller
      */
     public function store(StoreItemRequest $request)
     {
+        $ActualPrice   = (int)str_replace(',', '', ltrim($request->ActualPrice, '$'));
+        $OriginalPrice = (int)str_replace(',', '', ltrim($request->OriginalPrice, '$'));
+
+        if($OriginalPrice < $ActualPrice) {
+
+            $errors = ['OriginalPrice' => 'El Precio Original debe ser mayor al Precio Fashion Recovery.'];
+
+            return Redirect::back()
+                ->withErrors($errors)
+                ->withInput();
+        }
+
         if (Gate::denies('create-item')) {
             abort(403);
         }
