@@ -213,13 +213,12 @@ class MercadoPagoController extends Controller {
 
     public function summary($ShippingAddID) {
 
-        $ShippingAmount = Order::where('ShippingID',$ShippingAddID)
-                            ->get()->sortByDesc('CreationDate')
-                            ->first()->ShippingAmount;
-
-        $ShippingAmount = str_replace(',', '', substr($ShippingAmount, 1));
-
+        //$ShippingAmount = Order::where('ShippingID',$ShippingAddID)
+        //                    ->get();
+        //$ShippingAmount = str_replace(',', '', substr($ShippingAmount, 1));
+        $ShippingAmount = 60;
         $items   = Auth::User()->getOrdered();
+
         $address = Auth::User()->getShippingAddress()
                                 ->where('ShippingAddID',$ShippingAddID)
                                 ->first();
@@ -229,54 +228,64 @@ class MercadoPagoController extends Controller {
 
     public function confirmation($ShippingAddID) {
 
-        $delivery = Address::findOrFail($ShippingAddID)->ZipCode;
-        $shippingCost = PackPack::quotation($delivery);
-        $shippingCost = ($shippingCost - 60) < 0 ? 0 : ($shippingCost - 60);
+        DB::beginTransaction();
 
-        $user    = Auth::User();
-        $items   = $user->getItems();
-        $arrayIt = []; 
-        
+        try {
 
-        $order = new Order;
-        $order->UserID = $user->id;
-        $order->OrderStatusID = 3;
-        $order->ShippingID = $ShippingAddID;
-        $order->TotalAmount = Auth::User()->getTotal();
-        $order->ShippingAmount = $shippingCost;
-        $order->PaymentOptionID = 2;
-        $order->CreationDate = date("Y-m-d H:i:s");
-        $order->save();
-
-        foreach ($items as $key => $value) {
-
-            $s = strtoupper(substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5));
-
-            DB::table('fashionrecovery.GR_022')
-                ->insert([
-                    'OrderID'       => $order->OrderID,
-                    'NoOrder'       => $s.$order->OrderID,
-                    'OrderStatusID' => 3,
-                    'ItemID'        => $value->ItemID,
-                    'IsCanceled'    => false,
-                    'CreationDate'  => date("Y-m-d H:i:s")
-                ]);
+            $delivery = Address::findOrFail($ShippingAddID)->ZipCode;
+            $shippingCost = PackPack::quotation($delivery);
+            $shippingCost = ($shippingCost - 60) < 0 ? 0 : ($shippingCost - 60);
+    
+            $user    = Auth::User();
+            $items   = $user->getItems();
+            $arrayIt = []; 
             
-            $item = Item::find($value->ItemID);
-            $item->IsSold  = true;
-            $item->save();
+            $order = new Order;
+            $order->UserID = $user->id;
+            $order->OrderStatusID = 3;
+            $order->ShippingID = $ShippingAddID;
+            $order->TotalAmount = Auth::User()->getTotal();
+            $order->ShippingAmount = $shippingCost;
+            $order->PaymentOptionID = 2;
+            $order->CreationDate = date("Y-m-d H:i:s");
+            $order->save();
+    
+            foreach ($items as $key => $value) {
+    
+                $s = strtoupper(substr(str_shuffle(str_repeat("0123456789abcdefghijklmnopqrstuvwxyz", 5)), 0, 5));
+    
+                DB::table('fashionrecovery.GR_022')
+                    ->insert([
+                        'OrderID'       => $order->OrderID,
+                        'NoOrder'       => $s.$order->OrderID,
+                        'OrderStatusID' => 3,
+                        'ItemID'        => $value->ItemID,
+                        'IsCanceled'    => false,
+                        'CreationDate'  => date("Y-m-d H:i:s")
+                    ]);
+                
+                $item = Item::findOrFail($value->ItemID);
+                $item->IsSold  = true;
+                $item->save();
+    
+                $item->unsearchable();
+            }
+    
+            DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
+    
+            $address = Auth::User()->getShippingAddress()
+                                    ->where('ShippingAddID',$ShippingAddID);
+    
+            Mail::to(Auth::User()->email)
+                ->send(new SoldItem(Auth::User(), $order, $items, $address));
 
-            $item->unsearchable();
+            return response()->json('success');
+
+        } catch (\Exception $ex) {
+
+    
+            return response()->json($ex->getResponse());
+            DB::rollback();
         }
-
-        DB::delete('DELETE FROM fashionrecovery."GR_041" WHERE "UserID"='.$user->id);
-
-        $address = Auth::User()->getShippingAddress()
-                                ->where('ShippingAddID',$ShippingAddID);
-
-        Mail::to(Auth::User()->email)
-            ->send(new SoldItem(Auth::User(), $order, $items, $address));
-
-        return response()->json('success');
     }
 }

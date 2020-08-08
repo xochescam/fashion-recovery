@@ -9,6 +9,10 @@
         v-on:submit.prevent="doPay">
         <input type="hidden" name="_token" :value="csrf">
 
+        <div class="alert alert-danger" v-if="error">
+            Ha ocurrido un error, intentalo nuevamente.
+        </div>
+
         <div class="alert alert-info alert-dismissible mb-5 fade show" role="alert" v-if="in_process">
             {{ in_process }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="in_process = ''">
@@ -266,7 +270,8 @@ export default {
             invalidYear: false,
             invalidCvv: false,
             rejected: '',
-            in_process: ''
+            in_process: '',
+            error: false
         };
     },
     methods : {
@@ -349,6 +354,7 @@ export default {
 
                             if(response.data['status'] === 'approved') {
 
+                                console.log('payment-card approved');
                                 this.saveData();
 
                             } else if(response.data['status'] === 'in_process') {
@@ -374,11 +380,20 @@ export default {
             }
         },
         saveData() {
+            this.error = false;
             axios
                 .get(this.$root.path+'/confirmation/'+this.shipping)
                 .then(response => {
-                    window.location.href = this.$root.path+'/summary/'+this.shipping+'/';                    
+
+                    if(response.data === 'success') {
+                        window.location.href = this.$root.path+'/summary/'+this.shipping+'/'; 
+                    } else {
+                        this.error = true;
+                        this.reset();
+                    }
+
                 }).catch(error => {
+                    this.error = true;
                     this.reset();
                 })
         },
