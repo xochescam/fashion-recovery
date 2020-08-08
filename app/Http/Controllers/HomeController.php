@@ -15,6 +15,7 @@ use Mail;
 use App\Item;
 use App\Newsletter;
 use App\User;
+use App\PackPack;
 
 class HomeController extends Controller
 {
@@ -178,13 +179,21 @@ class HomeController extends Controller
                              'GR_018.ColorName','GR_029.BrandID','GR_029.SizeID')
                     ->get();
 
-        return $items->map(function ($item, $key) {
+        $keys = $items->groupBy('ItemID')->keys();
+        $wish = DB::table('fashionrecovery.GR_037')
+                    ->whereIn('ItemID',$keys)
+                    ->get()->groupBy('ItemID');
+            
+        $counted = $wish->sortByDesc(function ($item) {
+                return count($item);
+            });
+
+        return $items->map(function ($item, $key) use ($counted) {
 
             $size       = '';
             $brand      = '';
             $otherBrand = '';
-
-
+            $count = 0;
 
            if(isset($item->BrandID)) {
 
@@ -202,12 +211,20 @@ class HomeController extends Controller
                                 ->first();
             }
 
+
+            foreach ($counted as $key => $value) {
+                if($item->ItemID === $key) {
+                    $count = count($value);
+                }
+            }
+
             $item->size       = $size;
             $item->brand      = $brand;
             $item->otherBrand = $otherBrand;
+            $item->count = $count;
 
             return $item;
-        });
+        })->SortByDesc('count');
     }
 
     public function getItemThumbs($all) {
