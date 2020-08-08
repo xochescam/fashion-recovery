@@ -193,6 +193,10 @@ body{
   display: none;
 }
 
+.underlined {
+  text-decoration: underline;
+}
+
 small{
   color: #949393;
 }
@@ -223,6 +227,12 @@ content:"";
   text-align: left;
   text-decoration: none;
   color:#212529; 
+  height: 100%;
+
+  & button {
+    border: none;
+    background: transparent;
+  }
 }
 
 .a-card:hover, .a-card:active {
