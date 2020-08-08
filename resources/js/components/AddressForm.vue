@@ -241,7 +241,7 @@ export default {
             required: true
         },
         errors: {
-            type: Object,
+            type: [Object, Array],
             required: false
         },
         old: {

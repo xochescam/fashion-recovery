@@ -54,7 +54,7 @@
     export default {
         props: {
             errors: {
-                type: Array,
+                type: [Object, Array],
                 required: false
             },
             questions: {

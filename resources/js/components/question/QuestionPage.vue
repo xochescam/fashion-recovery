@@ -66,7 +66,7 @@
                 required: false
             },
             errors: {
-                type: Array,
+                type: [Object, Array],
                 required: false
             },
             question: {

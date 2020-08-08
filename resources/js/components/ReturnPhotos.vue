@@ -25,7 +25,7 @@
 
         props: {
             errors: {
-                type: Object,
+                type: [Object, Array],
                 required: false
             },
             type: {
