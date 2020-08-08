@@ -24,11 +24,11 @@ class PackPack extends Model
         $client = new Client();
         
         return $client->request('POST', 
-        'https://pp-users-integrations-api-prod.herokuapp.com/signin/email',
+        'https://pp-users-integrations-api-test.herokuapp.com/signin/email',
         [
             'form_params' => [
-                    'email' => env('ALGOLIA_EMAIL'),
-                    'password' => env('ALGOLIA_PASSWORD')
+                    'email' => env('PACK_EMAIL'),
+                    'password' => env('PACK_PASSWORD')
                 
             ]
         ]);
@@ -50,7 +50,7 @@ class PackPack extends Model
         $userData = json_decode($user->getBody());
 
         $client = new Client(); 
-        return $client->request('GET', 'https://pp-users-integrations-api-prod.herokuapp.com/keys/'.$userData->key->_id.'/verify');
+        return $client->request('GET', 'https://pp-users-integrations-api-test.herokuapp.com/keys/'.$userData->key->_id.'/verify');
     }
 
     public static function tracking($PackPackID) {
@@ -74,7 +74,7 @@ class PackPack extends Model
         $client = new Client(); 
         $response = $client->request(
             'GET',
-            'https://pp-users-integrations-api-prod.herokuapp.com/orders/'.$PackPackID.'/tracking',
+            'https://pp-users-integrations-api-test.herokuapp.com/orders/'.$PackPackID.'/tracking',
             [
                 'headers' => [
                     'user_id' => $user_id,
@@ -194,7 +194,7 @@ class PackPack extends Model
             $client = new Client(); 
             $response = $client->request(
                 'POST',
-                'https://pp-users-integrations-api-prod.herokuapp.com/quotation/native',
+                'https://pp-users-integrations-api-test.herokuapp.com/quotation/native',
                 [
                     'headers' => [
                         'user_id' => $user_id,

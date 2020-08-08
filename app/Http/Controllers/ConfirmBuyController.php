@@ -56,11 +56,11 @@ class ConfirmBuyController extends Controller
         $client = new Client();
         
         $response = $client->request('POST', 
-        'https://pp-users-integrations-api-prod.herokuapp.com/signin/email',
+        'https://pp-users-integrations-api-test.herokuapp.com/signin/email',
         [
             'form_params' => [
-                    'email' => env('ALGOLIA_EMAIL'),
-                    'password' => env('ALGOLIA_PASSWORD')
+                    'email' => env('PACK_EMAIL'),
+                    'password' => env('PACK_PASSWORD')
                 
             ]
         ]);
@@ -91,7 +91,7 @@ class ConfirmBuyController extends Controller
         $userData = json_decode($user->getBody());
 
         $client = new Client(); 
-        $response = $client->request('GET', 'https://pp-users-integrations-api-prod.herokuapp.com/keys/'.$userData->key->_id.'/verify');
+        $response = $client->request('GET', 'https://pp-users-integrations-api-test.herokuapp.com/keys/'.$userData->key->_id.'/verify');
 
         if($response->getStatusCode() === 200) {
 
@@ -123,7 +123,7 @@ class ConfirmBuyController extends Controller
 
         $response = $client->request(
             'POST',
-            'https://pp-users-integrations-api-prod.herokuapp.com/quotation/native',
+            'https://pp-users-integrations-api-test.herokuapp.com/quotation/native',
             [
                 'headers' => [
                     'user_id' => $user_id,
