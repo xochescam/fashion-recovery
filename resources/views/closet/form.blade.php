@@ -15,7 +15,6 @@
   <div class="form-group">
     <label for="ClosetDescription">Descripción</label>
     <textarea class="form-control" name="ClosetDescription" id="ClosetDescription" rows="3">{{ isset($closet->ClosetDescription) ? $closet->ClosetDescription : old('ClosetDescription') }}</textarea>
-    <small>Lorem ipsum dolor sit amet, consectetur adipisicing elit officia commodi.</small>
 
       <div class="invalid-feedback">
         El campo descripción es obligatorio

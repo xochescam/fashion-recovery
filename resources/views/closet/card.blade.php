@@ -35,9 +35,12 @@
         <div class="card-body">
             <h5 class="card-title mb-0"> {{ $closet->ClosetName }} </h5>
                 
-            <div class="edit-closet">
+            <div class="edit-closet text-left ">
                 <small class="text-left align-middle"> {{ isset($items[$closet->ClosetID]) ? count($items[$closet->ClosetID]) : '0' }} prenda{{ isset($items[$closet->ClosetID]) && count($items[$closet->ClosetID]) === 1  ? '': 's' }}</small>
+                
+                @if($closet->ClosetName !== 'Mi primer Clóset')
                     <a class="card-link float-right" href="#" data-toggle="modal" data-target="#updateCollection-{{ $closet->ClosetID }}"><i class="fas fa-pencil-alt"></i></a>
+                @endif
             </div>
         </div>
     </div>

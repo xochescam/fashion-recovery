@@ -183,7 +183,7 @@ class ClosetController extends Controller
     {
         $closet = Closet::where('ClosetID',$id)->first();
 
-        if(!$this->authorize('updateCloset',  $closet)) {
+        if(!$this->authorize('updateCloset',  $closet) || $closet->ClosetName === 'Mi primer Clóset') {
             abort(403);
         }
 
@@ -223,7 +223,7 @@ class ClosetController extends Controller
     {
         $closet = Closet::where('ClosetID',$id)->first();
 
-        if(!$this->authorize('deleteCloset',  $closet)) {
+        if(!$this->authorize('deleteCloset',  $closet)  || $closet->ClosetName === 'Mi primer Clóset') {
             abort(403);
         }
 
@@ -243,20 +243,20 @@ class ClosetController extends Controller
             
             $default = DB::table($this->table)
                         ->where('UserID',Auth::User()->id)
-                        ->where('ClosetName','Closet por defecto')
+                        ->where('ClosetName','Mi primer Clóset')
                         ->first();
 
             if(!isset($default)) {
                 $closet = DB::table($this->table)->insert([
                     'UserID'            => Auth::User()->id,
-                    'ClosetName'        => 'Closet por defecto',
-                    'ClosetDescription' => 'Closet por defecto',
+                    'ClosetName'        => 'Mi primer Clóset',
+                    'ClosetDescription' => 'Mi primer Clóset',
                     'CreationDate'      => date("Y-m-d H:i:s")
                 ]);
 
                 $default = DB::table($this->table)
                         ->where('UserID',Auth::User()->id)
-                        ->where('ClosetName','Closet por defecto')
+                        ->where('ClosetName','Mi primer Clóset')
                         ->first();
             }
 
