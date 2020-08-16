@@ -7,7 +7,7 @@
         	<h2 class="text-center TituloFR my-4 mb-5 ">Mi Cartera</h2>
 
         	<p class="mb-5 text-center w-100">
-				Encuentra el balance final como resultado de tus ventas y compras. Solicita aquí una transferencia de tu cartera a tu cuenta y comienza a disfrutar los beneficios de ser parte de la comunidad verde de FashionRecovery
+				Encuentra el balance final como resultado de tus ventas y compras. Solicita aquí una transferencia de tu cartera a tu cuenta y comienza a disfrutar los beneficios de ser parte de la comunidad verde de Fashion Recovery.
 			</p>
 
 			<div class="w-100 mb-5">

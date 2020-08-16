@@ -8,7 +8,7 @@
             <h2 class="text-center TituloFR my-4 mb-5 w-100">Crear nueva colección</h2>
 
             <p class="text-center mb-5 w-100">
-              En esta sección crea looks y conjuntos únicos para que nuestra comunidad FashionRecoverypueda descubritu clóset. Puedes crear colecciones por temporada, para un moodespecífico o para ajustarte a algún look.
+              En esta sección crea looks y conjuntos únicos para que nuestra comunidad Fashion Recovery pueda descubrir tu clóset. Puedes crear colecciones por temporada, para un modo específico o para ajustarte a algún look.
             </p>
 
           <div class="col-md-6 offset-md-3">

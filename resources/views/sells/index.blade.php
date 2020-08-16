@@ -7,7 +7,7 @@
         	<h2 class="text-center TituloFR my-4 mb-5 ">Mis ventas</h2>
 
         	<p class="mb-5 text-center w-100">
-				Conoce el balance de las ventas que haz realizado desde que eres miembro de la comunidad FashionRecovery
+				Conoce el balance de las ventas que haz realizado desde que eres miembro de la comunidad Fashion Recovery.
 			</p>
 
 			<div class="w-100 mb-5">

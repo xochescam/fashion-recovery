@@ -9,7 +9,7 @@
 					<h2 class="left-center TituloFR my-4 mb-5 ">Hola {{ Auth::User()->Alias }}, este es tu Clóset</h2>
 
 					<p class="mb-5">
-						!Dale un nuevo uso a tus prendas! Nuestra comunidad puede estar interesada en tus piezas. En tu Clóset, puedes consultas las prendas y colecciones que tienes disponibles para venta.¡Únete al movimiento y cuidemos juntos al planeta! Recuerda que la prenda más verde, es la que ya existe.
+						¡Dale un nuevo uso a tus prendas! Nuestra comunidad puede estar interesada en tus piezas. En tu Clóset, puedes consultas las prendas y colecciones que tienes disponibles para venta. ¡Únete al movimiento y cuidemos juntos al planeta! Recuerda que la prenda más verde, es la que ya existe.
 					</p>
 
 					<div class="float-right w-100">
