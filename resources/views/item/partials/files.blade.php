@@ -1,10 +1,19 @@
 
  <div class="mb-2">
-<label>Coloca abajo las mejores fotos de la prenda a vender*</label>
+ <div class="d-flex justify-content-between">
+  <label>Coloca abajo las mejores fotos de la prenda a vender *</label>
+  <span>
+    <a href="{{ url('support') }}" class="btn-tooltip" target="_blank">
+      <i class="far fa-question-circle"></i>
+      <span class="btn-tooltip__text">¿Cómo tomar mejores fotos?</span>
+    </a> 
+  </span>
+ </div>
 
- <div class="js-items-container d-flex flex-wrap justify-content-center justify-content-sm-start mt-2">
 
-    <div class="mb-5 mr-4 thumb-size js-item-picture">
+ <div class="js-items-container d-flex flex-wrap justify-content-center justify-content-sm-between mt-2">
+
+    <div class="mb-5 thumb-size js-item-picture">
     
       @if($front)
         <div class="container-item-img card">
@@ -44,7 +53,7 @@
       
     </div>
 
-    <div class="mb-5 mr-4 thumb-size js-item-picture">
+    <div class="mb-5 thumb-size js-item-picture">
 
     @if($label)
         <div class="container-item-img card">
@@ -81,7 +90,7 @@
     @endif
     </div>
 
-    <div class="mb-5 mr-4 thumb-size js-item-picture">
+    <div class="mb-5 thumb-size js-item-picture">
 
     @if($back)
         <div class="container-item-img card">
@@ -118,7 +127,7 @@
     @endif 
     </div>
 
-    <div class="mb-5 mr-4 thumb-size js-item-picture">
+    <div class="mb-5 thumb-size js-item-picture">
     @if($selfie)
         <div class="container-item-img card">
           <a  href="{{ url('item/'.$selfie->ItemPictureID.'/'.$selfie->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Selfie" data-name="selfie" data-item="true">
@@ -150,7 +159,7 @@
     @endif
     </div>
 
-    <div class="mb-5 mr-4 thumb-size js-item-picture">
+    <div class="mb-5 thumb-size js-item-picture">
     @if($in)
         <div class="container-item-img card">
           <a  href="{{ url('item/'.$in->ItemPictureID.'/'.$in->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Prenda puesta" data-name="in" data-item="true">
@@ -183,7 +192,7 @@
     @endif
     </div>
 
-    <div class="mb-4 mr-4 thumb-size js-item-picture">
+    <div class="mb-4 thumb-size js-item-picture">
     @if($extra)
         <div class="container-item-img card">
           <a  href="{{ url('item/'.$extra->ItemPictureID.'/'.$extra->ItemID.'/delete') }}" class="close delete-item js-delete-item" aria-label="Close" data-type="Foto extra" data-name="extra" data-item="true">

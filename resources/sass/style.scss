@@ -1161,3 +1161,45 @@ div a{
 .card--active {
   border: 2px solid #009c77 !important;
 }
+
+.btn-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0;
+  background-color: transparent;
+  color: #009c77;
+
+  &:hover {
+    color: #009c77;
+
+    & .btn-tooltip__text {
+      visibility: visible;
+    }
+  }
+
+  &__text {
+    position: absolute;
+    visibility: hidden;
+    background-color: #009c77;
+    color: #fff;
+    text-align: center;
+    font-size: 10px;
+    border-radius: 4px;
+    padding: 5px 0;
+    width: 145px;
+    bottom: 30px;
+    right: -5px;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      top: 100%;
+      right: 8px;
+      margin-left: -5px;
+      border-width: 5px;
+      border-style: solid;
+      border-color: #009c77 transparent transparent transparent;
+    }
+  }
+}
