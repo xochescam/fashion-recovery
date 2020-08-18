@@ -8,6 +8,10 @@
     </div>
     <div class="row justify-content-start shadow-lg p-3 mb-5 bg-white rounded mx-md-5">
       @include('item.partials.card')
+
+      <div class="text-center w-100">
+        <a href="{{ url('search/all') }}" class="btn btn-fr mt-5 mb-2">Ver más</a>
+      </div>
     </div>
   </div>
 </section>
