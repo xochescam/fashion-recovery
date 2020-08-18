@@ -64,34 +64,9 @@
         </div>
 
       </div>
+
+      <p class="text-center w-100 mt-3 mb-0 color-white">© FASHION RECOVERY, todos los derechos reservados</p>
     </div>  
-  </div>
-
-  <div class="footer-info py-5">
-    <div class="container">
-      <div class="row">
-        <p class="text-center w-100 mb-4 font-15">
-          <b>¡Estamos para atender todas tus dudas, comentarios y sugerencias!</b> 
-        </p>
-
-        <div class="col-md-6">
-          <p class="text-center w-100">
-            Servicio al cliente: +52 55 XXXX XXXX <br>
-            E-mail: <a href="#" class="green-link">contacto@fashionrecovery.com.mx</a>  
-          </p>
-        </div>
-
-        <div class="col-md-6">
-          <p class="text-center w-100">
-            Horario de servicio al cliente: <br>
-            Lunes a viernes: 9:00 a.m. a 9:00 p.m. <br>
-            Sábados: 10:00 a.m. a 6:00 p.m. <br>
-          </p>
-        </div>
-
-        <p class="text-center w-100 mt-3 mb-0">© FASHION RECOVERY, todos los derechos reservados</p>
-      </div>
-    </div>
   </div>
 
 </footer>
