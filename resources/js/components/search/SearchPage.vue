@@ -26,7 +26,7 @@
     <hits 
         :wishlistdata="{ wishlistdata }"
         :authdata="auth"
-        :searchdata="searchdata"
+        :searchdata="this.searchdata === 'all' ? '' : this.searchdata"
         ></hits>
 
   </ais-instant-search>
@@ -61,7 +61,7 @@ export default {
                 process.env.MIX_ALGOLIA_SEARCH
             ),
             initial: {
-                query: this.searchdata,
+                query: this.searchdata === 'all' ? '' : this.searchdata,
                 disjunctiveFacetsRefinements: {
                     DepName: ['Hombres', 'Mujeres', 'Niños', 'Maternidad'].includes(this.searchdata) 
                             ? [this.searchdata] : false,
@@ -72,7 +72,7 @@ export default {
             auth: this.authdata,
             countitems: this.countitemsdata,
             notifications: this.notificationsdata,
-            search: this.searchdata,
+            search: this.searchdata === 'all' ? '' : this.searchdata,
             arrBrands:JSON.parse(this.brands)
         };
     },

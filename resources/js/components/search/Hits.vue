@@ -1,7 +1,7 @@
 <template>
     <main id="main">
         <div class="container pt-4">
-            <h2 class="text-center TituloFR py-5 mb-5 title-search">{{ search }}</h2>
+            <h2 class="text-center TituloFR py-5 mb-5 title-search" v-if="search">{{ search }}</h2>
         </div>
         
         <section class="container">
@@ -77,7 +77,7 @@ export default {
             path: this.$root.path,
             wishlist: this.wishlistdata,
             auth: this.authdata,
-            search: this.searchdata,
+            search: this.searchdata === 'all' ? '' : this.searchdata,
         }
     },
     methods: {
