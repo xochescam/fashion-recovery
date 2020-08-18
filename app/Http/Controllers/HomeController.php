@@ -30,7 +30,7 @@ class HomeController extends Controller
         $type = "card";
 
         $thumbs = Item::getThumbs($all);
-        $items  = Item::getItemThumbs($all, $thumbs)->take(16); 
+        $items  = Item::getItemThumbs($all, $thumbs)->take(12); 
 
         return view('home',compact('items','type'));
     }
