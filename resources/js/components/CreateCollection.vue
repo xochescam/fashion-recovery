@@ -33,7 +33,7 @@ export default {
             required: true
         },
         item: {
-            type: Array,
+            type: [Array, Object],
             required: false
         },
         old: {
