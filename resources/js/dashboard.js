@@ -137,7 +137,6 @@ function orientation(img) {
     // Check orientation in EXIF metadatas
     EXIF.getData(img, function() {
         exifOrientation = EXIF.getTag(this, "Orientation");
-        console.log('Exif orientation: ' + exifOrientation);
     });
 
     // transform context before drawing image
@@ -553,7 +552,6 @@ function showItemPicture(e) {
         <i class="far fa-trash-alt"></i>
         </a>`;
 
-
         const cover = `<div class="form-check cover-item">
                     <input class="form-check-input" type="radio" name="cover" id="cover_`+name+`" data-item="`+item+`" value="`+name+`" `+isRequired+`>
                     <label class="form-check-label" for="cover_`+name+`">
@@ -562,9 +560,6 @@ function showItemPicture(e) {
                     </div>`;
 
         container.insertAdjacentHTML('afterbegin', button);
-
-        console.log('item');
-        console.log(item);
 
         if(item == 'true') {
             container.insertAdjacentHTML('beforeend', cover);
@@ -578,10 +573,41 @@ function showItemPicture(e) {
     };
 
     // Trigger reader to read the file input
-    reader.readAsDataURL(file[0]);
+    reader.readAsDataURL(file[0]);  
     
-    console.log(el.files);
     
+    let files        = 0;
+    const keys = {
+            0: "front",
+            1: "label",
+            2: "back",
+            3: "selfie",
+            4: "in",
+            5: "extra"
+        };
+
+
+    for (let i = 0; i < Object.keys(keys).length; i++) {
+
+        let input = document.querySelector('#'+keys[i]+'_item_file');
+        
+
+        if(input === null) {
+            files++;
+
+        } else if(input.files.length > 0) {
+            files++;
+        }
+    }    
+
+    for (let i = 0; i < Object.keys(keys).length; i++) {
+
+        let input = document.querySelector('#'+keys[i]+'_item_file');
+
+        if(input !== null && files >= 3) {
+            input.removeAttribute("required");
+        }
+    }
 }
 
 function deleteItem(e) {
@@ -607,9 +633,39 @@ function deleteItem(e) {
 
     const itemFiles = document.querySelectorAll('.js-item-file');
 
+    let files        = 0;
+    const keys = {
+            0: "front",
+            1: "label",
+            2: "back",
+            3: "selfie",
+            4: "in",
+            5: "extra"
+        };
+
+    for (let i = 0; i < Object.keys(keys).length; i++) {
+
+        let input = document.querySelector('#'+keys[i]+'_item_file');
+            
+        if(input !== null && input.files.length > 0) {
+            files++;
+        }
+    }
+
+    for (let i = 0; i < Object.keys(keys).length; i++) {
+
+        let input = document.querySelector('#'+keys[i]+'_item_file');
+
+        if(input !== null && files >= 3) {
+            input.removeAttribute("required");
+        }
+    }
+
     Array.prototype.forEach.call(itemFiles, (item) => {
         item.addEventListener('change', showItemPicture);
     });
+
+    
 }
 
 if(itemsInput) {
@@ -753,8 +809,6 @@ if(paymentBtn) {
     paymentBtn.addEventListener('click', function(e) {
 
         var a = new Date().getTime();
-
-        console.log();
         
 
         for (let index = 0; index < 25; index++) {
