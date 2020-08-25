@@ -46,17 +46,16 @@ class ItemController extends Controller
                  $this->getItemWithoutOffer($allItems); */
 
         $items = $allItems;
-        
-
+    
         $thumbs = $this->getItemThumbs($items);
         
         $items = $items->map(function ($item, $key) use($thumbs) {
 
             $item->ThumbPath = $thumbs[$item->ItemID]->first()->ThumbPath;
-
+            
             return $item;
-        });        
-
+        });    
+                
         return view('item.list',compact('items'));
     }
 
@@ -193,7 +192,9 @@ class ItemController extends Controller
                 $info->PicturePath  = $value['name'];
                 $info->ThumbPath    = $value['thumb'];
                 $info->TypeItemID   = $types[$value['type']];
-                $info->IsCover      = $names[$request->cover] == $key ? true : false;
+                $info->IsCover      = !isset($request->cover) ? 
+                                        ($itemsName[0]['type'] == $value['type'] ? true : false) : 
+                                        ($names[$request->cover] == $key ? true : false);
                 $info->CreationDate = date("Y-m-d H:i:s");
                 $info->save();
             }
@@ -756,6 +757,7 @@ class ItemController extends Controller
      */
     public function edit($id)
     {
+        
         $item = Item::where('ItemID',$id)->first();
 
         if(!$this->authorize('updateItem',  $item)) {
@@ -772,6 +774,7 @@ class ItemController extends Controller
         $types         = DB::table('fashionrecovery.GR_027')->where('Active',1)->get();
         $closets       = DB::table('fashionrecovery.GR_030')->get();
         $offers        = DB::table('fashionrecovery.GR_031')->get();
+
 
         return view('item.edit',compact(
             'item',
@@ -796,6 +799,18 @@ class ItemController extends Controller
      */
     public function update(StoreItemRequest $request, $id)
     {
+        $ActualPrice   = (int)str_replace(',', '', ltrim($request->ActualPrice, '$'));
+        $OriginalPrice = (int)str_replace(',', '', ltrim($request->OriginalPrice, '$'));
+
+        if($OriginalPrice < $ActualPrice) {
+
+            $errors = ['OriginalPrice' => 'El Precio Original debe ser mayor al Precio Fashion Recovery.'];
+
+            return Redirect::back()
+                ->withErrors($errors)
+                ->withInput();
+        }
+
         $item = Item::where('ItemID',$id)->first();
 
         if(!$this->authorize('updateItem',  $item)) {
@@ -872,7 +887,9 @@ class ItemController extends Controller
                 $info->PicturePath  = $value['name'];
                 $info->ThumbPath    = $value['thumb'];
                 $info->TypeItemID   = $types[$value['type']];
-                $info->IsCover      = $names[$request->cover] == $key ? true : false;
+                $info->IsCover      = !isset($request->cover) ? 
+                                    ($itemsName[0]['type'] == $value['type'] ? true : false) : 
+                                    ($names[$request->cover] == $key ? true : false);
                 $info->CreationDate = date("Y-m-d H:i:s");
                 $info->save();
             }
@@ -914,7 +931,8 @@ class ItemController extends Controller
             $explode     = explode('.', $this->table);
             $stringTable = $explode[0].'."'.$explode[1].'"';
 
-            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemPictureID"='.$id); //Eliminar de la carpeta, no dejar de eliminar todas las imagenes y tomar en cuenta las imagenes de portada
+            DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemPictureID"='.$id); 
+            //Eliminar de la carpeta, no dejar de eliminar todas las imagenes y tomar en cuenta las imagenes de portada
 
             DB::commit();
 
@@ -938,7 +956,7 @@ class ItemController extends Controller
      */
     public function fullDestroy($id)
     {
-        $item = Item::where('ItemID',$id)->first();
+        $item = Item::findOrFail($id);
 
         if(!$this->authorize('deleteItem', $item)) {
             abort(403);
@@ -948,10 +966,10 @@ class ItemController extends Controller
 
         try {
 
+            $item->unsearchable();
+
             DB::delete('DELETE FROM fashionrecovery."GR_032" WHERE "ItemID"='.$id);
             DB::delete('DELETE FROM fashionrecovery."GR_029" WHERE "ItemID"='.$id);
-
-            $item->unsearchable();
 
             DB::commit();
 
