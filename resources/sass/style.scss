@@ -1203,3 +1203,246 @@ div a{
     }
   }
 }
+
+.info-works__container {
+  padding: 60px;
+}
+
+.info-works {
+  background-color: #282828;
+  color: #fff;
+  padding: 0px;
+
+  &__header {
+    background-image: url('/img/adArtboardBlack.jpg');
+    padding: 40px;
+  }
+
+  &__item {
+    border-bottom: solid #ddcf1c 3px;
+    height: auto;
+    margin-bottom: 30px;
+    padding-bottom: 30px;
+
+    @media (min-width: 770) {
+      height: 150px;
+      margin-bottom: 0px;
+      padding-bottom: 0px;
+    }
+  }
+
+  &__item:last-child {
+    border: none;
+  }
+
+  &__img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 30px;
+
+    @media (min-width: 770px) {
+      margin-top: 0px;
+    }
+  }
+
+  &__1 {
+    height: 80px;
+  }
+
+  &__2 {
+    height: 100px;
+  }
+}
+
+.info-how__container {
+  width: 100%;
+  margin: auto;
+  margin-bottom: 70px;
+  text-align: center;
+
+  @media (min-width: 770px) {
+    //max-width: 700px;
+  }
+}
+
+.info-how {
+  //max-width: 700px;
+  width: 100%;
+}
+
+.title-info {
+  line-height: 30px;
+  font-size: 25px;
+
+  @media (min-width: 770px) {
+    line-height: 40px;
+    font-size: 25px;
+  }
+
+  &__strong {
+    font-weight: bold;
+    font-size: 25px;
+
+    @media (min-width: 770px) {
+      font-size: 40px;
+    }
+  }
+
+}
+
+.info-what {
+  text-align: center;
+  height: 50px;
+  background-color: #ddcf1c;
+  color: #282828;
+  //max-width: 700px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+
+}
+
+.info-card__container {
+  margin-top: 60px;
+  padding: 30px;
+
+  @media (min-width: 770px) {
+    padding: 45px;
+  }
+}
+
+.info-card {
+  text-align: center;
+  min-width: 170px;
+  max-height: 200px;
+
+  &__title {
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background-color: #009c77;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  &__text {
+    padding: 10px 0px;
+  }
+
+  &__img {
+    width: 170px;
+  }
+
+  &__footer {
+    text-align: center;
+    color: #009c77;
+    font-weight: bold;
+    font-size: 30px;
+  }
+}
+
+.info-footer {
+  margin-top: 63px;
+  padding: 30px;
+  text-align: center;
+  background-color: #009c77;
+
+  &__logo {
+    max-width: 220px;
+  }
+
+  &__web {
+    font-size: 15px;
+    margin-bottom: 5px;
+  }
+  &__p {
+    font-size: 12px;
+  }
+}
+
+.info-steps {
+  margin: auto;
+  margin-bottom: 60px;
+  
+
+  &__header {
+    padding-top: 30px;
+    text-align: center;
+    background-image: url('/img/adArtboardTransparent.jpg');
+
+    &-logo {
+      margin-bottom: 20px;
+      filter: invert(1);
+      max-width: 400px;
+      width: 100%;
+    }
+    
+    &-title {
+      font-size: 25px;
+      color: #009c77;
+      font-weight: bold;
+      margin-bottom: 0px;
+    }
+
+    &-subtitle {
+      font-size: 20px;
+      margin-bottom: 0px;
+      padding-bottom: 30px;
+    }
+  }
+
+  &__content {
+    background-color: #009c77;
+    padding: 60px;
+    display: flex;
+    justify-content: space-evenly;
+    flex-flow: wrap;
+  }
+
+  &__item {
+    max-width: 180px;
+    display: flex;
+    flex-flow: column;
+
+    &-img  {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    &-img img {
+      height: 90px;
+    }
+  }
+
+  &__step {
+    background-color: #fff;
+    color: #282828;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 15px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+
+  }
+
+  &__text {
+    text-align: center;
+    font-weight: bold;
+  }
+
+  &__footer {
+    text-align: center;
+    font-weight: bold;
+    font-size: 18px;
+    background-color: #ddcf1c;
+    padding: 10px;
+  }
+}
