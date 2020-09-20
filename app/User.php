@@ -81,6 +81,11 @@ class User extends Authenticatable
         }
     }
 
+    public function order()
+    {
+        return $this->hasMany('App\Order', 'UserID');
+    }
+
     public function wallet()
     {
         return $this->hasOne('App\Wallet', 'UserID');
@@ -249,7 +254,13 @@ class User extends Authenticatable
 
     public function item()
     {
-        return $this->hasOne('App\Item', 'ItemID');
+        //return $this->hasMany('App\Item', 'OwnerID');
+        return $this->belongsTo('App\Item', 'OwnerID');
+    }
+
+    public function allItems()
+    {
+        return $this->hasMany('App\Item', 'OwnerID');
     }
 
     public function getShippingAddress() {

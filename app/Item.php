@@ -24,7 +24,19 @@ class Item extends Model
 
     public function user()
     {
+        //return $this->belongsTo('App\User', 'OwnerID');
+        return $this->hasMany('App\User', 'id', 'OwnerID');
+    }
+    
+    public function owner()
+    {
         return $this->belongsTo('App\User', 'OwnerID');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo('App\InfoOrder', 'ItemID');
+        //return $this->hasMany('App\InfoOrder', 'ItemID');
     }
 
     public function info()

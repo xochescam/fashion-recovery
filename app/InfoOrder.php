@@ -16,4 +16,15 @@ class InfoOrder extends Model
      */
     protected $table = 'fashionrecovery.GR_022';
     protected $primaryKey = 'OrderDetailID';
+
+    public function order()
+    {
+        return $this->belongsTo('App\Order', 'OrderID', 'OrderID');
+    }
+
+    public function item()
+    {
+        return $this->belongsTo('App\Item', 'ItemID', 'ItemID');
+        //return $this->hasMany('App\Item', 'ItemID');
+    }
 }
