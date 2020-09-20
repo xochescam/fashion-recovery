@@ -21,6 +21,8 @@ use App\PackPack;
 use App\Address;
 use App\Devolution;
 use App\Wallet;
+use App\User;
+
 
 class MercadoPagoController extends Controller {
 
@@ -238,13 +240,14 @@ class MercadoPagoController extends Controller {
     
             $user    = Auth::User();
             $items   = $user->getItems();
+            $total   = Auth::User()->getTotal();
             $arrayIt = []; 
             
             $order = new Order;
             $order->UserID = $user->id;
             $order->OrderStatusID = 3;
             $order->ShippingID = $ShippingAddID;
-            $order->TotalAmount = Auth::User()->getTotal();
+            $order->TotalAmount =  $total;
             $order->ShippingAmount = $shippingCost;
             $order->PaymentOptionID = 2;
             $order->CreationDate = date("Y-m-d H:i:s");
@@ -260,6 +263,7 @@ class MercadoPagoController extends Controller {
                         'NoOrder'       => $s.$order->OrderID,
                         'OrderStatusID' => 3,
                         'ItemID'        => $value->ItemID,
+                        'GainFR'        => $total * User::getCommission(Auth::User()),
                         'IsCanceled'    => false,
                         'CreationDate'  => date("Y-m-d H:i:s")
                     ]);
@@ -278,6 +282,9 @@ class MercadoPagoController extends Controller {
     
             Mail::to(Auth::User()->email)
                 ->send(new SoldItem(Auth::User(), $order, $items, $address));
+            
+            DB::commit();
+            
 
             return response()->json('success');
 
