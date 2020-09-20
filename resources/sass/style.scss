@@ -276,6 +276,10 @@ a h5.card-title {
   }
 }
 
+.card--reports {
+  height: 180px;
+}
+
 .card-body a:hover {
   text-decoration: none;
 }
@@ -349,6 +353,10 @@ a h5.card-title {
 
 .green-color {
   color: #009c77;
+}
+
+.light-bg {
+  background-color: #f8f9fa80;
 }
 
 .height-15 {
@@ -675,6 +683,8 @@ div a{
   border-color: #fff transparent #fff transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);
@@ -872,6 +882,10 @@ div a{
   border-color: #009c77 transparent #009c77 transparent;
   width: 30px;
   height: 30px;
+}
+
+.spinner-border--auto::after  {
+  margin: auto;
 }
 
 .ais-Hits-list {
@@ -1160,7 +1174,16 @@ div a{
 
 .card--active {
   border: 2px solid #009c77 !important;
+
+  & .card-check {
+    color: #009c77;
+  }
 }
+
+.card-check {
+  color: #ccc;
+}
+
 
 .btn-tooltip {
   position: relative;
@@ -1229,6 +1252,10 @@ div a{
       margin-bottom: 0px;
       padding-bottom: 0px;
     }
+  }
+
+  &__container {
+    background-image: url('/img/adArtboardBlack.jpg');
   }
 
   &__item:last-child {
