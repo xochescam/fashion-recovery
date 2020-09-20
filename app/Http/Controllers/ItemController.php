@@ -87,9 +87,11 @@ class ItemController extends Controller
         $back   = null;
         $selfie = null;
         $in     = null;
-        $extra  = null;   
+        $extra  = null;  
+        $count = false; 
         
         return view('item.create',compact(
+            'count',
             'front',
             'label',
             'back',
@@ -508,7 +510,7 @@ class ItemController extends Controller
      */
     public function publicShow($id)
     {
-        $user = Item::findOrfail($id)->user;
+        $user = Item::findOrfail($id)->user->first();
 
         if($user->IsBlocked) {
             abort(404);
@@ -716,8 +718,13 @@ class ItemController extends Controller
         $in     = $this->getImage($images, 'in');
         $extra  = $this->getImage($images, 'extra');
         $commission = User::getCommission(Auth::User());
+
+        $count = DB::table('fashionrecovery.GR_032')
+                    ->where('ItemID',$id)->count();
+        $count = $count >= 3 ? true : false;
         
         return view('item.edit',compact(
+            'count',
             'front',
             'label',
             'back',
@@ -861,10 +868,9 @@ class ItemController extends Controller
 
             $sameCover = DB::table('fashionrecovery.GR_032')
                         ->where('ItemID',$id)
-                        ->where('IsCover',true)
-                        ->first()->TypeItemID;
+                        ->where('IsCover',true)->get();
 
-            if($sameCover !== $types[$request->cover]) {
+            if(count($sameCover) !== 0 && $sameCover->first()->TypeItemID !== $types[$request->cover]) {
 
                 DB::table('fashionrecovery.GR_032')
                     ->where('ItemID',$id)
@@ -874,8 +880,7 @@ class ItemController extends Controller
                 DB::table('fashionrecovery.GR_032')
                     ->where('ItemID',$id)
                     ->where('TypeItemID',$types[$request->cover])
-                    ->update(['IsCover'=>true]);
-                        
+                    ->update(['IsCover'=>true]);                        
             } 
 
             $itemsName = $this->saveItems($request->toArray(), $item->ItemID);
