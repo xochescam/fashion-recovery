@@ -124,7 +124,14 @@ Vue.component('modal-gallery',require('./components/ModalGallery.vue').default);
 Vue.component('open-gallery-btn',require('./components/OpenGalleryBtn.vue').default);
 Vue.component('payment-component',require('./components/PaymentComponent.vue').default);
 Vue.component('transfer-btn',require('./components/TransferBtn.vue').default);
-
+Vue.component('page-component',require('./components/reports/Page.vue').default);
+Vue.component('general-component',require('./components/reports/General.vue').default);
+Vue.component('sellers-component',require('./components/reports/Sellers.vue').default);
+Vue.component('buys-component',require('./components/reports/Buys.vue').default);
+Vue.component('departments-component',require('./components/reports/Departments.vue').default);
+Vue.component('returns-component',require('./components/reports/Returns.vue').default);
+Vue.component('sells-component',require('./components/reports/Sells.vue').default);
+Vue.component('shipping-component',require('./components/reports/Shipping.vue').default);
 
 
 /**
