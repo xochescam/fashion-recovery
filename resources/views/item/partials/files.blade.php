@@ -42,7 +42,7 @@
             ref="front"
             accept=".png, .jpg, .jpeg"
             ref="front"
-            {{ $front ? '' : 'required'  }}
+            {{ $count ? '' : ($front ? '' : 'required') }}
            >
           <label for="front_item_file" class="card card--file-item custom-file-label">
             <span><i class="far fa-image"></i> <br>Foto frontal</span>
@@ -92,7 +92,7 @@
           data-item="true" 
           accept=".png, .jpg, .jpeg"
           ref="label"
-          {{ $label ? '' : 'required'  }}>
+          {{ $count ? '' : ($label ? '' : 'required') }}>
         <label for="label_item_file" class="card card--file-item custom-file-label">
           <span><i class="far fa-image"></i> <br>Foto de la etiqueta</span>
         </label>
@@ -139,7 +139,7 @@
           data-item="true" 
           accept=".png, .jpg, .jpeg"
           ref="back"
-          {{ $back ? '' : 'required'  }}>
+          {{ $count ? '' : ($back ? '' : 'required') }}>
         <label for="back_item_file" class="card card--file-item custom-file-label">
           <span><i class="far fa-image"></i> <br>Foto de espaldas</span>
         </label>
