@@ -57,6 +57,27 @@ Route::get('search/{search}', 'SearchController@search');
 
 Route::group(['middleware' => ['auth']], function () {
 
+	//Reportes
+	Route::get('reportes', 'ReportController@Index');
+	Route::post('departments-by-date', 'ReportController@DepartmentsByDate');
+	Route::post('buyers-by-date', 'ReportController@BuyersByDate');
+	Route::post('sellers-by-date', 'ReportController@SellersByDate');
+	Route::post('returns-by-date', 'ReportController@ReturnsByDate');
+	Route::post('shipping-by-date', 'ReportController@ShippingByDate');
+
+	Route::get('get-sells-excel', 'ReportController@getSellsExcel');
+	Route::get('get-buyers-excel', 'ReportController@getBuyersExcel');
+	Route::get('get-departments-excel', 'ReportController@getDepartmentsExcel');
+	Route::get('get-returns-excel', 'ReportController@getReturnsExcel');
+	Route::get('get-sellers-excel', 'ReportController@getSellersExcel');
+	Route::get('get-shipping-excel', 'ReportController@getShippingExcel');
+
+	Route::get('get-buyers-period-excel/{ini}/{end}', 'ReportController@getBuyersPeriodExcel');
+	Route::get('get-departments-period-excel/{ini}/{end}', 'ReportController@getDepartmentsPeriodExcel');
+	Route::get('get-returns-period-excel/{ini}/{end}', 'ReportController@getReturnsPeriodExcel');
+	Route::get('get-sellers-period-excel/{ini}/{end}', 'ReportController@getSellersPeriodExcel');
+	Route::get('get-shipping-period-excel/{ini}/{end}', 'ReportController@getShippingPeriodExcel');
+
 	Route::get('transfer/{Alias}', 'SellerController@ConfirmTransfer');
 	Route::get('transfer', 'SellerController@transfer');
 	
