@@ -58,7 +58,7 @@
                 required: false
             },
             questions: {
-                type: Object,
+                type: [Object, Array],
                 required: false
             },
             item: {
