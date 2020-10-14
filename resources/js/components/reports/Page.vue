@@ -159,7 +159,7 @@
         </returns-component>
 
         <sells-component
-            :data="[]"
+            :data="!arrSells ? [] : arrSells"
             v-if="allsells"
         >
         </sells-component>
@@ -184,6 +184,10 @@ export default {
             required: true
         },
         dep: {
+            type: [Object, Array],
+            required: true
+        },
+        sellsall: {
             type: [Object, Array],
             required: true
         },
@@ -221,6 +225,7 @@ export default {
             arrSellers: this.sellers,
             arrReturns: this.devs,
             arrShipping: this.shippinglist,
+            arrSells: this.sellsall,
             isLoading: false
         };
     },
@@ -235,6 +240,23 @@ export default {
 
                 if(response.data.message === 'success') {
                     this.arrDep = response.data.data;
+                    this.isLoading = false;
+                }
+            })
+            .catch(error => {
+                this.isLoading = false;
+            }) 
+        },
+        sellsByDate() {
+            this.isLoading = true;
+            this.arrSells = [];
+
+            axios
+            .post(this.$root.path+'/sells-by-date',this.getData())
+            .then(response => {
+
+                if(response.data.message === 'success') {
+                    this.arrSells = response.data.data;
                     this.isLoading = false;
                 }
             })
@@ -387,7 +409,12 @@ export default {
             } else if (item === 'Costo de envios') {
 
                 this.shippingByDate();
+
+            } else if (item === 'Ventas') {
+
+                this.sellsByDate();
             }
+
         },
         getParam(id) {
             const params = {
