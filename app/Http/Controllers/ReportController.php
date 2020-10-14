@@ -11,6 +11,7 @@ use App\Exports\DepartmentsExport;
 use App\Exports\ReturnsExport;
 use App\Exports\SellersExport;
 use App\Exports\ShippingExport;
+use App\Exports\SellsPeriodExport;
 use App\Exports\BuyersPeriodExport;
 use App\Exports\DepartmentsPeriodExport;
 use App\Exports\ReturnsPeriodExport;
@@ -38,14 +39,15 @@ class ReportController extends Controller
         return Excel::download(new SellsExport, 'Ventas.xlsx');
     }
 
-    public function getSellsPeriodExcel() {
-        return Excel::download(new SellsPeriodExport, 'Ventas por periodo.xlsx');
+    public function getSellsPeriodExcel($ini, $end) {
+        return Excel::download(new SellsPeriodExport($ini,$end), 'Ventas por periodo.xlsx');
     }
 
     public function getBuyersExcel() {
         return Excel::download(new BuyersExport, 'Compradores.xlsx');
     }
 
+    
     public function getBuyersPeriodExcel($ini, $end) {
         return Excel::download(new BuyersPeriodExport($ini,$end), 'Compradores por periodo.xlsx');
     }
@@ -119,6 +121,27 @@ class ReportController extends Controller
         return [
             'message' => 'success',
             'data'    => $this->getBuyers($users, $ini, $end)->toArray()
+        ];
+    }
+
+    public function SellsByDate(Request $request) {
+
+        if(!Auth::User()->isAdmin()) {
+            abort(403);
+        }
+
+        $ini         = $request->ini;
+        $end         = $request->end;
+        //$end         = '2020-08-01';
+        $InfoOrders  = DB::table('fashionrecovery.GR_022')
+                         //->where('OrderStatusID',8) habilitar para los envios confirmados
+                        ->whereBetween('UpdateDate',[$ini,$end])
+                        ->get()->groupBy('ItemID')->keys(); 
+        $itemsSold   = Item::whereIn('ItemID',$InfoOrders)->get();
+        
+        return [
+            'message' => 'success',
+            'data'    => $this->getSells($itemsSold)->toArray()
         ];
     }
 
@@ -203,6 +226,7 @@ class ReportController extends Controller
         $sellersList = $this->getSellers($users, $InfoOrders, null, null)->toArray();
         $returnList  = $this->getReturns($InfoOrders->where('OrderStatusID',5), $buyerUsers)->toArray();
         $shippingCost = $this->getshippingProm($orders);
+        $sells        = $this->getSells($itemsSold)->toArray();
 
         $date = [
             'year'  => date("Y"),
@@ -227,8 +251,48 @@ class ReportController extends Controller
         ];
 
         return view('reports.index',compact(
-            'data','date','departments','buyersList','sellersList','returnList','shippingCost'
+            'data','date','departments','buyersList','sellersList','returnList','shippingCost','sells'
         ));
+    }
+
+    public function getSells($itemsSold) {
+        return $itemsSold->map(function ($item, $key) {
+
+            $user         = $item->User->first();
+            $seller       = $user->infoSeller;
+            $comission    = User::getCommission($user);
+            $level        = $this->getLevel($comission);
+            $currentPrice = floatval(str_replace(',','',ltrim($item->ActualPrice,'$')));
+            $commisionFR  =  $currentPrice  * $comission;
+            $order        = InfoOrder::where('ItemID',$item->ItemID)->first()->order;
+            $shipping     = floatval(str_replace(',','',ltrim($order->ShippingAmount,'$')));;
+
+            return [
+                'date' => $this->formatDate("d F Y", $order->CreationDate),
+                'alias' => $user->Alias,
+                'level' => $level,
+                'gender' => $user->Gender,
+                'age' => date("Y") - date("Y", strtotime($user->Birthdate)),
+                'livein' => $seller->LiveIn,
+                'type' => $item->clothingType->ClothingTypeName,
+                'import' => $item->ActualPrice,
+                'comission' => $commisionFR,
+                'gainSeller' => $currentPrice - $commisionFR,
+                'transaction' => '0', //mercado pago
+                'shipping' => $order->ShippingAmount,
+                'gainFR' => $commisionFR - ($shipping + 0) //el segundo parametro es el de mp
+            ];
+        });
+    }
+
+    public function getLevel($comission) {
+        $levels = [
+            0.18 => 'Eco-friendly',
+            0.19 => 'Green',
+            0.2 => 'Básico'
+        ];
+
+        return $levels[$comission];
     }
 
     public function getshippingProm($orders) {
@@ -353,6 +417,30 @@ class ReportController extends Controller
                 'gain'   => $gain
             ];
         });
+    }
+
+    protected function formatDate($format, $date) {
+
+        $date    = date($format, strtotime($date));
+        $explode = explode(" ", $date);
+        $format = [];
+
+        $months = [
+                'January'   =>'enero',
+                'February'  =>'febrero',
+                'March'     =>'marzo',
+                'April'     =>'abril',
+                'May'       =>'Mayo',
+                'June'      =>'junio',
+                'July'      =>'julio',
+                'August'    =>'agosto',
+                'September' =>'septiembre',
+                'October'   =>'octubre',
+                'November'  =>'noviembre',
+                'December'  =>'diciembre',
+            ];
+
+        return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
     }
 
     public function getBuyers($users, $ini, $end) {
