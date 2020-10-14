@@ -20,7 +20,6 @@ class SellersPeriodExport implements FromView
     {
         return view('excel.sellers', [
             'data' => $this->getSellers()
-
         ]);
     }
 
@@ -113,4 +112,29 @@ class SellersPeriodExport implements FromView
 
         return $total;
     }
+
+    protected function formatDate($format, $date) {
+
+        $date    = date($format, strtotime($date));
+        $explode = explode(" ", $date);
+        $format = [];
+
+        $months = [
+                'January'   =>'enero',
+                'February'  =>'febrero',
+                'March'     =>'marzo',
+                'April'     =>'abril',
+                'May'       =>'Mayo',
+                'June'      =>'junio',
+                'July'      =>'julio',
+                'August'    =>'agosto',
+                'September' =>'septiembre',
+                'October'   =>'octubre',
+                'November'  =>'noviembre',
+                'December'  =>'diciembre',
+            ];
+
+        return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
+    }
+    
 }
