@@ -16,4 +16,9 @@ class Seller extends Model
      */
     protected $table = 'fashionrecovery.GR_033';
     protected $primaryKey = 'SellerID';
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'UserID');
+    }
 }

@@ -91,6 +91,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Wallet', 'UserID');
     }
 
+    public function infoSeller()
+    {
+        return $this->hasOne('App\Seller', 'UserID');
+    }
+
     public function access($moduleName)
     {
         $module = Module::where('ModuleName',$moduleName)->first();
