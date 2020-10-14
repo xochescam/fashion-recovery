@@ -8,6 +8,7 @@
               <page-component
                 :data="{{ json_encode($data) }}"
                 :date="{{ json_encode($date) }}"
+                :sellsall="{{ json_encode($sells) }}"
                 :dep="{{ json_encode($departments) }}"
                 :buyers="{{ json_encode($buyersList) }}"
                 :sellers="{{ json_encode($sellersList) }}"
