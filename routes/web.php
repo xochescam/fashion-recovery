@@ -59,6 +59,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 	//Reportes
 	Route::get('reportes', 'ReportController@Index');
+	Route::post('sells-by-date', 'ReportController@SellsByDate');
 	Route::post('departments-by-date', 'ReportController@DepartmentsByDate');
 	Route::post('buyers-by-date', 'ReportController@BuyersByDate');
 	Route::post('sellers-by-date', 'ReportController@SellersByDate');
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('get-sellers-excel', 'ReportController@getSellersExcel');
 	Route::get('get-shipping-excel', 'ReportController@getShippingExcel');
 
+	Route::get('get-sells-period-excel/{ini}/{end}', 'ReportController@getSellsPeriodExcel');
 	Route::get('get-buyers-period-excel/{ini}/{end}', 'ReportController@getBuyersPeriodExcel');
 	Route::get('get-departments-period-excel/{ini}/{end}', 'ReportController@getDepartmentsPeriodExcel');
 	Route::get('get-returns-period-excel/{ini}/{end}', 'ReportController@getReturnsPeriodExcel');
