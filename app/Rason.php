@@ -17,4 +17,5 @@ class Rason extends Model
     protected $table = 'fashionrecovery.GR_047';
     protected $primaryKey = 'RasonID';
     public $timestamps = false;
+
 }

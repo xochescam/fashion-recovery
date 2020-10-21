@@ -17,4 +17,9 @@ class Devolution extends Model
     protected $table = 'fashionrecovery.GR_046';
     protected $primaryKey = 'ReturnID';
     public $timestamps = false;
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'UserID');
+    }
 }

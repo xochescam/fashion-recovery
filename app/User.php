@@ -96,6 +96,11 @@ class User extends Authenticatable
         return $this->hasOne('App\Seller', 'UserID');
     }
 
+    public function devolution()
+    {
+        return $this->hasMany('App\Devolution', 'UserID');
+    }
+
     public function access($moduleName)
     {
         $module = Module::where('ModuleName',$moduleName)->first();
