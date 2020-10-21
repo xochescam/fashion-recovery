@@ -8,6 +8,7 @@
         <th>Edad</th>
         <th>Ciudad</th>
         <th>Tipo de prenda</th>
+        <th>Departamento</th>
         <th>Importe venta</th>
         <th>Comisión FR</th>
         <th>Ganancia vendedor</th>
@@ -26,6 +27,7 @@
             <td>{{ $item['age'] }}</td>
             <td>{{ $item['livein'] }}</td>
             <td>{{ $item['type'] }}</td>
+            <td>{{ $item['department'] }}</td>
             <td>{{ $item['import'] }}</td>
             <td>${{ $item['comission'] }}</td>
             <td>${{ $item['gainSeller'] }}</td>

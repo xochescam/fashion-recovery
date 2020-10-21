@@ -5,6 +5,7 @@ namespace App\Exports;
 use App\InfoOrder;
 use App\Item;
 use App\User;
+use DB;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
@@ -44,6 +45,7 @@ class SellsExport implements FromView
                 'age' => date("Y") - date("Y", strtotime($user->Birthdate)),
                 'livein' => $seller->LiveIn,
                 'type' => $item->clothingType->ClothingTypeName,
+                'department' => $item->department->DepName,
                 'import' => $item->ActualPrice,
                 'comission' => $commisionFR,
                 'gainSeller' => $currentPrice - $commisionFR,

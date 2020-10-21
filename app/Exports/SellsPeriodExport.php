@@ -57,6 +57,7 @@ class SellsPeriodExport implements FromView
                 'age' => date("Y") - date("Y", strtotime($user->Birthdate)),
                 'livein' => $seller->LiveIn,
                 'type' => $item->clothingType->ClothingTypeName,
+                'department' => $item->department->DepName,
                 'import' => $item->ActualPrice,
                 'comission' => $commisionFR,
                 'gainSeller' => $currentPrice - $commisionFR,
