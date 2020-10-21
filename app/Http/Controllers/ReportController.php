@@ -32,6 +32,8 @@ use App\Item;
 use App\Order;
 use App\InfoOrder;
 use App\Department;
+use App\Devolution;
+use App\Rason;
 
 class ReportController extends Controller
 {
@@ -44,20 +46,20 @@ class ReportController extends Controller
     }
 
     public function getBuyersExcel() {
-        return Excel::download(new BuyersExport, 'Compradores.xlsx');
+        return Excel::download(new BuyersExport, 'Compras.xlsx');
     }
 
     
     public function getBuyersPeriodExcel($ini, $end) {
-        return Excel::download(new BuyersPeriodExport($ini,$end), 'Compradores por periodo.xlsx');
+        return Excel::download(new BuyersPeriodExport($ini,$end), 'Compras por periodo.xlsx');
     }
 
     public function getDepartmentsExcel() {
-        return Excel::download(new DepartmentsExport, 'Departamentos.xlsx');
+        return Excel::download(new DepartmentsExport, 'Ventas por departametos.xlsx');
     }
 
     public function getDepartmentsPeriodExcel($ini, $end) {
-        return Excel::download(new DepartmentsPeriodExport($ini,$end), 'Departamentos por periodo.xlsx');
+        return Excel::download(new DepartmentsPeriodExport($ini,$end), 'Ventas por departametos por periodo.xlsx');
     }
 
     public function getReturnsExcel() {
@@ -69,19 +71,19 @@ class ReportController extends Controller
     }
 
     public function getSellersExcel() {
-        return Excel::download(new SellersExport, 'Vendedores.xlsx');
+        return Excel::download(new SellersExport, 'Ventas.xlsx');
     }
 
     public function getSellersPeriodExcel($ini, $end) {
-        return Excel::download(new SellersPeriodExport($ini,$end), 'Vendedores por periodo.xlsx');
+        return Excel::download(new SellersPeriodExport($ini,$end), 'Ventas por periodo.xlsx');
     }
 
     public function getShippingExcel() {
-        return Excel::download(new ShippingExport, 'Costos de envio.xlsx');
+        return Excel::download(new ShippingExport, 'Logística.xlsx');
     }
 
     public function getShippingPeriodExcel($ini, $end) {
-        return Excel::download(new ShippingPeriodExport($ini,$end), 'Costos de envio por periodo.xlsx');
+        return Excel::download(new ShippingPeriodExport($ini,$end), 'Logística por periodo.xlsx');
     }
 
     public function DepartmentsByDate(Request $request) {
@@ -161,7 +163,7 @@ class ReportController extends Controller
 
         return [
             'message' => 'success',
-            'data'    => $this->getSellers($users, $InfoOrders, $ini, $end)->toArray()
+            'data'    => $this->getSellers($users, $InfoOrders)->toArray()
         ];
     }
 
@@ -173,14 +175,16 @@ class ReportController extends Controller
 
         $ini         = $request->ini;
         $end         = $request->end;
-        $ordersKeys  = Order::all()->groupBy('UserID')->keys();
+/*         $ordersKeys  = Order::all()->groupBy('UserID')->keys();
         $InfoOrders  = InfoOrder::whereBetween('UpdateDate',[$ini,$end])
                                 ->where('OrderStatusID',5)->get();
-        $buyerUsers  = User::whereIn('id',$ordersKeys)->get();
+        $buyerUsers  = User::whereIn('id',$ordersKeys)->get(); */
+
+        $devolutions = Devolution::whereBetween('CreatedDate',[$ini,$end])->get();
 
         return [
             'message' => 'success',
-            'data'    =>  $this->getReturns($InfoOrders, $buyerUsers)->toArray()
+            'data'    =>  $this->getReturns($devolutions)->toArray()
 
         ];
     }
@@ -194,11 +198,11 @@ class ReportController extends Controller
         $ini     = $request->ini;
         $end     = $request->end;
         //$end         = '2020-07-01';
-        $orders  = Order::whereBetween('CreationDate',[$ini,$end])->get();
+        $orders  = InfoOrder::whereBetween('CreationDate',[$ini,$end])->get();
 
         return [
             'message' => 'success',
-            'data'    =>  $this->getshippingProm($orders)
+            'data'    =>  $this->getShipping($orders)
         ];
     }
     /**
@@ -223,9 +227,9 @@ class ReportController extends Controller
         $sellerUsers = $users->whereIn('id',$itemsSold->groupBy('OwnerID')->keys());
         $departments = $this->getGroupedDep($departments, $itemsSold, $InfoOrders)->toArray();
         $buyersList  = $this->getBuyers($users, null, null)->toArray();
-        $sellersList = $this->getSellers($users, $InfoOrders, null, null)->toArray();
-        $returnList  = $this->getReturns($InfoOrders->where('OrderStatusID',5), $buyerUsers)->toArray();
-        $shippingCost = $this->getshippingProm($orders);
+        $sellersList = $this->getSellers($users, $InfoOrders)->toArray();
+        $returnList  = $this->getReturns(Devolution::all())->toArray();
+        $shippingCost = $this->getShipping($InfoOrders);
         $sells        = $this->getSells($itemsSold)->toArray();
 
         $date = [
@@ -247,7 +251,7 @@ class ReportController extends Controller
             'sellers'       => $users->where('ProfileID',2)->count(),
             'ageSellers'    => $this->getAge($sellerUsers),
             'genderSellers' => $this->getGender($sellerUsers),
-            'shippingProm'  => $shippingCost->first()['ShippingAmount'],
+            'shippingProm'  => $this->getShippingProm($shippingCost)
         ];
 
         return view('reports.index',compact(
@@ -275,6 +279,7 @@ class ReportController extends Controller
                 'age' => date("Y") - date("Y", strtotime($user->Birthdate)),
                 'livein' => $seller->LiveIn,
                 'type' => $item->clothingType->ClothingTypeName,
+                'department' => $item->department->DepName,
                 'import' => $item->ActualPrice,
                 'comission' => $commisionFR,
                 'gainSeller' => $currentPrice - $commisionFR,
@@ -295,62 +300,56 @@ class ReportController extends Controller
         return $levels[$comission];
     }
 
-    public function getshippingProm($orders) {
+    public function getShippingProm($shippingList) {
+        return $shippingList->sum('ShippingAmount') / $shippingList->count();
+    }
 
-        $shippingProm = $orders->map(function ($item, $key) {
+    public function getShipping($orders) {
 
+        return $orders->map(function ($item, $key) {
+
+            //Ajustar la cantidad de cobro de la guia generada en 022 para guardar una cantidad por prenda
+            $amount = str_replace(',','',ltrim($item->order->ShippingAmount,'$'));
+            $buyer = $item->order->user->id;
+            $status = DB::table('fashionrecovery.GR_013')
+                        ->where('OrderStatusID',$item->OrderStatusID)
+                        ->first()->Name;
+            $destino = DB::table('fashionrecovery.GR_002')
+                        ->where('ShippingAddID',$item->order->ShippingID)
+                        ->first()->State;
             return [
-                'ShippingAmount' => $item->ShippingAmount
-            ];
-        })->groupBy('ShippingAmount');
-
-        return $shippingProm->map(function ($item, $key) {
-            return [
-                'ShippingAmount' => $item->first()['ShippingAmount'],
-                'count' => $item->count()
+                'date' => $this->formatDate("d F Y", $item->CreationDate),
+                'origen' => $item->Item->owner->infoSeller->LiveIn,
+                'destino' => $destino,
+                'packaging' => $item->PackingName,
+                'ShippingAmount' => $amount + 60,
+                'status' => $status
             ];
         });
     }
 
-    public function getReturns($orders, $users) {
+    public function getReturns($devolutions) {
 
-        $grouped = $orders->map(function ($item, $key) {
+        $rasons = Rason::all();
 
-            $item->UserID = $item->order->UserID;
-            return $item;
-
-        })->groupBy('UserID');
-
-        $result = $users->map(function ($user, $key) use ($grouped) {
-
-            $returns = 0;
-
-            foreach ($grouped as $key => $item) { //Revisar
-
-                if($key === $user->id) {
-                    $returns = $item->count();
-                }
-            }
-
-            return [
-                'alias'    => $user->Alias,
-                'gender'   => $user->Gender,
-                'age'      => date("Y") - date("Y", strtotime($user->Birthdate)),
-                'returns'  => $returns,
-            ];
+        return $devolutions->map(function ($item, $key) use ($rasons) {
             
-        })->sortByDesc('returns');
+            $rason = $rasons->where('RasonID',$item->RasonID)->first()->Rason;
 
-        return $result->filter(function ($item, $key) {
+            return [
+                'alias' => $item->user->Alias,
+                'date' => $this->formatDate("d F Y", $item->CreatedDate),
+                'monto' => $item->Amount,
+                'rason' => $rason
 
-            return $item['returns'] > 0;
-        });
+            ];
+        })->sortBy('alias');
     }
 
-    public function getSellers($users, $orders, $ini, $end)  {
+    public function getSellers($users, $orders)  {
         $sellers = $users->where('ProfileID',2);
 
-        return $sellers->map(function ($user, $key) use ($orders) {
+        $result = $sellers->map(function ($user, $key) use ($orders) {
             $sells = 0;
             $gain  = 0;
             $total = 0;
@@ -378,44 +377,9 @@ class ReportController extends Controller
                 'gain'   => $sells > 0 ? $gain : 0
             ];
         });
-        
-        return $sellers->map(function ($user, $key) use ($orders, $ini, $end) {
 
-            $sells = 0;
-            $gain  = 0;
-            $total = 0;
-
-            foreach ($user->allItems as $key => $item) {
-                $isSold = $user->allItems->where('IsSold',true);
-                $sells  = $isSold->count();
-    
-                $items = $isSold->map(function ($item, $key) use ($orders, $ini, $end) {
-                    $isPeriod = $ini !== null && $end !== null;
-                    $ini      = '2020-01-01';
-                    $end      = '2020-08-01';
-
-                    $order = $isPeriod ?
-                             $orders->where('ItemID',$item->ItemID)
-                                    ->whereBetween('UpdateDate',[$ini,$end])
-                                    ->first() :
-                             $orders->where('ItemID',$item->ItemID)->first();
-                    $item->GainFR = isset($order->GainFR) ? $order->GainFR : 0;
-                        
-                    return $item;
-                });
-    
-                $total = $this->getGain($items,'ActualPrice');
-                $gain  = $this->getGain($items,'GainFR');
-            }
-
-            return [
-                'alias'  => $user->Alias,
-                'gender' => $user->Gender,
-                'age'    => date("Y") - date("Y", strtotime($user->Birthdate)),
-                'sells'  => $sells,
-                'total'  => $sells > 0 ? $total : 0,
-                'gain'   => $gain
-            ];
+        return $result->filter(function ($item) {
+            return $item['sells'] > 0;
         });
     }
 
@@ -447,7 +411,7 @@ class ReportController extends Controller
         $buyers = $users->where('ProfileID',1);
         $isPeriod = $ini !== null && $end !== null;
 
-        return $buyers->map(function ($user, $key) use ($isPeriod, $ini, $end) {
+        $result = $buyers->map(function ($user, $key) use ($isPeriod, $ini, $end) {
 
             $buys  = 0;
             $gain  = 0;
@@ -471,8 +435,13 @@ class ReportController extends Controller
                 'age'    => date("Y") - date("Y", strtotime($user->Birthdate)),
                 'buys'   => $buys,
                 'total'  => $total,
-                'gain'   => $gain
+                'gain'   => $gain,
+                'ticket' => $buys > 0 ? (floatval($replace) / $buys) : 0
             ];
+        });
+
+        return $result->filter(function ($item) {
+            return $item['buys'] > 0;
         });
     }
 
