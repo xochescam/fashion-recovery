@@ -40,8 +40,8 @@ class BrandController extends Controller
         $departments = DB::table('fashionrecovery.GR_025')
                         ->select('DepartmentID',
                                  'DepName')->get()
-                        ->groupBy('DepartmentID')->toArray();                    
-
+                        ->groupBy('DepartmentID')->toArray();      
+                        
         return view('catalogs.brand.list',compact('brands','departments'));
     }
 
