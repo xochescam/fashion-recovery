@@ -1,19 +1,19 @@
 <table>
     <thead>
     <tr>
-        <th>ALIAS</th>
-        <th>GÉNERO</th>
-        <th>EDAD</th>
-        <th>DEVOLUCIONES</th>
+        <th>FECHA</th>
+        <th>USUARIO</th>
+        <th>MONTO</th>
+        <th>MOTIVO</th>
     </tr>
     </thead>
     <tbody>
     @foreach($data as $item)
         <tr>
+            <td>{{ $item['date'] }}</td>
             <td>{{ $item['alias'] }}</td>
-            <td>{{ $item['gender'] }}</td>
-            <td>{{ $item['age'] }}</td>
-            <td>{{ $item['returns'] }}</td>
+            <td>{{ $item['monto'] }}</td>
+            <td>{{ $item['rason'] }}</td>
         </tr>
     @endforeach
     </tbody>

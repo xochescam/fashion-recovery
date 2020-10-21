@@ -5,6 +5,8 @@ namespace App\Exports;
 use App\InfoOrder;
 use App\Order;
 use App\User;
+use App\Rason;
+use App\Devolution;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
@@ -25,41 +27,44 @@ class ReturnsPeriodExport implements FromView
     }
 
     public function getReturns() {
-        $ordersKeys  = Order::all()->groupBy('UserID')->keys();
-        $orders  = InfoOrder::whereBetween('UpdateDate',[$this->ini,$this->end])
-                                ->where('OrderStatusID',5)->get();
-        $users  = User::whereIn('id',$ordersKeys)->get();
+        $rasons = Rason::all();
+        $devolutions = Devolution::whereBetween('CreatedDate',[$this->ini,$this->end])->get();
 
-        $grouped = $orders->map(function ($item, $key) {
-
-            $item->UserID = $item->order->UserID;
-            return $item;
-
-        })->groupBy('UserID');
-
-        $result = $users->map(function ($user, $key) use ($grouped) {
-
-            $returns = 0;
-
-            foreach ($grouped as $key => $item) { //Revisar
-
-                if($key === $user->id) {
-                    $returns = $item->count();
-                }
-            }
+        return $devolutions->map(function ($item, $key) use ($rasons) {
+            
+            $rason = $rasons->where('RasonID',$item->RasonID)->first()->Rason;
 
             return [
-                'alias'    => $user->Alias,
-                'gender'   => $user->Gender,
-                'age'      => date("Y") - date("Y", strtotime($user->Birthdate)),
-                'returns'  => $returns,
+                'alias' => $item->user->Alias,
+                'date' => $this->formatDate("d F Y", $item->CreatedDate),
+                'monto' => $item->Amount,
+                'rason' => $rason
+
             ];
-            
-        })->sortByDesc('returns');
+        })->sortBy('alias');
+    }
 
-        return $result->filter(function ($item, $key) {
+    protected function formatDate($format, $date) {
 
-            return $item['returns'] > 0;
-        });
+        $date    = date($format, strtotime($date));
+        $explode = explode(" ", $date);
+        $format = [];
+
+        $months = [
+                'January'   =>'enero',
+                'February'  =>'febrero',
+                'March'     =>'marzo',
+                'April'     =>'abril',
+                'May'       =>'Mayo',
+                'June'      =>'junio',
+                'July'      =>'julio',
+                'August'    =>'agosto',
+                'September' =>'septiembre',
+                'October'   =>'octubre',
+                'November'  =>'noviembre',
+                'December'  =>'diciembre',
+            ];
+
+        return $explode[0].' de '.$months[$explode[1]].' '.$explode[2];
     }
 }

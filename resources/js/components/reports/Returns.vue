@@ -10,20 +10,21 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Alias</th>
-                    <th scope="col">Genero</th>
-                    <th scope="col">Edad</th>
-                    <th scope="col">Devoluciones</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Motivo</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="item in data" :key="item.alias">
+                    
+                    <td>{{ item.date }}</td>
                     <td>
                         <a :href="$root.path+'/user/'+item.alias" class="green-link">{{ item.alias }}</a> 
                     </td>
-                    <td>{{ item.gender }}</td>
-                    <td>{{ item.age }}</td>
-                    <td>{{ item.returns }}</td>
+                    <td>{{ item.monto }}</td>
+                    <td>{{ item.rason }}</td>
                 </tr>
 
                 <tr v-if="data.length === 0">
