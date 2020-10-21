@@ -10,18 +10,26 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Origen</th>
+                    <th scope="col">Destino</th>
+                    <th scope="col">Paquetería</th>
                     <th scope="col">Monto</th>
-                    <th scope="col">Envios</th>
-    ¡            </tr>
+                    <th scope="col">Estado</th>
+                </tr>
             </thead>
             <tbody>
                 <tr v-for="item in data" :key="item.ShippingAmount">
-                    <td>{{ item.ShippingAmount }}</td>
-                    <td>{{ item.count }}</td>
+                    <td>{{ item.date }}</td>
+                    <td>{{ item.origen }}</td>
+                    <td>{{ item.destino }}</td>
+                    <td>{{ item.packaging }}</td>
+                    <td>${{ item.ShippingAmount }}</td>
+                    <td>{{ item.status }}</td>
                 </tr>
 
                 <tr v-if="data.length === 0">
-                    <td colspan="2" class="text-center">
+                    <td colspan="6" class="text-center">
                         <span 
                             class="spinner-border spinner-border-sm spinner-border--green spinner-border--auto" 
                             role="status" 
