@@ -106,12 +106,12 @@
                 <select class="form-control" ref="select" id="filterSelect" @change="selectParam()">
                     <option value=""> - Seleccionar -  </option>
                     <option value="1" selected v-if="isToday">General</option>
-                    <option value="2">Compradores</option>
-                    <option value="3">Costo de envios</option>
-                    <option value="4">Departamentos</option>
+                    <option value="2">Compras</option>
+                    <option value="3">Logística</option>
+                    <option value="4">Ventas por departamentos</option>
                     <option value="5">Devoluciones</option>
-                    <option value="6">Vendedores</option>
-                    <option value="7">Ventas</option>
+                    <option value="6">Ventas</option>
+                    <option value="7">Reporte maestro</option>
                 </select>
             </div>
 
@@ -153,7 +153,7 @@
         </sellers-component>
 
         <returns-component
-            :data="!arrReturns ? [] : this.sort(arrReturns, 'returns') "
+            :data="!arrReturns ? [] : arrReturns "
             v-if="returns"
         >
         </returns-component>
@@ -391,26 +391,26 @@ export default {
         },
         showFiltered(item) {
 
-            if(item === 'Departamentos') {
+            if(item === 'Ventas por departamentos') {
 
                 this.departmentsByDate();
 
-            } else if (item === 'Compradores') {
+            } else if (item === 'Compras') {
 
                 this.buyersByDate();
 
-            } else if (item === 'Vendedores') {
+            } else if (item === 'Ventas') {
 
                 this.sellersByDate();
 
             } else if (item === 'Devoluciones') {
 
                 this.returnsByDate();
-            } else if (item === 'Costo de envios') {
+            } else if (item === 'Logística') {
 
                 this.shippingByDate();
 
-            } else if (item === 'Ventas') {
+            } else if (item === 'Reporte maestro') {
 
                 this.sellsByDate();
             }
