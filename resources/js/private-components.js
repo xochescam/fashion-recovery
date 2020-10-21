@@ -132,6 +132,7 @@ Vue.component('departments-component',require('./components/reports/Departments.
 Vue.component('returns-component',require('./components/reports/Returns.vue').default);
 Vue.component('sells-component',require('./components/reports/Sells.vue').default);
 Vue.component('shipping-component',require('./components/reports/Shipping.vue').default);
+Vue.component('brands-component',require('./components/Brands.vue').default);
 
 
 /**
