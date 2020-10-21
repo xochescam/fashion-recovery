@@ -24,7 +24,7 @@ class SellersExport implements FromView
 
         $sellers = $users->where('ProfileID',2);
 
-        return $sellers->map(function ($user, $key) use ($orders) {
+        $result = $sellers->map(function ($user, $key) use ($orders) {
             $sells = 0;
             $gain  = 0;
             $total = 0;
@@ -52,44 +52,9 @@ class SellersExport implements FromView
                 'gain'   => $sells > 0 ? $gain : 0
             ];
         });
-        
-        return $sellers->map(function ($user, $key) use ($orders, $ini, $end) {
 
-            $sells = 0;
-            $gain  = 0;
-            $total = 0;
-
-            foreach ($user->allItems as $key => $item) {
-                $isSold = $user->allItems->where('IsSold',true);
-                $sells  = $isSold->count();
-    
-                $items = $isSold->map(function ($item, $key) use ($orders, $ini, $end) {
-                    $isPeriod = $ini !== null && $end !== null;
-                    $ini      = '2020-01-01';
-                    $end      = '2020-08-01';
-
-                    $order = $isPeriod ?
-                             $orders->where('ItemID',$item->ItemID)
-                                    ->whereBetween('UpdateDate',[$ini,$end])
-                                    ->first() :
-                             $orders->where('ItemID',$item->ItemID)->first();
-                    $item->GainFR = isset($order->GainFR) ? $order->GainFR : 0;
-                        
-                    return $item;
-                });
-    
-                $total = $this->getGain($items,'ActualPrice');
-                $gain  = $this->getGain($items,'GainFR');
-            }
-
-            return [
-                'alias'  => $user->Alias,
-                'gender' => $user->Gender,
-                'age'    => date("Y") - date("Y", strtotime($user->Birthdate)),
-                'sells'  => $sells,
-                'total'  => $sells > 0 ? $total : 0,
-                'gain'   => $gain
-            ];
+        return $result->filter(function ($item) {
+            return $item['sells'] > 0;
         });
     }
 

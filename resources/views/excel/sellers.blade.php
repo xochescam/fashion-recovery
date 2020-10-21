@@ -1,7 +1,7 @@
 <table>
     <thead>
     <tr>
-        <th>ALIAS</th>
+        <th>USUARIO</th>
         <th>GÉNERO</th>
         <th>EDAD</th>
         <th>VENTAS</th>

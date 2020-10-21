@@ -10,7 +10,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Alias</th>
+                    <th scope="col">Usuario</th>
                     <th scope="col">Genero</th>
                     <th scope="col">Edad</th>
                     <th scope="col">Ventas</th>
