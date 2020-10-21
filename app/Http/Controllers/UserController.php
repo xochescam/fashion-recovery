@@ -34,9 +34,19 @@ class UserController extends Controller
         $sellers = Seller::all();
 
         $users = $users->map(function ($item, $key) use($sellers) {
-            $seller = $sellers->where('UserID',$item->id)->first();
-            $item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
+            //$seller = $sellers->where('UserID',$item->id)->first();
+            //$item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
 
+            $wallet = Wallet::where('UserID',$item->id)->first();
+
+            return [
+                'alias' => $item->Alias,
+                'buys' => User::getBuyItems($item),
+                'sells' => User::getSoldItems($item),
+                'cartera' => isset($wallet->Amount) ? $wallet->Amount : '$0.00',
+                'IsTransfer' => isset($wallet->IsTransfer) ? $wallet->IsTransfer : Null
+            ]; 
+/* 
             if(isset($seller->UserID)) {
 
                 $item->IsTransfer =  $seller->IsTransfer;
@@ -51,10 +61,10 @@ class UserController extends Controller
                 $item->IsTransfer = isset($wallet->IsTransfer) ? $wallet->IsTransfer : Null;
                 $item->Buy = User::getBuyItems($item);
             }
-
+ */
             return $item;
 
-        })->groupBy('ProfileID');
+        });
 
         return view('users.list',compact('users','sellers'));
     }
