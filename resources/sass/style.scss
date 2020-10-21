@@ -1214,6 +1214,10 @@ div a{
     bottom: 30px;
     right: -5px;
 
+    &--wide {
+      width: 300px;
+    }
+
     &::after {
       content: " ";
       position: absolute;
