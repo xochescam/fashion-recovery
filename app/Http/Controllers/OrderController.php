@@ -427,16 +427,21 @@ class OrderController extends Controller
 
         $images     = ReturnImg::where('ReturnID',$return->ReturnID)->get();
         $OwnerID    = Item::findOrFail($infoOrder->ItemID)->OwnerID;
-        $buyer      = User::findOrFail($order->UserID)->Alias;
+        $buyer      = User::findOrFail($order->UserID);
         $seller     = User::findOrFail($OwnerID);
+        $destino    = DB::table('fashionrecovery.GR_002')
+                        ->where('ShippingAddID',$order->ShippingID)
+                        ->first()->State;
         
         $data = [
             'return'    => $return,
             'infoOrder' => $infoOrder,
             'images'    => $images,
-            'buyer'     => $buyer,
+            'buyer'     => $buyer->Alias,
             'seller'    => $seller->Alias,
-            'email'    => $seller->email
+            'email'     => $seller->email,
+            'origen'    => $seller->infoSeller->LiveIn,
+            'destino'   => $destino
         ];
 
         return view('orders.show-return',compact('data'));

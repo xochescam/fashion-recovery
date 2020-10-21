@@ -37,6 +37,9 @@
 
                                         <dt>Email</dt>
                                         <dd class="mb-3">{{ $data['email'] }}</dd>
+
+                                        <dt>Origen</dt>
+                                        <dd class="mb-3">{{ $data['origen'] }}</dd>
                                         
                                         <dt>Paquetería</dt>
                                         <dd class="mb-3">{{ $data['infoOrder']['PackingName'] }} </dd>
@@ -70,6 +73,9 @@
                                     <dl>
                                         <dt>Comprador</dt>
                                         <dd class="mb-3"> <a href="{{ url('user',$data['buyer']) }}" class="green-link">{{ $data['buyer'] }}</a></dd>
+
+                                        <dt>Destino</dt>
+                                        <dd class="mb-3">{{ $data['destino'] }}</dd>
 
                                         <dt>Email</dt>
                                         <dd class="mb-3"> {{ $data['buyer'] }} </dd>

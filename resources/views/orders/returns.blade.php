@@ -39,7 +39,6 @@
 									<td>
 										<a class="btn btn-sm btn-outline-green" href="{{ url('comments-return/'.$item->ReturnID.'/true') }}" role="button">Comprador</a>
 										<a class="btn btn-sm btn-outline-green " href="{{ url('comments-return/'.$item->ReturnID.'/false') }}" role="button">Vendedor</a>
-									
 									</td>
                                     <td >
 										<a class="btn btn-sm btn-fr" href="{{ url('show-return',$item->ReturnID) }}" role="button">Información</a>
