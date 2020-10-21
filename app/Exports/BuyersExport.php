@@ -22,7 +22,7 @@ class BuyersExport implements FromView
         $end      = null;
         $isPeriod = $ini !== null && $end !== null;
 
-        return $buyers->map(function ($user, $key) use ($isPeriod, $ini, $end) {
+        $result = $buyers->map(function ($user, $key) use ($isPeriod, $ini, $end) {
 
             $buys  = 0;
             $gain  = 0;
@@ -46,8 +46,13 @@ class BuyersExport implements FromView
                 'age'    => date("Y") - date("Y", strtotime($user->Birthdate)),
                 'buys'   => $buys,
                 'total'  => $total,
-                'gain'   => $gain
+                'gain'   => $gain,
+                'ticket' => $buys > 0 ? (floatval($replace) / $buys) : 0
             ];
+        });
+
+        return $result->filter(function ($item) {
+            return $item['buys'] > 0;
         });
     }
 

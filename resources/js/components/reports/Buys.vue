@@ -11,12 +11,12 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">Alias</th>
+                    <th scope="col">Usuario</th>
                     <th scope="col">Genero</th>
                     <th scope="col">Edad</th>
                     <th scope="col">Compras</th>
                     <th scope="col">Monto total</th>
-                    <th scope="col">Ganancia FR</th>
+                    <th scope="col">Ticket Promedio</th>
                 </tr>
             </thead>
             <tbody>
@@ -28,7 +28,7 @@
                     <td>{{ item.age }}</td>
                     <td>{{ item.buys }}</td>
                     <td>${{ item.total }}</td>
-                    <td>${{ item.gain }}</td>
+                    <td>${{ item.ticket }}</td>
                 </tr>
 
                 <tr v-if="data.length === 0">
@@ -71,7 +71,6 @@ export default {
         }
     },
     mounted() {
-
-}
+    }
 };
 </script>

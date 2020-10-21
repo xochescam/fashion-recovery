@@ -1,12 +1,12 @@
 <table>
     <thead>
     <tr>
-        <th>ALIAS</th>
+        <th>USUARIO</th>
         <th>GÉNERO</th>
         <th>EDAD</th>
         <th>COMPRAS</th>
         <th>MONTO TOTAL</th>
-        <th>GANANCIA FR</th>
+        <th>TICKET PROMEDIO</th>
     </tr>
     </thead>
     <tbody>
@@ -17,7 +17,7 @@
             <td>{{ $item['age'] }}</td>
             <td>{{ $item['buys'] }}</td>
             <td>${{ $item['total'] }}</td>
-            <td>${{ $item['gain'] }}</td>
+            <td>${{ $item['ticket'] }}</td>
         </tr>
     @endforeach
     </tbody>
