@@ -1,5 +1,16 @@
 <div class="form-group col-md-6">
-    <label for="TypeID">Condición de la prenda *</label>
+    <div class="d-flex justify-content-between">
+      <label for="TypeID">Condición de la prenda *</label>
+      <span>
+        <p class="btn-tooltip">
+          <i class="far fa-question-circle"></i>
+          <span class="btn-tooltip__text btn-tooltip__text--wide">
+            Para Fashion Recovery la higiene en prendas es muy importante, recuerda realizar tus envios con el mayor cuidado.
+          </span>
+        </p> 
+      </span>
+    </div>
+    
     <select id="TypeID" class="form-control" name="TypeID" required>
       <option value="" selected>- Seleccionar -</option>
 
