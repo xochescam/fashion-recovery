@@ -17,8 +17,8 @@
                 <td> {{ $user['cartera'] }} </td>
                 <td>
                     @if($user['IsTransfer'])
-                        <a class="btn btn-info btn-sm" href="{{ url('transfer',$user['alias']) }}" role="button">
-                            Transferir
+                        <a class="btn btn-outline-green btn-sm" data-toggle="modal" data-target="#transferModal-{{ $user['id'] }}">
+                            Transferir 
                         </a>
                     @endif
                 </td>
