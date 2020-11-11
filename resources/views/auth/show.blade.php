@@ -48,6 +48,11 @@
               <a href="#followersData" class="list-group-item list-group-item-action text-left">
                 {{ Auth::User()->isBuyerProfile() ? 'Mis vendedores' : 'Mis seguidores' }}
               </a>
+              @if(Auth::User()->ProfileID == 2)
+                <a href="#clabe" class="list-group-item list-group-item-action text-left">
+                  Información bancaria
+                </a>
+              @endif
               <!-- <a href="#sellerData" class="list-group-item list-group-item-action text-left">
                 Mis ventas
               </a> -->
@@ -86,6 +91,12 @@
             @endif
 
             @include('auth.partials.billing-info')
+
+            @if(Auth::User()->isSellerProfile()) 
+
+              @include('auth.partials.bank')
+
+            @endif
 
             <!-- @if(Auth::User()->ProfileID == 2)
               @include('auth.partials.seller-data')
