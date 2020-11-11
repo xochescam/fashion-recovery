@@ -1207,15 +1207,15 @@ div a{
     background-color: #009c77;
     color: #fff;
     text-align: center;
-    font-size: 10px;
+    font-size: 13px;
     border-radius: 4px;
     padding: 5px 0;
-    width: 145px;
+    min-width: 200px;
     bottom: 30px;
     right: -5px;
 
     &--wide {
-      width: 300px;
+      width: 320px;
     }
 
     &::after {
