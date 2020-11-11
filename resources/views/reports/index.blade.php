@@ -14,6 +14,7 @@
                 :sellers="{{ json_encode($sellersList) }}"
                 :devs="{{ json_encode($returnList) }}"
                 :shippinglist="{{ json_encode($shippingCost) }}"
+                :banklist="{{ json_encode($transactions) }}"
               >
               </page-component>
 			</div>
