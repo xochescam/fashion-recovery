@@ -15,6 +15,7 @@ use Gate;
 
 use App\User;
 use App\States;
+use App\Bank;
 
 class AuthController extends Controller
 {
@@ -71,9 +72,11 @@ class AuthController extends Controller
         $seller           = null;
         $invoice          = null;
         $shipping         = null;
+        $bank             = null;
         $sellerSince      = '';
         $items            = 0;
         $type_url         = 'auth';
+        $banks            = Bank::all();
         $creationDateUser = $this->formatDate("d F Y", $user->CreationDate);
         $birthMonth       = $user->Birthdate ? date("m", strtotime($user->Birthdate)) : null;
         $birthDay         = $user->Birthdate ? date("d", strtotime($user->Birthdate)) : null;
@@ -92,6 +95,10 @@ class AuthController extends Controller
             $sellerSince = $this->formatDate("d F Y", $seller->SellerSince);
 
             $invoice = DB::table('fashionrecovery.GR_003')
+                        ->where('UserID',$id)
+                        ->first();
+
+            $bank = DB::table('fashionrecovery.GR_053')
                         ->where('UserID',$id)
                         ->first();
 
@@ -125,7 +132,9 @@ class AuthController extends Controller
                     'items',
                     'invoice',
                     'shipping',
-                    'states'));
+                    'states',
+                    'bank',
+                    'banks'));
     }
 
 
