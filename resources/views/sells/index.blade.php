@@ -10,11 +10,6 @@
 				Conoce el balance de las ventas que haz realizado desde que eres miembro de la comunidad Fashion Recovery.
 			</p>
 
-			<div class="w-100 mb-5">
-				@include('alerts.success')
-				@include('alerts.warning')
-			</div>
-
 			<div class="card mb-5 p-3 bg-light text-center">
 				<h4 class="card-title green-color mb-4">
 					<i class="fas fa-wallet mr-1"></i>
@@ -24,12 +19,12 @@
 
 					<div class="col-md-6 mb-4 mb-md-0">
 						<p class="h6 mb-3">Disponible:
-							<span class="green-color"><b>${{ $avaliableWallet }}</b></span>
+							<span class="green-color"><b>{{ $wallet->Amount }}</b></span>
 						</p>
 
-						@if($avaliableWallet > 0 && !$IsTransfer) 
+						@if($avaliableWallet > 0 && !$IsTransfer && !$wallet->IsPaid) 
 							<a class="btn btn-sm btn-fr" href="{{ url('transfer') }}" type="button">
-								Retirar
+								Solicitar retiro
 							</a>
 						@elseif($avaliableWallet > 0 && $IsTransfer)
 							<div class="alert alert-success show">
