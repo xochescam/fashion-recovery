@@ -112,6 +112,7 @@
                     <option value="5">Devoluciones</option>
                     <option value="6">Ventas</option>
                     <option value="7">Reporte maestro</option>
+                    <option value="8">Transferencias</option>
                 </select>
             </div>
 
@@ -169,6 +170,12 @@
             v-if="shippingData"
         >
         </shipping-component>
+
+        <bank-component
+            :data="!arrBank ? [] : arrBank"
+            v-if="bankData"
+        >
+        </bank-component>
 	</div>
 </template>
 
@@ -207,6 +214,10 @@ export default {
             type: [Object, Array],
             required: true
         },
+        banklist: {
+            type: [Object, Array],
+            required: true
+        },
     },
     data() {
         return {
@@ -218,6 +229,7 @@ export default {
             returns: false,
             allsells: false,
             shippingData: false,
+            bankData: false,
             selected: 'general',
             isToday: true,
             arrDep: this.dep,
@@ -225,6 +237,7 @@ export default {
             arrSellers: this.sellers,
             arrReturns: this.devs,
             arrShipping: this.shippinglist,
+            arrBank: this.banklist,
             arrSells: this.sellsall,
             isLoading: false
         };
@@ -240,6 +253,23 @@ export default {
 
                 if(response.data.message === 'success') {
                     this.arrDep = response.data.data;
+                    this.isLoading = false;
+                }
+            })
+            .catch(error => {
+                this.isLoading = false;
+            }) 
+        },
+        transByDate() {
+            this.isLoading = true;
+            this.arrBank = [];
+
+            axios
+            .post(this.$root.path+'/trans-by-date',this.getData())
+            .then(response => {
+
+                if(response.data.message === 'success') {
+                    this.arrBank = response.data.data;
                     this.isLoading = false;
                 }
             })
@@ -413,7 +443,12 @@ export default {
             } else if (item === 'Reporte maestro') {
 
                 this.sellsByDate();
+
+            } else if (item === 'Transferencias') {
+
+                this.transByDate();
             }
+
 
         },
         getParam(id) {
@@ -424,7 +459,8 @@ export default {
                 4 : 'departments',
                 5 : 'returns',
                 6 : 'sells',
-                7 : 'allsells'
+                7 : 'allsells',
+                8 : 'bankData'
             };
 
             return params[id];
@@ -437,6 +473,7 @@ export default {
             this.returns     = false;
             this.allsells     = false;
             this.shippingData = false;
+            this.bankData = false;
         },
         sort(obj, key){
 

@@ -18,11 +18,11 @@
                 <div class="card light-bg">
                     <div class="card-body card--reports">
                         <p class="card-text"> 
-                            <strong>Número de ventas</strong> 
+                            <strong>Reporte maestro</strong> 
                         </p>
                         <hr>
                         <p class="card-title h4 green-color mb-0">
-                            {{ data['sold'] }}
+                           {{ data['sold'] }} ventas
                         </p>
 
                         <a 
@@ -60,7 +60,7 @@
                 <div class="card light-bg">
                     <div class="card-body card--reports">
                         <p class="card-text"> 
-                            <strong>Compradores</strong> 
+                            <strong>Compras</strong> 
                             <span class="badge badge-success float-right">
                                 {{ data['buyers'] }}
                             </span>
@@ -88,7 +88,7 @@
                         </p>
                         <hr>
                         <p class="card-title h4 green-color mb-0">
-                            {{ data['shippingProm'] }}
+                            ${{ data['shippingProm'] }}
                         </p>
                         <a 
                             class="btn btn-sm btn-outline-green float-right" 
@@ -119,7 +119,7 @@
                 <div class="card light-bg">
                     <div class="card-body card--reports">
                         <p class="card-text"> 
-                            <strong>Vendedores</strong> 
+                            <strong>Ventas</strong> 
                             <span class="badge badge-success float-right">
                                 {{ data['sellers'] }}
                             </span>
@@ -164,12 +164,18 @@
                 <div class="card light-bg">
                     <div class="card-body card--reports">
                         <p class="card-text"> 
-                            <strong>...</strong> 
+                            <strong>Transferencias</strong> 
                         </p>
                         <hr>
                         <p class="card-title h4 green-color mb-0">
-                            ...
+                            {{ data['transactions'] }}
                         </p>
+
+                        <a 
+                            class="btn btn-sm btn-outline-green float-right" 
+                            @click="$parent.showReport(8)">
+                            Ver más
+                        </a>
                     </div>
                 </div>
             </div>
