@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::post('sellers-by-date', 'ReportController@SellersByDate');
 	Route::post('returns-by-date', 'ReportController@ReturnsByDate');
 	Route::post('shipping-by-date', 'ReportController@ShippingByDate');
+	Route::post('trans-by-date', 'ReportController@TransByDate');
 
 	Route::get('get-sells-excel', 'ReportController@getSellsExcel');
 	Route::get('get-buyers-excel', 'ReportController@getBuyersExcel');
@@ -72,6 +73,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('get-returns-excel', 'ReportController@getReturnsExcel');
 	Route::get('get-sellers-excel', 'ReportController@getSellersExcel');
 	Route::get('get-shipping-excel', 'ReportController@getShippingExcel');
+	Route::get('get-transactions-excel', 'ReportController@getTransactionsExcel');
 
 	Route::get('get-sells-period-excel/{ini}/{end}', 'ReportController@getSellsPeriodExcel');
 	Route::get('get-buyers-period-excel/{ini}/{end}', 'ReportController@getBuyersPeriodExcel');
@@ -79,6 +81,7 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('get-returns-period-excel/{ini}/{end}', 'ReportController@getReturnsPeriodExcel');
 	Route::get('get-sellers-period-excel/{ini}/{end}', 'ReportController@getSellersPeriodExcel');
 	Route::get('get-shipping-period-excel/{ini}/{end}', 'ReportController@getShippingPeriodExcel');
+	Route::get('get-transactions-period-excel/{ini}/{end}', 'ReportController@getTransactionsPeriodExcel');
 
 	Route::get('transfer/{Alias}', 'SellerController@ConfirmTransfer');
 	Route::get('transfer', 'SellerController@transfer');
@@ -151,6 +154,10 @@ Route::group(['middleware' => ['auth']], function () {
 	//Billing Info
 	Route::post('billing-info', 'BillingInfoController@store');
 	Route::post('billing-info/{billingInfoId}', 'BillingInfoController@update');
+
+	//Bank Info
+	Route::post('bank-info', 'BankInfoController@store');
+	Route::post('bank-info/{bankId}', 'BankInfoController@update');
 
 	//Guardarropas
 	Route::get('guardarropa', 'ClosetController@ownClosets');
@@ -288,4 +295,8 @@ Route::group(['middleware' => ['auth']], function () {
 	Route::get('users', 'UserController@index');
 	Route::get('block/{user}', 'UserController@block');
 	Route::get('unblock/{user}', 'UserController@unblock');
+
+	Route::post('enviar-notificacion', 'ReportController@notification');
+
+	
 });
