@@ -23,7 +23,7 @@ if(window.Mercadopago) {
  */
 
 Vue.component(
-    'brands-component',
+    'brands-component-item',
     require('./components/BrandsComponent.vue').default
 );
 
@@ -131,8 +131,10 @@ Vue.component('buys-component',require('./components/reports/Buys.vue').default)
 Vue.component('departments-component',require('./components/reports/Departments.vue').default);
 Vue.component('returns-component',require('./components/reports/Returns.vue').default);
 Vue.component('sells-component',require('./components/reports/Sells.vue').default);
+Vue.component('bank-component',require('./components/reports/Bank.vue').default);
 Vue.component('shipping-component',require('./components/reports/Shipping.vue').default);
 Vue.component('brands-component',require('./components/Brands.vue').default);
+Vue.component('users-list-component',require('./components/UsersListComponent.vue').default);
 
 
 /**
