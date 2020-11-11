@@ -43,6 +43,7 @@ class WalletController extends Controller
         $wallet = Wallet::where('UserID',Auth::User()->id)->first();
 
         $wallet->IsTransfer = false;
+        $wallet->TransferDate = date("Y-m-d H:i:s");
         $wallet->save();
 
         Session::flash('success','Hemos recibido tu petición. En breve nos podremos en contacto contigo.');
@@ -69,6 +70,7 @@ class WalletController extends Controller
         $wallet = Wallet::where('UserID',$id)->first();
 
         $wallet->IsTransfer = true;
+        $wallet->TransferDate = date("Y-m-d H:i:s");
         $wallet->Amount = 0;
         $wallet->save();
         

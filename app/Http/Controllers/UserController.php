@@ -38,13 +38,23 @@ class UserController extends Controller
             //$item->CreationDate  = $this->formatDate("d F Y", $item->CreationDate);
 
             $wallet = Wallet::where('UserID',$item->id)->first();
+            $bank = [];
+
+            if(isset($wallet->IsTransfer)) {
+
+                $bank = DB::table('fashionrecovery.GR_053')
+                         ->where('UserID',$item->id)->first();
+            }
 
             return [
+                'id' => $item->id,
                 'alias' => $item->Alias,
                 'buys' => User::getBuyItems($item),
                 'sells' => User::getSoldItems($item),
                 'cartera' => isset($wallet->Amount) ? $wallet->Amount : '$0.00',
-                'IsTransfer' => isset($wallet->IsTransfer) ? $wallet->IsTransfer : Null
+                'IsTransfer' => isset($wallet->IsTransfer) ? $wallet->IsTransfer : Null,
+                'bank' => $bank
+
             ]; 
 /* 
             if(isset($seller->UserID)) {
