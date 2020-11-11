@@ -16,6 +16,7 @@ use App\States;
 use App\User;
 use App\Item;
 use App\Seller;
+use App\Wallet;
 
 class SellerController extends Controller
 {
@@ -34,15 +35,20 @@ class SellerController extends Controller
     public function transfer()
     {
         $user = Auth::User();
+        $wallet = Wallet::where('UserID',$user->id)->first();
+        $amount = str_replace(',', '', ltrim($wallet->Amount, '$'));
 
-        if(User::getSum($user) <= 0) {
+        if($amount <= 0) {
             abort(403);
         }
 
-        $seller = Seller::where('UserID',$user)->first();
-
+        /* $seller = Seller::where('UserID',$user->id)->first();
         $seller->IsTransfer = true;
-        $seller->save();
+        $seller->save(); */
+
+        $wallet->IsTransfer = true;
+        $wallet->TransferDate = date("Y-m-d H:i:s");
+        $wallet->save();
 
         Session::flash('success','Hemos recibido tu petición. En breve nos podremos en contacto contigo.');
         return Redirect::back();
@@ -51,30 +57,36 @@ class SellerController extends Controller
     public function ConfirmTransfer($seller) {
 
         $user = User::where('Alias',$seller)->first();
+        $wallet = Wallet::where('UserID',$user->id)->first();
+        $Amount = str_replace(',', '', ltrim($wallet->Amount, '$'));
 
-        if(User::getSum($user) <= 0) {
+        if($Amount <= 0) {
             abort(403);
         }
 
-        $seller = Seller::where('UserID',$user->id)->first();
+        /* $seller = Seller::where('UserID',$user->id)->first();
         $seller->IsTransfer = false;
-        $seller->save();
+        $seller->save(); */
 
-        $items = Item::where('OwnerID',$user->id)
+        $wallet->IsTransfer = false;
+        $wallet->IsPaid = true;
+        $wallet->Amount = 0;
+        $wallet->PaidDate = date("Y-m-d H:i:s");
+        $wallet->save();
+
+        /* $items = Item::where('OwnerID',$user->id)
                     ->where('IsPaid',false)
                     ->where('IsSold',true)
-                    ->get();  
+                    ->get();   */
 
-        foreach ($items as $value) {
+        /* foreach ($items as $value) {
             $value->IsPaid = true;
             $value->save();
-        }
+        } */
 
         Session::flash('success','Se ha confirmado la transacción.');
         return Redirect::back();
     }
-
-    
 
     /**
      * Show the form for creating a new resource.

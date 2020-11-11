@@ -18,12 +18,13 @@ use App\Question;
 use App\Answer;
 use App\Devolution;
 use App\PackPack;
+use App\Wallet;
 
 class SellController extends Controller
 {
     public function index() { //ordenar pedidos por usuarios
 
-        /* Auth::loginUsingId(174); */
+        //Auth::loginUsingId(174);
         $evaluations = 0;
         $ranking = 0;
         $orders    = null;
@@ -34,6 +35,7 @@ class SellController extends Controller
         $pendingWallet   = 0;
         $avaliableWallet = 0;
         $ranking     = [0,0,0,0,0]; 
+        $commission = User::getCommission(Auth::User());
 
     	$itemIds = DB::table('fashionrecovery.GR_029')
                     ->where('GR_029.OwnerID',Auth::User()->id)
@@ -69,8 +71,11 @@ class SellController extends Controller
                                  'GR_029.IsPaid',
                                  'GR_013.Name as StatusName'
                              )->get();
+        
+        
 
-        $sells = $sells->map(function ($item, $key) use ($user){
+        $sells = $sells->map(function ($item, $key) use ($user, $commission){
+
 
             /*             if($item->StatusName === 'Transito' || $item->StatusName === 'Devuelto') {
  */         if($item->StatusName === 'Transito' ) {
@@ -84,6 +89,27 @@ class SellController extends Controller
                     $this->UpdateOrderStatus($item->OrderID, $status);
                     $item->StatusName = $statusName;
                     $item->Name = $statusName;
+
+                    $existsWallet = Wallet::where('UserID',Auth::User()->id)->first();
+
+                    if(isset($existsWallet->Amount)) {
+
+                        $Amount = str_replace(',', '', ltrim($existsWallet->Amount, '$'));
+                        $ActualPrice = str_replace(',', '', ltrim($item->ActualPrice, '$'));
+
+                        $existsWallet->Amount = $Amount + ($ActualPrice - ($ActualPrice * $commission));
+                        $existsWallet->save();
+                        
+                    } else {
+
+                        $ActualPrice = str_replace(',', '', ltrim($item->ActualPrice, '$'));
+
+                        $wallet = new Wallet;
+                        $wallet->UserID = Auth::User()->id;
+                        $wallet->CreatedDate = date("Y-m-d H:i:s");
+                        $wallet->Amount = $ActualPrice - ($ActualPrice * $commission);
+                        $wallet->save();
+                    }
                 }
             }
 
@@ -146,8 +172,9 @@ class SellController extends Controller
 
         })->sum('Gain');  
         
-        
-        $IsTransfer = Seller::where('UserID',Auth::User()->id)->first()->IsTransfer;
+        $wallet = Wallet::where('UserID',Auth::User()->id)->first();
+        $IsTransfer = $wallet ? $wallet->IsTransfer : false;
+        //$IsTransfer = Seller::where('UserID',Auth::User()->id)->first()->IsTransfer;
 
         $items = DB::table('fashionrecovery.GR_029')
                     ->join('fashionrecovery.GR_032', 'GR_029.ItemID', '=', 'GR_032.ItemID')
@@ -227,7 +254,8 @@ class SellController extends Controller
                     'ranking',
                     'evaluations',
                     'answers',
-                    'return'));
+                    'return',
+                    'wallet'));
     }
 
     public function UpdateOrderStatus($OrderID, $status) {
