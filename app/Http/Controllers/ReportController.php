@@ -11,19 +11,24 @@ use App\Exports\DepartmentsExport;
 use App\Exports\ReturnsExport;
 use App\Exports\SellersExport;
 use App\Exports\ShippingExport;
+use App\Exports\TransfExport;
 use App\Exports\SellsPeriodExport;
 use App\Exports\BuyersPeriodExport;
 use App\Exports\DepartmentsPeriodExport;
 use App\Exports\ReturnsPeriodExport;
 use App\Exports\SellersPeriodExport;
 use App\Exports\ShippingPeriodExport;
+use App\Exports\TransfPeriodExport;
 use Maatwebsite\Excel\Facades\Excel;
+
+use App\Mail\SendNotification;
 
 use DB;
 use Auth;
 use Session;
 use Redirect;
 use Gate;
+use Mail;
 
 use App\User;
 use App\Seller;
@@ -34,6 +39,7 @@ use App\InfoOrder;
 use App\Department;
 use App\Devolution;
 use App\Rason;
+use App\Bank;
 
 class ReportController extends Controller
 {
@@ -85,6 +91,41 @@ class ReportController extends Controller
     public function getShippingPeriodExcel($ini, $end) {
         return Excel::download(new ShippingPeriodExport($ini,$end), 'Logística por periodo.xlsx');
     }
+
+    public function getTransactionsExcel() {
+        return Excel::download(new TransfExport, 'Transferencias.xlsx');
+    }
+
+
+    public function getTransactionsPeriodExcel($ini, $end) {
+        return Excel::download(new TransfPeriodExport($ini,$end), 'Transferencias por periodo.xlsx');
+    }
+
+    public function notification(Request $request) {
+        $user = User::where('Alias',$request->alias)->first()->email;
+        $wallet = Wallet::where('UserID',$user->id)->first();
+        $Amount = str_replace(',', '', ltrim($wallet->Amount, '$'));
+
+        if($Amount <= 0) {
+            return [
+                'message' => 'error',
+            ];
+        }
+
+        $wallet->IsTransfer = false;
+        $wallet->IsPaid = true;
+        $wallet->Amount = 0;
+        $wallet->PaidDate = date("Y-m-d H:i:s");
+        $wallet->save();
+
+        Mail::to($user->email)
+            ->send(new SendNotification());
+        
+        return [
+            'message' => 'success',
+        ];
+    }
+
 
     public function DepartmentsByDate(Request $request) {
 
@@ -205,6 +246,22 @@ class ReportController extends Controller
             'data'    =>  $this->getShipping($orders)
         ];
     }
+
+    public function TransByDate(Request $request) {
+
+        if(!Auth::User()->isAdmin()) {
+            abort(403);
+        }
+
+        $ini     = $request->ini;
+        $end     = $request->end;
+        $trans   = Wallet::whereBetween('TransferDate',[$ini,$end])->get();
+
+        return [
+            'message' => 'success',
+            'data'    =>  $this->getTransactions($trans)
+        ];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -231,6 +288,8 @@ class ReportController extends Controller
         $returnList  = $this->getReturns(Devolution::all())->toArray();
         $shippingCost = $this->getShipping($InfoOrders);
         $sells        = $this->getSells($itemsSold)->toArray();
+        $trans        = Wallet::all();
+        $transactions = $this->getTransactions($trans);
 
         $date = [
             'year'  => date("Y"),
@@ -242,6 +301,7 @@ class ReportController extends Controller
             'gain'          => $this->getGain($InfoOrders,'GainFR'),
             'sold'          => $itemsSold->count(),
             'users'         => $users->count(),
+            'transactions'  => $transactions->count(),
             'devolutions'   => $orders->where('OrderStatusID',5)->count(),
             'department'    => $this->getDepartment($itemsSold),
             'clothingType'  => $this->getClothingType($itemsSold),
@@ -251,12 +311,34 @@ class ReportController extends Controller
             'sellers'       => $users->where('ProfileID',2)->count(),
             'ageSellers'    => $this->getAge($sellerUsers),
             'genderSellers' => $this->getGender($sellerUsers),
-            'shippingProm'  => $this->getShippingProm($shippingCost)
+            'shippingProm'  => $this->getShippingProm($shippingCost),
         ];
 
         return view('reports.index',compact(
-            'data','date','departments','buyersList','sellersList','returnList','shippingCost','sells'
+            'data','date','departments','buyersList','sellersList','returnList','shippingCost','sells','transactions'
         ));
+    }
+
+    public function getTransactions($trans) {
+        return $trans->map(function ($item, $key) {
+
+            $user = User::where('id',$item->UserID)->first();
+            $bank = DB::table('fashionrecovery.GR_053')
+                     ->where('UserID',$item->UserID)->first();
+            $BankDesc = Bank::where('BankID',$bank->Bank)->first()->BankDesc;
+
+            return [
+                'transDate' => $this->formatDate("d F Y", $item->TransferDate),
+                'paidDate' => $this->formatDate("d F Y", $item->PaidDate),
+                'alias' => $user->Alias,
+                'name' => $user->Name .' '.$user->Lastname,
+                'clabe' => $bank->Clabe,
+                'bank' => $BankDesc,
+                'amount' => $item->Amount,
+                'IsTransfer' => $item->IsTransfer,
+                'IsPaid' => $item->IsPaid
+            ];
+        });
     }
 
     public function getSells($itemsSold) {
