@@ -23,7 +23,9 @@
             <div class="form-check cover-item">
               <input class="form-check-input" type="radio" name="cover" id="cover_front" value="front" {{ ($front->IsCover == 1 ? 'checked' : '') }}>
               <label class="form-check-label" for="cover_front">
-                Portada
+                <span>
+                  Portada
+                </span>
               </label>
             </div>
           </div>
@@ -76,7 +78,9 @@
             <div class="form-check cover-item">
               <input class="form-check-input" type="radio" name="cover" id="cover_label" value="label" {{ $label->IsCover == 1 ? 'checked' : '' }}>
               <label class="form-check-label" for="cover_label">
-                Portada
+              <span>
+                  Portada
+                </span>
               </label>
             </div>
           </div>
@@ -123,7 +127,9 @@
             <div class="form-check cover-item">
               <input class="form-check-input" type="radio" name="cover" id="cover_back" value="back" {{ $back->IsCover == 1 ? 'checked' : '' }}>
               <label class="form-check-label" for="cover_back">
-                Portada
+              <span>
+                  Portada
+                </span>
               </label>
             </div>
           </div>
@@ -215,7 +221,9 @@
             <div class="form-check cover-item">
               <input class="form-check-input" type="radio" name="cover" id="cover_in" value="in" {{ $in->IsCover == 1 ? 'checked' : '' }}>
               <label class="form-check-label" for="cover_in">
-              Portada
+              <span>
+                  Portada
+                </span>
               </label>
             </div>
           </div>
@@ -262,7 +270,9 @@
             <div class="form-check cover-item">
               <input class="form-check-input" type="radio" name="cover" id="cover_extra" value="extra" {{ $extra->IsCover == 1 ? 'checked' : '' }}>
               <label class="form-check-label" for="cover_extra">
-              Portada
+              <span>
+                  Portada
+                </span>
               </label>
             </div>
           </div>

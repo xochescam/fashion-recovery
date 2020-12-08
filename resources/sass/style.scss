@@ -59,8 +59,36 @@ body{
 .cover-item {
   color: #fff;
   position: absolute;
-  right: 10px;
-  bottom: 8px;
+  width: 100%;
+  height: 100%;
+
+  & .form-check-input {
+    display: none;
+  }
+
+
+  & .form-check-label {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+
+    & span {
+      color: transparent;
+      width: 100%;
+      display: block;
+      bottom: -2px;
+      position: absolute;
+      width: 200px;  
+    }
+  }
+
+  & input[type="radio"]:checked + .form-check-label span{
+    background-color: #009c77;
+    color: #fff;
+  }
 }
 
 
@@ -1332,7 +1360,7 @@ div a{
   justify-content: center;
   align-items: center;
   font-weight: bold;
-
+  font-size: 20px;
 }
 
 .info-card__container {
@@ -1475,5 +1503,8 @@ div a{
     font-size: 18px;
     background-color: #ddcf1c;
     padding: 10px;
+    & a {
+      color: #fff;
+    }
   }
 }
