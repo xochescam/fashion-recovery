@@ -26,7 +26,7 @@
     <hits 
         :wishlistdata="{ wishlistdata }"
         :authdata="auth"
-        :searchdata="this.searchdata === 'all' ? '' : this.searchdata"
+        :searchdata="search"
         ></hits>
 
   </ais-instant-search>
@@ -73,10 +73,13 @@ export default {
             countitems: this.countitemsdata,
             notifications: this.notificationsdata,
             search: this.searchdata === 'all' ? '' : this.searchdata,
-            arrBrands:JSON.parse(this.brands)
+            arrBrands:JSON.parse(this.brands),
+            search2 : this.$root.search
         };
     },
     mounted() {
+        this.$root.search = this.searchdata === 'all' ? '' : this.searchdata;
+        this.$root.$emit('searchvalue', this.searchdata === 'all' ? '' : this.searchdata); 
     }
 };
 </script>

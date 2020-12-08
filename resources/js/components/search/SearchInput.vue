@@ -14,7 +14,7 @@
                     type="search"
                     ref="query"
                     placeholder="¿Qué buscas hoy?" 
-                    :value="currentRefinement"
+                    :value="val"
                 >
                 <button 
                     class="btn btn-outline-light my-2 my-sm-0 mx-2" 
@@ -33,13 +33,20 @@ export default {
     data() {
         return {
             search: this.searchdata,
+            val: ''
         };
 
     },
+    mounted() {
+        this.$root.$on('searchvalue', data => {
+            this.val = data;
+        });
+    },
     methods: {
         onSubmit(event, refine) {
-            event.preventDefault();
-            
+            event.preventDefault();         
+            this.$root.$emit('searchvalue', event.currentTarget.query.value); 
+
             refine(event.currentTarget.query.value);
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <main id="main">
         <div class="container pt-4">
-            <h2 class="text-center TituloFR py-5 mb-5 title-search" v-if="search">{{ search }}</h2>
+            <h2 class="text-center TituloFR py-5 mb-5 title-search" v-if="val"> {{ val }}</h2>
         </div>
         
         <section class="container">
@@ -78,7 +78,15 @@ export default {
             wishlist: this.wishlistdata,
             auth: this.authdata,
             search: this.searchdata === 'all' ? '' : this.searchdata,
+            val: ''
         }
+    },
+    mounted() {
+        console.log(this.searchdata);
+
+        this.$root.$on('searchvalue', data => {
+            this.val = data;
+        });
     },
     methods: {
         inWishlist(id) {
