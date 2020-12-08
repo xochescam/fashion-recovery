@@ -55,7 +55,7 @@
                 </div>
               </div>
               <div class="info-steps__footer">
-                <p class="mb-0">www.fashionrecovery.com.mx</p>
+                <p class="mb-0"><a href="{{ url('/') }}" class="color-white">¡Compra ahora!</a></p>
               </div>
             </div>
 
@@ -66,8 +66,8 @@
             <div class="col-md-12 m-auto info-works">
               <div class="info-works__header">
                 <h3 class="text-center title-info">
-                  DATOS SOBRE LA <br>
-                  <span class="title-info__strong">INDUSTRIA DE LA MODA</span> 
+                  ¿QUIERES SABER MÁS ACERCA DE LA <br>
+                  <span class="title-info__strong"> INDUSTRIA DE LA MODA?</span> 
                 </h3>
               </div>
               <div class="info-works__container">
