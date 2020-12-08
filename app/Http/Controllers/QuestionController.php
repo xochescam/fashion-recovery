@@ -62,7 +62,7 @@ class QuestionController extends Controller
         $question = $this->getQuestion($QuestionID, $type);
         $user = Item::findOrfail($question->ItemID)->user;
 
-        if($user->IsBlocked) {
+        if(Auth::User()->IsBlocked) {
             abort(404);
         }
 
