@@ -1,3 +1,9 @@
+@if(Auth::User())
+  <li class="nav-item d-flex justify-content-start justify-content-md-center align-items-center mt-2 mt-md-0">
+    <a class="btn btn-outline-light btn-sm mr-3" href="{{ url('/') }}">¡Compra ahora!</a>
+  </li>
+@endif
+
 @can('buy-item')
   <a class="nav-link order-1 order-sm-2 text-left text-sm-center pl-2 pl-sm-0" href="{{ url('shopping-cart') }}" role="button" aria-haspopup="true" aria-expanded="false">
     <i class="fas fa-shopping-cart"></i>
