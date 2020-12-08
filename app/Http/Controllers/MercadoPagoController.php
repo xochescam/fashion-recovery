@@ -120,10 +120,10 @@ class MercadoPagoController extends Controller {
         $address = $user->getDefaultAddress() !== null ? $user->getDefaultAddress() : false;
         $addToCart  = $this->addToCart($ShippingAddID, $user);
         
-        if (!$addToCart && $IsBuy === "true") {
+        /* if (!$addToCart && $IsBuy === "true") {
             Session::flash('warning','La prenda ya está en el carrito.');
-            return Redirect::back();
-        }
+            return Redirect::to('shopping-cart');
+        } */
 
         if($address) {
 
