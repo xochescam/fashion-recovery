@@ -18,6 +18,9 @@ const itemFiles2          = document.querySelector('.js-item-file-opt2');
 const acceptPrice         = document.querySelector('.js-accept-price');
 const discount            = document.querySelector('.js-discount');
 const paymentBtn          = document.querySelector('.js-payment-btn');
+const uploadItem          = document.querySelector('#uploadItem');
+
+
 
 $('.carousel').carousel('pause');
 
@@ -555,7 +558,9 @@ function showItemPicture(e) {
         const cover = `<div class="form-check cover-item">
                     <input class="form-check-input" type="radio" name="cover" id="cover_`+name+`" data-item="`+item+`" value="`+name+`" `+isRequired+`>
                     <label class="form-check-label" for="cover_`+name+`">
-                        Portada
+                    <span>
+                    Portada
+                    </span>
                     </label>
                     </div>`;
 
@@ -970,4 +975,10 @@ function cotizar(data, a) {
         
       })
     .catch(error => console.log('error', error));
+}
+
+if(uploadItem) {
+    uploadItem.addEventListener('click', function(e) {
+        window.scrollTo(0, 0);
+    });
 }
