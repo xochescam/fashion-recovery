@@ -32,7 +32,7 @@
                   </a>
                 </div>
                 <div class="col-md-6">
-                  <button type="submit" class="btn btn-fr w-100">
+                  <button type="submit" class="btn btn-fr w-100" id="uploadItem">
                     <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
                     Guardar cambios
                   </button>

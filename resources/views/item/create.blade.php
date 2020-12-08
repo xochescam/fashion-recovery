@@ -19,7 +19,7 @@
               </div>
 
               <div class="text-center mt-5">
-                <button type="submit" class="btn btn-fr w-50">
+                <button type="submit" class="btn btn-fr w-50" id="uploadItem">
                   <span class="spinner-border spinner-border-sm hidden" role="status" aria-hidden="true"></span>
                   Subir
                </button>
