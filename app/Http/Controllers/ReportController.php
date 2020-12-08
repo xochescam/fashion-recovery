@@ -383,6 +383,11 @@ class ReportController extends Controller
     }
 
     public function getShippingProm($shippingList) {
+
+        if(count($shippingList) === 0) {
+            return 0;
+        }
+
         return $shippingList->sum('ShippingAmount') / $shippingList->count();
     }
 
