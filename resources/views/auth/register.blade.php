@@ -102,7 +102,7 @@
                     <option value="" selected>- Seleccionar -</option>
                     <option value="Masculino" {{ old('gender') == 'Masculino' ? 'selected' : ''}}>Masculino</option>
                     <option value="Femenino" {{ old('gender') == 'Femenino' ? 'selected' : ''}}>Femenino</option>
-                    <option value="Indefinido" {{ old('gender') == 'Indefinido' ? 'selected' : ''}}>Indefinido</option>
+                    <option value="Indefinido" {{ old('gender') == 'Indefinido' ? 'selected' : ''}}>Prefiero no decirlo</option>
                   </select>
 
                   @if ($errors->has('gender'))

@@ -74,7 +74,7 @@
               <option value="" selected>- Seleccionar -</option>
               <option value="Masculino" {{ Auth::User()->Gender == 'Masculino' || old('gender') == 'Masculino' ? 'selected' : ''}}>Masculino</option>
               <option value="Femenino" {{ Auth::User()->Gender == 'Femenino' ||old('gender') == 'Femenino' ? 'selected' : ''}}>Femenino</option>
-              <option value="Indefinido" {{ Auth::User()->Gender == 'Indefinido' || old('gender') == 'Indefinido' ? 'selected' : ''}}>Indefinido</option>
+              <option value="Indefinido" {{ Auth::User()->Gender == 'Indefinido' || old('gender') == 'Indefinido' ? 'selected' : ''}}>Prefiero no decirlo</option>
             </select>
 
             @if ($errors->has('gender'))
