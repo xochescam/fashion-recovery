@@ -13,18 +13,19 @@
     "axios": "^0.18.1",
     "bootstrap": "^4.0.0",
     "cross-env": "^5.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.1",
     "laravel-mix": "^4.0.7",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.20",
     "popper.js": "^1.12",
     "resolve-url-loader": "^2.3.1",
-    "sass": "^1.15.2",
+    "sass": "^1.29.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.6.10",
     "vue-template-compiler": "^2.6.10"
   },
   "dependencies": {
-    "vue-instantsearch": "^2.7.0",
+    "algoliasearch": "^4.8.2",
+    "vue-instantsearch": "^3",
     "vue-select": "^3.2.0",
     "vuelidate": "^0.7.5"
   }
